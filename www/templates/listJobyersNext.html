@@ -1,0 +1,16 @@
+<ion-view title="list">
+  <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="search">  </a>
+    <h1 class="title">List des jobyers</h1>
+    <a class="button icon-right ion-home button-clear button-dark" ui-sref="app">  </a>
+  </ion-header-bar>
+  <ion-content padding="true">
+
+    <ion-list>
+      <ion-item class ="alternatedList" ng-repeat="jobber in jobbersNextToMe" ng-class-odd="'odd'" ng-class-even="'even'">
+        {{jobber.firstName}} {{jobber.lastName}} | {{jobber.city}}
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>

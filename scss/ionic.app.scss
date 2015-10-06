@@ -1,0 +1,395 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+$calm:                            #14BAA6;
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";
+
+
+.card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child{
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  border-top-right-radius: 27px;
+  border-top-left-radius: 27px;
+  border-color: $calm;
+}
+
+.searchPage2.ng-pristine.ng-untouched.ng-valid{
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  border-top-right-radius: 27px;
+  border-top-left-radius: 27px;
+  border-color: $calm;
+  height: 50px;
+}
+
+.padding {
+  text-align: center;  }
+
+.item.item-input .ion-search:before {
+  content: "\f21f";
+  font-size: 50px;
+  color: $calm;
+}
+
+.item.item-input .ion-search.searchPage2:before{
+  content: "\f21f";
+  font-size: 50px;
+  color: white;//$calm;
+}
+.list.list-inset{
+  padding:15px
+}
+
+label.item.item-input input[type="search"]{
+  font-size:25px;
+  padding-top: 14px;
+  padding-bottom: 14px;}
+
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img{
+  width: 100%;
+  height: 100%;
+  max-width: 340px;
+  max-height: 167px;}
+
+button.button.button-full.button-positive.green{
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  border-top-right-radius: 27px;
+  border-top-left-radius: 27px;
+  background-color: $calm;
+  border-color: $calm;
+}
+
+.buttonConnect {
+  padding: 15px;
+}
+
+
+.bar.bar-calm.bar-footer{
+  background-color: transparent;
+  display: inherit;
+  bottom:75px
+}
+
+button.button.button-full.button-positive.grey {
+   border-bottom-right-radius: 27px;
+   border-bottom-left-radius: 27px;
+   border-top-right-radius: 27px;
+   border-top-left-radius: 27px;
+   background-color:#757575;
+   border-color: #757575;
+ }
+
+button.button.button-full.button-positive.red {
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  border-top-right-radius: 27px;
+  border-top-left-radius: 27px;
+  background-color:#E81011;
+  border-color: #E81011;
+}
+
+button.button.button-full.button-positive.linkedIn {
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  border-top-right-radius: 27px;
+  border-top-left-radius: 27px;
+  background-color:#006599;
+  border-color: #006599;
+}
+
+button.button.button-full.button-positive.facebook {
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  border-top-right-radius: 27px;
+  border-top-left-radius: 27px;
+  background-color:#3C5A9A;
+  border-color: #3C5A9A;
+}
+
+ion-slide.slider-slide {
+  height: 125px;
+}
+
+h3.hslide1 {
+  color: #757575;
+}
+
+.list.list-inset.page2{
+  padding: 15px;
+  margin-top: 260px;
+}
+
+/*.mfb-component__button--main, .mfb-component__button--child{
+  height: 100px !important;
+  width: 100px !important;
+}*/
+
+.mfb-component--bl {
+  left: 3px;
+  top: 268px;
+}
+
+.mfb-component__main-icon--active, .mfb-component__main-icon--resting {
+  margin-left: -28px;
+}
+
+.mfb-component--bl.mfb-slidein .mfb-component__list li, .mfb-component--br.mfb-slidein .mfb-component__list li {
+  margin: -60px 0px;
+}
+
+
+.mfb-component--bl.mfb-slidein[data-mfb-toggle="hover"]:hover .mfb-component__list li:nth-child(2), .mfb-component--bl.mfb-slidein[data-mfb-state="open"] .mfb-component__list li:nth-child(2), .mfb-component--br.mfb-slidein[data-mfb-toggle="hover"]:hover .mfb-component__list li:nth-child(2), .mfb-component--br.mfb-slidein[data-mfb-state="open"] .mfb-component__list li:nth-child(2) {
+  margin: -115px 0px;
+}
+
+.mfb-component__list li:nth-child(2) a:nth-child(1) {
+  width: 90px;
+  height: 90px;
+  left: 19px;
+}
+
+.mfb-component__list li:nth-child(1) a:nth-child(1) {
+  background: #757575;
+  width: 90px;
+  height: 90px;
+  left: 19px;
+}
+
+
+.mfb-component--tl .mfb-component__list [data-mfb-label]::after, .mfb-component--bl .mfb-component__list [data-mfb-label]::after {
+  left: 115px;
+}
+
+.mfbresult1 {
+  margin-left: -267px;
+  margin-top: 3px;
+}
+
+.proxi{
+  font-size: 40px;
+}
+
+.forMe{
+  font-size: 40px;
+}
+
+
+.mfbresult2 {
+  margin-left: -267px;
+  margin-top: 3px;
+}
+
+/*ion-item.alternatedList.item.ng-binding {
+  background-color: yellow;
+}*/
+
+.odd {
+  background-color: #757575;
+  color: white;
+}
+.even {
+  background-color: $calm;
+  color: white;
+}
+
+.mfb-component--tl .mfb-component__list [data-mfb-label]:after, .mfb-component--bl .mfb-component__list [data-mfb-label]:after {
+  content: attr(data-mfb-label);
+  left: 24px;
+  font-size: 23px;
+  top: 35px;
+  background-color: inherit;
+}
+
+.button-float{
+  background: $assertive !important;
+  color:white !important;
+  z-index: 12 !important;
+  position: absolute !important;
+  bottom: 10px !important;
+  right: 10px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26) !important;
+  -webkit-transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important;
+  -webkit-transition: 0.2s linear !important;
+  transition: 0.2s linear !important;
+  -webkit-transition-property: -webkit-transform, all !important;
+  transition-property: transform, all !important;
+
+}
+
+$disabledText:                    rgba(black, 0.26) !default;
+
+$material-shadow:                0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26) !default;
+$material-shadow-pressed:        0 6px 20px 0 rgba(0, 0, 0, 0.19), 0 8px 17px 0 rgba(0, 0, 0, 0.2) !default;
+$floating-button-size: 90px;
+$floating-button-small-size: 40px;
+
+button.button-icon.round-overlay-button {
+  height: $floating-button-size;
+  width: $floating-button-size;
+  border-radius: 50%;
+  min-height: $floating-button-size;
+  padding: 0;
+  border: none;
+
+  background-color: $calm;
+  color: white;
+
+  box-shadow: $material-shadow;
+  transition: all linear 220ms;
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
+
+  &.energized {
+    background-color: $energized;
+    color: white;
+
+    &.activated {
+      background-color: darken($energized, 15%);
+    }
+  }
+
+  &.assertive {
+    background-color: $assertive;
+    color: white;
+
+    &.activated {
+      background-color: darken($assertive, 15%);
+    }
+  }
+
+  &.calm {
+    background-color: $calm;
+    color: white;
+
+    &.activated {
+      background-color: darken($calm, 15%);
+    }
+  }
+
+  &.greyCalm {
+    background-color: #757575;
+    color: white;
+
+    &.activated {
+      background-color: darken(#757575, 15%);
+    }
+  }
+
+  &.positive {
+    background-color: $positive;
+    color: white;
+
+    &.activated {
+      background-color: darken($positive, 15%);
+    }
+  }
+
+  &.stable {
+    background-color: $disabledText;
+    color: $disabledText;
+
+    &.activated {
+      background-color: darken($disabledText, 15%);
+    }
+  }
+
+  &.icon {
+    &:before {
+      font-size: 24px;
+    }
+  }
+
+  &.small {
+    height: $floating-button-small-size;
+    width: $floating-button-small-size;
+    min-height: 40px;
+    padding: 0;
+    border: none;
+
+    &.icon {
+      &:before {
+        line-height: 80px;
+      }
+    }
+  }
+
+  &.activated {
+    opacity: 1;
+    box-shadow: $materias-shadow-pressed;
+  }
+
+  &.left {
+    left: -200px;
+    top: 16px;
+  }
+
+  &.bottom-edge-right {
+    bottom: -24px;
+    right: 16px;
+    z-index: 12;
+  }
+
+  &.bottom-right {
+    bottom: 0;
+    margin-bottom: 16px;
+    right: 16px;
+    z-index: 2;
+
+    &.slide-down {
+      transform: translate3d(0,88px,0);
+    }
+
+  }
+}
+
+
+button.round-overlay-button.bottom-right.calm.button.button-icon.icon.ion-ios7-search-strong.light {
+  margin-left: -260px !important;
+  margin-top: 35px !important;
+}
+
+button.button-icon.round-overlay-button.greyCalm {
+  margin-left: -242px !important;
+}
+
+button.button-icon.round-overlay-button.calm {
+  margin-left: -244px !important;
+}
+/*.scroll-content {
+  background: url(../img/search.jpg);
+}
+
+.a.mfb-component__button--child::after {
+  left: 115px;
+}*/
+
+
+/*.list .item.item-input input{
+  margin-left: 41px;
+}*/
+
+
+
+

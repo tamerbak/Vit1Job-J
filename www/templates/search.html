@@ -1,0 +1,37 @@
+<ion-view title="search">
+  <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="app">  </a>
+    <h1 class="title">Connexion employeur</h1>
+  </ion-header-bar>
+  <ion-content padding="true">
+
+    <!--<div style="border-left:medium #CC0000 solid; height:300px;" />-->
+    <div class="mfbresult1">
+
+    </div>
+    <div class="mfbresult2">
+
+    </div>
+
+    <div class="mfbsearch">
+
+      <nav mfb-menu position="bl" effect="slidein"
+           active-icon="ion-search" resting-icon="ion-search"
+           toggling-method="click" ng-click="getJobbers(query2)">
+        <!--<button mfb-button icon="paper-airplane" label="menu item" click='getTestItems(query)'> </button>-->
+        <button mfb-button icon="paper-airplane" label="{{nbJobbersNextToMe}}&nbsp;&nbsp;&nbsp;&nbsp;Jobs à proximité" ui-sref="listNext"></button>
+        <button mfb-button icon="paper-airplane" label="{{nbJobbersForMe}}&nbsp;&nbsp;&nbsp;&nbsp;Jobs pour vous" ui-sref="list"></button>
+      </nav>
+    </div>
+
+    <div class="list list-inset page2">
+      <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="search" placeholder="Votre recherche ici..."  ng-model = "query2" class="searchPage2">
+      </label>
+    </div>
+
+
+  </ion-content>
+</ion-view>
+
