@@ -8,7 +8,7 @@ var jobbersNextToMe = [];
 var nbJobbersForMe = 0;
 var nbJobbersNextToMe = 0 ;
 var sessionId = 'nn';
-var queryText = '...';
+var queryText = '';
 var myCity = 'Paris';
 
 angular.module('starter', ['ionic','ng-mfb','cb.x2js'])
