@@ -11,9 +11,10 @@ var sessionId = 'nn';
 var queryText = '';
 var myCity = 'Paris';
 
-angular.module('starter', ['ionic','ng-mfb','cb.x2js'])
+angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
 
-  .run(function($ionicPlatform, $http, x2js) {
+  .run(function($ionicPlatform, $http, x2js, ngFB) {
+  ngFB.init({appId: '426767167530378'});
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -225,13 +226,6 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js'])
         );
       }
     };
-
-    $scope.exitVit = function () {
-      alert ('ok');
-      window.close();
-      ionic.platform.exitApp();
-      alert ('ok');
-    }
   })
 
   .controller('searchCtrl', function ($scope, $http, x2js) {
@@ -378,11 +372,31 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js'])
     $scope.styles=[{'background-color':'blue'},{'background-color':'red'}];
   })
 
-  .controller('connectCtrl', function ($scope) {
+  .controller('connectCtrl', function ($scope,$state, ngFB) {
+    $scope.fbLogin = function () {
+      ngFB.login({scope: 'email'}).then(
+        function (response) {
+          if (response.status === 'connected') {
+            console.log('Facebook login succeeded');
+            $state.go('profile');
+          } else {
+            alert('Facebook login failed');
+          }
+        });
+    };
+  })
 
-    $scope.exitVit = function () {
-
-    }
+  .controller('ProfileCtrl', function ($scope, ngFB) {
+    ngFB.api({
+      path: '/me',
+      params: {fields: 'id,name'}
+    }).then(
+      function (user) {
+        $scope.user = user;
+      },
+      function (error) {
+        alert('Facebook error: ' + error.error_description);
+      });
   })
 
   .config(function($stateProvider, $urlRouterProvider) {
@@ -406,6 +420,12 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js'])
         templateUrl: 'templates/Connection.html',
         controller: 'connectCtrl'
 
+      })
+
+      .state('profile', {
+        url: "/profile",
+        templateUrl: "templates/profile.html",
+        controller: "ProfileCtrl"
       })
 
       .state('list', {
