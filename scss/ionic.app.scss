@@ -23,7 +23,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-
 .card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child{
   border-bottom-right-radius: 27px;
   border-bottom-left-radius: 27px;
@@ -60,7 +59,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 label.item.item-input input[type="search"]{
-  font-size:25px;
+  font-size:15px;
   padding-top: 14px;
   padding-bottom: 14px;}
 
@@ -87,7 +86,8 @@ button.button.button-full.button-positive.green{
 .bar.bar-calm.bar-footer{
   background-color: transparent;
   display: inherit;
-  bottom:75px
+  bottom: 101px;
+  border: transparent;
 }
 
 button.button.button-full.button-positive.grey {
@@ -97,6 +97,7 @@ button.button.button-full.button-positive.grey {
    border-top-left-radius: 27px;
    background-color:#757575;
    border-color: #757575;
+   padding: 6px;
  }
 
 button.button.button-full.button-positive.red {
@@ -106,6 +107,7 @@ button.button.button-full.button-positive.red {
   border-top-left-radius: 27px;
   background-color:#E81011;
   border-color: #E81011;
+  padding: 6px;
 }
 
 button.button.button-full.button-positive.linkedIn {
@@ -214,7 +216,7 @@ h3.hslide1 {
 
 .mfb-component--tl .mfb-component__list [data-mfb-label]:after, .mfb-component--bl .mfb-component__list [data-mfb-label]:after {
   content: attr(data-mfb-label);
-  left: 24px;
+  left: 29px;
   font-size: 23px;
   top: 35px;
   background-color: inherit;
@@ -222,7 +224,7 @@ h3.hslide1 {
 
 .button-float{
   background: $assertive !important;
-  color:white !important;
+  color:white ;
   z-index: 12 !important;
   position: absolute !important;
   bottom: 10px !important;
