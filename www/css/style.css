@@ -1,1 +1,106 @@
 /* Empty. Add your own CSS if you like */
+
+/*##############################   search of Home.html ################################"*/
+
+.bar.bar-calm.bar-footer{
+  bottom: 130px !important;
+  border-color: transparent !important;
+}
+
+button.button.button-full.button-positive.grey {
+  padding: 2px;
+  font-size: 15px;
+}
+
+button.button.button-full.button-positive.green {
+  padding: 2px;
+  font-size: 15px;
+}
+
+label.item.item-input input[type="search"]{
+  font-size:15px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.hslide1{
+  font-size : 1.5em;
+}
+
+/*##############################   search of Search.html ################################"*/
+
+.mfb-component__button--main {
+  left: 20px;
+}
+
+.mfb-component__list li:nth-child(2) a:nth-child(1) {
+  left: 35px !important;;
+  text-align: center;
+}
+
+.mfb-component__list li:nth-child(1) a:nth-child(1) {
+  background: #757575;
+  width: 90px;
+  height: 90px;
+  left: 35px;
+}
+
+.mfb-component__list li:nth-child(0) a:nth-child(1) {
+  left: 35px !important;
+}
+
+.mfb-component__list li:nth-child(3) a:nth-child(1) {
+  background: transparent;
+  box-shadow: 0 0 0px white, 0 0px 0px white;
+}
+
+.mfb-component__list li:nth-child(3) a:nth-child(1)::after {
+  color: #757575;
+  left: 100px;
+  top: 175px;
+  font-size: 1.5em;
+
+}
+
+.mfb-component__list li:nth-child(4) a:nth-child(1) {
+  background: transparent;
+  box-shadow: 0 0 0px white, 0 0px 0px white;
+}
+
+.mfb-component__list li:nth-child(4) a:nth-child(1)::after {
+  color: #14BAA6;
+  left: 100px;
+  top: 120px;
+  font-size: 1.5em;
+}
+
+.vertical-line{
+  position: absolute;
+  border-left:medium #757575 solid;
+  height:300px;
+  margin-left: 60px;
+  margin-top: -8px;
+}
+
+.list.list-inset.page2 {
+  z-index: -1;
+  left: -42px;
+  top: 14px;
+}
+
+.list.list-inset.page2 .item.item-input .ion-search:before{
+  color: white;
+}
+
+/*.searchPage2.ng-pristine.ng-untouched.ng-valid {
+  height: 35px;
+  width: 227px;
+  padding: 3px;
+}*/
+.searchPage2{
+  height: 35px !important;
+  width: 227px !important;
+  padding: 3px !important;
+}
+
+
