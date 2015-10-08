@@ -225,6 +225,13 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js'])
         );
       }
     };
+
+    $scope.exitVit = function () {
+      alert ('ok');
+      window.close();
+      ionic.platform.exitApp();
+      alert ('ok');
+    }
   })
 
   .controller('searchCtrl', function ($scope, $http, x2js) {
@@ -373,6 +380,9 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js'])
 
   .controller('connectCtrl', function ($scope) {
 
+    $scope.exitVit = function () {
+
+    }
   })
 
   .config(function($stateProvider, $urlRouterProvider) {
