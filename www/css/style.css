@@ -3,17 +3,17 @@
 /*##############################   search of Home.html ################################"*/
 
 .bar.bar-calm.bar-footer{
-  bottom: 100px !important;
+  bottom: 130px !important;
   border-color: transparent !important;
 }
 
 button.button.button-full.button-positive.grey {
-  padding: 6px;
+  padding: 2px;
   font-size: 15px;
 }
 
 button.button.button-full.button-positive.green {
-  padding: 6px;
+  padding: 2px;
   font-size: 15px;
 }
 
