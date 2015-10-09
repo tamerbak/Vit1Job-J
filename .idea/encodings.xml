@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/scss/ionic.app.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/Controls/homeCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/Controls/searchCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/app.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/lib/ionic/scss/_slide-box.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/lib/ng-material-floating-button/mfb/dist/mfb.css" charset="UTF-8" />

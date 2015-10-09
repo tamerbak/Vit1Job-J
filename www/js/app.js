@@ -3,27 +3,32 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var jobbersForMe = [];
-var jobbersNextToMe = [];
-var nbJobbersForMe = 0;
-var nbJobbersNextToMe = 0 ;
+
+
 var sessionId = 'nn';
-var queryText = '';
 var myCity = 'Paris';
 
 angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
 
-  .run(function($ionicPlatform, $http, x2js, ngFB) {
+  .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
     }
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    $rootScope.jobyersForMe = [];
+    $rootScope.jobyersNextToMe = [];
+    $rootScope.nbJobyersForMe = 0;
+    $rootScope.nbJobyersNextToMe = 0;
+    $rootScope.queryText = '';
+
     //connecting to WS
     /*var soapMessage='<fr.protogen.connector.model.AmanToken>'+
       '<username>administrateur</username>'+
@@ -65,14 +70,19 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
   });
 })
 
-  .controller('homeCtrl', function ($scope, $http, $state, x2js, $ionicPopup, $timeout) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $timeout) {
+
+    var jobyersForMe = [];
+    var jobyersNextToMe = [];
 
     $scope.getJobbers = function (query) {
 
-      jobbersForMe = [];
-      jobbersNextToMe = [];
+      $rootScope.jobyersForMe = [];
+      $rootScope.jobyersNextToMe = [];
+      $rootScope.nbJobyersForMe = 0;
+      $rootScope.nbJobyersNextToMe = 0;
 
-      queryText = query;
+      $rootScope.queryText = query;
 
       if (sessionId!=''){
         soapMessage = 'user_salarie;' + query; //'C# sur paris';
@@ -130,7 +140,7 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
                 }
 
                 var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobbersForMe.push({
+                jobyersForMe.push({
                   'firstName': prenom,
                   'lastName': nom,
                   'city': ville
@@ -157,19 +167,19 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
 
                  ville = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].label;
 
-                jobbersForMe[0] = {
+                jobyersForMe[0] = {
                    'firstName': prenom,
                    'lastName': nom,
                    'city': ville
                  };
               } else {
                   // An elaborate, custom popup
-                  var myPopup = $ionicPopup.show({
+                /*var myPopup = $ionicPopup.show({
                     template: '',
                     title: 'Résultat',
                     subTitle: 'Aucun Jobyer ne correspond à votre recherche',
                     scope: $scope
-                    /*buttons: [
+                    buttons: [
                       { text: 'Cancel' },
                       {
                         text: '<b>Save</b>',
@@ -183,7 +193,7 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
                           }
                         }
                       },
-                    ]*/
+                    ]
                   });
                   myPopup.then(function(res) {
                     console.log('Tapped!', res);
@@ -191,34 +201,32 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
                   $timeout(function() {
                     myPopup.close(); //close the popup after 3 seconds for some reason
                   }, 3000);
-                return;
+                return;*/
               }
             }
 
             //sessionId = jsonResp.amanToken.sessionId;*/
             //console.log($scope.firstName + " " + $scope.secondName);
 
-            $scope.jobbersForMe = jobbersForMe;
-            nbJobbersForMe = jobbersForMe.length;
-            $scope.nbJobbersForMe = nbJobbersForMe ;
+            $rootScope.jobyersForMe = jobyersForMe;
+            $rootScope.nbJobyersForMe = jobyersForMe.length;
 
             // Send Http query to get jobbers with same competencies and same city as mine
-            for (i=0; i < jobbersForMe.length ; i++){
-              if (jobbersForMe[i].city == myCity) {
-                jobbersNextToMe.push({
-                  'firstName': jobbersForMe[i].firstName,
-                  'lastName': jobbersForMe[i].lastName,
-                  'city': jobbersForMe[i].city
+            for (i=0; i < jobyersForMe.length ; i++){
+              if (jobyersForMe[i].city == myCity) {
+                jobyersNextToMe.push({
+                  'firstName': jobyersForMe[i].firstName,
+                  'lastName': jobyersForMe[i].lastName,
+                  'city': jobyersForMe[i].city
                 });
               }
             }
-            nbJobbersNextToMe = jobbersNextToMe.length;
-            $scope.nbJobbersNextToMe= nbJobbersNextToMe;
-            $scope.jobbersNextToMe = jobbersNextToMe;
+            $rootScope.nbJobyersNextToMe= jobyersNextToMe.length;
+            $rootScope.jobyersNextToMe = jobyersNextToMe;
 
             //isConnected = true;
-            if (jobbersForMe.length>0)
-              $state.go('search');
+            //if (jobyersForMe.length>0)
+            $state.go('search');
           },
           function(response){
             alert("Error : "+response.data);
@@ -226,26 +234,36 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
         );
       }
     };
+
+    $scope.exitVit = function () {
+      navigator.app.exitApp();
+    }
   })
 
-  .controller('searchCtrl', function ($scope, $http, x2js) {
+  .controller('searchCtrl', function ($scope, $rootScope,$state, $http, x2js) {
 
-    $scope.search = queryText;
-
-    $scope.jobbersForMe = jobbersForMe;
-    $scope.nbJobbersForMe = nbJobbersForMe;
-    $scope.nbJobbersNextToMe = nbJobbersNextToMe;
-    $scope.jobbersNextToMe = jobbersForMe;
+    $scope.mfbMenuState = 'open';
+    $scope.search = $rootScope.queryText;
+    /*$scope.jobbersForMe = $rootScope.jobyersForMe;
+    $scope.nbJobbersForMe = $rootScope.jobyersForMe.length;
+    $scope.jobbersNextToMe = $rootScope.jobyersNextToMe;
+    $scope.nbJobbersNextToMe = $rootScope.jobyersNextToMe.length;*/
 
     $scope.onSearchChange = function (search) {
 
+      /*$scope.mfbMenuState = 'closed';*/
       var jobyersForMe = [];
-      var nbJobyersForMe = 0;
       var jobyersNextToMe = [];
-      var nbJobyersNextToMe = 0;
 
-      if ( search == '')
-      return;
+      if ( search == ''){
+        $rootScope.jobyersForMe = [];
+        $rootScope.nbJobyersForMe = 0;
+        $rootScope.nbJobyersNextToMe = 0;
+        $rootScope.jobyersNextToMe = [];
+        $scope.mfbMenuState = 'open';
+        return;
+      }
+
 
       if (sessionId != '') {
         soapMessage = 'user_salarie;' + search; //'C# sur paris';
@@ -327,6 +345,11 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
                   'city': ville
                 };
               } else {
+                $rootScope.jobyersForMe = [];
+                $rootScope.nbJobyersForMe = 0;
+                $rootScope.nbJobyersNextToMe = 0;
+                $rootScope.jobyersNextToMe = [];
+                $scope.mfbMenuState = 'open';
                 return;
               }
             }
@@ -334,9 +357,8 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
             //sessionId = jsonResp.amanToken.sessionId;*/
             //console.log($scope.firstName + " " + $scope.secondName);
 
-            $scope.jobbersForMe = jobyersForMe;
-            nbJobyersForMe = jobyersForMe.length;
-            $scope.nbJobbersForMe = nbJobyersForMe;
+            $rootScope.jobyersForMe = jobyersForMe;
+            $rootScope.nbJobyersForMe = jobyersForMe.length;
 
             // Send Http query to get jobbers with same competencies and same city as mine
             for (i = 0; i < jobyersForMe.length; i++) {
@@ -348,28 +370,43 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
                 });
               }
             }
-            nbJobyersNextToMe = jobyersNextToMe.length;
-            $scope.nbJobbersNextToMe = nbJobyersNextToMe;
-            $scope.jobbersNextToMe = jobyersNextToMe;
+            $rootScope.jobyersNextToMe = jobyersNextToMe;
+            $rootScope.nbJobyersNextToMe = jobyersNextToMe.length;
+            $scope.mfbMenuState = 'open';
           },
           function (response) {
+            $rootScope.jobyersForMe = [];
+            $rootScope.nbJobyersForMe = 0;
+            $rootScope.nbJobyersNextToMe = 0;
+            $rootScope.jobyersNextToMe = [];
+            $scope.mfbMenuState = 'open';
             alert("Error : " + response.data);
           }
         );
       }
+    };
+
+    $scope.isNoJobyerForMe = function() {
+      if ($scope.nbJobyersForMe != 0){
+        $state.go('list');
+      }
+    };
+
+    $scope.isNoJobyerNextToMe = function() {
+      if ($scope.nbJobyersNextToMe != 0){
+        $state.go('listNext');
+      }
     }
   })
 
-  .controller('listCtrl', function ($scope) {
-    $scope.jobbersForMe = jobbersForMe;
-
-    $scope.styles=[{'background-color':'blue'},{'background-color':'red'}];
+  .controller('listCtrl', function ($scope, $rootScope) {
+    $scope.jobyersForMe = $rootScope.jobyersForMe;
 
   })
 
-  .controller('listNextCtrl', function ($scope) {
-    $scope.jobbersNextToMe = jobbersNextToMe;
-    $scope.styles=[{'background-color':'blue'},{'background-color':'red'}];
+  .controller('listNextCtrl', function ($scope, $rootScope) {
+    $scope.jobyersNextToMe = $rootScope.jobyersNextToMe;
+    /*$scope.styles=[{'background-color':'blue'},{'background-color':'red'}];*/
   })
 
   .controller('connectCtrl', function ($scope,$state, ngFB) {
