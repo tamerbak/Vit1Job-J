@@ -19,14 +19,36 @@ button.button.button-full.button-positive.green {
 
 label.item.item-input input[type="search"]{
   font-size:1em;
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 0%;
+  padding-bottom: 0%;
 }
 
 .hslide1{
   padding-top: 0px !important;
   padding-bottom: 4% !important;
   font-size : 1em;
+}
+
+/*.keyboard-open .tabs{
+  display:none;
+}
+.keyboard-open .has-tabs{
+  bottom:0;
+}*/
+
+.keyboard-open .hide-on-keyboard-open {
+  display: none !important;
+}
+
+ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
+  background-color: transparent;
+  display: inherit;
+  bottom: 15%;
+  border: transparent;
+}
+
+.buttonConnect {
+  padding: 5px;
 }
 
 /*##############################   styles of Search.html ################################"*/
@@ -96,6 +118,10 @@ label.item.item-input input[type="search"]{
 
 .list.list-inset.page2 .item.item-input .ion-search:before{
   color: white;
+}
+
+input.searchPage2.ng-pristine.ng-untouched.ng-valid {
+  margin-top: -5%;
 }
 
 .searchPage2{

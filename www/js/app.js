@@ -237,7 +237,7 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
 
     $scope.exitVit = function () {
       navigator.app.exitApp();
-    }
+    };
   })
 
   .controller('searchCtrl', function ($scope, $rootScope,$state, $http, x2js) {
