@@ -8,7 +8,10 @@
 var sessionId = 'nn';
 var myCity = 'Paris';
 
-angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
+angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
+                'connectionCtrls', 'cPhoneCtrls',
+                'wsConnectors', 'parsingServices',
+                'ng-mfb', 'cb.x2js', 'ngOpenFB'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});
@@ -70,359 +73,7 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
   });
 })
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $timeout) {
-
-    var jobyersForMe = [];
-    var jobyersNextToMe = [];
-
-    $scope.getJobbers = function (query) {
-
-      $rootScope.jobyersForMe = [];
-      $rootScope.jobyersNextToMe = [];
-      $rootScope.nbJobyersForMe = 0;
-      $rootScope.nbJobyersNextToMe = 0;
-
-      $rootScope.queryText = query;
-
-      if (sessionId!=''){
-        soapMessage = 'user_salarie;' + query; //'C# sur paris';
-        $http({
-          method: 'POST',
-          url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',
-          headers: {
-            "Content-Type": "text/plain"
-          },
-          data: soapMessage
-        }).then(
-          function(response){
-            var jsonResp = x2js.xml_str2json(response.data);
-            var jsonText = JSON.stringify (jsonResp);
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataModel","dataModel");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataRow","dataRow");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry","dataEntry");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
-            jsonResp = JSON.parse(jsonText);
-
-            //Check if there are rows!
-
-            //var rowsCount = jsonResp.dataModel.rows.dataRow.length;
-            //if (typeof (jsonResp.dataModel.rows.dataRow.dataRow) == 'undefined') {
-            //if (Array.isArray(jsonResp.dataModel.rows.dataRow)){
-            if (jsonResp.dataModel.rows.dataRow instanceof Array){
-            //if (jsonResp.dataModel.rows.dataRow.length > 0){
-            //if (rowsCount > 0){
-
-              for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
-
-                jsonText = JSON.stringify (jsonResp);
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataModel","dataModel");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataRow","dataRow");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry","dataEntry");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
-                jsonResp = JSON.parse(jsonText);
-
-                //jsonResp.dataModel.rows.dataRow[0].dataRow.dataEntry[1].value
-                var prenom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[1].value;
-                var nom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[2].value;
-                var idVille = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].value;
-
-
-                prenom = prenom.replace("<![CDATA[",'');
-                prenom = prenom.replace("]]>",'');
-                nom = nom.replace("<![CDATA[",'');
-                nom = nom.replace("]]>",'');
-                idVille = idVille.replace("<![CDATA[",'');
-                idVille = idVille.replace("]]>",'');
-
-                for (j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
-                  if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                  break;
-                }
-
-                var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobyersForMe.push({
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                });
-              }
-            } else {
-              //One Instance returned or null!
-              if (jsonResp.dataModel.rows!=""){
-                 prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
-                 nom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[2].value;
-                 idVille = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].value;
-
-                 prenom = prenom.replace("<![CDATA[",'');
-                 prenom= prenom.replace("]]>",'');
-                 nom = nom.replace("<![CDATA[",'');
-                 nom = nom.replace("]]>",'');
-                 idVille = idVille.replace("<![CDATA[",'');
-                 idVille = idVille.replace("]]>",'');
-
-                for (j=0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length;j++){
-                  if (jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
-                }
-
-                 ville = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].label;
-
-                jobyersForMe[0] = {
-                   'firstName': prenom,
-                   'lastName': nom,
-                   'city': ville
-                 };
-              } else {
-                  // An elaborate, custom popup
-                /*var myPopup = $ionicPopup.show({
-                    template: '',
-                    title: 'Résultat',
-                    subTitle: 'Aucun Jobyer ne correspond à votre recherche',
-                    scope: $scope
-                    buttons: [
-                      { text: 'Cancel' },
-                      {
-                        text: '<b>Save</b>',
-                        type: 'button-positive',
-                        onTap: function(e) {
-                          if (!$scope.data.wifi) {
-                            //don't allow the user to close unless he enters wifi password
-                            e.preventDefault();
-                          } else {
-                            return $scope.data.wifi;
-                          }
-                        }
-                      },
-                    ]
-                  });
-                  myPopup.then(function(res) {
-                    console.log('Tapped!', res);
-                  });
-                  $timeout(function() {
-                    myPopup.close(); //close the popup after 3 seconds for some reason
-                  }, 3000);
-                return;*/
-              }
-            }
-
-            //sessionId = jsonResp.amanToken.sessionId;*/
-            //console.log($scope.firstName + " " + $scope.secondName);
-
-            $rootScope.jobyersForMe = jobyersForMe;
-            $rootScope.nbJobyersForMe = jobyersForMe.length;
-
-            // Send Http query to get jobbers with same competencies and same city as mine
-            for (i=0; i < jobyersForMe.length ; i++){
-              if (jobyersForMe[i].city == myCity) {
-                jobyersNextToMe.push({
-                  'firstName': jobyersForMe[i].firstName,
-                  'lastName': jobyersForMe[i].lastName,
-                  'city': jobyersForMe[i].city
-                });
-              }
-            }
-            $rootScope.nbJobyersNextToMe= jobyersNextToMe.length;
-            $rootScope.jobyersNextToMe = jobyersNextToMe;
-
-            //isConnected = true;
-            //if (jobyersForMe.length>0)
-            $state.go('search');
-          },
-          function(response){
-            alert("Error : "+response.data);
-          }
-        );
-      }
-    };
-
-    $scope.exitVit = function () {
-      navigator.app.exitApp();
-    };
-  })
-
-  .controller('searchCtrl', function ($scope, $rootScope,$state, $http, x2js) {
-
-    $scope.mfbMenuState = 'open';
-    $scope.search = $rootScope.queryText;
-    /*$scope.jobbersForMe = $rootScope.jobyersForMe;
-    $scope.nbJobbersForMe = $rootScope.jobyersForMe.length;
-    $scope.jobbersNextToMe = $rootScope.jobyersNextToMe;
-    $scope.nbJobbersNextToMe = $rootScope.jobyersNextToMe.length;*/
-
-    $scope.onSearchChange = function (search) {
-
-      /*$scope.mfbMenuState = 'closed';*/
-      var jobyersForMe = [];
-      var jobyersNextToMe = [];
-
-      if ( search == ''){
-        $rootScope.jobyersForMe = [];
-        $rootScope.nbJobyersForMe = 0;
-        $rootScope.nbJobyersNextToMe = 0;
-        $rootScope.jobyersNextToMe = [];
-        $scope.mfbMenuState = 'open';
-        return;
-      }
-
-
-      if (sessionId != '') {
-        soapMessage = 'user_salarie;' + search; //'C# sur paris';
-        $http({
-          method: 'POST',
-          url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',
-          headers: {
-            "Content-Type": "text/plain"
-          },
-          data: soapMessage
-        }).then(
-          function (response) {
-            var jsonResp = x2js.xml_str2json(response.data);
-            var jsonText = JSON.stringify(jsonResp);
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataRow", "dataRow");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry", "dataEntry");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
-            jsonResp = JSON.parse(jsonText);
-
-            //Check if there are rows!
-            if (jsonResp.dataModel.rows.dataRow instanceof Array) {
-              for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
-                jsonText = JSON.stringify(jsonResp);
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataRow", "dataRow");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry", "dataEntry");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
-                jsonResp = JSON.parse(jsonText);
-
-                //jsonResp.dataModel.rows.dataRow[0].dataRow.dataEntry[1].value
-                var prenom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[1].value;
-                var nom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[2].value;
-                var idVille = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].value;
-
-                prenom = prenom.replace("<![CDATA[", '');
-                prenom = prenom.replace("]]>", '');
-                nom = nom.replace("<![CDATA[", '');
-                nom = nom.replace("]]>", '');
-                idVille = idVille.replace("<![CDATA[", '');
-                idVille = idVille.replace("]]>", '');
-
-                for (j = 0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length; j++) {
-                  if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
-                }
-
-                var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobyersForMe.push({
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                });
-              }
-            } else {
-              //One Instance returned or null!
-              if (jsonResp.dataModel.rows != "") {
-                prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
-                nom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[2].value;
-                idVille = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].value;
-
-                prenom = prenom.replace("<![CDATA[", '');
-                prenom = prenom.replace("]]>", '');
-                nom = nom.replace("<![CDATA[", '');
-                nom = nom.replace("]]>", '');
-                idVille = idVille.replace("<![CDATA[", '');
-                idVille = idVille.replace("]]>", '');
-
-                for (j = 0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length; j++) {
-                  if (jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
-                }
-
-                ville = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].label;
-
-                jobyersForMe[0] = {
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                };
-              } else {
-                $rootScope.jobyersForMe = [];
-                $rootScope.nbJobyersForMe = 0;
-                $rootScope.nbJobyersNextToMe = 0;
-                $rootScope.jobyersNextToMe = [];
-                $scope.mfbMenuState = 'open';
-                return;
-              }
-            }
-
-            //sessionId = jsonResp.amanToken.sessionId;*/
-            //console.log($scope.firstName + " " + $scope.secondName);
-
-            $rootScope.jobyersForMe = jobyersForMe;
-            $rootScope.nbJobyersForMe = jobyersForMe.length;
-
-            // Send Http query to get jobbers with same competencies and same city as mine
-            for (i = 0; i < jobyersForMe.length; i++) {
-              if (jobyersForMe[i].city == myCity) {
-                jobyersNextToMe.push({
-                  'firstName': jobyersForMe[i].firstName,
-                  'lastName': jobyersForMe[i].lastName,
-                  'city': jobyersForMe[i].city
-                });
-              }
-            }
-            $rootScope.jobyersNextToMe = jobyersNextToMe;
-            $rootScope.nbJobyersNextToMe = jobyersNextToMe.length;
-            $scope.mfbMenuState = 'open';
-          },
-          function (response) {
-            $rootScope.jobyersForMe = [];
-            $rootScope.nbJobyersForMe = 0;
-            $rootScope.nbJobyersNextToMe = 0;
-            $rootScope.jobyersNextToMe = [];
-            $scope.mfbMenuState = 'open';
-            alert("Error : " + response.data);
-          }
-        );
-      }
-    };
-
-    $scope.isNoJobyerForMe = function() {
-      if ($scope.nbJobyersForMe != 0){
-        $state.go('list');
-      }
-    };
-
-    $scope.isNoJobyerNextToMe = function() {
-      if ($scope.nbJobyersNextToMe != 0){
-        $state.go('listNext');
-      }
-    }
-  })
-
-  .controller('listCtrl', function ($scope, $rootScope) {
-    $scope.jobyersForMe = $rootScope.jobyersForMe;
-
-  })
-
-  .controller('listNextCtrl', function ($scope, $rootScope) {
-    $scope.jobyersNextToMe = $rootScope.jobyersNextToMe;
-    /*$scope.styles=[{'background-color':'blue'},{'background-color':'red'}];*/
-  })
-
-  .controller('connectCtrl', function ($scope,$state, ngFB) {
-    $scope.fbLogin = function () {
-      ngFB.login({scope: 'email'}).then(
-        function (response) {
-          if (response.status === 'connected') {
-            console.log('Facebook login succeeded');
-            $state.go('profile');
-          } else {
-            alert('Facebook login failed');
-          }
-        });
-    };
-  })
-
+  // this control will be deleted because there will be no Profile page ..
   .controller('ProfileCtrl', function ($scope, ngFB) {
     ngFB.api({
       path: '/me',
@@ -454,7 +105,7 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
 
       .state('connection', {
         url: '/connection',
-        templateUrl: 'templates/Connection.html',
+        templateUrl: 'templates/connections.html',
         controller: 'connectCtrl'
 
       })
@@ -479,6 +130,13 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
 
       })
 
+      .state('cPhone', {
+        url: '/cPhone',
+        templateUrl: 'templates/connexionPhone.html',
+        controller: 'cPhoneCtrl'
+
+      })
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app');
   })
@@ -497,17 +155,13 @@ angular.module('starter', ['ionic','ng-mfb','cb.x2js', 'ngOpenFB'])
     };
   });
 
-document.addEventListener("exitButton", function(){
+/*document.addEventListener("exitButton", function(){
   navigator.notification.confirm(
     'Do you want to quit',
     onConfirmQuit,
     'QUIT TITLE',
     'OK,Cancel'
   );
-}, true);
+}, true);*/
 
-function onConfirmQuit(button){
-  if(button == "1"){
-    navigator.app.exitApp();
-  }
-}
+

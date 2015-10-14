@@ -2,6 +2,10 @@
 
 /*##############################   style of Home.html ################################"*/
 
+.vimg {
+  width: 100%;
+}
+
 .bar.bar-calm.bar-footer{
   bottom: 90px !important;
   border-color: transparent !important;
@@ -17,6 +21,10 @@ button.button.button-full.button-positive.green {
   font-size: 1em;
 }
 
+.list.list-inset {
+  width: 100%;
+}
+
 label.item.item-input input[type="search"]{
   font-size:1em;
   padding-top: 0%;
@@ -27,6 +35,7 @@ label.item.item-input input[type="search"]{
   padding-top: 0px !important;
   padding-bottom: 4% !important;
   font-size : 1em;
+  width: 100%;
 }
 
 /*.keyboard-open .tabs{
@@ -53,9 +62,18 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 
 /*##############################   styles of Search.html ################################"*/
 
+.col {
+  border: 0px solid red !important;
+}
+
 .mfb-component__button--main {
   left: 20%; /*5vw;*/
 
+}
+
+.lineContainer {
+  padding-left: 40px;
+  /* position: relative; */
 }
 
 .mfb-component__list li:nth-child(2) a:nth-child(1) {
@@ -104,16 +122,17 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 .vertical-line{
   position: absolute;
   border-left:medium #757575 solid;
-  height:300px;
-  margin-left: 13.5%;/*16vw;*/
-  margin-top: -1.5vh;
+  height:320px;
+  /*margin-left: 13.5%;/*16vw;*/
+  margin-top: -4.5vh;
+  z-index: 1;
 }
 
 .list.list-inset.page2 {
-  z-index: -1;
-  left: -13%;
-  top: 4.5%;
-  width: 100%;
+  z-index: 0;
+  margin-left: 7px;
+  margin-top: 256px;
+  width: 300%;
 }
 
 .list.list-inset.page2 .item.item-input .ion-search:before{
@@ -121,13 +140,20 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 }
 
 input.searchPage2.ng-pristine.ng-untouched.ng-valid {
-  margin-top: -5%;
+  margin-top: 0%;
+  margin-left: 10px;
+}
+
+label.item.item-input  input.searchPage2[type="search"]{
+  padding-bottom: 4%;
+  padding-left: 6%;
+  font-size: 0.9em;
 }
 
 .searchPage2{
   height: 4vh !important;
-  width: 100% !important; /*60vw*/
-  padding: 3px !important;
+  width: 100% !important; /*60vw
+  padding: 3px !important;*/
 }
 
 /*##############################   styles of Connection.html ################################"*/
@@ -150,6 +176,21 @@ button.button.button-full.button-positive.facebook {
 .h3Connect1{
   font-size : 1.5em;
 }
+
+
+
+/*##############################   styles of connexionPhone.html ################################"*/
+
+.titlePhone{
+  font-size: 14px;
+  font-family: "Helvetica Neue","Roboto","Segoe UI",sans-serif;
+  line-height: 20px;
+  text-rendering: optimizelegibility;
+  color: #757575;}
+.flat{
+  border: 0px none; width: 99%;color: #757575;}
+.flat option{
+  color: #757575;border: 0px none; width: 99%;}
 
 
 

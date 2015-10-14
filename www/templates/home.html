@@ -5,27 +5,46 @@
     <a class="button icon-left ion-android-exit button-clear button-dark" ng-click="exitVit()">  </a>
   </ion-header-bar>
   <ion-content padding="true">
-    <img src="img/vit1job.png">
-    <div class="list list-inset">
-      <label class="item item-input">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="search" placeholder="Votre recherche ici..." ng-model="query" ng-enter = "getJobbers(query)">
-      </label>
+    <div class = "row">
+      <div class="vimg"><img src="img/vit1job.png"></div>
     </div>
 
-    <h3 class="hslide1">Trouvez vos Jobyers immédiatement disponibles!</h3>
 
-  </ion-content>
-  <ion-footer-bar class="hide-on-keyboard-open">
-    <div class="buttonConnect">
-      <button class="button button-full button-positive green" ui-sref="connection" >
-        Connexion
-      </button>
+    <div class = "row">
+      <div class="list list-inset">
+        <label class="item item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="search" placeholder="Votre recherche ici..." ng-model="query" ng-enter = "getJobbers(query)">
+        </label>
+      </div>
+    </div>
+
+    <div class = "row">
+      <h3 class="hslide1">Trouvez vos Jobyers immédiatement disponibles!</h3>
+    </div>
+
+
+      <div class="row">
+        <button class="button button-full button-positive green" ui-sref="connection" >
+          Connexion
+        </button>
+      </div>
+    <!--<div class="row">
       <button class="button button-full button-positive grey">
         Inscription
       </button>
-
     </div>
-  </ion-footer-bar>
+  <!--<div c="buttonConnect">
+
+
+
+  </div>-->
+
+
+
+</ion-content>
+<!--<ion-footer-bar class="hide-on-keyboard-open">
+
+</ion-footer-bar>-->
 </ion-view>
 

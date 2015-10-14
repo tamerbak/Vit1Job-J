@@ -1,0 +1,44 @@
+<ion-view title="connection">
+  <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="app">  </a>
+    <h1 class="title">Connexion</h1>
+    <a class="button icon-right ion-home button-clear button-dark" ui-sref="app">  </a>
+  </ion-header-bar>
+  <ion-content padding="true">
+	<!-- Title -->
+    <div>
+      <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
+    </div>
+	
+	<!-- TELEPHONE -->	
+	<div class="list">
+      <label class="item item-input">
+        <i class="icon ion-ios-telephone placeholder-icon"></i>
+        <input type="text" placeholder="+33" class="searchPage2" data-ng-model="phone">
+      </label>
+	</div>
+	<!-- PAYS -->
+	<div class="list">
+	  <label class="item item-input">
+        <select class="flat" placeholder="France" data-ng-model="country">
+			<option>Maroc</option>
+			<option selected>France</option>
+			<option>Italie</option>
+		</select>
+      </label>
+	</div>
+	  <br>
+	<!-- PASSWORD -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="text" placeholder="Mot de passe" class="searchPage2" data-ng-model="password">
+      </label>
+    </div>
+	
+	<!-- ACTIONS -->
+	<div class="buttonConnect">
+      <button class="button button-full button-positive green" data-ng-click="connexionByPhone(phone, country, password)">Connecter</button>
+      <button class="button button-full button-positive grey">Quitter</button>
+    </div>
+  </ion-content>
+</ion-view>
