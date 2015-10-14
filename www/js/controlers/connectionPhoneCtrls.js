@@ -24,14 +24,42 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
           console.log("phone : "+phone);
 
           // INTERROGE PHONE_TABLE
-          PullDataFromServer.pullDATA("user_salarie", sessionId, "cin", phone, phone)
+          PullDataFromServer.pullDATA("user_employeur", sessionId, "cin", phone, phone)
             .success(function (resp){
               data=formatString.formatServerResult(resp);
-              console.log(data);
+              console.log(resp);
 
-              var result=data.dataModel.rows;
-              if(typeof result === 'undefined' || result.length<0 || result==="")
-                alert('Aucune résultat trouvé');
+              result=data.dataModel.rows;
+              if(typeof result === 'undefined' || result.length<0 || result===""){
+				  console.log('Aucune résultat trouvé');
+				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
+				  state.go("saisieCivilite");
+			  }
+			  else{
+					// VERIFICATION DU PASSWORD
+					var listEntry=[];
+					listEntry=result.dataRow.dataRow.dataEntry;
+					
+					for(var i=0; i<listEntry.length; i++){
+						var object=listEntry[i];
+						
+						for (var property in object) {
+							if(property === 'attributeReference'){
+								if(object[property] === password){
+									// USER REEL - REDIRECTION VERS RECHERCHE
+									state.go("search");
+								}
+								else{
+									// PERSIST IN BD
+									
+									// PASSWORD INCORRECT - REDIRECTION 
+									state.go("saisieCivilite");
+								}
+							}
+						}
+						//console.log(object);
+					}
+			  }
             }).error(function (err){
               console.log("error : récuperation DATA");
               console.log("error : "+err);

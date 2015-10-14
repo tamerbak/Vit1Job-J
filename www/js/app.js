@@ -9,7 +9,7 @@ var sessionId = 'nn';
 var myCity = 'Paris';
 
 angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
-                'connectionCtrls', 'cPhoneCtrls',
+                'connectionCtrls', 'cPhoneCtrls','saisieCiviliteCtrls','adresseTravailCtrls',
                 'wsConnectors', 'parsingServices',
                 'ng-mfb', 'cb.x2js', 'ngOpenFB'])
 
@@ -134,9 +134,19 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
         url: '/cPhone',
         templateUrl: 'templates/connexionPhone.html',
         controller: 'cPhoneCtrl'
-
       })
 
+      .state('saisieCivilite', {
+        url: '/saisieCivilite',
+        templateUrl: 'templates/saisieCivilite.html',
+        controller: 'saisieCiviliteCtrl'
+      })
+
+      .state('adresseTravail', {
+        url: '/adresseTravail',
+        templateUrl: 'templates/adresseTravail.html',
+        controller: 'adresseTravailCtrl'
+      })
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app');
   })
