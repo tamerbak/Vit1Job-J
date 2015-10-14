@@ -4,9 +4,17 @@
     <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/scss/ionic.app.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/css/style.css" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/js/Controls/homeCtrls.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/js/Controls/searchCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/connectionCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/connectionPhoneCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/homeCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/listJobyersCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/listJobyersNextCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/searchCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/searchCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/services/authenticationService.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/services/authenticationServices.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/services/parsingServices.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/lib/ionic/scss/_slide-box.scss" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/lib/ng-material-floating-button/mfb/dist/mfb.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/lib/ng-material-floating-button/mfb/src/mfb.scss" charset="UTF-8" />
