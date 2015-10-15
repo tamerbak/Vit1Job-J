@@ -10,6 +10,7 @@ var myCity = 'Paris';
 
 angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
                 'connectionCtrls', 'cPhoneCtrls','saisieCiviliteCtrls','adresseTravailCtrls',
+                'competenceCtrls',
                 'wsConnectors', 'parsingServices',
                 'ng-mfb', 'cb.x2js', 'ngOpenFB'])
 
@@ -146,6 +147,12 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
         url: '/adresseTravail',
         templateUrl: 'templates/adresseTravail.html',
         controller: 'adresseTravailCtrl'
+      })
+
+      .state('competence', {
+        url: '/competence',
+        templateUrl: 'templates/competencies.html',
+        controller: 'competenceCtrl'
       })
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app');
