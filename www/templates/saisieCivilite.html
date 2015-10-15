@@ -1,7 +1,7 @@
 <ion-view title="connection">
   <ion-header-bar class="bar-calm">
     <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="app">  </a>
-    <h1 class="title">Connexion</h1>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-dark" ui-sref="app">  </a>
   </ion-header-bar>
   <ion-content padding="true">
@@ -9,20 +9,20 @@
     <div>
       <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
     </div>
-	
-	<!-- TITRE -->	
+
+	<!-- TITRE -->
 	<div class="list">
       <label class="item item-input">
         <input type="text" placeholder="Titre" class="searchPage2" data-ng-model="titre">
       </label>
 	</div>
-	<!-- NOM -->	
+	<!-- NOM -->
 	<div class="list">
       <label class="item item-input">
         <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="nom">
       </label>
 	</div>
-	<!-- PRENOM -->	
+	<!-- PRENOM -->
 	<div class="list">
       <label class="item item-input">
         <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="prenom">
@@ -46,12 +46,12 @@
         <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="nationalite">
       </label>
     </div>
-	
+
 	<!-- DATE DE NAISSANCE -->
 	<div align="left">
       <h3 class="titlePhone">Charger un scan de votre CNI</h3>
     </div>
-	
+
 	<!-- Image uploader -->
 	<div class="list">
 		<label class="item item-input">
@@ -59,7 +59,7 @@
 			<input type="file" class="upload" capture="camera" accept="image/*" onchange="angular.element(this).scope().photo(this)" />
 		</label>
 	</div>
-	
+
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
       <button class="button button-full button-positive green" data-ng-click="">Valider</button>

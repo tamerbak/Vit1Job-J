@@ -6,6 +6,11 @@
   width: 100%;
 }
 
+.vimgBar {
+  width: 100%;
+  text-align: center;
+}
+
 .bar.bar-calm.bar-footer{
   bottom: 90px !important;
   border-color: transparent !important;
