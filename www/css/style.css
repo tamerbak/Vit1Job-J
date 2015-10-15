@@ -27,12 +27,12 @@ button.button.button-full.button-positive.green {
 
 label.item.item-input input[type="search"]{
   font-size:1em;
-  padding-top: 0%;
-  padding-bottom: 0%;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .hslide1{
-  padding-top: 0px !important;
+  padding-top: 0 !important;
   padding-bottom: 4% !important;
   font-size : 1em;
   width: 100%;
@@ -63,7 +63,7 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 /*##############################   styles of Search.html ################################"*/
 
 .col {
-  border: 0px solid red !important;
+  border: 0 solid red !important;
 }
 
 .mfb-component__button--main {
@@ -94,7 +94,7 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 
 .mfb-component__list li:nth-child(3) a:nth-child(1) {
   background: transparent;
-  box-shadow: 0 0 0px white, 0 0px 0px white;
+  box-shadow: 0 0 0 white, 0 0 0 white;
   margin-top: -150%;
   /*left : 50vw;*/
 }
@@ -108,7 +108,7 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 
 .mfb-component__list li:nth-child(4) a:nth-child(1) {
   background: transparent;
-  box-shadow: 0 0 0px white, 0 0px 0px white;
+  box-shadow: 0 0 0 white, 0 0 0 white;
 
 }
 
@@ -140,7 +140,7 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 }
 
 input.searchPage2.ng-pristine.ng-untouched.ng-valid {
-  margin-top: 0%;
+  margin-top: 0;
   margin-left: 10px;
 }
 
@@ -174,7 +174,9 @@ button.button.button-full.button-positive.facebook {
 }
 
 .h3Connect1{
-  font-size : 1.5em;
+  font-size : 1em;
+  color : #757575;
+  width: 100%;
 }
 
 
@@ -188,9 +190,9 @@ button.button.button-full.button-positive.facebook {
   text-rendering: optimizelegibility;
   color: #757575;}
 .flat{
-  border: 0px none; width: 99%;color: #757575;}
+  border: 0 none; width: 99%;color: #757575;}
 .flat option{
-  color: #757575;border: 0px none; width: 99%;}
+  color: #757575;border: 0 none; width: 99%;}
 
 
 
