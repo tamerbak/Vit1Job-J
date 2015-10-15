@@ -3,7 +3,7 @@
  */
 angular.module('homeCtrls', ['ionic','cb.x2js'])
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $timeout) {
 
     var jobyersForMe = [];
     var jobyersNextToMe = [];
@@ -171,4 +171,32 @@ angular.module('homeCtrls', ['ionic','cb.x2js'])
     $scope.exitVit = function () {
       navigator.app.exitApp();
     };
+
+    $scope.showPopup = function(){
+      var myPopup = $ionicPopup.show({
+        template: "Adresse de travail est identique à l'adresse du siège social ? <br>",
+        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+        //subTitle: 'Aucun Jobyer ne correspond à votre recherche',
+        scope: $scope,
+        buttons: [
+         { text: '<b>Non</b>',
+           type: 'button-dark'
+         },
+         {
+         text: '<b>Oui</b>',
+         type: 'button-calm',
+         onTap: function(e) {
+
+         }
+         }
+         ]
+      });
+      myPopup.then(function(res) {
+        console.log('Tapped!', res);
+      });
+      //$timeout(function() {
+      //  myPopup.close(); //close the popup after 3 seconds for some reason
+      //}, 3000);
+    };
+
   });

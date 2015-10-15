@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/scss/ionic.app.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/css/popupStyles.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/css/style.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/app.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/connectionCtrls.js" charset="UTF-8" />
@@ -23,6 +24,7 @@
     <file url="file://$PROJECT_DIR$/www/templates/home.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/listJobyers.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/listJobyersNext.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/popup1.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/search.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/search2.html" charset="UTF-8" />
   </component>
