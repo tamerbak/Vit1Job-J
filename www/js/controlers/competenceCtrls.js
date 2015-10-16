@@ -6,5 +6,6 @@ angular.module('competenceCtrls', ['ionic'])
 
   .controller('competenceCtrl', function ($scope, $state) {
     $scope.njobyer = 1;
+    $scope.metier = "Métier";
 
   });

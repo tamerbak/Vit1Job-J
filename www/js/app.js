@@ -9,8 +9,8 @@ var sessionId = 'nn';
 var myCity = 'Paris';
 
 angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
-                'connectionCtrls', 'cPhoneCtrls','saisieCiviliteCtrls','adresseTravailCtrls',
-                'competenceCtrls',
+                'connectionCtrls', 'cPhoneCtrls','saisieCiviliteEmployeurCtrls','adresseTravailCtrls',
+                'competenceCtrls', 'adressePersonelCtrls',
                 'wsConnectors', 'parsingServices',
                 'ng-mfb', 'cb.x2js', 'ngOpenFB'])
 
@@ -137,16 +137,22 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
         controller: 'cPhoneCtrl'
       })
 
-      .state('saisieCivilite', {
+      .state('saisieCiviliteEmployeur', {
         url: '/saisieCivilite',
-        templateUrl: 'templates/saisieCivilite.html',
-        controller: 'saisieCiviliteCtrl'
+        templateUrl: 'templates/saisieCiviliteEmployeur.html',
+        controller: 'saisieCiviliteEmployeurCtrl'
       })
 
       .state('adresseTravail', {
         url: '/adresseTravail',
         templateUrl: 'templates/adresseTravail.html',
         controller: 'adresseTravailCtrl'
+      })
+
+      .state('adressePersonel', {
+        url: '/adressePersonel',
+        templateUrl: 'templates/adressePersonel.html',
+        controller: 'adressePersonelCtrl'
       })
 
       .state('competence', {

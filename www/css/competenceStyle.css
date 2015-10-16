@@ -24,3 +24,18 @@ button.button-icon.round-overlay-button {
   width: 30px;
   min-height: 30px;
 }
+
+.divButton{
+  border-radius: 50%;
+  height: 30px;
+  width : 30px;
+  background-color: #757575;
+  color: white;
+  font-size: 1.6em;
+
+}
+
+.divButton :hover {
+  background-color: white;
+  cursor: pointer;
+}

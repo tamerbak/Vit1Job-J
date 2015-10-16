@@ -7,12 +7,15 @@
     <file url="file://$PROJECT_DIR$/www/css/popupStyles.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/css/style.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/adressePersonelCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/adresseTravailCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/competenceCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/connectionCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/connectionPhoneCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/homeCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/listJobyersCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/listJobyersNextCtrls.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/controlers/saisieCiviliteEmployeurCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/controlers/searchCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/searchCtrls.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/js/services/authenticationService.js" charset="UTF-8" />

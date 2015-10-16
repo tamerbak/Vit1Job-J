@@ -9,11 +9,15 @@
     <div>
       <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
     </div>
-
+	
 	<!-- TITRE -->
 	<div class="list">
-      <label class="item item-input">
-        <input type="text" placeholder="Titre" class="searchPage2" data-ng-model="titre">
+	  <label class="item item-input">
+        <select class="flat" data-ng-model="titre">
+			<option value="1" selected>Monsieur</option>
+			<option value="2">Madame</option>
+			<option value="3">Mademoiselle</option>
+		</select>
       </label>
 	</div>
 	<!-- NOM -->
@@ -28,41 +32,46 @@
         <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="prenom">
       </label>
 	</div>
-	<!-- DATE DE NAISSANCE -->
+	<!-- NOM ENTREPRISE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Date de Naissance" class="searchPage2" data-ng-model="dateNaissance">
+        <input type="text" placeholder="Nom entreprise" class="searchPage2" data-ng-model="entreprise">
       </label>
     </div>
-	<!-- N° SS -->
+	<!-- SIRET -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="N° SS" class="searchPage2" data-ng-model="numSS">
+        <input type="text" placeholder="SIRET" class="searchPage2" data-ng-model="siret">
       </label>
     </div>
-	<!-- NATIONALITE -->
+	<!-- CODE APE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="nationalite">
+        <input type="text" placeholder="Code APE" class="searchPage2" data-ng-model="ape">
+      </label>
+    </div>
+	<!-- N°URSSAF -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="numUssaf">
       </label>
     </div>
 
-	<!-- DATE DE NAISSANCE -->
 	<div align="left">
-      <h3 class="titlePhone">Charger un scan de votre CNI</h3>
+      <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3>
     </div>
 
 	<!-- Image uploader -->
 	<div class="list">
 		<label class="item item-input">
 			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> -->
-			<input type="file" class="upload" capture="camera" accept="image/*" onchange="angular.element(this).scope().photo(this)" />
+			<input type="file" class="upload" capture="camera" accept="image/*" onchange="" />
 		</label>
 	</div>
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur(titre, nom, prenom, entreprise, siret, ape, numUssaf)">Valider</button>
       <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
     </div>
   </ion-content>
