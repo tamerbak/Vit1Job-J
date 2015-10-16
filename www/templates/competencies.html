@@ -17,12 +17,18 @@
         </div>
     </div-->
 
-    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{njobyer}}</b></h3>
-    <div  class="divButton" style="display: inline-block" align="center" >
-      <span style="vertical-align: middle !important;">+</span>
-    </div>
+    <div class="row">
+      <div style="width: 100%;">
+        <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{njobyer}}</b></h3>
+        <span class="" style="display: inline-block;" on-tap="addCompetence()">
+          <i class="icon ion-ios-plus dark" style="display: inline-block; font-size: x-large" ></i>
+        </span>
 
-    <br><br>
+        <!--div  class="divButton" style="display: inline-block" align="center" >
+          <span style="vertical-align: middle !important;">+</span>
+        </div-->
+      </div>
+    </div>
 
     <div class="list">
       <label class="item item-input">
@@ -46,11 +52,14 @@
       </label>
     </div>
 
+    <i ng-class="maitriseIcon" style="display: inline-block; font-size: xx-large"></i>
+    <label for="maitrise" style="display: inline-block; color:#757575;" > {{maitrise}}</label>
     <div class="list">
-      <div class="item range range-calm">
-        <i class="icon ion-ios-sunny-outline"></i>
-        <input type="range" name="volume" min="0" max="100" value="33">
-        <i class="icon ion-ios-sunny"></i>
+      <div class="item range range-calm range">
+        <i class="icon ion-egg calm"></i>
+        <input id="maitrise" type="range" name="volume" min="0" max="100" value="0" ng-change="rangeChange(rangeModel)"
+               ng-model="rangeModel">
+        <i class="icon ion-ribbon-a calm"></i>
       </div>
     </div>
 

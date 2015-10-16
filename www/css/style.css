@@ -195,7 +195,7 @@ button.button.button-full.button-positive.facebook {
   text-rendering: optimizelegibility;
   color: #757575;}
 .flat{
-  border: 0 none; width: 99%;color: #757575;}
+  border: 0 none; width: 99%;color: #757575; background-color: transparent;}
 .flat option{
   color: #757575;border: 0 none; width: 99%;}
 
