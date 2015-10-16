@@ -195,7 +195,7 @@ button.button.button-full.button-positive.facebook {
   text-rendering: optimizelegibility;
   color: #757575;}
 .flat{
-  border: 0 none; width: 99%;color: #757575; background-color: transparent;}
+  border: 0 none; width: 99%;color: #757575; background-color: transparent; padding: 4px;}
 .flat option{
   color: #757575;border: 0 none; width: 99%;}
 
@@ -226,5 +226,9 @@ input[type="file"]{
 	opacity:.7;
 }
 
+
+input[type="text"], input[type="email"], input[type="password"]{
+	color: #757575;
+}
 
 
