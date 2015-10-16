@@ -9,8 +9,8 @@ var sessionId = 'nn';
 var myCity = 'Paris';
 
 angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
-                'connectionCtrls', 'cPhoneCtrls','saisieCiviliteEmployeurCtrls','adresseTravailCtrls',
-                'competenceCtrls', 'adressePersonelCtrls',
+                'connectionCtrls', 'cPhoneCtrls', 'cMailCtrls', 'saisieCiviliteEmployeurCtrls',
+                'competenceCtrls', 'adressePersonelCtrls','adresseTravailCtrls',
                 'wsConnectors', 'parsingServices', 'fileServices',
                 'ng-mfb', 'cb.x2js', 'ngOpenFB'])
 
@@ -137,6 +137,11 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
         controller: 'cPhoneCtrl'
       })
 
+      .state('cMail', {
+        url: '/cMail',
+        templateUrl: 'templates/connexionMail.html',
+        controller: 'cMailCtrl'
+      })
       .state('saisieCiviliteEmployeur', {
         url: '/saisieCivilite',
         templateUrl: 'templates/saisieCiviliteEmployeur.html',

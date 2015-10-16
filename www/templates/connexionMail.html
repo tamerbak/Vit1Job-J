@@ -1,0 +1,34 @@
+<ion-view title="connection">
+  <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="app"> </a>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+    <!--<h1 class="title">Connexion</h1>-->
+    <a class="button icon-right ion-home button-clear button-dark" ui-sref="app"> </a>
+  </ion-header-bar>
+  <ion-content padding="true">
+	<!-- Title -->
+    <div>
+      <h3 class="titlePhone"><b>Entrez votre Email : </b></h3>
+    </div>
+
+	<!-- TELEPHONE -->
+	<div class="list">
+      <label class="item item-input">
+        <i class="icon ion-email placeholder-icon calm" style="font-size: large"></i>
+        <input type="text" placeholder="Email" data-ng-model="email">
+      </label>
+	</div>
+	<!-- PASSWORD -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="text" placeholder="Mot de passe" data-ng-model="password">
+      </label>
+    </div>
+
+	<!-- ACTIONS -->
+	<div class="buttonConnect">
+      <button class="button button-full button-positive green" data-ng-click="connexionByMail(email, password)">Connecter</button>
+      <button class="button button-full button-positive grey" ui-sref="adresseTravail">Quitter</button>
+    </div>
+  </ion-content>
+</ion-view>
