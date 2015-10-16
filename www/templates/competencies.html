@@ -6,62 +6,80 @@
   </ion-header-bar>
   <ion-content padding="true">
     <!-- Title -->
-    <div class="row">
+    <!--div class="row">
         <div class="col alignright">
           <h3 class="titlePhone"><b>Jobyer N° {{njobyer}}</b></h3>
         </div>
         <div class="col alignleft">
-            <button class="round-overlay-button bottom-right calm button button-icon icon ion-ios7-search-strong light">+</button>
-            <!--button class="button" data-ng-click="">+</button-->
+            <!--button class="round-overlay-button bottom-right calm button button-icon icon ion-ios7-search-strong light"><span>+</span></button-->
+            <!--button class="button" data-ng-click="">+</button>
+
         </div>
+    </div-->
+
+    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{njobyer}}</b></h3>
+    <div  class="divButton" style="display: inline-block" align="center" >
+      <span style="vertical-align: middle !important;">+</span>
     </div>
+
+    <br><br>
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat" placeholder="France" data-ng-model="country">
-          <option>Maroc</option>
-          <option selected>France</option>
-          <option>Italie</option>
+        <select class="flat" >
+          <option selected disabled>Métier</option>
+          <option>Restauration</option>
+          <option >Hotelerie</option>
+          <option>Informatique</option>
         </select>
       </label>
     </div>
 
-    <!-- CODE POSTAL -->
-    <div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Code Postal</span>
-        <input type="text" class="searchPage2 inline" data-ng-model="codePostal">
+    <div class="list">
+      <label class="item item-input">
+        <select class="flat" >
+          <option selected disabled>Job</option>
+          <option>Serveur</option>
+          <option>Chef cuisinier</option>
+          <option>Barista</option>
+        </select>
       </label>
     </div>
 
-    <!-- VILLE -->
-    <div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Ville</span>
-        <input type="text" class="searchPage2 inline" data-ng-model="ville">
+    <div class="list">
+      <div class="item range range-calm">
+        <i class="icon ion-ios-sunny-outline"></i>
+        <input type="range" name="volume" min="0" max="100" value="33">
+        <i class="icon ion-ios-sunny"></i>
+      </div>
+    </div>
+
+    <div class="list">
+      <label class="item item-input">
+        <select class="flat">
+          <option selected disabled>Les indispensables</option>
+          <option>Sérieux</option>
+          <option>Dyamique</option>
+          <option>Souriant</option>
+        </select>
       </label>
     </div>
 
-    <!-- ADRESSE 1 -->
-    <div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Adresse 1</span>
-        <input type="text" class="searchPage2 inline" data-ng-model="adresse1">
-      </label>
-    </div>
-
-    <!-- ADRESSE 2 -->
-    <div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Adresse 2</span>
-        <input type="text" class="searchPage2 inline decale" data-ng-model="adresse2">
+    <div class="list">
+      <label class="item item-input">
+        <select class="flat">
+          <option selected disabled>Langue</option>
+          <option>Français</option>
+          <option>Anglais</option>
+          <option>Italien</option>
+        </select>
       </label>
     </div>
 
     <br>
     <!-- ACTIONS -->
     <div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="afficheList()">Valider</button>
     </div>
   </ion-content>
 </ion-view>

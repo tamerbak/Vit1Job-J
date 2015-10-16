@@ -1,0 +1,79 @@
+<ion-view title="connection">
+  <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="app">  </a>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+    <a class="button icon-right ion-home button-clear button-dark" ui-sref="app">  </a>
+  </ion-header-bar>
+  <ion-content padding="true">
+	<!-- Title -->
+    <div>
+      <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
+    </div>
+	
+	<!-- TITRE -->
+	<div class="list">
+	  <label class="item item-input">
+        <select class="flat" data-ng-model="titre">
+			<option value="1" selected>Monsieur</option>
+			<option value="2">Madame</option>
+			<option value="3">Mademoiselle</option>
+		</select>
+      </label>
+	</div>
+	<!-- NOM -->
+	<div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="nom">
+      </label>
+	</div>
+	<!-- PRENOM -->
+	<div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="prenom">
+      </label>
+	</div>
+	<!-- NOM ENTREPRISE -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="text" placeholder="Nom entreprise" class="searchPage2" data-ng-model="entreprise">
+      </label>
+    </div>
+	<!-- SIRET -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="text" placeholder="SIRET" class="searchPage2" data-ng-model="siret">
+      </label>
+    </div>
+	<!-- CODE APE -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="text" placeholder="Code APE" class="searchPage2" data-ng-model="ape">
+      </label>
+    </div>
+	<!-- N°URSSAF -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="numUssaf">
+      </label>
+    </div>
+
+	<div align="left">
+      <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3>
+    </div>
+
+	<!-- Image uploader -->
+	<div class="list">
+		<label class="item item-input">
+			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> 
+			<input id="image" type="file" class="upload" accept="image/*" ng-click="loadImage()"/>-->
+			<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>
+		</label>
+	</div>
+
+	<!-- ACTIONS -->
+	<div class="buttonConnect">
+      <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur(titre, nom, prenom, entreprise, siret, ape, numUssaf)">Valider</button>
+      <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
+    </div>
+  </ion-content>
+</ion-view>

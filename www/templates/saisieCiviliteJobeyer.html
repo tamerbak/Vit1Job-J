@@ -47,7 +47,6 @@
       </label>
     </div>
 
-	<!-- DATE DE NAISSANCE -->
 	<div align="left">
       <h3 class="titlePhone">Charger un scan de votre CNI</h3>
     </div>
@@ -56,13 +55,13 @@
 	<div class="list">
 		<label class="item item-input">
 			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> -->
-			<input type="file" class="upload" capture="camera" accept="image/*" onchange="angular.element(this).scope().photo(this)" />
+			<input type="file" class="upload" capture="camera" accept="image/*" onchange="" />
 		</label>
 	</div>
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="updateCivilite(titre, nom, prenom, dateNaissance, numSS, nationalite)">Valider</button>
       <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
     </div>
   </ion-content>

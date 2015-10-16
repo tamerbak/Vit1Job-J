@@ -5,7 +5,7 @@
 angular.module('wsConnectors', ['ionic'])
 
   .service('AuthentificatInServer', function ($http){
-    this.pullSessionId=function(){
+    this.getSessionId=function(){
 
       var soapMessage=
         '<fr.protogen.connector.model.AmanToken>'+
@@ -79,9 +79,9 @@ angular.module('wsConnectors', ['ionic'])
     })
 
   .service('PersistInServer', function ($http){
-    this.pullSessionId=function(
-		id, nom, prenom, cin, description, lambert, ville, zipCode, adress1, adress2,
-		civilite, birthDate, numSS, nationalite, phone, email, password){
+    this.persistInSalarie=function(
+		nom, prenom, cin, description, lambert, ville, zipCode, adress1, adress2,
+		civilite, birthDate, numSS, nationalite, phone, email, password, sessionID){
 
       var soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
@@ -94,7 +94,7 @@ angular.module('wsConnectors', ['ionic'])
 							'<label>&lt;![CDATA[ID Salarié]]&gt;</label>'+
           					'<attributeReference>pk_user_salarie</attributeReference>'+
           					'<type>PK</type>'+
-          					'<value>&lt;![CDATA['+id+']]&gt;</value>'+
+          					'<value>&lt;![CDATA[]]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
 						'<fr.protogen.connector.model.DataEntry>'+	// Nom
           					'<label>&lt;![CDATA[Nom]]&gt;</label>'+
@@ -204,7 +204,7 @@ angular.module('wsConnectors', ['ionic'])
 			'<password></password>'+
 			'<nom>Jakjoud Abdeslam</nom>'+
 			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>f54bcd23-5ab0-4f9a-a937-59a42505a008</sessionId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
 			'<status>SUCCES</status>'+
 			'<id>206</id>'+
 			'<beanId>0</beanId>'+
@@ -212,12 +212,12 @@ angular.module('wsConnectors', ['ionic'])
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
-			'<operation>GET</operation>'+
+			'<operation>PUT</operation>'+		// INSERTION IN BD
 			'<clauses>'+
 			'<fr.protogen.connector.model.SearchClause>'+
 			'<field>libelle</field>'+
 			'<clause></clause>'+
-			'<gt>jav</gt>'+
+			'<gt></gt>'+
 			'<lt></lt>'+
 			'<type>TEXT</type>'+
 			'</fr.protogen.connector.model.SearchClause>'+
@@ -239,5 +239,675 @@ angular.module('wsConnectors', ['ionic'])
         data: soapMessage
       });
     };
+
+	this.persistInEmployeur=function(
+			nom, prenom, ville, zipCode, civilite, adress1, adress2, phone,
+			email, password, raisonSocial, siret, codeAPE, numUrssaf, cni_ou_rc, sessionID){
+
+      var soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_employeur</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Nom ou raison sociale
+          					'<label>&lt;![CDATA[Nom ou raison sociale]]&gt;</label>'+
+          					'<attributeReference>nom_ou_raison_sociale</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+raisonSocial+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Identifiant fiscal
+          					'<label>&lt;![CDATA[Identifiant fiscal]]&gt;</label>'+
+          					'<attributeReference>identifiant_fiscal</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA[]]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// CNI ou RC
+          					'<label>&lt;![CDATA[CNI ou RC]]&gt;</label>'+
+          					'<attributeReference>cni_ou_rc</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+cni_ou_rc+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Ville
+          					'<label>&lt;![CDATA[Ville]]&gt;</label>'+
+          					'<attributeReference>fk_user_ville</attributeReference>'+
+          					'<type>fk_user_ville</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+ville+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Code postal
+          					'<label>&lt;![CDATA[Code postal]]&gt;</label>'+
+          					'<attributeReference>fk_user_code_postal</attributeReference>'+
+          					'<type>fk_user_code_postal</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+zipCode+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
+          					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
+          					'<attributeReference>adresse_1</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+adress1+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 2
+          					'<label>&lt;![CDATA[Adresse 2]]&gt;</label>'+
+          					'<attributeReference>adresse_2</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+adress2+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Titre CIVILITE
+          					'<label>&lt;![CDATA[Titre]]&gt;</label>'+
+          					'<attributeReference>fk_user_civilite</attributeReference>'+
+          					'<type>fk_user_civilite</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+civilite+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Nom du dirigeant
+          					'<label>&lt;![CDATA[Nom du dirigeant]]&gt;</label>'+
+          					'<attributeReference>nom_du_dirigeant</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+nom+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Prénom du dirigeant
+          					'<label>&lt;![CDATA[Prénom du dirigeant]]&gt;</label>'+
+          					'<attributeReference>prenom_du_dirigeant</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+prenom+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// SIRET
+          					'<label>&lt;![CDATA[SIRET]]&gt;</label>'+
+          					'<attributeReference>siret</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+siret+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Code APE
+          					'<label>&lt;![CDATA[Code APE]]&gt;</label>'+
+          					'<attributeReference>code_ape</attributeReference>'+
+          					'<type>TEXT</type>'+
+         					'<value>&lt;![CDATA['+codeAPE+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Numéro URSSAF
+          					'<label>&lt;![CDATA[Numéro URSSAF]]&gt;</label>'+
+          					'<attributeReference>numero_urssaf</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+numUrssaf+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Téléphone
+          					'<label>&lt;![CDATA[Téléphone]]&gt;</label>'+
+          					'<attributeReference>telephone</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+phone+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Email
+          					'<label>&lt;![CDATA[Email]]&gt;</label>'+
+          					'<attributeReference>email</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+email+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Mot de passe
+          					'<label>&lt;![CDATA[Mot de passe]]&gt;</label>'+
+          					'<attributeReference>mot_de_passe</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+password+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+			'<username></username>'+
+			'<password></password>'+
+			'<nom>Jakjoud Abdeslam</nom>'+
+			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
+			'<status>SUCCES</status>'+
+			'<id>206</id>'+
+			'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>PUT</operation>'+
+			'<clauses>'+
+			'<fr.protogen.connector.model.SearchClause>'+
+			'<field></field>'+
+			'<clause></clause>'+
+			'<gt></gt>'+
+			'<lt></lt>'+
+			'<type>TEXT</type>'+
+			'</fr.protogen.connector.model.SearchClause>'+
+			'</clauses>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };
+
   })
 
+  .service('UpdateInServer', function ($http){
+	  this.updateCiviliteInEmployeur = function(id, civilite, nom, prenom, raisonSocial, siret, codeAPE, numUrssaf, sessionID){
+
+       var soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_employeur</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
+							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
+							'<attributeReference>pk_user_employeur</attributeReference>'+
+							'<type>PK</type>'+
+							'<value>&lt;![CDATA['+id+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Titre CIVILITE
+          					'<label>&lt;![CDATA[Titre]]&gt;</label>'+
+          					'<attributeReference>fk_user_civilite</attributeReference>'+
+          					'<type>fk_user_civilite</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+civilite+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Nom du dirigeant
+          					'<label>&lt;![CDATA[Nom du dirigeant]]&gt;</label>'+
+          					'<attributeReference>nom_du_dirigeant</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+nom+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Prénom du dirigeant
+          					'<label>&lt;![CDATA[Prénom du dirigeant]]&gt;</label>'+
+          					'<attributeReference>prenom_du_dirigeant</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+prenom+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Nom ou raison sociale
+          					'<label>&lt;![CDATA[Nom ou raison sociale]]&gt;</label>'+
+          					'<attributeReference>nom_ou_raison_sociale</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+raisonSocial+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// SIRET
+          					'<label>&lt;![CDATA[SIRET]]&gt;</label>'+
+          					'<attributeReference>siret</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+siret+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Code APE
+          					'<label>&lt;![CDATA[Code APE]]&gt;</label>'+
+          					'<attributeReference>code_ape</attributeReference>'+
+          					'<type>TEXT</type>'+
+         					'<value>&lt;![CDATA['+codeAPE+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Numéro URSSAF
+          					'<label>&lt;![CDATA[Numéro URSSAF]]&gt;</label>'+
+          					'<attributeReference>numero_urssaf</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+numUrssaf+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+			'<username></username>'+
+			'<password></password>'+
+			'<nom>Jakjoud Abdeslam</nom>'+
+			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
+			'<status>SUCCES</status>'+
+			'<id>206</id>'+
+			'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>UPDATE</operation>'+
+			'<clauses>'+
+			'<fr.protogen.connector.model.SearchClause>'+
+			'<field></field>'+
+			'<clause></clause>'+
+			'<gt></gt>'+
+			'<lt></lt>'+
+			'<type>TEXT</type>'+
+			'</fr.protogen.connector.model.SearchClause>'+
+			'</clauses>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };
+
+	this.updateAdressePersEmployeur=function(id, codePostal, ville, adresse1, adresse2, sessionID){
+		var soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_employeur</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
+							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
+							'<attributeReference>pk_user_employeur</attributeReference>'+
+							'<type>PK</type>'+
+							'<value>&lt;![CDATA['+id+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Ville
+          					'<label>&lt;![CDATA[Ville]]&gt;</label>'+
+          					'<attributeReference>fk_user_ville</attributeReference>'+
+          					'<type>fk_user_ville</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+ville+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Code postal
+          					'<label>&lt;![CDATA[Code postal]]&gt;</label>'+
+          					'<attributeReference>fk_user_code_postal</attributeReference>'+
+          					'<type>fk_user_code_postal</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+codePostal+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
+          					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
+          					'<attributeReference>adresse_1</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+adresse1+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 2
+          					'<label>&lt;![CDATA[Adresse 2]]&gt;</label>'+
+          					'<attributeReference>adresse_2</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+adresse2+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+			'<username></username>'+
+			'<password></password>'+
+			'<nom>Jakjoud Abdeslam</nom>'+
+			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
+			'<status>SUCCES</status>'+
+			'<id>206</id>'+
+			'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>UPDATE</operation>'+
+			'<clauses>'+
+			'<fr.protogen.connector.model.SearchClause>'+
+			'<field></field>'+
+			'<clause></clause>'+
+			'<gt></gt>'+
+			'<lt></lt>'+
+			'<type>TEXT</type>'+
+			'</fr.protogen.connector.model.SearchClause>'+
+			'</clauses>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };
+
+	this.updateAdresseTravEmployeur=function(id, codePostal, ville, adresse1, adresse2, sessionID){
+		var soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_employeur</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
+							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
+							'<attributeReference>pk_user_employeur</attributeReference>'+
+							'<type>PK</type>'+
+							'<value>&lt;![CDATA['+id+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Ville
+          					'<label>&lt;![CDATA[Ville]]&gt;</label>'+
+          					'<attributeReference>fk_user_ville</attributeReference>'+
+          					'<type>fk_user_ville</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+ville+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Code postal
+          					'<label>&lt;![CDATA[Code postal]]&gt;</label>'+
+          					'<attributeReference>fk_user_code_postal</attributeReference>'+
+          					'<type>fk_user_code_postal</type>'+
+          					'<list/>'+
+          					'<value>&lt;![CDATA['+codePostal+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
+          					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
+          					'<attributeReference>adresse_1</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+adresse1+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 2
+          					'<label>&lt;![CDATA[Adresse 2]]&gt;</label>'+
+          					'<attributeReference>adresse_2</attributeReference>'+
+          					'<type>TEXT</type>'+
+          					'<value>&lt;![CDATA['+adresse2+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+			'<username></username>'+
+			'<password></password>'+
+			'<nom>Jakjoud Abdeslam</nom>'+
+			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
+			'<status>SUCCES</status>'+
+			'<id>206</id>'+
+			'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>UPDATE</operation>'+
+			'<clauses>'+
+			'<fr.protogen.connector.model.SearchClause>'+
+			'<field></field>'+
+			'<clause></clause>'+
+			'<gt></gt>'+
+			'<lt></lt>'+
+			'<type>TEXT</type>'+
+			'</fr.protogen.connector.model.SearchClause>'+
+			'</clauses>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };
+
+  })
+  
+  .service('LoadList', function ($http){
+	  this.loadListMetiers = function(sessionID){
+		  var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_metier</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				/**
+					'<fr.protogen.connector.model.DataRow>'+
+						'<dataRow>'+
+							'<fr.protogen.connector.model.DataEntry>'+
+          						'<label>&lt;![CDATA[ID Métier]]&gt;</label>'+
+          						'<attributeReference>pk_user_metier</attributeReference>'+
+          						'<type>PK</type>'+
+          						'<value>&lt;![CDATA[40]]&gt;</value>'+
+        					'</fr.protogen.connector.model.DataEntry>'+
+        					'<fr.protogen.connector.model.DataEntry>'+
+          						'<label>&lt;![CDATA[Libellé]]&gt;</label>'+
+          						'<attributeReference>libelle</attributeReference>'+
+          						'<type>TEXT</type>'+
+								'<value>&lt;![CDATA[Restauration]]&gt;</value>'+
+							'</fr.protogen.connector.model.DataEntry>'+
+						'</dataRow>'+
+					'</fr.protogen.connector.model.DataRow>'+
+				'</rows>'+**/
+				'<token>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>5</pages>'+
+				'<nbpages>0</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  };
+	  
+	 this.loadListLangues = function(sessionID){
+		  var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_langue</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>1</pages>'+
+				'<nbpages>1</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  };
+		  
+	  this.loadListJobs = function(sessionID){
+		var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_competence</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>5</pages>'+
+				'<nbpages>0</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  };
+	  
+	 this.loadListIndespensables = function(sessionID){
+		var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_competence_transverse</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>5</pages>'+
+				'<nbpages>0</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  }; 
+	})
+
+  .service('GlobalService', function (){
+	  //this.employeId=0;
+	  var employeId = window.employeId;
+
+	  return {
+		  getEmployeId: function(){
+			  return employeId;
+		  },
+		  setEmployeId: function(id){
+			  employeId = id;
+		  }
+        /**,isConnected: function() {
+            return !!user;
+        }**/
+     };
+	  /** SETTERS
+	  this.setEmployeId=function(id){
+		  this.employeId=id;
+	  }
+
+	  // GETTERS
+	  this.getEmployeId=function(){
+		  return this.employeId;
+	  }**/
+  })
+
+  .factory('LocalStorageService', function(){
+
+	  return{
+		  setItem: function(key, obj){
+			  var objToString = JSON.stringify(obj);
+			  window.localStorage.setItem(key, objToString);
+		  },
+		  getItem: function(key){
+			  var str = window.localStorage.getItem(key);
+			  var stringToJSON = JSON.parse(str);
+			  return stringToJSON;
+		 }
+	  }
+	})
