@@ -12,7 +12,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 	  var isNew=0;
 	  if(isEmpty(phone) || isEmpty(country) || isEmpty(password))
 		  return;
-	  
+
       // CONNEXION AU SERVEUR
       AuthentificatInServer.getSessionId()
         .success(function (response){
@@ -81,6 +81,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 
 								if(employeur.dataModel.status)	// Bind to local storage service
 									$cookieStore.put('employeID', employeur.dataModel.status);
+
 									//$cookies.put('employeID', employeur.dataModel.status);
 									//LocalStorageService.setItem('employeID', employeur.dataModel.status);
 									//GlobalService.setEmployeId=Number(employeur.dataModel.status);

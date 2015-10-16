@@ -2,6 +2,7 @@
  * Created by Omar on 15/10/2015.
  */
 
+
 angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
 
 	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer){
@@ -25,6 +26,7 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
 						// DONNEES ONT ETE SAUVEGARDES
 						console.log("les donnes ont été sauvegarde");
 						console.log("response"+response);
+
 					}).error(function (err){
 						console.log("error : insertion DATA");
 						console.log("error In updateAdressePersEmployeur: "+err);
@@ -33,6 +35,7 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
 			
 			// REDIRECTION VERS PAGE - ADRESSE TRAVAIL
 			$state.go('adresseTravail');
+
 
 		}
 	})

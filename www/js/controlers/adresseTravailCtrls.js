@@ -4,10 +4,13 @@
 
 angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices'])
 
+
 	.controller('adresseTravailCtrl', function ($scope, $cookieStore, $state, UpdateInServer, LoadList){
+
 
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdresseTravEmployeur = function(codePostal, ville, adresse1, adresse2){
+
 
 			// RECUPERATION EMPLOYEUR ID
 			employeId=$cookieStore.get('employeID');
@@ -98,6 +101,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 			// REDIRECTION VERS PAGE - COMPETENCES
 			$state.go('competence');
+
 
 		}
 	})

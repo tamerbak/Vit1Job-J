@@ -2,14 +2,17 @@
  * Created by Omar on 14/10/2015.
  */
 
+
 angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices'])
 
 	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile){
 
 
+
 		$scope.updateCiviliteEmployeur = function(titre, nom, prenom, entreprise, siret, ape, numUssaf){
 
 			// RECUPERATION EMPLOYEUR ID
+
 			employeId=$cookieStore.get('employeID');
 			console.log("$cookieStore.get : "+$cookieStore.get('employeID'));
 			// RECUPERATION SESSION ID
@@ -26,6 +29,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 							// DONNEES ONT ETE SAUVEGARDES
 							console.log("les donnes ont été sauvegarde");
 							console.log("response"+response);
+
 						}).error(function (err){
 							console.log("error : insertion DATA");
 							console.log("error In updateCiviliteInEmployeur: "+err);
@@ -48,5 +52,6 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			console.log("files : "+files);
 			contenu=UploadFile.fileToBase64(f);
 			console.log("contenu : "+contenu);
+
 		}
 	})
