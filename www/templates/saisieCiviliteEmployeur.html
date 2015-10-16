@@ -64,8 +64,9 @@
 	<!-- Image uploader -->
 	<div class="list">
 		<label class="item item-input">
-			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> -->
-			<input type="file" class="upload" capture="camera" accept="image/*" onchange="" />
+			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> 
+			<input id="image" type="file" class="upload" accept="image/*" ng-click="loadImage()"/>-->
+			<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>
 		</label>
 	</div>
 

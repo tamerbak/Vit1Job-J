@@ -2,7 +2,7 @@
  * Created by Tamer on 15/10/2015.
  */
 
-angular.module('competenceCtrls', ['ionic'])
+angular.module('competenceCtrls', ['ionic', 'ngCookies'])
 
   .controller('competenceCtrl', function ($scope) {
     $scope.njobyer = 1;
@@ -10,6 +10,12 @@ angular.module('competenceCtrls', ['ionic'])
     $scope.rangeModel = 0;
     $scope.maitriseIcon = "icon ion-ios-rainy calm";
     $scope.maitrise = "Débutant";
+
+    // RECUPERATION EMPLOYEUR ID
+    employeId=$cookieStore.get('employeID');
+    console.log("$cookieStore.get : "+$cookieStore.get('employeID'));
+    // RECUPERATION SESSION ID
+    sessionId=$cookieStore.get('sessionID');
 
     $scope.rangeChange = function(rangeModel) {
       if (rangeModel <= 25 ){
@@ -51,5 +57,20 @@ angular.module('competenceCtrls', ['ionic'])
       $scope.njobyer = $scope.njobyer + 1;
     }
 
+		$scope.afficheList = function(){
+			// GET LIST
+			metiers=$cookieStore.get('metiers');
+			langues=$cookieStore.get('langues');
+			jobs=$cookieStore.get('jobs');
+			transvers=$cookieStore.get('transvers');
 
+			// AFFICHAGE
+			console.log("metiers : "+metiers);
+			console.log("langues : "+langues);
+			console.log("jobs : "+jobs);
+			console.log("transvers : "+transvers);
+
+			// REDIRECTION VERS RECHERCHE
+			$state.go("search");
+		}
   });

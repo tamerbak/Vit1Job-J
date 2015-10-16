@@ -5,7 +5,7 @@
 angular.module('wsConnectors', ['ionic'])
 
   .service('AuthentificatInServer', function ($http){
-    this.pullSessionId=function(){
+    this.getSessionId=function(){
 
       var soapMessage=
         '<fr.protogen.connector.model.AmanToken>'+
@@ -666,6 +666,210 @@ angular.module('wsConnectors', ['ionic'])
     };
 
   })
+  
+  .service('LoadList', function ($http){
+	  this.loadListMetiers = function(sessionID){
+		  var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_metier</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				/**
+					'<fr.protogen.connector.model.DataRow>'+
+						'<dataRow>'+
+							'<fr.protogen.connector.model.DataEntry>'+
+          						'<label>&lt;![CDATA[ID Métier]]&gt;</label>'+
+          						'<attributeReference>pk_user_metier</attributeReference>'+
+          						'<type>PK</type>'+
+          						'<value>&lt;![CDATA[40]]&gt;</value>'+
+        					'</fr.protogen.connector.model.DataEntry>'+
+        					'<fr.protogen.connector.model.DataEntry>'+
+          						'<label>&lt;![CDATA[Libellé]]&gt;</label>'+
+          						'<attributeReference>libelle</attributeReference>'+
+          						'<type>TEXT</type>'+
+								'<value>&lt;![CDATA[Restauration]]&gt;</value>'+
+							'</fr.protogen.connector.model.DataEntry>'+
+						'</dataRow>'+
+					'</fr.protogen.connector.model.DataRow>'+
+				'</rows>'+**/
+				'<token>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>5</pages>'+
+				'<nbpages>0</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  };
+	  
+	 this.loadListLangues = function(sessionID){
+		  var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_langue</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>1</pages>'+
+				'<nbpages>1</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  };
+		  
+	  this.loadListJobs = function(sessionID){
+		var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_competence</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>5</pages>'+
+				'<nbpages>0</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  };
+	  
+	 this.loadListIndespensables = function(sessionID){
+		var soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_competence_transverse</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses>'+
+				'<fr.protogen.connector.model.SearchClause>'+
+				'<field></field>'+
+				'<clause></clause>'+
+				'<gt></gt>'+
+				'<lt></lt>'+
+				'<type>TEXT</type>'+
+				'</fr.protogen.connector.model.SearchClause>'+
+				'</clauses>'+
+				'<page>1</page>'+
+				'<pages>5</pages>'+
+				'<nbpages>0</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  }; 
+	})
 
   .service('GlobalService', function (){
 	  //this.employeId=0;

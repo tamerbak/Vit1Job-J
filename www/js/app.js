@@ -11,7 +11,7 @@ var myCity = 'Paris';
 angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
                 'connectionCtrls', 'cPhoneCtrls','saisieCiviliteEmployeurCtrls','adresseTravailCtrls',
                 'competenceCtrls', 'adressePersonelCtrls',
-                'wsConnectors', 'parsingServices',
+                'wsConnectors', 'parsingServices', 'fileServices',
                 'ng-mfb', 'cb.x2js', 'ngOpenFB'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
@@ -188,3 +188,6 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
 }, true);*/
 
 
+function isEmpty(str) {
+	return (!str || 0 === str.length);
+}
