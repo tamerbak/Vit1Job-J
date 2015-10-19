@@ -66,13 +66,17 @@
 		<label class="item item-input">
 			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> 
 			<input id="image" type="file" class="upload" accept="image/*" ng-click="loadImage()"/>-->
-			<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>
+			<!--<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>-->
+			<form>
+				<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>
+				<!--<input type="file" class="upload" ng-model="myfile"/>-->
+			</form>
 		</label>
 	</div>
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur(titre, nom, prenom, entreprise, siret, ape, numUssaf)">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur(titre, nom, prenom, entreprise, siret, ape, numUssaf, myfile)">Valider</button>
       <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
     </div>
   </ion-content>

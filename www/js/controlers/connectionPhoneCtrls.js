@@ -7,6 +7,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 
   .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer, GlobalService, LocalStorageService){
 
+	$scope.country="France";
     $scope.connexionByPhone = function(phone, country, password){
 
 	  var isNew=0;

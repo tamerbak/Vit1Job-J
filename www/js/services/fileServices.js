@@ -47,20 +47,22 @@ angular.module('fileServices', ['ionic', 'cb.x2js'])
 		});
 	  }
 	  
-		this.fileToBase64=function(file){
-			result='';
+	this.fileToBase64=function(file){
+		result='';
 			
-			if(file){
-				var reader = new FileReader();
+		if(file){
+			var reader = new FileReader();
 				
-				console.log("reader : "+reader);
-				reader.onload = function(readerEvt) {
-					var binaryString = readerEvt.target.result;
-					result=btoa(binaryString);
-				};
+			console.log("reader : "+reader);
+			reader.onload = function(readerEvt) {
+				var binaryString = readerEvt.target.result;
+				result=btoa(binaryString);
+			};
 				
-				reader.readAsBinaryString(file);
-			}
-			return result;
+			reader.readAsBinaryString(file);
 		}
+		return result;
+	}
+	
+
   })

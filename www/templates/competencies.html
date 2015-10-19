@@ -16,18 +16,22 @@
 
         </div>
     </div-->
-
-    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{njobyer}}</b></h3>
-    <div  class="divButton" style="display: inline-block" align="center" >
+	<a class="button icon-left ion-chevron-left button-clear" data-ng-click="loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></a>
+	<div  class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
+      <span style="vertical-align: middle !important;">-</span>
+    </div>
+    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{formData.jobyerCurrentIndice}}/{{jobyers.length+1}}</b></h3>
+    <div  class="divButton" style="display: inline-block" align="center" data-ng-click="addJobyer()">
       <span style="vertical-align: middle !important;">+</span>
     </div>
-
+	<a class="button icon-right ion-chevron-right button-clear" data-ng-click="loadNextJobyer()" data-ng-disabled="formData.showButtRight"></a>
+	
     <br><br>
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat" >
-          <option selected disabled>Métier</option>
+        <select class="flat" data-ng-model="formData.metier" >
+          <option selected disabled style="display: none;">Métier</option>
           <option>Restauration</option>
           <option >Hotelerie</option>
           <option>Informatique</option>
@@ -35,29 +39,30 @@
       </label>
     </div>
 
-    <div class="list">
+     <div class="list">
       <label class="item item-input">
-        <select class="flat" >
-          <option selected disabled>Job</option>
+        <select class="flat" data-ng-model="formData.job">
+          <option selected disabled style="display: none;">Job</option>
           <option>Serveur</option>
           <option>Chef cuisinier</option>
           <option>Barista</option>
         </select>
       </label>
-    </div>
+    </div> 
+
 
     <div class="list">
       <div class="item range range-calm">
         <i class="icon ion-ios-sunny-outline"></i>
-        <input type="range" name="volume" min="0" max="100" value="33">
+        <input type="range" name="volume" min="0" max="100" value="33" data-ng-model="formData.degre">
         <i class="icon ion-ios-sunny"></i>
       </div>
     </div>
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat">
-          <option selected disabled>Les indispensables</option>
+        <select class="flat" data-ng-model="formData.indisp">
+          <option selected disabled style="display: none;">Les indispensables</option>
           <option>Sérieux</option>
           <option>Dyamique</option>
           <option>Souriant</option>
@@ -67,8 +72,8 @@
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat">
-          <option selected disabled>Langue</option>
+        <select class="flat" data-ng-model="formData.langue">
+          <option selected disabled style="display: none;">Langue</option>
           <option>Français</option>
           <option>Anglais</option>
           <option>Italien</option>
@@ -79,7 +84,7 @@
     <br>
     <!-- ACTIONS -->
     <div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="afficheList()">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="saveJobyers()">Valider</button>
     </div>
   </ion-content>
 </ion-view>

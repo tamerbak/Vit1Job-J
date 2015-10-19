@@ -172,6 +172,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js'])
       navigator.app.exitApp();
     };
 
+	/**
     $scope.showPopup = function(){
       var myPopup = $ionicPopup.show({
         template: "Adresse de travail est identique à l'adresse du siège social ? <br>",
@@ -197,6 +198,6 @@ angular.module('homeCtrls', ['ionic','cb.x2js'])
       //$timeout(function() {
       //  myPopup.close(); //close the popup after 3 seconds for some reason
       //}, 3000);
-    };
+    };**/
 
   });

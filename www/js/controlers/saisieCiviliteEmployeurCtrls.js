@@ -3,14 +3,14 @@
  */
 
 
-angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices'])
+angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64'])
 
-	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile){
-
-
+	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64){
 
 		$scope.updateCiviliteEmployeur = function(titre, nom, prenom, entreprise, siret, ape, numUssaf){
 
+			//console.log("$scope.myfile : "+myfile);
+			//return;
 			// RECUPERATION EMPLOYEUR ID
 
 			employeId=$cookieStore.get('employeID');
@@ -41,6 +41,8 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 		}
 		
 		$scope.loadImage=function(files){
+			
+			console.log("$base64.encode : "+$base64.encode(files[0]));
 			/**console.log("contenu : "+document.getElementById('image').files);**/
 			//var f = document.getElementById('image').files[0],
 			var f = files[0];
@@ -49,9 +51,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 				console.log(fd+" : "+f[fd]);
 			}
 			
-			console.log("files : "+files);
-			contenu=UploadFile.fileToBase64(f);
-			console.log("contenu : "+contenu);
-
+			document.getElementById("image").value = "";
 		}
+		
 	})

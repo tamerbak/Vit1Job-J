@@ -36,6 +36,6 @@ button.button-icon.round-overlay-button {
 }
 
 .divButton :hover {
-  background-color: white;
+  /**background-color: white;**/
   cursor: pointer;
 }
