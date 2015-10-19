@@ -4,7 +4,7 @@
 
 angular.module('competenceCtrls', ['ionic', 'ngCookies'])
 
-  .controller('competenceCtrl', function ($scope) {
+  .controller('competenceCtrl', function ($scope, $cookieStore) {
     $scope.njobyer = 1;
     //$scope.rangeValue = 0;
     $scope.rangeModel = 0;
