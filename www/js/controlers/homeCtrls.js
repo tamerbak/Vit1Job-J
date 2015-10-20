@@ -1,7 +1,7 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-angular.module('homeCtrls', ['ionic','cb.x2js'])
+angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
 
   .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $timeout) {
 
@@ -36,6 +36,8 @@ angular.module('homeCtrls', ['ionic','cb.x2js'])
             jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
             jsonResp = JSON.parse(jsonText);
 
+           // var jsonResp = parsingService.formatString.formatServerResult(response.data);
+
             //Check if there are rows!
 
             //var rowsCount = jsonResp.dataModel.rows.dataRow.length;
@@ -54,6 +56,8 @@ angular.module('homeCtrls', ['ionic','cb.x2js'])
                 jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
                 jsonResp = JSON.parse(jsonText);
 
+                //jsonResp = parsingService.formatString.formatServerResult(response.data);
+
                 //jsonResp.dataModel.rows.dataRow[0].dataRow.dataEntry[1].value
                 var prenom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[1].value;
                 var nom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[2].value;
@@ -68,6 +72,9 @@ angular.module('homeCtrls', ['ionic','cb.x2js'])
                 idVille = idVille.replace("]]>",'');
 
                 for (j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
+                  jsonText = JSON.stringify (jsonResp);
+                  jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
+                  jsonResp = JSON.parse(jsonText);
                   if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
                     break;
                 }

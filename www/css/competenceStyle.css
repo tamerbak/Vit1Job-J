@@ -39,3 +39,7 @@ button.button-icon.round-overlay-button {
   /**background-color: white;**/
   cursor: pointer;
 }
+
+.item.range.range-calm.range {
+  border-color: white;
+}

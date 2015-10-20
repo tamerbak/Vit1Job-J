@@ -3,7 +3,7 @@
     <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="app">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <!--<h1 class="title">Connexion</h1>-->
-    <a class="button icon-right ion-home button-clear button-dark" ui-sref="app">  </a>
+    <a class="button icon-right ion-home button-clear button-dark" ui-sref="search">  </a>
   </ion-header-bar>
   <ion-content padding="true">
 	<!-- Title -->
@@ -18,13 +18,15 @@
         <input type="text" placeholder="+33" data-ng-model="phone">
       </label>
 	</div>
+
 	<!-- PAYS -->
 	<div class="list">
 	  <label class="item item-input">
-        <select class="flat" placeholder="France" data-ng-model="country">
-			<option>Maroc</option>
-			<option selected>France</option>
-			<option>Italie</option>
+        <select class="flat"  data-ng-model="country">
+          <option selected disabled>Pays</option>
+          <option>Maroc</option>
+          <option >France</option>
+          <option>Italie</option>
 		</select>
       </label>
 	</div>
