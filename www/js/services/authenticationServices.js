@@ -471,7 +471,7 @@ angular.module('wsConnectors', ['ionic'])
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
-			'<operation>UPDATE</operation>'+
+			'<operation>PUT</operation>'+
 			'<clauses>'+
 			'<fr.protogen.connector.model.SearchClause>'+
 			'<field></field>'+
@@ -555,7 +555,7 @@ angular.module('wsConnectors', ['ionic'])
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
-			'<operation>UPDATE</operation>'+
+			'<operation>PUT</operation>'+
 			'<clauses>'+
 			'<fr.protogen.connector.model.SearchClause>'+
 			'<field></field>'+
@@ -638,7 +638,7 @@ angular.module('wsConnectors', ['ionic'])
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
-			'<operation>UPDATE</operation>'+
+			'<operation>PUT</operation>'+
 			'<clauses>'+
 			'<fr.protogen.connector.model.SearchClause>'+
 			'<field></field>'+
@@ -666,7 +666,7 @@ angular.module('wsConnectors', ['ionic'])
     };
 
   })
-  
+
   .service('LoadList', function ($http){
 	  this.loadListMetiers = function(sessionID){
 		  var soapMessage=
@@ -731,7 +731,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-	  
+
 	 this.loadListLangues = function(sessionID){
 		  var soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -777,7 +777,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-		  
+
 	  this.loadListJobs = function(sessionID){
 		var soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -823,7 +823,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-	  
+
 	 this.loadListIndespensables = function(sessionID){
 		var soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -868,7 +868,7 @@ angular.module('wsConnectors', ['ionic'])
 			},
 			data: soapMessage
 		});
-	  }; 
+	  };
 	})
 
   .service('GlobalService', function (){

@@ -231,4 +231,9 @@ input[type="text"], input[type="email"], input[type="password"]{
 	color: #757575;
 }
 
+.button.icon-right:before {
+  padding-right: 5%;
+  margin-left: -10%;
+}
+
 

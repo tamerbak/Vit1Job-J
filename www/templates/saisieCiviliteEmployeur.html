@@ -1,15 +1,15 @@
 <ion-view title="connection">
   <ion-header-bar class="bar-calm">
-    <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="app">  </a>
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="connection">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
-    <a class="button icon-right ion-home button-clear button-dark" ui-sref="app">  </a>
+    <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
   <ion-content padding="true">
 	<!-- Title -->
     <div>
       <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
     </div>
-	
+
 	<!-- TITRE -->
 	<div class="list">
 	  <label class="item item-input">
@@ -64,7 +64,7 @@
 	<!-- Image uploader -->
 	<div class="list">
 		<label class="item item-input">
-			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> 
+			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button>
 			<input id="image" type="file" class="upload" accept="image/*" ng-click="loadImage()"/>-->
 			<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>
 		</label>
@@ -73,7 +73,7 @@
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
       <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur(titre, nom, prenom, entreprise, siret, ape, numUssaf)">Valider</button>
-      <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
+      <button class="button button-full button-positive grey icon-right ion-chevron-right" ui-sref="adressePersonel">Passer</button>
     </div>
   </ion-content>
 </ion-view>

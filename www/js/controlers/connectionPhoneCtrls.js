@@ -27,13 +27,16 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
           console.log("sessionId : "+sessionId);
           console.log("phone : "+phone);
 		  $cookieStore.put('sessionID', sessionId);
-		  
+
           // INTERROGE PHONE_TABLE
           PullDataFromServer.pullDATA("user_employeur", sessionId, "mot_de_passe", phone, phone)
             .success(function (resp){
               data=formatString.formatServerResult(resp);
               console.log(resp);
 
+              //TEL : bug, sometimes data remain not clean..
+              if (data.dataModel == "undefined")
+                data=formatString.formatServerResult(resp);
               result=data.dataModel.rows;
               if(typeof result === 'undefined' || result.length<0 || result===""){
 				  console.log('Aucune résultat trouvé');
