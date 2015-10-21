@@ -31,4 +31,19 @@ angular.module('globalServices', ['ionic', 'cb.x2js'])
 			 ]
 		 });
 	  }
+	  
+	  this.showAlertPassword=function(temp){
+		  
+		  var myPopup = $ionicPopup.show({
+			  
+			  template: temp+" <br>",
+			  title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+			  //scope: $scope,
+			  buttons: [{
+							text: '<b>OK</b>',
+							type: 'button-dark',
+							onTap: function(e){}
+						}]
+		  });
+	   }
   })

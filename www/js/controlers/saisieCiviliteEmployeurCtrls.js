@@ -34,7 +34,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			//if (1==2) {
 				// UPDATE EMPLOYEUR
 				UpdateInServer.updateCiviliteInEmployeur(
-					employeId, titre, nom, prenom, entreprise, siret, ape, numUssaf, sessionId)
+					Number(employeId), Number(titre), nom, prenom, entreprise, siret, ape, numUssaf, sessionId)
 						.success(function (response){
 
 							// DONNEES ONT ETE SAUVEGARDES

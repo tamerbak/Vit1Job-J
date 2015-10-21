@@ -11,31 +11,34 @@
       <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
     </div>
 
+	<!-- PAYS -->
+	<div class="list">
+	  <label class="item item-input">
+        <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='Pays'" data-ng-change="loadCodeInter()">
+          <option selected disabled style="display: none;">Pays</option>
+		  <option value="1">Maroc</option>
+		  <option value="2">France</option>
+		  <option value="3">USA</option>
+
+          <!--<option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>-->
+		</select>
+      </label>
+	</div>
 	<!-- TELEPHONE -->
 	<div class="list">
       <label class="item item-input">
         <i class="icon ion-ios-telephone placeholder-icon"></i>
-        <input type="text" placeholder="+33" data-ng-model="formData.phone" data-ng-init="formData.phone='+33'">
+        <input type="text" data-ng-model="formData.phone" data-ng-init="formData.phone='+33 '">
       </label>
 	</div>
-
-	<!-- PAYS -->
-	<div class="list">
-	  <label class="item item-input">
-        <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='Villes'">
-          <option selected disabled style="display: none;">Villes</option>
-          <option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>
-		</select>
-      </label>
-	</div>
-	  <br>
+	
 	<!-- PASSWORD -->
 	<div class="list">
 	  <label class="item item-input">
         <input type="text" placeholder="Mot de passe" data-ng-model="formData.password">
       </label>
     </div>
-
+	<br>
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
       <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Connecter</button>

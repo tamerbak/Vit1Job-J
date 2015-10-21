@@ -25,9 +25,9 @@
     </div>
 
 
-      <div class="row">
-        <button class="button button-full button-positive green"  ui-sref="connection" >
-          Connexion
+      <div class="row" data-ng-init="initConnexion()">
+        <button class="button button-full button-positive green" data-ng-click="modeConnexion()">
+          {{ formData.connexion.libelle }}
         </button>
       </div>
     <!--<div class="row">ui-sref="connection" ng-click="showPopup()"

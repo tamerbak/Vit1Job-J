@@ -453,14 +453,14 @@ angular.module('wsConnectors', ['ionic'])
 							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
 							'<attributeReference>pk_user_employeur</attributeReference>'+
 							'<type>PK</type>'+
-							'<value>&lt;![CDATA['+id+']]&gt;</value>'+
+							'<value>'+id+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Titre CIVILITE
           					'<label>&lt;![CDATA[Titre]]&gt;</label>'+
           					'<attributeReference>fk_user_civilite</attributeReference>'+
           					'<type>fk_user_civilite</type>'+
           					'<list/>'+
-          					'<value>&lt;![CDATA['+civilite+']]&gt;</value>'+
+          					'<value>'+civilite+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Nom du dirigeant
           					'<label>&lt;![CDATA[Nom du dirigeant]]&gt;</label>'+
@@ -501,26 +501,26 @@ angular.module('wsConnectors', ['ionic'])
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
-			'<token>'+
-				'<username></username>'+
-				'<password></password>'+
-				'<nom>Jakjoud Abdeslam</nom>'+
-				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-				'<sessionId>'+sessionID+'</sessionId>'+
-				'<status>SUCCES</status>'+
-				'<id>206</id>'+
-				'<beanId>0</beanId>'+
-			'</token>'+
-			'<expired></expired>'+
-			'<unrecognized></unrecognized>'+
-			'<status></status>'+
-			'<operation>UPDATE</operation>'+
-			'<clauses/>'+
-			'<page>1</page>'+
-			'<pages>5</pages>'+
-			'<nbpages>0</nbpages>'+
-			'<iddriver>0</iddriver>'+
-			'<ignoreList></ignoreList>'+
+			"<token>" +
+                "<username></username>" +
+				"<password></password>" +
+				"<nom>Jakjoud Abdeslam</nom>" +
+				"<appId>FRZ48GAR4561FGD456T4E</appId>" +
+				"<sessionId>" + sessionID + "</sessionId>" +
+				"<status>SUCCES</status>" +
+				"<id>206</id>" +
+				"<beanId>0</beanId>" +
+			"</token>" +
+			"<expired></expired>" +
+			"<unrecognized></unrecognized>" +
+			"<status></status>" +
+			"<operation>UPDATE</operation>" +
+			"<clauses/>" +
+			"<page>1</page>" +
+			"<pages>5</pages>" +
+			"<nbpages>0</nbpages>" +
+			"<iddriver>0</iddriver>" +
+			"<ignoreList></ignoreList>" +
 		'</fr.protogen.connector.model.DataModel>';
 
 
@@ -630,21 +630,21 @@ angular.module('wsConnectors', ['ionic'])
 							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
 							'<attributeReference>pk_user_employeur</attributeReference>'+
 							'<type>PK</type>'+
-							'<value>&lt;![CDATA['+id+']]&gt;</value>'+
+							'<value>'+id+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Ville
           					'<label>&lt;![CDATA[Ville]]&gt;</label>'+
           					'<attributeReference>fk_user_ville</attributeReference>'+
           					'<type>fk_user_ville</type>'+
           					'<list/>'+
-          					'<value>&lt;![CDATA['+ville+']]&gt;</value>'+
+          					'<value>'+ville+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Code postal
           					'<label>&lt;![CDATA[Code postal]]&gt;</label>'+
           					'<attributeReference>fk_user_code_postal</attributeReference>'+
           					'<type>fk_user_code_postal</type>'+
           					'<list/>'+
-          					'<value>&lt;![CDATA['+codePostal+']]&gt;</value>'+
+          					'<value>'+Number(codePostal)+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
           					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+

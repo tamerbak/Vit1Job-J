@@ -3,14 +3,13 @@
  */
 
 
-angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies'])
+angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices'])
 
-  .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer, LoadList){
+  .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, 
+				formatString, PersistInServer, LoadList, Global){
 
 	  // FORMULAIRE
 	  $scope.formData = {};
-
-	  $scope.country="France";
 	  
 	  $scope.connexionByPhone = function(){
 		  
@@ -41,7 +40,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 		  $cookieStore.put('sessionID', sessionId);
 		  
           // INTERROGE PHONE_TABLE
-          PullDataFromServer.pullDATA("user_employeur", sessionId, "mot_de_passe", phone, phone)
+          PullDataFromServer.pullDATA("user_employeur", sessionId, "telephone", phone, phone)
             .success(function (resp){
               data=formatString.formatServerResult(resp);
 
@@ -58,19 +57,25 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 
 					for(var i=0; i<listEntry.length; i++){
 						var object=listEntry[i];
-
-						for(var property in object) {
-							if(property === 'attributeReference'){
-								if(object[property] === password){
-									// USER REEL - REDIRECTION VERS RECHERCHE
-									$state.go("search");
-								}
-								else
-									isNew=1;
+						console.log("object : "+JSON.stringify(object));
+						
+						if(object.attributeReference === 'mot_de_passe'){
+							pass=object.value;
+							console.log("Mot de pass: "+pass);
+							if(pass === password){
+								connexion={'etat': true, 'libelle': 'Déconnexion'};
+								$cookieStore.put('connexion', connexion);
+								
+								// USER REEL - REDIRECTION VERS RECHERCHE
+								$state.go("search");
 							}
+							else					// MOT DE PASSE INCORRECT
+								Global.showAlertPassword("Mot de pass Incorrect");
+								//console.log("Mot de pass Incorrect");
 						}
 					}
 			  }
+			//return;
 
 			  console.log("isNew : "+isNew);
 			  if(isNew === 1){
@@ -85,7 +90,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 								// RECUPERATION EMPLOYEUR ID
 								employeur=formatString.formatServerResult(response);
 
-								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILLURE')	// BIND IN COOKIES
+								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILURE')	// BIND IN COOKIES
 									$cookieStore.put('employeID', employeur.dataModel.status);
 									
 								// LOAD LIST CIVILITES
@@ -146,5 +151,17 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 			// GET LIST
 			$scope.formData={
 				'villes': $cookieStore.get('villes')};
+		}
+  
+		$scope.loadCodeInter=function(){
+			code=$scope.formData.country;
+			if(code==1)
+				$scope.formData.phone="+212 ";
+			else if(code==2)
+				$scope.formData.phone="+33 ";
+			else if(code==3)
+				$scope.formData.phone="+1 ";
+			else
+				$scope.formData.phone="+00 ";
 		}
   })
