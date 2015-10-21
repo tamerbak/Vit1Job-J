@@ -4,7 +4,7 @@
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
-  <ion-content padding="true">
+  <ion-content padding="true" data-ng-init="initForm()">
     <!-- Title -->
     <!--div class="row">
         <div class="col alignright">
@@ -20,7 +20,7 @@
 	<div  class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
       <span style="vertical-align: middle !important;">-</span>
     </div>
-    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{formData.jobyerCurrentIndice}}/{{jobyers.length+1}}</b></h3>
+    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{formData.jobyerCurrentIndice}}/{{jobyers.length}}</b></h3>
     <div  class="divButton" style="display: inline-block" align="center" data-ng-click="addJobyer()">
       <span style="vertical-align: middle !important;">+</span>
     </div>
@@ -30,22 +30,18 @@
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat" data-ng-model="formData.metier" >
+        <select class="flat" data-ng-model="formData.metier" data-ng-init="formData.metier='Métier'">
           <option selected disabled style="display: none;">Métier</option>
-          <option>Restauration</option>
-          <option >Hotelerie</option>
-          <option>Informatique</option>
+		  <option data-ng-repeat="x in formData.metiers" value="{{x.pk_user_metier}}">{{x.libelle}}</option>
         </select>
       </label>
     </div>
 
      <div class="list">
       <label class="item item-input">
-        <select class="flat" data-ng-model="formData.job">
+        <select class="flat" data-ng-model="formData.job" data-ng-init="formData.job='Job'">
           <option selected disabled style="display: none;">Job</option>
-          <option>Serveur</option>
-          <option>Chef cuisinier</option>
-          <option>Barista</option>
+          <option data-ng-repeat="x in formData.jobs" value="{{x.pk_user_competence}}">{{x.libelle}}</option>
         </select>
       </label>
     </div> 
@@ -54,29 +50,25 @@
     <div class="list">
       <div class="item range range-calm">
         <i class="icon ion-ios-sunny-outline"></i>
-        <input type="range" name="volume" min="0" max="100" value="33" data-ng-model="formData.degre">
+        <input type="range" name="volume" min="0" max="100" data-ng-model="formData.degre" data-ng-init="formData.degre=10" data-ng-change="rangeChange()">
         <i class="icon ion-ios-sunny"></i>
       </div>
     </div>
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat" data-ng-model="formData.indisp">
+        <select class="flat" data-ng-model="formData.indisp" data-ng-init="formData.indisp='Les indispensables'">
           <option selected disabled style="display: none;">Les indispensables</option>
-          <option>Sérieux</option>
-          <option>Dyamique</option>
-          <option>Souriant</option>
+          <option data-ng-repeat="x in formData.transvers" value="{{x.pk_user_competence_transverse}}">{{x.libelle}}</option>
         </select>
       </label>
     </div>
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat" data-ng-model="formData.langue">
+        <select class="flat" data-ng-model="formData.langue" data-ng-init="formData.langue='Langue'">
           <option selected disabled style="display: none;">Langue</option>
-          <option>Français</option>
-          <option>Anglais</option>
-          <option>Italien</option>
+          <option data-ng-repeat="x in formData.langues" value="{{x.pk_user_langue}}">{{x.libelle}}</option>
         </select>
       </label>
     </div>
@@ -84,7 +76,7 @@
     <br>
     <!-- ACTIONS -->
     <div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="saveJobyers()">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="afficheList()">Valider</button>
     </div>
   </ion-content>
 </ion-view>

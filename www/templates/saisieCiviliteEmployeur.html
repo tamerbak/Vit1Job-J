@@ -4,7 +4,7 @@
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-dark" ui-sref="app">  </a>
   </ion-header-bar>
-  <ion-content padding="true">
+  <ion-content padding="true" data-ng-init="initForm()">
 	<!-- Title -->
     <div>
       <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
@@ -13,47 +13,46 @@
 	<!-- TITRE -->
 	<div class="list">
 	  <label class="item item-input">
-        <select class="flat" data-ng-model="titre">
-			<option value="1" selected>Monsieur</option>
-			<option value="2">Madame</option>
-			<option value="3">Mademoiselle</option>
+        <select class="flat" data-ng-model="formData.titre" data-ng-init="formData.titre='Titre Civilité'">
+			<option value="1" selected disabled style="display: none;">Titre Civilité</option>
+			<option data-ng-repeat="x in formData.civilites" value="{{x.pk_user_civilite}}">{{x.libelle}}</option>
 		</select>
       </label>
 	</div>
 	<!-- NOM -->
 	<div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="nom">
+        <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="formData.nom">
       </label>
 	</div>
 	<!-- PRENOM -->
 	<div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="prenom">
+        <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="formData.prenom">
       </label>
 	</div>
 	<!-- NOM ENTREPRISE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Nom entreprise" class="searchPage2" data-ng-model="entreprise">
+        <input type="text" placeholder="Nom entreprise" class="searchPage2" data-ng-model="formData.entreprise">
       </label>
     </div>
 	<!-- SIRET -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="SIRET" class="searchPage2" data-ng-model="siret">
+        <input type="text" placeholder="SIRET" class="searchPage2" data-ng-model="formData.siret">
       </label>
     </div>
 	<!-- CODE APE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Code APE" class="searchPage2" data-ng-model="ape">
+        <input type="text" placeholder="Code APE" class="searchPage2" data-ng-model="formData.ape">
       </label>
     </div>
 	<!-- N°URSSAF -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="numUssaf">
+        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="formData.numUssaf">
       </label>
     </div>
 
@@ -67,16 +66,14 @@
 			<!--<button class="button button-positive green" data-ng-click="">Parcourir...</button> 
 			<input id="image" type="file" class="upload" accept="image/*" ng-click="loadImage()"/>-->
 			<!--<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>-->
-			<form>
-				<input id="image" type="file" class="upload" onchange="angular.element(this).scope().loadImage(this.files)"/>
+				<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">
 				<!--<input type="file" class="upload" ng-model="myfile"/>-->
-			</form>
 		</label>
 	</div>
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur(titre, nom, prenom, entreprise, siret, ape, numUssaf, myfile)">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur()">Valider</button>
       <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
     </div>
   </ion-content>

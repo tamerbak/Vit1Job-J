@@ -5,41 +5,50 @@
 
 angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies'])
 
-  .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer, GlobalService, LocalStorageService){
+  .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer, LoadList){
 
-	$scope.country="France";
-    $scope.connexionByPhone = function(phone, country, password){
+	  // FORMULAIRE
+	  $scope.formData = {};
 
-	  var isNew=0;
-	  if(isEmpty(phone) || isEmpty(country) || isEmpty(password))
-		  return;
+	  $scope.country="France";
+	  
+	  $scope.connexionByPhone = function(){
+		  
+		for(var obj in $scope.formData){
+			console.log("formData["+obj+"] : "+$scope.formData[obj]);
+		}
+		
+		phone=$scope.formData.phone;
+		country=$scope.formData.country;
+		password=$scope.formData.password;
 
-      // CONNEXION AU SERVEUR
-      AuthentificatInServer.getSessionId()
-        .success(function (response){
+		var isNew=0;
+		if(isEmpty(phone) || isEmpty(country) || isEmpty(password))
+			return;
+
+		// CONNEXION AU SERVEUR
+		AuthentificatInServer.getSessionId()
+			.success(function (response){
 
           var jsonResp = x2js.xml_str2json(response);
           var jsonText = JSON.stringify (jsonResp);
           jsonText = jsonText.replace("fr.protogen.connector.model.AmanToken","amanToken");
           jsonResp = JSON.parse(jsonText);
 
-          // GET SESSION ID
+          // PUT SESSION ID
           sessionId = jsonResp.amanToken.sessionId;
           console.log("sessionId : "+sessionId);
-          console.log("phone : "+phone);
 		  $cookieStore.put('sessionID', sessionId);
 		  
           // INTERROGE PHONE_TABLE
           PullDataFromServer.pullDATA("user_employeur", sessionId, "mot_de_passe", phone, phone)
             .success(function (resp){
               data=formatString.formatServerResult(resp);
-              console.log(resp);
 
               result=data.dataModel.rows;
               if(typeof result === 'undefined' || result.length<0 || result===""){
 				  console.log('Aucune résultat trouvé');
 				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
-				  //$state.go("saisieCivilite");
 				  isNew=1;
 			  }
 			  else{
@@ -50,7 +59,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 					for(var i=0; i<listEntry.length; i++){
 						var object=listEntry[i];
 
-						for (var property in object) {
+						for(var property in object) {
 							if(property === 'attributeReference'){
 								if(object[property] === password){
 									// USER REEL - REDIRECTION VERS RECHERCHE
@@ -60,15 +69,11 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 									isNew=1;
 							}
 						}
-						//console.log(object);
 					}
 			  }
 
 			  console.log("isNew : "+isNew);
 			  if(isNew === 1){
-				  // ID EMPLOYEUR
-				  //GlobalService.setEmployeId=0;
-
 				  // SYSTEME VERIFICATION TEL
 
 				  // PERSIST IN BD - EMPLOYEUR
@@ -80,21 +85,53 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 								// RECUPERATION EMPLOYEUR ID
 								employeur=formatString.formatServerResult(response);
 
-								if(employeur.dataModel.status)	// Bind to local storage service
+								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILLURE')	// BIND IN COOKIES
 									$cookieStore.put('employeID', employeur.dataModel.status);
+									
+								// LOAD LIST CIVILITES
+								civilites=$cookieStore.get('civilites');
+								if(!civilites){	
+									LoadList.loadListCivilites(sessionId)
+										.success(function (response){
+											resp=formatString.formatServerResult(response);
+											// DONNEES ONT ETE CHARGES
+											console.log("les civilites ont été bien chargé");
+											civiliteObjects=resp.dataModel.rows.dataRow;
+											console.log("civiliteObjects : "+JSON.stringify(civiliteObjects));
+											
+											// GET CIVILITES
+											civilites=[];
+											civilite={}; // civilite.libelle | civilite.id
 
-									//$cookies.put('employeID', employeur.dataModel.status);
-									//LocalStorageService.setItem('employeID', employeur.dataModel.status);
-									//GlobalService.setEmployeId=Number(employeur.dataModel.status);
-
-								console.log("ID EMPLOYEUR : "+GlobalService.setEmployeId);
-								// PASSWORD INCORRECT - REDIRECTION
+											civilitesList=[].concat(civiliteObjects);
+											for(var i=0; i<civilitesList.length; i++){
+												object=civilitesList[i].dataRow.dataEntry;
+							
+												// PARCOURIR LIST PROPERTIES
+												civilite[object[0].attributeReference]=object[0].value;
+												civilite[object[1].attributeReference]=object[1].value;
+							
+												if(civilite)
+													civilites.push(civilite);
+												civilite={}
+											}
+						
+											console.log("civilites.length : "+civilites.length);
+											// PUT IN SESSION
+											$cookieStore.put('civilites', civilites);
+										}).error(function (err){
+											console.log("error : LOAD DATA");
+											console.log("error in loadListCivilites : "+err);
+										});
+								}
+								
+								// PASSWORD INCORRECT - INSCRIPTION L2
 								$state.go("saisieCiviliteEmployeur");
 							}).error(function (err){
 								console.log("error : insertion DATA");
 								console.log("error : "+err);
 							});
-			  }
+			  }			
             }).error(function (err){
               console.log("error : récuperation DATA");
               console.log("error : "+err);
@@ -103,5 +140,11 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
         .error(function (data){
           console.log("error : récuperation JSessionId");
         });
-    }
+     }
+  
+		$scope.initForm=function(){
+			// GET LIST
+			$scope.formData={
+				'villes': $cookieStore.get('villes')};
+		}
   })

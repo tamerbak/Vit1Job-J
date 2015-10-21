@@ -19,31 +19,31 @@
 	<!-- NOM -->
 	<div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="nom">
+        <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="formData.nom">
       </label>
 	</div>
 	<!-- PRENOM -->
 	<div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="prenom">
+        <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="formData.prenom">
       </label>
 	</div>
 	<!-- DATE DE NAISSANCE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Date de Naissance" class="searchPage2" data-ng-model="dateNaissance">
+        <input type="text" placeholder="Date de Naissance" class="searchPage2" data-ng-model="formData.dateNaissance">
       </label>
     </div>
 	<!-- N° SS -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="N° SS" class="searchPage2" data-ng-model="numSS">
+        <input type="text" placeholder="N° SS" class="searchPage2" data-ng-model="formData.numSS">
       </label>
     </div>
 	<!-- NATIONALITE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="nationalite">
+        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="formData.nationalite">
       </label>
     </div>
 
@@ -61,7 +61,7 @@
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="updateCivilite(titre, nom, prenom, dateNaissance, numSS, nationalite)">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="updateCivilite()">Valider</button>
       <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
     </div>
   </ion-content>

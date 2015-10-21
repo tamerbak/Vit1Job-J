@@ -8,6 +8,10 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies'])
 		// FORMULAIRE
 		$scope.formData = {};
 		
+		
+		$scope.maitriseIcon = "icon ion-ios-rainy calm";
+		$scope.maitrise = "Débutant";
+	
 		// INIT
 		$rootScope.jobyers=[];
 		$rootScope.jobyerCurrent={};
@@ -22,28 +26,63 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies'])
 		$rootScope.sessionId=$cookieStore.get('sessionID');
 		
 		$scope.initForm = function(){
-			$scope.formData.metier="Métier";
+			/**$scope.formData.metier="Métier";
 			$scope.formData.job="Job";
 			$scope.formData.degre=10;
 			$scope.formData.indisp="Les indispensables"; 
-			$scope.formData.langue="Langue";
+			$scope.formData.langue="Langue";**/
+			
+			// GET LIST
+			$scope.formData={
+				'metiers': $cookieStore.get('metiers'),
+				'langues': $cookieStore.get('langues'),
+				'jobs': $cookieStore.get('jobs'),
+				'transvers': $cookieStore.get('transvers'),
+				};
+		}
+		
+		$scope.rangeChange = function() {
+			rangeModel=$scope.formData.degre;
+			console.log("rangeModel : "+rangeModel);
+			if (rangeModel <= 25 ){
+        		$scope.maitrise = "Débutant";
+        		$scope.maitriseIcon = "icon ion-ios-rainy calm";
+      		}
+
+      		else if (rangeModel > 25 && rangeModel <= 50 ) {
+        		$scope.maitrise = 'Habitué';
+        		$scope.maitriseIcon = "icon ion-ios-cloudy-outline calm";
+      		}
+
+      		else if (rangeModel > 50 && rangeModel <= 75 ){
+        		$scope.maitrise = 'Confirmé';
+        		$scope.maitriseIcon = "icon ion-ios-partlysunny-outline calm";
+      		}
+      		else if (rangeModel > 75 && rangeModel <= 100 ){
+        		$scope.maitrise = 'Waouh!';
+        		$scope.maitriseIcon = "icon ion-ios-sunny-outline calm";
+      		}
 		}
 		
 		$scope.afficheList = function(){
-			// GET LIST
+			
+			//AFFICHAGE
 			metiers=$cookieStore.get('metiers');
 			langues=$cookieStore.get('langues');
 			jobs=$cookieStore.get('jobs');
 			transvers=$cookieStore.get('transvers');
 			
-			// AFFICHAGE
-			console.log("metiers : "+metiers);
-			console.log("langues : "+langues);
-			console.log("jobs : "+jobs);
-			console.log("transvers : "+transvers);
-			
-			// REDIRECTION VERS RECHERCHE
-			$state.go("search");
+			console.log("langues.length : "+langues.length);
+			for(var i=0; i<langues.length; i++){
+				console.log("langues N°"+i);
+				for(var obj in langues[i]){
+					console.log("langue : ["+obj+"] : "+langues[i][obj]);
+				}
+			}
+			return;
+			console.log("metiers.length : "+metiers.length);
+			console.log("jobs : "+jobs.length);
+			console.log("transvers : "+transvers.length);
 		}
 		
 		$scope.addJobyer = function(){
@@ -92,6 +131,8 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies'])
 		
 		$scope.loadPrevJobyer = function(){
 			
+			$scope.refrechNavigation();
+			
 			idex=Number($scope.formData.jobyerCurrentIndice);
 			if(idex==0 || idex==$rootScope.jobyers.length)	// IN EDGE
 				return;
@@ -117,14 +158,14 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies'])
 			// console.log("metier"+$scope.metier);
 			// UPDATE INDICE
 			$rootScope.jobyerCurrentIndice-=1;
-			
-			$scope.refrechNavigation();
 		}
 		
 		$scope.loadNextJobyer = function(){
 			
+			$scope.refrechNavigation();
+			
 			idex=Number($scope.formData.jobyerCurrentIndice);
-			if(idex==0 || idex==$rootScope.jobyers.length)	// IN EDGE
+			if(idex==0 || idex>=$rootScope.jobyers.length)	// IN EDGE
 				return;
 			
 			// UPDATE CURRENT INDEX
@@ -144,8 +185,6 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies'])
 			
 			// UPDATE INDICE
 			$rootScope.jobyerCurrentIndice+=1;
-			
-			$scope.refrechNavigation();
 		}
 		
 		// REFRESH BUTTONS
@@ -155,7 +194,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies'])
 			console.log("idex : "+idex);
 			// BUTTON NEXT
 			//if(idex!=0 && idex!=$rootScope.jobyers.length && $rootScope.jobyers.length!=0)
-			if(idex!=$rootScope.jobyers.length && $rootScope.jobyers.length!=0)
+			if(idex!=$rootScope.jobyers.length-1 && $rootScope.jobyers.length!=0)
 				$scope.formData.showButtRight=false;
 			else
 				$scope.formData.showButtRight=true;
@@ -173,6 +212,10 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies'])
 		
 		// PERSIST LIST JOBYERS
 		$scope.saveJobyers=function(){
+		  
+			for(var obj in $scope.formData){
+				console.log("formData["+obj+"] : "+$scope.formData[obj]);
+			}
 			
 			hasSessionID=0;
 			if($rootScope.sessionId)

@@ -6,7 +6,7 @@ angular.module('fileServices', ['ionic', 'cb.x2js'])
 
   .service('UploadFile', function ($http) {
 	  
-	  this.uploadFile=function(fileName, contenu){
+	  this.uploadFile=function(fileName, contenu, employeurID){
 		  
 		var soapMessage=
 			'<fr.protogen.connector.model.StreamedFile>'+

@@ -13,7 +13,7 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
                 'competenceCtrls', 'adressePersonelCtrls','adresseTravailCtrls',
                 'wsConnectors', 'parsingServices', 'fileServices', 'globalServices',
                 //'ng-mfb', 'cb.x2js', 'ngOpenFB'])
-                'ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64'])
+                'ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});

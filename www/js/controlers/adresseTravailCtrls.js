@@ -4,13 +4,22 @@
 
 angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices'])
 
+	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString, UpdateInServer, LoadList){
 
-	.controller('adresseTravailCtrl', function ($scope, $cookieStore, $state, UpdateInServer, LoadList){
-
+		// FORMULAIRE
+		$scope.formData = {};
 
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
-		$scope.updateAdresseTravEmployeur = function(codePostal, ville, adresse1, adresse2){
-
+		$scope.updateAdresseTravEmployeur = function(){
+		  
+			for(var obj in $scope.formData){
+				console.log("formData["+obj+"] : "+$scope.formData[obj]);
+			}
+			
+			codePostal=$scope.formData.codePostal;
+			ville=$scope.formData.ville;
+			adresse1=$scope.formData.adresse1;
+			adresse2=$scope.formData.adresse2;
 
 			// RECUPERATION EMPLOYEUR ID
 			employeId=$cookieStore.get('employeID');
@@ -19,7 +28,6 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			sessionId=$cookieStore.get('sessionID');
 			
 			// TEST DE VALIDATION
-			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){
 			if(codePostal && ville && adresse1  && adresse2){
 			//if (1==2){
 				UpdateInServer.updateAdresseTravEmployeur(employeId, codePostal, ville, adresse1, adresse2, sessionId)
@@ -37,21 +45,52 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			
 			// CHARGEMENT METIERS
 			metiers=$cookieStore.get('metiers');
+			//metiers=$rootScope.metiers;
 			if(!metiers){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListMetiers(sessionId)
 					.success(function (response){
-
+						
 						resp=formatString.formatServerResult(response);
 						// DONNEES ONT ETE CHARGES
 						console.log("les metiers ont été bien chargé");
-						$cookieStore.put('metiers', resp.dataModel);
+						metiersObjects=resp.dataModel.rows.dataRow;
+						//console.log("metiersObjects : "+JSON.stringify(metiersObjects));
+						
+						// GET METIERS
+						metiers=[];
+						metier={}; // metier.libelle | metier.id
+						
+						metiersList=[].concat(metiersObjects);
+						for(var i=0; i<metiersList.length; i++){
+							object=metiersList[i].dataRow.dataEntry;
+							
+							// PARCOURIR LIST PROPERTIES
+							metier[object[0].attributeReference]=object[0].value;
+							metier[object[1].attributeReference]=object[1].value;
+							
+							if(metier)
+								metiers.push(metier);
+							metier={}
+						}
+						
+						console.log("metiers.length : "+metiers.length);
+						/**for(var i=0; i<metiers.length; i++){
+							console.log("pk_user_metier : "+metiers[i].pk_user_metier);
+							console.log("libelle : "+metiers[i].libelle);
+						}**/
+						
+						// PUT IN SESSION
+						//$rootScope.metiers=metiers;
+						$cookieStore.put('metiers', metiers);
 					}).error(function (err){
 						console.log("error : GET DATA from metiers");
 						console.log("error In : "+err);
 					});
 			}
+			
 			// CHARGEMENT LANGUES
+			//langues=$rootScope.langues;
 			langues=$cookieStore.get('langues');
 			if(!langues){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -61,13 +100,37 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						resp=formatString.formatServerResult(response);
 						// DONNEES ONT ETE CHARGES
 						console.log("les langues ont été bien chargé");
-						$cookieStore.put('langues', resp.dataModel);
+						languesObjects=resp.dataModel.rows.dataRow;
+						
+						// GET LANGUES
+						langues=[];
+						langue={}; // langue.libelle | langue.id
+						
+						languesList=[].concat(languesObjects);
+						for(var i=0; i<languesList.length; i++){
+							object=languesList[i].dataRow.dataEntry;
+							
+							// PARCOURIR LIST PROPERTIES
+							langue[object[0].attributeReference]=object[0].value;
+							langue[object[1].attributeReference]=object[1].value;
+							
+							if(langue)
+								langues.push(langue);
+							langue={}
+						}
+						
+						console.log("langues.length : "+langues.length);
+						// PUT IN SESSION
+						//$rootScope.langues=langues;
+						$cookieStore.put('langues', langues);
 					}).error(function (err){
 						console.log("error : GET DATA from langues");
 						console.log("error In : "+err);
 					});
 			}
+			
 			// CHARGEMENT JOBS
+			//jobs=$rootScope.jobs;
 			jobs=$cookieStore.get('jobs');
 			if(!jobs){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -77,13 +140,38 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						resp=formatString.formatServerResult(response);
 						// DONNEES ONT ETE CHARGES
 						console.log("les jobs ont été bien chargé");
-						$cookieStore.put('jobs', resp.dataModel);
+						jobsObjects=resp.dataModel.rows.dataRow;
+						
+						// GET LANGUES
+						jobs=[];
+						job={}; // job.libelle | job.id
+
+						jobsList=[].concat(jobsObjects);
+						for(var i=0; i<jobsList.length; i++){
+							object=jobsList[i].dataRow.dataEntry;
+							
+							// PARCOURIR LIST PROPERTIES
+							job[object[0].attributeReference]=object[0].value;
+							job[object[1].attributeReference]=object[1].value;
+							
+							if(job)
+								jobs.push(job);
+							job={}
+						}
+						
+						console.log("jobs.length : "+jobs.length);
+						// PUT IN SESSION
+						//$rootScope.jobs=jobs;
+						$cookieStore.put('jobs', jobs);
+						
 					}).error(function (err){
 						console.log("error : GET DATA from jobs");
 						console.log("error In : "+err);
 					});
 			}
+			
 			// CHARGEMENT COMPETENCES INDISPENSABLES
+			//transvers=$rootScope.transvers;
 			transvers=$cookieStore.get('transvers');
 			if(!transvers){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -93,7 +181,29 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						resp=formatString.formatServerResult(response);
 						// DONNEES ONT ETE CHARGES
 						console.log("les transvers ont été bien chargé");
-						$cookieStore.put('transvers', resp.dataModel);
+						transversObjects=resp.dataModel.rows.dataRow;
+						
+						// GET TRANSVERS
+						transvers=[];
+						transver={}; // transver.libelle | transver.id
+
+						transversList=[].concat(transversObjects);
+						for(var i=0; i<transversList.length; i++){
+							object=transversList[i].dataRow.dataEntry;
+							
+							// PARCOURIR LIST PROPERTIES
+							transver[object[0].attributeReference]=object[0].value;
+							transver[object[1].attributeReference]=object[1].value;
+							
+							if(transver)
+								transvers.push(transver);
+							transver={}
+						}
+						
+						console.log("transvers.length : "+transvers.length);
+						// PUT IN SESSION
+						//$rootScope.transvers=transvers;
+						$cookieStore.put('transvers', transvers);
 					}).error(function (err){
 						console.log("error : GET DATA from transvers");
 						console.log("error In : "+err);

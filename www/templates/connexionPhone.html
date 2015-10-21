@@ -5,7 +5,7 @@
     <!--<h1 class="title">Connexion</h1>-->
     <a class="button icon-right ion-home button-clear button-dark" ui-sref="search">  </a>
   </ion-header-bar>
-  <ion-content padding="true">
+  <ion-content padding="true" data-ng-init="initForm()">
 	<!-- Title -->
     <div>
       <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
@@ -15,18 +15,16 @@
 	<div class="list">
       <label class="item item-input">
         <i class="icon ion-ios-telephone placeholder-icon"></i>
-        <input type="text" placeholder="+33" data-ng-model="phone">
+        <input type="text" placeholder="+33" data-ng-model="formData.phone" data-ng-init="formData.phone='+33'">
       </label>
 	</div>
 
 	<!-- PAYS -->
 	<div class="list">
 	  <label class="item item-input">
-        <select class="flat"  data-ng-model="country">
-          <option selected disabled>Pays</option>
-          <option>Maroc</option>
-          <option >France</option>
-          <option>Italie</option>
+        <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='Villes'">
+          <option selected disabled style="display: none;">Villes</option>
+          <option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>
 		</select>
       </label>
 	</div>
@@ -34,13 +32,13 @@
 	<!-- PASSWORD -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Mot de passe" data-ng-model="password">
+        <input type="text" placeholder="Mot de passe" data-ng-model="formData.password">
       </label>
     </div>
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="connexionByPhone(phone, country, password)">Connecter</button>
+      <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Connecter</button>
       <button class="button button-full button-positive grey" ui-sref="adresseTravail">Quitter</button>
     </div>
   </ion-content>

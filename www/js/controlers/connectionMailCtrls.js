@@ -5,9 +5,15 @@
 
 angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies'])
 
-  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer, GlobalService, LocalStorageService){
+  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer){
 
-    $scope.connexionByMail= function(email, password){
+	 // FORMULAIRE
+	 $scope.formData = {};
+
+     $scope.connexionByMail= function(){
+		 
+	  email=$scope.formData.email;
+	  password$scope.formData.password;
 
 	  var isNew=0;
 	  if(isEmpty(email) || isEmpty(password))
