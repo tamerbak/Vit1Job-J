@@ -11,8 +11,9 @@ var myCity = 'Paris';
 angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
                 'connectionCtrls', 'cPhoneCtrls', 'cMailCtrls', 'saisieCiviliteEmployeurCtrls',
                 'competenceCtrls', 'adressePersonelCtrls','adresseTravailCtrls',
-                'wsConnectors', 'parsingServices', 'fileServices',
-                'ng-mfb', 'cb.x2js', 'ngOpenFB'])
+                'wsConnectors', 'parsingServices', 'fileServices', 'globalServices',
+                //'ng-mfb', 'cb.x2js', 'ngOpenFB'])
+                'ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});

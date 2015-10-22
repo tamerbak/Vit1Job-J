@@ -10,7 +10,7 @@
     </div>
 
     <div class="row">
-      <button class="button button-full button-positive green" ui-sref="cPhone" > Votre téléphone</button>
+      <button class="button button-full button-positive green" data-ng-click="loadAllVilles()"> Votre téléphone</button>
     </div>
     <div class="row">
       <button class="button button-full button-positive green" ui-sref="cMail"> Votre adresse mail</button>
@@ -23,13 +23,13 @@
     </div>
 
     <div class="row">
-      <button class="button button-full button-positive linkedIn" > Votre compte LinkedIn</button>
+      <button class="button button-full button-positive linkedIn"> Votre compte LinkedIn</button>
     </div>
     <div class="row">
-      <button class="button button-full button-positive red" > Votre compte Gmail</button>
+      <button class="button button-full button-positive red" data-ng-click="loginGmail()"> Votre compte Gmail</button>
     </div>
     <div class="row">
-      <button class="button button-full button-positive facebook" ng-click="fbLogin()"> Votre compte Facebook</button>
+      <button class="button button-full button-positive facebook" data-ng-click="fbLogin()"> Votre compte Facebook</button>
     </div>
     <div class="row">
       <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" > Quitter</button>

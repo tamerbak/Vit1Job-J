@@ -4,7 +4,7 @@
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
-  <ion-content padding="true">
+  <ion-content padding="true" data-ng-init="initForm()">
     <!-- Title -->
     <!--div class="row">
         <div class="col alignright">
@@ -16,71 +16,59 @@
 
         </div>
     </div-->
+	<a class="button icon-left ion-chevron-left button-clear" data-ng-click="loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></a>
+	<div  class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
+      <span style="vertical-align: middle !important;">-</span>
+    </div>
+    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{formData.jobyerCurrentIndice}}/{{jobyers.length}}</b></h3>
+    <div  class="divButton" style="display: inline-block" align="center" data-ng-click="addJobyer()">
+      <span style="vertical-align: middle !important;">+</span>
+    </div>
+	<a class="button icon-right ion-chevron-right button-clear" data-ng-click="loadNextJobyer()" data-ng-disabled="formData.showButtRight"></a>
+	
+    <br><br>
 
-    <div class="row">
-      <div style="width: 100%;">
-        <h3 class="titlePhone" style="display: inline-block;vertical-align: middle;"><b>Jobyer N° {{njobyer}}</b></h3>
-        <span class="" style="display: inline-block;" on-tap="addCompetence()">
-          <i class="icon ion-ios-plus dark" style="display: inline-block; font-size: x-large" ></i>
-        </span>
+    <div class="list">
+      <label class="item item-input">
+        <select class="flat" data-ng-model="formData.metier" data-ng-init="formData.metier='Métier'">
+          <option selected disabled style="display: none;">Métier</option>
+		  <option data-ng-repeat="x in formData.metiers" value="{{x.pk_user_metier}}">{{x.libelle}}</option>
+        </select>
+      </label>
+    </div>
 
-        <!--div  class="divButton" style="display: inline-block" align="center" >
-          <span style="vertical-align: middle !important;">+</span>
-        </div-->
+     <div class="list">
+      <label class="item item-input">
+        <select class="flat" data-ng-model="formData.job" data-ng-init="formData.job='Job'">
+          <option selected disabled style="display: none;">Job</option>
+          <option data-ng-repeat="x in formData.jobs" value="{{x.pk_user_competence}}">{{x.libelle}}</option>
+        </select>
+      </label>
+    </div> 
+
+
+    <div class="list">
+      <div class="item range range-calm">
+        <i class="icon ion-ios-sunny-outline"></i>
+        <input type="range" name="volume" min="0" max="100" data-ng-model="formData.degre" data-ng-init="formData.degre=10" data-ng-change="rangeChange()">
+        <i class="icon ion-ios-sunny"></i>
       </div>
     </div>
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat" >
-          <option selected disabled>Métier</option>
-          <option>Restauration</option>
-          <option >Hotelerie</option>
-          <option>Informatique</option>
+        <select class="flat" data-ng-model="formData.indisp" data-ng-init="formData.indisp='Les indispensables'">
+          <option selected disabled style="display: none;">Les indispensables</option>
+          <option data-ng-repeat="x in formData.transvers" value="{{x.pk_user_competence_transverse}}">{{x.libelle}}</option>
         </select>
       </label>
     </div>
 
     <div class="list">
       <label class="item item-input">
-        <select class="flat" >
-          <option selected disabled>Job</option>
-          <option>Serveur</option>
-          <option>Chef cuisinier</option>
-          <option>Barista</option>
-        </select>
-      </label>
-    </div>
-
-    <i ng-class="maitriseIcon" style="display: inline-block; font-size: xx-large"></i>
-    <label for="maitrise" style="display: inline-block; color:#757575;" > {{maitrise}}</label>
-    <div class="list">
-      <div class="item range range-calm range">
-        <i class="icon ion-egg calm"></i>
-        <input id="maitrise" type="range" name="volume" min="0" max="100" value="0" ng-change="rangeChange(rangeModel)"
-               ng-model="rangeModel">
-        <i class="icon ion-ribbon-a calm"></i>
-      </div>
-    </div>
-
-    <div class="list">
-      <label class="item item-input">
-        <select class="flat">
-          <option selected disabled>Les indispensables</option>
-          <option>Sérieux</option>
-          <option>Dyamique</option>
-          <option>Souriant</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="list">
-      <label class="item item-input">
-        <select class="flat">
-          <option selected disabled>Langue</option>
-          <option>Français</option>
-          <option>Anglais</option>
-          <option>Italien</option>
+        <select class="flat" data-ng-model="formData.langue" data-ng-init="formData.langue='Langue'">
+          <option selected disabled style="display: none;">Langue</option>
+          <option data-ng-repeat="x in formData.langues" value="{{x.pk_user_langue}}">{{x.libelle}}</option>
         </select>
       </label>
     </div>

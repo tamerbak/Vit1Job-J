@@ -1,10 +1,14 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
+angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $timeout) {
-
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout) {
+		// FORMULAIRE
+		$scope.formData = {};
+		$scope.formData.connexion= {};
+		$scope.typeConnexion = $cookieStore.get("connexion");
+		
     var jobyersForMe = [];
     var jobyersNextToMe = [];
 
@@ -179,31 +183,48 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
       navigator.app.exitApp();
     };
 
-    $scope.showPopup = function(){
-      var myPopup = $ionicPopup.show({
-        template: "Adresse de travail est identique à l'adresse du siège social ? <br>",
-        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
-        //subTitle: 'Aucun Jobyer ne correspond à votre recherche',
-        scope: $scope,
-        buttons: [
-         { text: '<b>Non</b>',
-           type: 'button-dark'
-         },
-         {
-         text: '<b>Oui</b>',
-         type: 'button-calm',
-         onTap: function(e) {
+	$scope.initConnexion= function () {
 
-         }
-         }
-         ]
-      });
-      myPopup.then(function(res) {
-        console.log('Tapped!', res);
-      });
-      //$timeout(function() {
-      //  myPopup.close(); //close the popup after 3 seconds for some reason
-      //}, 3000);
-    };
+		$scope.formData.connexion={'etat': false, 'libelle': 'Connexion'};
+		cnx=$cookieStore.get('connexion');
+		if(cnx){
+			$scope.formData.connexion=cnx;
+			
+			console.log("Employeur est connecté");
+			console.log("cnx[libelle] : "+cnx.libelle);
+			console.log("cnx[etat] : "+cnx.etat);
+		}
+		
+		console.log("connexion[libelle] : "+$scope.formData.connexion.libelle);
+		console.log("connexion[etat] : "+$scope.formData.connexion.etat);
+	}
+	
+	$scope.$on( "$ionicView.enter", function( scopes, states ) {
+        if(states.fromCache && states.stateName == "app" ) {
+			$scope.initConnexion();
+        }
+    });
+
+	$scope.modeConnexion= function(){
+		estConnecte=0;
+		cnx=$cookieStore.get('connexion');
+		if(cnx){
+			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
+				cnx.etat = false;
+				cnx.libelle="Déconnexion";
+				
+				// REMOVE ALL COOKIES
+				angular.forEach($cookies, function (v, k) {
+					$cookieStore.remove(k);
+				});
+
+			}
+			else{ // IL S'AGIT D'UNE CONNEXION
+				$state.go("connection");
+			}	
+		}
+		else
+			$state.go("connection");
+	}
 
   });

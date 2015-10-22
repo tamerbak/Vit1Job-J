@@ -7,8 +7,20 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
 
 	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer){
 
+		// FORMULAIRE
+		$scope.formData = {};
+		
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
-		$scope.updateAdressePersEmployeur = function(codePostal, ville, adresse1, adresse2){
+		$scope.updateAdressePersEmployeur = function(){
+		  
+			for(var obj in $scope.formData){
+				console.log("formData["+obj+"] : "+$scope.formData[obj]);
+			}
+			
+			codePostal=$scope.formData.codePostal;
+			ville=$scope.formData.ville;
+			adresse1=$scope.formData.adresse1; 
+			adresse2=$scope.formData.adresse2;
 			
 			// RECUPERATION EMPLOYEUR ID
 			employeId=$cookieStore.get('employeID');
