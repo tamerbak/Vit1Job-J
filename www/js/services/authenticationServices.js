@@ -630,14 +630,14 @@ angular.module('wsConnectors', ['ionic'])
 							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
 							'<attributeReference>pk_user_employeur</attributeReference>'+
 							'<type>PK</type>'+
-							'<value>'+id+'</value>'+
+							'<value>'+Number(id)+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Ville
           					'<label>&lt;![CDATA[Ville]]&gt;</label>'+
           					'<attributeReference>fk_user_ville</attributeReference>'+
           					'<type>fk_user_ville</type>'+
           					'<list/>'+
-          					'<value>'+ville+'</value>'+
+          					'<value>'+Number(ville)+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Code postal
           					'<label>&lt;![CDATA[Code postal]]&gt;</label>'+
@@ -893,7 +893,45 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  }; 
-		  
+
+	  this.loadZipCodes = function(sessionID){
+		soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>user_code_postal</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses/>'+
+				'<page>1</page>'+
+				'<pages>5</pages>'+
+				'<nbpages>0</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  }; 
+	  
 	  this.loadListCivilites = function(sessionID){
 		soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+

@@ -163,7 +163,7 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
 
       .state('competence', {
         url: '/competence',
-        templateUrl: 'templates/competencies.html',
+        templateUrl: 'templates/competences.html',
         controller: 'competenceCtrl'
       })
     // if none of the above states are matched, use this as the fallback

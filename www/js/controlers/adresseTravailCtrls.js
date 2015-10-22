@@ -2,13 +2,14 @@
  * Created by Omar on 15/10/2015.
  */
 
-angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices'])
+angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices', /**'autocomplete'**/ 'angucomplete'])
 
 	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString, UpdateInServer, LoadList){
 
 		// FORMULAIRE
 		$scope.formData = {};
-
+		$scope.formData.listCodes=[];
+		
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdresseTravEmployeur = function(){
 		  
@@ -21,9 +22,11 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			adresse1=$scope.formData.adresse1;
 			adresse2=$scope.formData.adresse2;
 
+			// RECUPERATION CONNEXION
+			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
-			employeId=$cookieStore.get('employeID');
-			console.log("$cookieStore.get : "+$cookieStore.get('employeID'));
+			employeId=connexion.employeID;
+			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
 			
@@ -90,7 +93,6 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 			
 			// CHARGEMENT LANGUES
-			//langues=$rootScope.langues;
 			langues=$cookieStore.get('langues');
 			if(!langues){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -130,7 +132,6 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 			
 			// CHARGEMENT JOBS
-			//jobs=$rootScope.jobs;
 			jobs=$cookieStore.get('jobs');
 			if(!jobs){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -171,7 +172,6 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 			
 			// CHARGEMENT COMPETENCES INDISPENSABLES
-			//transvers=$rootScope.transvers;
 			transvers=$cookieStore.get('transvers');
 			if(!transvers){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -214,4 +214,35 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 
 
 		}
+		
+		$scope.initForm=function(){
+			$scope.formData.zipCodes=$cookieStore.get('zipCodes');
+			$scope.formData.villes=$cookieStore.get('villes');
+			for(var i=0; i<$scope.formData.zipCodes.length; i++)
+				$scope.formData.listCodes[i]=$scope.formData.zipCodes[i].libelle;
+		}
+		
+		$scope.updateZipCodes=function(typed){
+			
+			// VIDER LIST RESULT
+			$scope.formData.listCodes=[];
+			if($scope.formData.zipCodes.length <= 0)
+				return;
+			
+			// PARCOURIR ALL CODES
+			for(var i=0; i<$scope.formData.zipCodes.length; i++){
+				codePostal=$scope.formData.zipCodes[i];
+				code=String(codePostal.libelle);
+				if(code.indexOf(typed) > -1){
+					$scope.formData.listCodes.push(code);
+					console.log("codePostal : "+JSON.stringify(codePostal));
+				}
+			}
+		}
+			
+		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+			if(states.fromCache && states.stateName == "adresseTravail" ){
+				$scope.initForm();
+			}
+		});
 	})
