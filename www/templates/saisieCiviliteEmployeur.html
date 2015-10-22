@@ -13,12 +13,13 @@
 	<!-- TITRE -->
 	<div class="list">
 	  <label class="item item-input">
-        <select class="flat" data-ng-model="formData.titre" data-ng-init="formData.titre='Titre Civilité'">
-			<option value="1" selected disabled style="display: none;">Titre Civilité</option>
+        <select class="flat" data-ng-model="formData.civ" data-ng-init="formData.civ='Titre'">
+			<option selected disabled style="display: none;">Titre</option>
 			<option data-ng-repeat="x in formData.civilites" value="{{x.pk_user_civilite}}">{{x.libelle}}</option>
 		</select>
       </label>
 	</div>
+	
 	<!-- NOM -->
 	<div class="list">
       <label class="item item-input">

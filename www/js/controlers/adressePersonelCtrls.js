@@ -22,9 +22,11 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
 			adresse1=$scope.formData.adresse1; 
 			adresse2=$scope.formData.adresse2;
 			
+			// RECUPERATION CONNEXION
+			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
-			employeId=$cookieStore.get('employeID');
-			console.log("$cookieStore.get : "+$cookieStore.get('employeID'));
+			employeId=connexion.employeID;
+			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
 			
@@ -50,4 +52,14 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
 
 
 		}
+		
+		$scope.initForm=function(){
+			$scope.formData.zipCodes=$cookieStore.get('zipCodes');
+		}
+			
+		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+			if(states.fromCache && states.stateName == "adressePersonel" ){
+				$scope.initForm();
+			}
+		});
 	})

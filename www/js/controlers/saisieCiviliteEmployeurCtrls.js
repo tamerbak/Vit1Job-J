@@ -3,9 +3,9 @@
  */
 
 
-angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64'])
+angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64', 'wsConnectors', 'parsingServices'])
 
-	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64){
+	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64, LoadList, formatString){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -16,7 +16,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 				console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 			
-			titre=$scope.formData.titre;
+			titre=$scope.formData.civ;
 			nom=$scope.formData.nom;
 			prenom=$scope.formData.prenom;
 			entreprise=$scope.formData.entreprise;
@@ -24,9 +24,11 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			ape=$scope.formData.ape;
 			numUssaf=$scope.formData.numUssaf;
 
+			// RECUPERATION CONNEXION
+			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
-			employeId=$cookieStore.get('employeID');
-			console.log("$cookieStore.get : "+$cookieStore.get('employeID'));
+			employeId=connexion.employeID;
+			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
 			
@@ -65,6 +67,51 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 					});
 			}
 			
+			// LOAD LIST ZIP-CODE
+			codePostals=$cookieStore.get('zipCodes');
+			if(!codePostals){
+				LoadList.loadZipCodes(sessionId)
+					.success(function (response){
+							resp=formatString.formatServerResult(response);
+							// DONNEES ONT ETE CHARGES
+							console.log("les ZipCodes ont été bien chargé");
+							zipCodesObjects=resp.dataModel.rows.dataRow;
+							
+							if(typeof zipCodesObjects === 'undefined' || zipCodesObjects.length<=0 || zipCodesObjects===""){
+								console.log('Aucune résultat trouvé');
+								// PUT IN SESSION
+								$cookieStore.put('zipCodes', []);
+								return;
+							}
+							
+							// GET ZIP-CODE
+							zipCodes=[];
+							zipCode={}; // zipCode.libelle | zipCode.id
+
+							zipCodesList=[].concat(zipCodesObjects);
+							console.log("zipCodesList.length : "+zipCodesList.length);
+							for(var i=0; i<zipCodesList.length; i++){
+								object=zipCodesList[i].dataRow.dataEntry;
+							
+								// PARCOURIR LIST PROPERTIES
+								zipCode[object[0].attributeReference]=object[0].value;
+								zipCode[object[1].attributeReference]=object[1].value;
+							
+								if(zipCode)
+									zipCodes.push(zipCode);
+								zipCode={}
+							}
+							
+							console.log("zipCodes.length : "+zipCodes.length);
+							// PUT IN SESSION
+							$cookieStore.put('zipCodes', zipCodes);
+							console.log("zipCodes : "+JSON.stringify(zipCodes));
+						}).error(function (err){
+							console.log("error : LOAD DATA");
+							console.log("error in loadZipCodes : "+err);
+						});
+			}
+			
 			// REDIRECTION VERS PAGE - ADRESSE PERSONEL
 			$state.go('adressePersonel');	
 		}
@@ -97,5 +144,11 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			$scope.formData={
 				'civilites': $cookieStore.get('civilites')};
 		}
+		
+		$scope.$on( "$ionicView.beforeEnter", function(scopes, states){
+			if(states.fromCache && states.stateName == "saisieCiviliteEmployeur"){
+				$scope.initForm();
+			}
+		});
 	})
 	

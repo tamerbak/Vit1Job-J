@@ -16,7 +16,7 @@ angular
 					// PROPRE AU GMAIL
 					$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-					$scope.fbLogin = function() {
+					$scope.fbLogin = function(){
 						ngFB.login({
 							scope : 'email'
 						}).then(function(response) {
@@ -29,11 +29,11 @@ angular
 						});
 					};
 
-					$scope.showAlert = function() {
+					$scope.showAlert = function(){
 						Global.showAlert();
 					}
 
-					$scope.loginGmail = function() {
+					$scope.loginGmail = function(){
 						var ref = window
 								.open(
 										'https://accounts.google.com/o/oauth2/auth?client_id='
@@ -165,13 +165,21 @@ angular
 								.error(function (data){
 									console.log("error : récuperation JSessionId");
 								});
-							
-						//}
-		  
-						//sessionId=$cookieStore.get('sessionID');
-						
 						
 						// REDIRECTION 
 						$state.go("cPhone");
 					}
+					
+					$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+						if(states.fromCache && states.stateName == "connection" ){
+							// VERIFICATION S'IL EST CONNECTE OU PAS
+							
+							// RECUPERATION CONNEXION
+							connexion=$cookieStore.get('connexion');
+							if(connexion){
+								if(connexion.etat)	// REDIRECTION
+									$state.go("search");
+							}
+						}
+					});
 				})

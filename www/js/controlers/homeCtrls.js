@@ -3,11 +3,10 @@
  */
 angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout, $cookies) {
 		// FORMULAIRE
 		$scope.formData = {};
-		$scope.formData.connexion= {};
-		$scope.typeConnexion = $cookieStore.get("connexion");
+		//$scope.formData.connexion= {};
 
     var jobyersForMe = [];
     var jobyersNextToMe = [];
@@ -177,23 +176,21 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
       navigator.app.exitApp();
     };
 
-	$scope.initConnexion= function () {
+	$scope.initConnexion= function(){
 
-		$scope.formData.connexion={'etat': false, 'libelle': 'Connexion'};
+		$scope.formData.connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
 		cnx=$cookieStore.get('connexion');
 		if(cnx){
 			$scope.formData.connexion=cnx;
-
 			console.log("Employeur est connecté");
-			console.log("cnx[libelle] : "+cnx.libelle);
-			console.log("cnx[etat] : "+cnx.etat);
 		}
 
+		console.log("connexion[employeID] : "+$scope.formData.connexion.employeID);
 		console.log("connexion[libelle] : "+$scope.formData.connexion.libelle);
 		console.log("connexion[etat] : "+$scope.formData.connexion.etat);
 	}
 
-	$scope.$on( "$ionicView.enter", function( scopes, states ) {
+	$scope.$on( "$ionicView.beforeEnter", function( scopes, states ) {
         if(states.fromCache && states.stateName == "app" ) {
 			$scope.initConnexion();
         }
@@ -205,10 +202,11 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				cnx.etat = false;
-				cnx.libelle="Déconnexion";
+				cnx.libelle="Se déconnecter";
 
 				// REMOVE ALL COOKIES
-				angular.forEach($cookies, function (v, k) {
+				var cookies = $cookies.getAll();
+				angular.forEach(cookies, function (v, k) {
 					$cookieStore.remove(k);
 				});
 

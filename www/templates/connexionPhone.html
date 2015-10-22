@@ -5,7 +5,7 @@
     <!--<h1 class="title">Connexion</h1>-->
     <a class="button icon-right ion-home button-clear button-light" ui-sref="search">  </a>
   </ion-header-bar>
-  <ion-content padding="true" data-ng-init="initForm()">
+  <ion-content padding="true">
 	<!-- Title -->
     <div>
       <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
@@ -14,8 +14,8 @@
 	<!-- PAYS -->
 	<div class="list">
 	  <label class="item item-input">
-        <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='Pays'" data-ng-change="loadCodeInter()">
-          <option selected disabled style="display: none;">Pays</option>
+        <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='France'" data-ng-change="loadCodeInter()">
+          <option selected disabled style="display: none;">France</option>
 		  <option value="1">Maroc</option>
 		  <option value="2">France</option>
 		  <option value="3">USA</option>
@@ -41,7 +41,7 @@
 	<br>
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Connecter</button>
+      <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Se connecter</button>
       <button class="button button-full button-positive grey" ui-sref="adresseTravail">Quitter</button>
     </div>
   </ion-content>
