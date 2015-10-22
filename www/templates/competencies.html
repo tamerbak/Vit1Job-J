@@ -20,12 +20,12 @@
 	<div  class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
       <span style="vertical-align: middle !important;">-</span>
     </div>
-    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{formData.jobyerCurrentIndice}}/{{jobyers.length}}</b></h3>
+    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{formData.jobyerCurrentIndice}} {{jobyers.length}}</b></h3>
     <div  class="divButton" style="display: inline-block" align="center" data-ng-click="addJobyer()">
       <span style="vertical-align: middle !important;">+</span>
     </div>
 	<a class="button icon-right ion-chevron-right button-clear" data-ng-click="loadNextJobyer()" data-ng-disabled="formData.showButtRight"></a>
-	
+
     <br><br>
 
     <div class="list">
@@ -44,14 +44,16 @@
           <option data-ng-repeat="x in formData.jobs" value="{{x.pk_user_competence}}">{{x.libelle}}</option>
         </select>
       </label>
-    </div> 
+    </div>
 
-
+    <i ng-class="maitriseIcon" style="display: inline-block; font-size: xx-large"></i>
+    <label for="maitrise" style="display: inline-block; color:#757575;" > {{maitrise}}</label>
     <div class="list">
-      <div class="item range range-calm">
-        <i class="icon ion-ios-sunny-outline"></i>
-        <input type="range" name="volume" min="0" max="100" data-ng-model="formData.degre" data-ng-init="formData.degre=10" data-ng-change="rangeChange()">
-        <i class="icon ion-ios-sunny"></i>
+      <div class="item range range-calm range">
+        <i class="icon ion-egg calm"></i>
+        <input id="maitrise" type="range" name="volume" min="0" max="100" value="0" ng-change="rangeChange(rangeModel)"
+               ng-model="rangeModel">
+        <i class="icon ion-ribbon-a calm"></i>
       </div>
     </div>
 

@@ -8,7 +8,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		$scope.formData = {};
 		$scope.formData.connexion= {};
 		$scope.typeConnexion = $cookieStore.get("connexion");
-		
+
     var jobyersForMe = [];
     var jobyersNextToMe = [];
 
@@ -34,10 +34,11 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
           function(response){
             var jsonResp = x2js.xml_str2json(response.data);
             var jsonText = JSON.stringify (jsonResp);
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataModel","dataModel");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataRow","dataRow");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry","dataEntry");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataModel/g,"dataModel");
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataRow/g,"dataRow");
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataEntry/g,"dataEntry");
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataCouple/g, "dataCouple");
+            jsonText = jsonText.replace(/<!\[CDATA\[/g, '').replace(/\]\]\>/g,'');
             jsonResp = JSON.parse(jsonText);
 
            // var jsonResp = parsingService.formatString.formatServerResult(response.data);
@@ -52,13 +53,6 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
               //if (rowsCount > 0){
 
               for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
-
-                jsonText = JSON.stringify (jsonResp);
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataModel","dataModel");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataRow","dataRow");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry","dataEntry");
-                jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
-                jsonResp = JSON.parse(jsonText);
 
                 //jsonResp = parsingService.formatString.formatServerResult(response.data);
 
@@ -189,16 +183,16 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		cnx=$cookieStore.get('connexion');
 		if(cnx){
 			$scope.formData.connexion=cnx;
-			
+
 			console.log("Employeur est connecté");
 			console.log("cnx[libelle] : "+cnx.libelle);
 			console.log("cnx[etat] : "+cnx.etat);
 		}
-		
+
 		console.log("connexion[libelle] : "+$scope.formData.connexion.libelle);
 		console.log("connexion[etat] : "+$scope.formData.connexion.etat);
 	}
-	
+
 	$scope.$on( "$ionicView.enter", function( scopes, states ) {
         if(states.fromCache && states.stateName == "app" ) {
 			$scope.initConnexion();
@@ -212,7 +206,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				cnx.etat = false;
 				cnx.libelle="Déconnexion";
-				
+
 				// REMOVE ALL COOKIES
 				angular.forEach($cookies, function (v, k) {
 					$cookieStore.remove(k);
@@ -221,7 +215,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 			}
 			else{ // IL S'AGIT D'UNE CONNEXION
 				$state.go("connection");
-			}	
+			}
 		}
 		else
 			$state.go("connection");
