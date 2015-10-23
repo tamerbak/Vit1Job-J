@@ -5,15 +5,15 @@
 
 angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies'])
 
-  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer){
+  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer, GlobalService){
 
 	 // FORMULAIRE
 	 $scope.formData = {};
 
      $scope.connexionByMail= function(){
-		 
+
 	  email=$scope.formData.email;
-	  password$scope.formData.password;
+	  password = $scope.formData.password;
 
 	  var isNew=0;
 	  if(isEmpty(email) || isEmpty(password))
@@ -33,7 +33,7 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
           console.log("sessionId : "+sessionId);
           console.log("email : "+email);
 		  $cookieStore.put('sessionID', sessionId);
-		  
+
           // INTERROGE PHONE_TABLE
           PullDataFromServer.pullDATA("user_employeur", sessionId, "email", email, email)
             .success(function (resp){
