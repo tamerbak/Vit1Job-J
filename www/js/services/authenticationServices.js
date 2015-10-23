@@ -436,28 +436,20 @@ angular.module('wsConnectors', ['ionic'])
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
 			'<token>'+
-			'<username></username>'+
-			'<password></password>'+
-			'<nom>Jakjoud Abdeslam</nom>'+
-			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>'+sessionID+'</sessionId>'+
-			'<status>SUCCES</status>'+
-			'<id>206</id>'+
-			'<beanId>0</beanId>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
 			'</token>'+
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
 			'<operation>PUT</operation>'+
-			'<clauses>'+
-			'<fr.protogen.connector.model.SearchClause>'+
-			'<field></field>'+
-			'<clause></clause>'+
-			'<gt></gt>'+
-			'<lt></lt>'+
-			'<type>TEXT</type>'+
-			'</fr.protogen.connector.model.SearchClause>'+
-			'</clauses>'+
+			'<clauses/>'+
 			'<page>1</page>'+
 			'<pages>5</pages>'+
 			'<nbpages>0</nbpages>'+
@@ -476,7 +468,7 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 	
-	this.persistInOffres_Competences=function(sessionID, offreID){
+	this.persistInOffres_Competences=function(sessionID, competenceID, offreID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
@@ -485,33 +477,38 @@ angular.module('wsConnectors', ['ionic'])
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-        				
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Offre]]&gt;</label>'+
+							'<attributeReference>fk_user_offre</attributeReference>'+
+							'<type>fk_user_offre</type>'+
+							'<list/>'+
+							'<value>'+offreID+'</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Compétence]]&gt;</label>'+
+							'<attributeReference>fk_user_competence</attributeReference>'+
+							'<type>fk_user_competence</type>'+
+							'<list/>'+
+							'<value>'+competenceID+'</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
 			'<token>'+
-			'<username></username>'+
-			'<password></password>'+
-			'<nom>Jakjoud Abdeslam</nom>'+
-			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>'+sessionID+'</sessionId>'+
-			'<status>SUCCES</status>'+
-			'<id>206</id>'+
-			'<beanId>0</beanId>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
 			'</token>'+
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
 			'<operation>PUT</operation>'+
-			'<clauses>'+
-			'<fr.protogen.connector.model.SearchClause>'+
-			'<field></field>'+
-			'<clause></clause>'+
-			'<gt></gt>'+
-			'<lt></lt>'+
-			'<type>TEXT</type>'+
-			'</fr.protogen.connector.model.SearchClause>'+
-			'</clauses>'+
+			'<clauses/>'+
 			'<page>1</page>'+
 			'<pages>5</pages>'+
 			'<nbpages>0</nbpages>'+
@@ -530,42 +527,47 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
   
-	this.persistInOffres_Transvers=function(sessionID, offreID){
+	this.persistInOffres_Transvers=function(sessionID, transversID, offreID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_competence_offre</entity>'+
+			'<entity>user_competence_transverse_offre</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-        				
+        				'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Offre]]&gt;</label>'+
+							'<attributeReference>fk_user_offre</attributeReference>'+
+							'<type>fk_user_offre</type>'+
+							'<list/>'+
+							'<value>'+offreID+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Compétence transverse]]&gt;</label>'+
+							'<attributeReference>fk_user_competence_transverse</attributeReference>'+
+							'<type>fk_user_competence_transverse</type>'+
+							'<list/>'+
+							'<value>'+transversID+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
 			'<token>'+
-			'<username></username>'+
-			'<password></password>'+
-			'<nom>Jakjoud Abdeslam</nom>'+
-			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>'+sessionID+'</sessionId>'+
-			'<status>SUCCES</status>'+
-			'<id>206</id>'+
-			'<beanId>0</beanId>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
 			'</token>'+
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
 			'<operation>PUT</operation>'+
-			'<clauses>'+
-			'<fr.protogen.connector.model.SearchClause>'+
-			'<field></field>'+
-			'<clause></clause>'+
-			'<gt></gt>'+
-			'<lt></lt>'+
-			'<type>TEXT</type>'+
-			'</fr.protogen.connector.model.SearchClause>'+
-			'</clauses>'+
+			'<clauses/>'+
 			'<page>1</page>'+
 			'<pages>5</pages>'+
 			'<nbpages>0</nbpages>'+
@@ -584,42 +586,47 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
   
-	this.persistInOffres_Langues=function(sessionID, offreID){
+	this.persistInOffres_Langues=function(sessionID, langueID, offreID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_competence_offre</entity>'+
+			'<entity>user_maitrise_langue_offre</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-        				
+        				'fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Offre]]&gt;</label>'+
+							'<attributeReference>fk_user_offre</attributeReference>'+
+							'<type>fk_user_offre</type>'+
+							'<list/>'+
+							'<value>'+offreID+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Langue]]&gt;</label>'+
+							'<attributeReference>fk_user_langue</attributeReference>'+
+							'<type>fk_user_langue</type>'+
+							'<list/>'+
+							'<value>'+langueID+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
 			'<token>'+
-			'<username></username>'+
-			'<password></password>'+
-			'<nom>Jakjoud Abdeslam</nom>'+
-			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>'+sessionID+'</sessionId>'+
-			'<status>SUCCES</status>'+
-			'<id>206</id>'+
-			'<beanId>0</beanId>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
 			'</token>'+
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
 			'<operation>PUT</operation>'+
-			'<clauses>'+
-			'<fr.protogen.connector.model.SearchClause>'+
-			'<field></field>'+
-			'<clause></clause>'+
-			'<gt></gt>'+
-			'<lt></lt>'+
-			'<type>TEXT</type>'+
-			'</fr.protogen.connector.model.SearchClause>'+
-			'</clauses>'+
+			'<clauses/>'+
 			'<page>1</page>'+
 			'<pages>5</pages>'+
 			'<nbpages>0</nbpages>'+
@@ -906,6 +913,44 @@ angular.module('wsConnectors', ['ionic'])
   })
   
   .service('LoadList', function ($http){
+	  this.loadList = function(table, sessionID){
+		  soapMessage=
+			'<fr.protogen.connector.model.DataModel>'+
+				'<entity>'+table+'</entity>'+
+				'<dataMap/>'+
+				'<rows/>'+
+				'<token>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
+				'</token>'+
+				'<expired></expired>'+
+				'<unrecognized></unrecognized>'+
+				'<status></status>'+
+				'<operation>GET</operation>'+
+				'<clauses/>'+
+				'<page>1</page>'+
+				'<pages>1</pages>'+
+				'<nbpages>1</nbpages>'+
+				'<iddriver>0</iddriver>'+
+				'<ignoreList></ignoreList>'+
+			'</fr.protogen.connector.model.DataModel>';
+
+		return $http({
+			method: 'POST',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+			headers: {
+				"Content-Type": "text/xml"
+			},
+			data: soapMessage
+		});
+	  };
+	  
 	  this.loadListMetiers = function(sessionID){
 		  soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+

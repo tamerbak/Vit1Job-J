@@ -31,7 +31,7 @@ angular.module('providerServices', [])
 		}
 
 		this.getLangues=function(){
-			return [{"pk_user_langue":"40","libelle":"Français"},{"pk_user_langue":"41","libelle":"Arabe"},{"pk_user_langue":"42","libelle":"Anglais"},{"pk_user_langue":"43","libelle":"Italie"}];
+			return [{"pk_user_langue":"40","libelle":"Français"}];
 		}
   })
   
