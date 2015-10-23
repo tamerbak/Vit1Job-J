@@ -2,9 +2,11 @@
  * Created by Omar on 15/10/2015.
  */
 
-angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices', /**'autocomplete'**/ 'angucomplete'])
+angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices',
+			'angucomplete', 'providerServices'])
 
-	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString, UpdateInServer, LoadList){
+	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString, 
+					UpdateInServer, LoadList, DataProvider){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -46,7 +48,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 					});
 			}
 			
-			// CHARGEMENT METIERS
+			/*** CHARGEMENT METIERS
 			metiers=$cookieStore.get('metiers');
 			//metiers=$rootScope.metiers;
 			if(!metiers){
@@ -78,14 +80,10 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						}
 						
 						console.log("metiers.length : "+metiers.length);
-						/**for(var i=0; i<metiers.length; i++){
-							console.log("pk_user_metier : "+metiers[i].pk_user_metier);
-							console.log("libelle : "+metiers[i].libelle);
-						}**/
 						
 						// PUT IN SESSION
-						//$rootScope.metiers=metiers;
 						$cookieStore.put('metiers', metiers);
+						console.log("metiers : "+JSON.stringify(metiers));
 					}).error(function (err){
 						console.log("error : GET DATA from metiers");
 						console.log("error In : "+err);
@@ -123,8 +121,8 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						
 						console.log("langues.length : "+langues.length);
 						// PUT IN SESSION
-						//$rootScope.langues=langues;
 						$cookieStore.put('langues', langues);
+						console.log("langues : "+JSON.stringify(langues));
 					}).error(function (err){
 						console.log("error : GET DATA from langues");
 						console.log("error In : "+err);
@@ -162,9 +160,8 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						
 						console.log("jobs.length : "+jobs.length);
 						// PUT IN SESSION
-						//$rootScope.jobs=jobs;
 						$cookieStore.put('jobs', jobs);
-						
+						console.log("jobs : "+JSON.stringify(jobs));
 					}).error(function (err){
 						console.log("error : GET DATA from jobs");
 						console.log("error In : "+err);
@@ -202,22 +199,21 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						
 						console.log("transvers.length : "+transvers.length);
 						// PUT IN SESSION
-						//$rootScope.transvers=transvers;
 						$cookieStore.put('transvers', transvers);
+						console.log("transvers : "+JSON.stringify(transvers));
 					}).error(function (err){
 						console.log("error : GET DATA from transvers");
 						console.log("error In : "+err);
 					});
-			}
+			}***/
+			
 			// REDIRECTION VERS PAGE - COMPETENCES
 			$state.go('competence');
-
-
 		}
 		
 		$scope.initForm=function(){
-			$scope.formData.zipCodes=$cookieStore.get('zipCodes');
-			$scope.formData.villes=$cookieStore.get('villes');
+			$scope.formData.zipCodes=DataProvider.getZipCodes();
+			$scope.formData.villes=DataProvider.getVilles();
 			for(var i=0; i<$scope.formData.zipCodes.length; i++)
 				$scope.formData.listCodes[i]=$scope.formData.zipCodes[i].libelle;
 		}

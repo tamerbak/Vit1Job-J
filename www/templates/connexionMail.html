@@ -15,19 +15,19 @@
 	<div class="list">
       <label class="item item-input">
         <i class="icon ion-email placeholder-icon calm" style="font-size: large"></i>
-        <input type="text" placeholder="Email" data-ng-model="email">
+        <input type="text" placeholder="Email" data-ng-model="formData.email">
       </label>
 	</div>
 	<!-- PASSWORD -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Mot de passe" data-ng-model="password">
+        <input type="text" placeholder="Mot de passe" data-ng-model="formData.password">
       </label>
     </div>
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="connexionByMail(email, password)">Connecter</button>
+      <button class="button button-full button-positive green" data-ng-click="connexionByMail()">Connecter</button>
       <button class="button button-full button-positive grey" ui-sref="adresseTravail">Quitter</button>
     </div>
   </ion-content>

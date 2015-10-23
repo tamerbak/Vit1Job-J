@@ -3,10 +3,10 @@
  */
 
 
-angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices'])
+angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices', 'providerServices'])
 
   .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, 
-				formatString, PersistInServer, LoadList, Global){
+				formatString, PersistInServer, LoadList, Global, DataProvider){
 
 	  // FORMULAIRE
 	  $scope.formData = {};
@@ -68,15 +68,14 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 									if(listEntry[0].attributeReference === 'pk_user_employeur')
 										employeurId=listEntry[0].value;
 									
-									connexion={'etat': true, 'libelle': 'Déconnexion', 'employeID': Number(employeurId)};
+									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
 									$cookieStore.put('connexion', connexion);
 								
 									// USER REEL - REDIRECTION VERS RECHERCHE
 									$state.go("search");
 								}
-								else					// MOT DE PASSE INCORRECT
+								else	// MOT DE PASSE INCORRECT
 									Global.showAlertPassword("Mot de passe incorrect");
-									//console.log("Mot de pass Incorrect");
 							}
 						}
 					}
@@ -97,11 +96,11 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 								employeur=formatString.formatServerResult(response);
 
 								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-									connexion={'etat': true, 'libelle': 'Déconnexion', 'employeID': Number(employeur.dataModel.status)};
+									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
 									$cookieStore.put('connexion', connexion);
 								}//$cookieStore.put('employeID', );
 									
-								// LOAD LIST CIVILITES
+								/*** LOAD LIST CIVILITES
 								civilites=$cookieStore.get('civilites');
 								if(!civilites){	
 									LoadList.loadListCivilites(sessionId)
@@ -136,7 +135,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 											console.log("error : LOAD DATA");
 											console.log("error in loadListCivilites : "+err);
 										});
-								}
+								} ***/
 								
 								// PASSWORD INCORRECT - INSCRIPTION L2
 								$state.go("saisieCiviliteEmployeur");
@@ -157,8 +156,8 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
   
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={
-				'villes': $cookieStore.get('villes')};
+			$scope.formData={'villes': DataProvider.getVilles()};
+			//$scope.formData={ 'villes': $cookieStore.get('villes')};
 		}
   
 		$scope.loadCodeInter=function(){

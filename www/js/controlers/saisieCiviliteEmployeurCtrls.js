@@ -3,9 +3,11 @@
  */
 
 
-angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64', 'wsConnectors', 'parsingServices'])
+angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64', 
+		'wsConnectors', 'parsingServices', 'providerServices'])
 
-	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64, LoadList, formatString){
+	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64, 
+				LoadList, formatString, DataProvider){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -67,7 +69,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 					});
 			}
 			
-			// LOAD LIST ZIP-CODE
+			/*** LOAD LIST ZIP-CODE
 			codePostals=$cookieStore.get('zipCodes');
 			if(!codePostals){
 				LoadList.loadZipCodes(sessionId)
@@ -110,7 +112,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 							console.log("error : LOAD DATA");
 							console.log("error in loadZipCodes : "+err);
 						});
-			}
+			}***/
 			
 			// REDIRECTION VERS PAGE - ADRESSE PERSONEL
 			$state.go('adressePersonel');	
@@ -141,8 +143,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 		
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={
-				'civilites': $cookieStore.get('civilites')};
+			$scope.formData={'civilites': DataProvider.getCivilites()};
 		}
 		
 		$scope.$on( "$ionicView.beforeEnter", function(scopes, states){

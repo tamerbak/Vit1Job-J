@@ -384,16 +384,54 @@ angular.module('wsConnectors', ['ionic'])
         },
         data: soapMessage
       });
-    };
+	}
+	
+	this.persistInOffres=function(identifiant, titre, description, disponible_du, disponible_au, sessionID, employeurID){
 
-	this.persistInOffres=function(sessionID){
-		soapMessage=
+      soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_employeur</entity>'+
+			'<entity>user_offre</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
+        				'<fr.protogen.connector.model.DataEntry>'+		// IDENTIFIANT
+							'<label>&lt;![CDATA[Identifiant]]&gt;</label>'+
+							'<attributeReference>identifiant</attributeReference>'+
+							'<type>DOUBLE</type>'+
+							'<value>'+identifiant+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+		// titre
+							'<label>&lt;![CDATA[Titre]]&gt;</label>'+
+							'<attributeReference>titre</attributeReference>'+
+							'<type>TEXT</type>'+
+							'<value>&lt;![CDATA['+titre+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+		// description
+							'<label>&lt;![CDATA[Description]]&gt;</label>'+
+							'<attributeReference>description</attributeReference>'+
+							'<type>TEXT</type>'+
+							'<value>&lt;![CDATA['+description+']]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+						/**'<fr.protogen.connector.model.DataEntry>'+		// disponible_du
+          					'<label>&lt;![CDATA[Disponible du]]&gt;</label>'+
+         					' <attributeReference>disponible_du</attributeReference>'+
+          					'<type>DATE</type>'+
+          					'<value>'+disponible_du+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+		// disponible_au
+          					'<label>&lt;![CDATA[Disponible au]]&gt;</label>'+
+          					'<attributeReference>disponible_au</attributeReference>'+
+          					'<type>DATE</type>'+
+          					'<value>'+disponible_au+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+**/// ID EMPLOYEUR
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Employeur]]&gt;</label>'+
+							'<attributeReference>fk_user_employeur</attributeReference>'+
+							'<type>fk_user_employeur</type>'+
+							'<list/>'+
+							'<value>'+employeurID+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -436,11 +474,175 @@ angular.module('wsConnectors', ['ionic'])
         },
         data: soapMessage
       });
-	}
+    };
+	
+	this.persistInOffres_Competences=function(sessionID, offreID){
+
+      soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_competence_offre</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+        				
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+			'<username></username>'+
+			'<password></password>'+
+			'<nom>Jakjoud Abdeslam</nom>'+
+			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
+			'<status>SUCCES</status>'+
+			'<id>206</id>'+
+			'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>PUT</operation>'+
+			'<clauses>'+
+			'<fr.protogen.connector.model.SearchClause>'+
+			'<field></field>'+
+			'<clause></clause>'+
+			'<gt></gt>'+
+			'<lt></lt>'+
+			'<type>TEXT</type>'+
+			'</fr.protogen.connector.model.SearchClause>'+
+			'</clauses>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };
+  
+	this.persistInOffres_Transvers=function(sessionID, offreID){
+
+      soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_competence_offre</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+        				
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+			'<username></username>'+
+			'<password></password>'+
+			'<nom>Jakjoud Abdeslam</nom>'+
+			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
+			'<status>SUCCES</status>'+
+			'<id>206</id>'+
+			'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>PUT</operation>'+
+			'<clauses>'+
+			'<fr.protogen.connector.model.SearchClause>'+
+			'<field></field>'+
+			'<clause></clause>'+
+			'<gt></gt>'+
+			'<lt></lt>'+
+			'<type>TEXT</type>'+
+			'</fr.protogen.connector.model.SearchClause>'+
+			'</clauses>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };
+  
+	this.persistInOffres_Langues=function(sessionID, offreID){
+
+      soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_competence_offre</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+        				
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+			'<username></username>'+
+			'<password></password>'+
+			'<nom>Jakjoud Abdeslam</nom>'+
+			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+			'<sessionId>'+sessionID+'</sessionId>'+
+			'<status>SUCCES</status>'+
+			'<id>206</id>'+
+			'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>PUT</operation>'+
+			'<clauses>'+
+			'<fr.protogen.connector.model.SearchClause>'+
+			'<field></field>'+
+			'<clause></clause>'+
+			'<gt></gt>'+
+			'<lt></lt>'+
+			'<type>TEXT</type>'+
+			'</fr.protogen.connector.model.SearchClause>'+
+			'</clauses>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };
+  
+  
   })
 
   .service('UpdateInServer', function ($http){
-	  this.updateCiviliteInEmployeur = function(id, civilite, nom, prenom, raisonSocial, siret, codeAPE, numUrssaf, sessionID){
+	this.updateCiviliteInEmployeur = function(id, civilite, nom, prenom, raisonSocial, siret, codeAPE, numUrssaf, sessionID){
 
        soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+

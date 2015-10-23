@@ -3,9 +3,9 @@
  */
 
 
-angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
+angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'providerServices'])
 
-	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer){
+	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer, DataProvider){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -54,7 +54,7 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies'])
 		}
 		
 		$scope.initForm=function(){
-			$scope.formData.zipCodes=$cookieStore.get('zipCodes');
+			$scope.formData.zipCodes=DataProvider.getZipCodes();
 		}
 			
 		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){

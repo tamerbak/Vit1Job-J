@@ -169,6 +169,10 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app');
   })
+  /**
+   .config(function($mdGestureProvider ){
+	   $mdGestureProvider.skipClickHijack();
+     })**/
 
   .directive('ngEnter', function() {
     return function(scope, element, attrs) {

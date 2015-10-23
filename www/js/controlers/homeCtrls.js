@@ -201,17 +201,23 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		cnx=$cookieStore.get('connexion');
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
-				cnx.etat = false;
-				cnx.libelle="Se déconnecter";
-
-				// REMOVE ALL COOKIES
+				console.log("IL S'AGIT D'UNE DECONNEXION");
+				
+				$cookieStore.remove('connexion');
+				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
+				$cookieStore.put('connexion', connexion);
+				
+				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));
+				$state.go("connection");
+				/*** REMOVE ALL COOKIES
 				var cookies = $cookies.getAll();
 				angular.forEach(cookies, function (v, k) {
 					$cookieStore.remove(k);
-				});
+				});**/
 
 			}
 			else{ // IL S'AGIT D'UNE CONNEXION
+			console.log("IL S'AGIT D'UNE CONNEXION");
 				$state.go("connection");
 			}
 		}
