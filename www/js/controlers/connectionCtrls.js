@@ -18,11 +18,11 @@ angular
 
 					$scope.fbLogin = function(){
 						ngFB.login({
-							scope : 'email'
+							scope : 'email,user_work_history,user_location'
 						}).then(function(response) {
 							if (response.status === 'connected') {
 								console.log('Facebook login succeeded');
-								$state.go('profile');
+								$state.go('saisieCiviliteEmployeur');
 							} else {
 								alert('Facebook login failed');
 							}
@@ -106,7 +106,7 @@ angular
 					}
 
 					$scope.loadAllVilles = function(){
-						
+
 						sessionId=$cookieStore.get('sessionID');
 						//if(!sessionId){
 							// CONNEXION AU SERVEUR
@@ -122,10 +122,10 @@ angular
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
 									$cookieStore.put('sessionID', sessionId);
-									
+
 									/*** LOAD LIST VILLES
 									villes=$cookieStore.get('villes');
-									if(!villes){	
+									if(!villes){
 										LoadList.loadListVilles(sessionId)
 											.success(
 													function(response){
@@ -133,7 +133,7 @@ angular
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
 														villeObjects = resp.dataModel.rows.dataRow;
-											
+
 														// GET VILLES
 														villes = [];
 														ville = {}; // ville.libelle | ville.id
@@ -165,15 +165,15 @@ angular
 								.error(function (data){
 									console.log("error : récuperation JSessionId");
 								});
-						
-						// REDIRECTION 
+
+						// REDIRECTION
 						$state.go("cPhone");
 					}
-					
+
 					$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 						if(states.fromCache && states.stateName == "connection" ){
 							// VERIFICATION S'IL EST CONNECTE OU PAS
-							
+
 							// RECUPERATION CONNEXION
 							connexion=$cookieStore.get('connexion');
 							if(connexion){

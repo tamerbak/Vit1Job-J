@@ -9,19 +9,22 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 
 		// FORMULAIRE
 		$scope.formData = {};
-		
+
+    var userCity = localStorage.getItem('userCity');
+    $scope.formData.ville = userCity;
+
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdressePersEmployeur = function(){
-		  
+
 			for(var obj in $scope.formData){
 				console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
-			
+
 			codePostal=$scope.formData.codePostal;
 			ville=$scope.formData.ville;
-			adresse1=$scope.formData.adresse1; 
+			adresse1=$scope.formData.adresse1;
 			adresse2=$scope.formData.adresse2;
-			
+
 			// RECUPERATION CONNEXION
 			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
@@ -29,7 +32,7 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
-			
+
 			// TEST DE VALIDATION
 			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){
 			if(codePostal && ville && adresse1 && adresse2){
@@ -46,17 +49,17 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 						console.log("error In updateAdressePersEmployeur: "+err);
 					});
 			}
-			
+
 			// REDIRECTION VERS PAGE - ADRESSE TRAVAIL
 			$state.go('adresseTravail');
 
 
 		}
-		
+
 		$scope.initForm=function(){
 			$scope.formData.zipCodes=DataProvider.getZipCodes();
 		}
-			
+
 		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 			if(states.fromCache && states.stateName == "adressePersonel" ){
 				$scope.initForm();

@@ -2,7 +2,8 @@
  * Created by Tamer on 15/10/2015.
  */
 
-angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalServices', 'providerServices'])
+angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalServices', 
+		'providerServices', 'parsingServices'])
 	
 	/**.directive('clickEvent', function() {
 		return function(scope, element, attrs){
@@ -13,7 +14,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 		}
 	})**/
 	.controller('competenceCtrl', function ($scope, $cookieStore, $state, x2js, $rootScope, AuthentificatInServer,
-						Global, DataProvider, PullDataFromServer, PersistInServer) {
+						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString) {
 		// FORMULAIRE
 		$scope.formData = {};
 
@@ -336,12 +337,12 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 				console.log("Je suis dans : hasSessionID");
 				
 				//  PERSIST IN BD - OFFRE
-				//PullDataFromServer.pullDATA("user_offre", sessionId, "identifiant", 21, 21)
-				PullDataFromServer.pullDATA("user_competence_offre", sessionId, "protogen_user_id", 0, 999)
-				//PersistInServer.persistInOffres(employeId, "Titre_1", "Description_1", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId)
+				//LoadList.loadList("user_langue", sessionId)
+				//PullDataFromServer.pullDATA("user_langue", sessionId, "identifiant", 21, 21)
+				//PullDataFromServer.pullDATA("user_maitrise_langue_offre", sessionId, "fk_user_langue", 40, 40)
+				PersistInServer.persistInOffres(employeId, "Titre_2", "Description_2", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId)
 					.success(function (response){
 						console.log("response : "+response);
-						return;
 						
 						// RECUPERATION EMPLOYEUR ID
 						offre=formatString.formatServerResult(response);
@@ -354,8 +355,46 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 						
 						offreId=$cookieStore.get('offreID');
 						if(offreId){
-							// PERSIST IN COMPETANCES
+							// PARCOURIR ALL JOBYERS
+							for(var i=0; i<$rootScope.jobyers.length; i++){
+								offre=$rootScope.jobyers[i];
+								if(offre.job){
+									// PERSISTENCE IN COMPETANCE
+									PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job), Number(offreId))
+										.success(function (response){
+											console.log("success : persistInOffres_Competences"+response);
+										}).error(function (err){
+												console.log("error : insertion DATA");
+												console.log("error In persistInOffres_Competences: "+err);
+										});
+								}
+								if(offre.indisp){
+									// PERSISTENCE IN TRANSVERS
+									PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
+										.success(function (response){
+											console.log("success : persistInOffres_Transvers"+response);
+										}).error(function (err){
+												console.log("error : insertion DATA");
+												console.log("error In persistInOffres_Transvers: "+err);
+										});
+								}
+								if(offre.langue){
+									console.log("langue : "+offre.langue);
+									// PERSISTENCE IN LANGUES
+									PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
+										.success(function (response){
+											console.log("success : persistInOffres_Langues"+response);
+										}).error(function (err){
+												console.log("error : insertion DATA");
+												console.log("error In persistInOffres_Langues: "+err);
+										});
+								}
+							}
 							
+							// SHOW MODAL
+							Global.showAlertPassword("Merci! Vos Offres sont été bien publiés.");
+							// REDIRECTION VERS SEARCH
+							$state.go("search");
 						}
 						
 					}).error(function (err){
