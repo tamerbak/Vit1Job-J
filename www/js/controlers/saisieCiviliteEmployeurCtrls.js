@@ -8,12 +8,15 @@
 
 starter
 
-	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64, LoadList, formatString){
+	.controller('saisieCiviliteEmployeurCtrl', function ($scope, localStorageService, $state, UpdateInServer, UploadFile, $base64,
+				LoadList, formatString, DataProvider, ngFB){
 
 		// FORMULAIRE
 		$scope.formData = {};
 
-		$scope.updateCiviliteEmployeur = function(){
+
+
+    $scope.updateCiviliteEmployeur = function(){
 
 			for(var obj in $scope.formData){
 				console.log("formData["+obj+"] : "+$scope.formData[obj]);
@@ -33,7 +36,7 @@ starter
 			var employeId=connexion.employeID;
 			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			if(titre && nom && prenom && entreprise && siret && ape && numUssaf){
 			//if (1==2) {
@@ -70,50 +73,50 @@ starter
 					});
 			}
 
-			// LOAD LIST ZIP-CODE
-			var codePostals=$cookieStore.get('zipCodes');
-			if(!codePostals){
-				LoadList.loadZipCodes(sessionId)
-					.success(function (response){
-							var resp=formatString.formatServerResult(response);
-							// DONNEES ONT ETE CHARGES
-							console.log("les ZipCodes ont été bien chargé");
-							var zipCodesObjects=resp.dataModel.rows.dataRow;
+// LOAD LIST ZIP-CODE
+      var codePostals=$cookieStore.get('zipCodes');
+      if(!codePostals){
+        LoadList.loadZipCodes(sessionId)
+          .success(function (response){
+            var resp=formatString.formatServerResult(response);
+            // DONNEES ONT ETE CHARGES
+            console.log("les ZipCodes ont été bien chargé");
+            var zipCodesObjects=resp.dataModel.rows.dataRow;
 
-							if(typeof zipCodesObjects === 'undefined' || zipCodesObjects.length<=0 || zipCodesObjects===""){
-								console.log('Aucune résultat trouvé');
-								// PUT IN SESSION
-								$cookieStore.put('zipCodes', []);
-								return;
-							}
+            if(typeof zipCodesObjects === 'undefined' || zipCodesObjects.length<=0 || zipCodesObjects===""){
+              console.log('Aucune résultat trouvé');
+              // PUT IN SESSION
+              $cookieStore.put('zipCodes', []);
+              return;
+            }
 
-							// GET ZIP-CODE
-							var zipCodes=[];
-							var zipCode={}; // zipCode.libelle | zipCode.id
+            // GET ZIP-CODE
+            var zipCodes=[];
+            var zipCode={}; // zipCode.libelle | zipCode.id
 
-							var zipCodesList=[].concat(zipCodesObjects);
-							console.log("zipCodesList.length : "+zipCodesList.length);
-							for(var i=0; i<zipCodesList.length; i++){
-								var object=zipCodesList[i].dataRow.dataEntry;
+            var zipCodesList=[].concat(zipCodesObjects);
+            console.log("zipCodesList.length : "+zipCodesList.length);
+            for(var i=0; i<zipCodesList.length; i++){
+              var object=zipCodesList[i].dataRow.dataEntry;
 
-								// PARCOURIR LIST PROPERTIES
-								zipCode[object[0].attributeReference]=object[0].value;
-								zipCode[object[1].attributeReference]=object[1].value;
+              // PARCOURIR LIST PROPERTIES
+              zipCode[object[0].attributeReference]=object[0].value;
+              zipCode[object[1].attributeReference]=object[1].value;
 
-								if(zipCode)
-									zipCodes.push(zipCode);
-								zipCode={}
-							}
+              if(zipCode)
+                zipCodes.push(zipCode);
+              zipCode={}
+            }
 
-							console.log("zipCodes.length : "+zipCodes.length);
-							// PUT IN SESSION
-							$cookieStore.put('zipCodes', zipCodes);
-							console.log("zipCodes : "+JSON.stringify(zipCodes));
-						}).error(function (err){
-							console.log("error : LOAD DATA");
-							console.log("error in loadZipCodes : "+err);
-						});
-			}
+            console.log("zipCodes.length : "+zipCodes.length);
+            // PUT IN SESSION
+            $cookieStore.put('zipCodes', zipCodes);
+            console.log("zipCodes : "+JSON.stringify(zipCodes));
+          }).error(function (err){
+            console.log("error : LOAD DATA");
+            console.log("error in loadZipCodes : "+err);
+          });
+      }
 
 			// REDIRECTION VERS PAGE - ADRESSE PERSONEL
 			$state.go('adressePersonel');
@@ -144,8 +147,7 @@ starter
 
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={
-				'civilites': $cookieStore.get('civilites')};
+			$scope.formData={'civilites': DataProvider.getCivilites()};
 		};
 
 		$scope.$on( "$ionicView.beforeEnter", function(scopes, states){
@@ -153,6 +155,26 @@ starter
 				$scope.initForm();
 			}
 		});
-	})
+	});
 
-;
+ngFB.api({
+  path: '/me',
+  params: {fields: 'id,first_name,last_name,gender,work,location'}
+}).then(
+  function (user) {
+    $scope.user = user;
+    if(user.gender == "male")
+      $scope.formData.civ =  "Monsieur";
+    else if(user.gender == "female")
+      $scope.formData.civ =  "Mademoiselle";
+    else
+      $scope.formData.civ =  "Titre";
+    $scope.formData.prenom = user.first_name;
+    $scope.formData.nom = user.last_name;
+    $scope.formData.entreprise = user.work[0].employer.name;
+    localStorage.setItem('userCity', user.location.name);
+  },
+  function (error) {
+    alert('Facebook error: ' + error.error_description);
+  });
+
