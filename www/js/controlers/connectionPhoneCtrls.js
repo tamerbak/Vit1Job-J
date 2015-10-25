@@ -3,9 +3,9 @@
  */
 
 
-angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices', 'providerServices'])
+angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'globalServices', 'providerServices'])
 
-  .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer,
+  .controller('cPhoneCtrl', function ($scope, localStorageService, $state, x2js, AuthentificatInServer, PullDataFromServer,
 				formatString, PersistInServer, LoadList, Global, DataProvider){
 
 	  // FORMULAIRE
@@ -37,7 +37,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
           // PUT SESSION ID
           sessionId = jsonResp.amanToken.sessionId;
           console.log("sessionId : "+sessionId);
-		  $cookieStore.put('sessionID', sessionId);
+		      localStorageService.set('sessionID', sessionId);
 
           // INTERROGE PHONE_TABLE
           PullDataFromServer.pullDATA("user_employeur", sessionId, "telephone", phone, phone)
@@ -45,7 +45,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
               data=formatString.formatServerResult(resp);
 
               result=data.dataModel.rows;
-        if(typeof result === 'undefined' || result.length<=0 || result===""){
+              if(typeof result === 'undefined' || result.length<=0 || result===""){
 				  console.log('Aucune résultat trouvé');
 				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
 				  isNew=1;
@@ -69,7 +69,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 										employeurId=listEntry[0].value;
 
 									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
-									$cookieStore.put('connexion', connexion);
+									localStorageService.set('connexion', connexion);
 
 									// USER REEL - REDIRECTION VERS RECHERCHE
 									$state.go("search");
@@ -97,8 +97,8 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 
 								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
 									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
-									$cookieStore.put('connexion', connexion);
-								}//$cookieStore.put('employeID', );
+									localStorageService.set('connexion', connexion);
+								}//localStorageService.set('employeID', );
 
 								/*** LOAD LIST CIVILITES
 								civilites=$cookieStore.get('civilites');
@@ -129,7 +129,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 
 											console.log("civilites.length : "+civilites.length);
 											// PUT IN SESSION
-											$cookieStore.put('civilites', civilites);
+											localStorageService.set('civilites', civilites);
 											console.log("civilites : "+JSON.stringify(civilites));
 										}).error(function (err){
 											console.log("error : LOAD DATA");
@@ -157,7 +157,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 		$scope.initForm=function(){
 			// GET LIST
 			$scope.formData={'villes': DataProvider.getVilles()};
-			//$scope.formData={ 'villes': $cookieStore.get('villes')};
+			//$scope.formData={ 'villes': localStorageService.get('villes')};
 		}
 
 		$scope.loadCodeInter=function(){

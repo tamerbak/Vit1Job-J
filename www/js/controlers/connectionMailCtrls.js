@@ -3,10 +3,10 @@
  */
 
 
-angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices'])
+angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'globalServices'])
 
-  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer,
-			formatString, PersistInServer, Global){
+  .controller('cMailCtrl', function ($scope, localStorageService, $state, x2js, AuthentificatInServer, PullDataFromServer,
+			formatString, PersistInServer, Global) {
 
 	 // FORMULAIRE
 	 $scope.formData = {};
@@ -35,7 +35,7 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
           sessionId = jsonResp.amanToken.sessionId;
           console.log("sessionId : "+sessionId);
           console.log("email : "+email);
-		  $cookieStore.put('sessionID', sessionId);
+          localStorageService.set('sessionID', sessionId);
 
           // INTERROGE PHONE_TABLE
           PullDataFromServer.pullDATA("user_employeur", sessionId, "email", email, email)
@@ -69,7 +69,7 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
 										employeurId=listEntry[0].value;
 
 									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
-									$cookieStore.put('connexion', connexion);
+                  localStorageService.set('connexion', connexion);
 
 									// USER REEL - REDIRECTION VERS RECHERCHE
 									$state.go("search");
@@ -101,7 +101,8 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
 								{
 									$cookieStore.remove('connexion');
 									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
-									$cookieStore.put('connexion', connexion);
+									//$cookieStore.put('connexion', connexion);
+                  localStorageService.set('connexion', connexion);
 								}
 									//$cookieStore.put('employeID', employeur.dataModel.status);
 

@@ -1,9 +1,9 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices', 'globalServices'])
+angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $cordovaGeolocation, $ionicLoading, $timeout,Global, $cookies) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, localStorageService, $cordovaGeolocation, $ionicLoading, $timeout,Global) {
 		// FORMULAIRE
 		$scope.formData = {};
 		//$scope.formData.connexion= {};
@@ -179,7 +179,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices', 
 	$scope.initConnexion= function(){
 
 		$scope.formData.connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
-		cnx=$cookieStore.get('connexion');
+		cnx=localStorageService.get('connexion');
 		if(cnx){
 			$scope.formData.connexion=cnx;
 			console.log("Employeur est connecté");
@@ -198,21 +198,21 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices', 
 
 	$scope.modeConnexion= function(){
 		estConnecte=0;
-		cnx=$cookieStore.get('connexion');
+		cnx=localStorageService.get('connexion');
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				console.log("IL S'AGIT D'UNE DECONNEXION");
 
-				$cookieStore.remove('connexion');
+				localStorageService.remove('connexion');
 				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
-				$cookieStore.put('connexion', connexion);
+				localStorageService.set('connexion', connexion);
 
-				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));
+				console.log("New Connexion : "+JSON.stringify(localStorageService.get('connexion')));
 				$state.go("connection");
 				/*** REMOVE ALL COOKIES
 				var cookies = $cookies.getAll();
 				angular.forEach(cookies, function (v, k) {
-					$cookieStore.remove(k);
+					localStorageService.remove(k);
 				});**/
 
 			}

@@ -3,11 +3,11 @@
  */
 
 
-angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64',
+angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'fileServices', 'base64',
 		'wsConnectors', 'parsingServices', 'providerServices'])
 
-	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64,
-				LoadList, formatString, DataProvider, ngFB){
+	.controller('saisieCiviliteEmployeurCtrl', function ($scope, localStorageService, $state, UpdateInServer, UploadFile, $base64,
+				LoadList, formatString, DataProvider){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -48,12 +48,12 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			numUssaf=$scope.formData.numUssaf;
 
 			// RECUPERATION CONNEXION
-			connexion=$cookieStore.get('connexion');
+			connexion=localStorageService.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
-			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
+			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			if(titre && nom && prenom && entreprise && siret && ape && numUssaf){
 			//if (1==2) {
@@ -91,7 +91,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			}
 
 			/*** LOAD LIST ZIP-CODE
-			codePostals=$cookieStore.get('zipCodes');
+			codePostals=localStorageService.get('zipCodes');
 			if(!codePostals){
 				LoadList.loadZipCodes(sessionId)
 					.success(function (response){
@@ -103,7 +103,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 							if(typeof zipCodesObjects === 'undefined' || zipCodesObjects.length<=0 || zipCodesObjects===""){
 								console.log('Aucune résultat trouvé');
 								// PUT IN SESSION
-								$cookieStore.put('zipCodes', []);
+								localStorageService.set('zipCodes', []);
 								return;
 							}
 
@@ -127,7 +127,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 
 							console.log("zipCodes.length : "+zipCodes.length);
 							// PUT IN SESSION
-							$cookieStore.put('zipCodes', zipCodes);
+							localStorageService.set('zipCodes', zipCodes);
 							console.log("zipCodes : "+JSON.stringify(zipCodes));
 						}).error(function (err){
 							console.log("error : LOAD DATA");

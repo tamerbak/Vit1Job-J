@@ -3,9 +3,9 @@
  */
 
 
-angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'providerServices'])
+angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'providerServices'])
 
-	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer, DataProvider){
+	.controller('adressePersonelCtrl', function ($scope, localStorageService, $state, UpdateInServer, DataProvider){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -26,12 +26,12 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 			adresse2=$scope.formData.adresse2;
 
 			// RECUPERATION CONNEXION
-			connexion=$cookieStore.get('connexion');
+			connexion=localStorageService.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
-			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
+			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			// TEST DE VALIDATION
 			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){

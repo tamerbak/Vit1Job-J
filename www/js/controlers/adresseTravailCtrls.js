@@ -2,10 +2,10 @@
  * Created by Omar on 15/10/2015.
  */
 
-angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices',
+angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 			'angucomplete', 'providerServices'])
 
-	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString,
+	.controller('adresseTravailCtrl', function ($scope, $rootScope, localStorageService, $state, formatString,
 					UpdateInServer, LoadList, DataProvider){
 
 		// FORMULAIRE
@@ -30,12 +30,12 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			adresse2=$scope.formData.adresse2;
 
 			// RECUPERATION CONNEXION
-			connexion=$cookieStore.get('connexion');
+			connexion=localStorageService.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
-			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
+			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			// TEST DE VALIDATION
 			if(codePostal && ville && adresse1  && adresse2){
@@ -54,7 +54,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 
 			/*** CHARGEMENT METIERS
-			metiers=$cookieStore.get('metiers');
+			metiers=localStorageService.get('metiers');
 			//metiers=$rootScope.metiers;
 			if(!metiers){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -87,7 +87,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						console.log("metiers.length : "+metiers.length);
 
 						// PUT IN SESSION
-						$cookieStore.put('metiers', metiers);
+						localStorageService.set('metiers', metiers);
 						console.log("metiers : "+JSON.stringify(metiers));
 					}).error(function (err){
 						console.log("error : GET DATA from metiers");
@@ -96,7 +96,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 
 			// CHARGEMENT LANGUES
-			langues=$cookieStore.get('langues');
+			langues=localStorageService.get('langues');
 			if(!langues){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListLangues(sessionId)
@@ -126,7 +126,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 
 						console.log("langues.length : "+langues.length);
 						// PUT IN SESSION
-						$cookieStore.put('langues', langues);
+						localStorageService.set('langues', langues);
 						console.log("langues : "+JSON.stringify(langues));
 					}).error(function (err){
 						console.log("error : GET DATA from langues");
@@ -135,7 +135,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 
 			// CHARGEMENT JOBS
-			jobs=$cookieStore.get('jobs');
+			jobs=localStorageService.get('jobs');
 			if(!jobs){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListJobs(sessionId)
@@ -165,7 +165,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 
 						console.log("jobs.length : "+jobs.length);
 						// PUT IN SESSION
-						$cookieStore.put('jobs', jobs);
+						localStorageService.set('jobs', jobs);
 						console.log("jobs : "+JSON.stringify(jobs));
 					}).error(function (err){
 						console.log("error : GET DATA from jobs");
@@ -174,7 +174,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			}
 
 			// CHARGEMENT COMPETENCES INDISPENSABLES
-			transvers=$cookieStore.get('transvers');
+			transvers=localStorageService.get('transvers');
 			if(!transvers){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListIndespensables(sessionId)
@@ -204,7 +204,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 
 						console.log("transvers.length : "+transvers.length);
 						// PUT IN SESSION
-						$cookieStore.put('transvers', transvers);
+						localStorageService.set('transvers', transvers);
 						console.log("transvers : "+JSON.stringify(transvers));
 					}).error(function (err){
 						console.log("error : GET DATA from transvers");
