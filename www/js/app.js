@@ -75,21 +75,6 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
   });
 })
 
-  // this control will be deleted because there will be no Profile page ..
-  .controller('ProfileCtrl', function ($scope, ngFB) {
-    ngFB.api({
-      path: '/me',
-      params: {fields: 'id,name'}
-    }).then(
-      function (user) {
-        $scope.user = user;
-      },
-      function (error) {
-        alert('Facebook error: ' + error.error_description);
-      });
-  })
-
-
   //Config LocalStorage
   .config(function (localStorageServiceProvider) {
     localStorageServiceProvider

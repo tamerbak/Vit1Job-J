@@ -10,6 +10,9 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'providerServices']
 		// FORMULAIRE
 		$scope.formData = {};
 
+    var userCity = localStorage.getItem('userCity');
+    $scope.formData.ville = userCity;
+
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdressePersEmployeur = function(){
 

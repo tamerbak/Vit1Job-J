@@ -7,7 +7,7 @@ var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercon
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
 angular
-		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'parsingServices'])
+		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'ngCookies', 'parsingServices'])
 		.controller(
 				'connectCtrl', function($scope, localStorageService, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
 					// FORMULAIRE
@@ -121,10 +121,10 @@ angular
 									// PUT SESSION ID
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
-									localStorageService.set('sessionID', sessionId);
+									$cookieStore.put('sessionID', sessionId);
 
 									/*** LOAD LIST VILLES
-									villes=localStorageService.get('villes');
+									villes=$cookieStore.get('villes');
 									if(!villes){
 										LoadList.loadListVilles(sessionId)
 											.success(

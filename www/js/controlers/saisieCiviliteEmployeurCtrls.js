@@ -12,7 +12,28 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'fileServic
 		// FORMULAIRE
 		$scope.formData = {};
 
-		$scope.updateCiviliteEmployeur = function(){
+    ngFB.api({
+      path: '/me',
+      params: {fields: 'id,first_name,last_name,gender,work,location'}
+    }).then(
+      function (user) {
+        $scope.user = user;
+        if(user.gender == "male")
+          $scope.formData.civ =  "Monsieur";
+        else if(user.gender == "female")
+          $scope.formData.civ =  "Mademoiselle";
+        else
+          $scope.formData.civ =  "Titre";
+        $scope.formData.prenom = user.first_name;
+        $scope.formData.nom = user.last_name;
+        $scope.formData.entreprise = user.work[0].employer.name;
+        localStorage.setItem('userCity', user.location.name);
+      },
+      function (error) {
+        alert('Facebook error: ' + error.error_description);
+      });
+
+    $scope.updateCiviliteEmployeur = function(){
 
 			for(var obj in $scope.formData){
 				console.log("formData["+obj+"] : "+$scope.formData[obj]);

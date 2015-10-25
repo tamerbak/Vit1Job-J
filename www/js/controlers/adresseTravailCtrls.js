@@ -12,7 +12,12 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 		$scope.formData = {};
 		$scope.formData.listCodes=[];
 
-		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
+    var userCity = localStorage.getItem('userCity');
+    $scope.formData.ville = userCity;
+
+    console.log($scope.formData.ville);
+
+    // RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdresseTravEmployeur = function(){
 
 			for(var obj in $scope.formData){
