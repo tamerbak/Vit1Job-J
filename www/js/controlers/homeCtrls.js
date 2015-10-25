@@ -1,9 +1,9 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
+angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices', 'globalServices'])
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout, $cookies) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $cordovaGeolocation, $ionicLoading, $timeout,Global, $cookies) {
 		// FORMULAIRE
 		$scope.formData = {};
 		//$scope.formData.connexion= {};
@@ -201,22 +201,66 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		cnx=$cookieStore.get('connexion');
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
-				cnx.etat = false;
-				cnx.libelle="Se déconnecter";
+				console.log("IL S'AGIT D'UNE DECONNEXION");
 
-				// REMOVE ALL COOKIES
+				$cookieStore.remove('connexion');
+				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
+				$cookieStore.put('connexion', connexion);
+
+				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));
+				$state.go("connection");
+				/*** REMOVE ALL COOKIES
 				var cookies = $cookies.getAll();
 				angular.forEach(cookies, function (v, k) {
 					$cookieStore.remove(k);
-				});
+				});**/
 
 			}
 			else{ // IL S'AGIT D'UNE CONNEXION
+			console.log("IL S'AGIT D'UNE CONNEXION");
 				$state.go("connection");
 			}
 		}
 		else
 			$state.go("connection");
-	}
+	};
 
+    $scope.getposition = function() {
+
+      $scope.modal = $ionicLoading.show({
+        content: 'Fetching Current Location...',
+        showBackdrop: false
+      });
+
+
+      var posOptions = {
+        timeout: 10000,
+        enableHighAccuracy: false
+      };
+      $cordovaGeolocation
+        .getCurrentPosition(posOptions)
+        .then(function(position) {
+          $scope.latitude = position.coords.latitude;
+          $scope.longitude = position.coords.longitude;
+          $scope.accuracy = position.coords.accuracy;
+          $scope.dataReceived = true;
+
+          Global.showAlertValidation("Latitude : " + $scope.latitude + "<br>" +
+          "Longitude : " + $scope.longitude + "<br>Votre adresse est : <br>" +
+            "<reverse-geocode lat='" + $scope.latitude + "' lng='" +$scope.longitude+ "'/>");
+          $scope.modal.hide();
+
+
+        }, function(err) {
+          // error
+          console.log ("error");
+          $scope.modal.hide();
+          $scope.modal = $ionicLoading.show({
+            content: 'Oops!! ' + err,
+            showBackdrop: false
+          });
+
+          $timeout(function() {$scope.modal.hide();}, 3000);
+        });
+    };
   });

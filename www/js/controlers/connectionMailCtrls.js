@@ -3,9 +3,10 @@
  */
 
 
-angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies'])
+angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices'])
 
-  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer, GlobalService){
+  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer,
+			formatString, PersistInServer, Global){
 
 	 // FORMULAIRE
 	 $scope.formData = {};
@@ -13,11 +14,13 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
      $scope.connexionByMail= function(){
 
 	  email=$scope.formData.email;
-	  password = $scope.formData.password;
+	  password=$scope.formData.password;
+
+		  console.log("email : "+email);
+		  console.log("password : "+password);
 
 	  var isNew=0;
-	  if(isEmpty(email) || isEmpty(password))
-		  return;
+	  //if(isEmpty(email) || isEmpty(password))return;
 
       // CONNEXION AU SERVEUR
       AuthentificatInServer.getSessionId()
@@ -49,23 +52,32 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
 			  }
 			  else{
 					// VERIFICATION DU PASSWORD
-					var listEntry=[];
-					listEntry=result.dataRow.dataRow.dataEntry;
+					var listEntry=[].concat(result.dataRow.dataRow.dataEntry);
+					if(listEntry.length > 0){
 
-					for(var i=0; i<listEntry.length; i++){
-						var object=listEntry[i];
+						for(var i=0; i<listEntry.length; i++){ // AUCUNE RESULTAT
+							var object=listEntry[i];
+							console.log("object : "+JSON.stringify(object));
 
-						for (var property in object) {
-							if(property === 'attributeReference'){
-								if(object[property] === password){
+							if(object.attributeReference === 'mot_de_passe'){
+								pass=object.value;
+								console.log("Mot de pass: "+pass);
+								if(pass === password){
+									// RECUPERATION ID EMPLOYEUR
+									employeurId=0;
+									if(listEntry[0].attributeReference === 'pk_user_employeur')
+										employeurId=listEntry[0].value;
+
+									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
+									$cookieStore.put('connexion', connexion);
+
 									// USER REEL - REDIRECTION VERS RECHERCHE
 									$state.go("search");
 								}
-								else
-									isNew=1;
+								else	// MOT DE PASSE INCORRECT
+									Global.showAlertPassword("Mot de passe incorrect");
 							}
 						}
-						//console.log(object);
 					}
 			  }
 
@@ -86,13 +98,18 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
 								employeur=formatString.formatServerResult(response);
 
 								if(employeur.dataModel.status)	// Bind to local storage service
-									$cookieStore.put('employeID', employeur.dataModel.status);
+								{
+									$cookieStore.remove('connexion');
+									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
+									$cookieStore.put('connexion', connexion);
+								}
+									//$cookieStore.put('employeID', employeur.dataModel.status);
 
 									//$cookies.put('employeID', employeur.dataModel.status);
 									//LocalStorageService.setItem('employeID', employeur.dataModel.status);
 									//GlobalService.setEmployeId=Number(employeur.dataModel.status);
 
-								console.log("ID EMPLOYEUR : "+GlobalService.setEmployeId);
+								Global.showAlertPassword("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
 								// PASSWORD INCORRECT - REDIRECTION
 								$state.go("saisieCiviliteEmployeur");
 							}).error(function (err){

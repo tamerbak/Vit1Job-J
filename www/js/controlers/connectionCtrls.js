@@ -123,7 +123,7 @@ angular
 									console.log("New sessionId : "+sessionId);
 									$cookieStore.put('sessionID', sessionId);
 									
-									// LOAD LIST VILLES
+									/*** LOAD LIST VILLES
 									villes=$cookieStore.get('villes');
 									if(!villes){	
 										LoadList.loadListVilles(sessionId)
@@ -133,7 +133,6 @@ angular
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
 														villeObjects = resp.dataModel.rows.dataRow;
-														console.log("villeObjects : "+JSON.stringify(villeObjects));
 											
 														// GET VILLES
 														villes = [];
@@ -154,13 +153,14 @@ angular
 
 														console.log("villes.length : "+ villes.length);
 														// PUT IN SESSION
+														console.log("villes : "+JSON.stringify(villes));
 														$cookieStore.put('villes', villes);
 											})
 											.error(function(err) {
 														console.log("error : LOAD DATA");
-														console.log("error in loadListCivilites : "+ err);
+														console.log("error in loadListVilles : "+ err);
 											});
-									}
+									} **/
 								})
 								.error(function (data){
 									console.log("error : récuperation JSessionId");

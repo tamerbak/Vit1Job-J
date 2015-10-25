@@ -3,10 +3,10 @@
  */
 
 
-angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices'])
+angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices', 'providerServices'])
 
   .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer,
-				formatString, PersistInServer, LoadList, Global){
+				formatString, PersistInServer, LoadList, Global, DataProvider){
 
 	  // FORMULAIRE
 	  $scope.formData = {};
@@ -45,7 +45,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
               data=formatString.formatServerResult(resp);
 
               result=data.dataModel.rows;
-              if(typeof result === 'undefined' || result.length<=0 || result===""){
+        if(typeof result === 'undefined' || result.length<=0 || result===""){
 				  console.log('Aucune résultat trouvé');
 				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
 				  isNew=1;
@@ -74,9 +74,8 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 									// USER REEL - REDIRECTION VERS RECHERCHE
 									$state.go("search");
 								}
-								else					// MOT DE PASSE INCORRECT
+								else	// MOT DE PASSE INCORRECT
 									Global.showAlertPassword("Mot de passe incorrect");
-									//console.log("Mot de pass Incorrect");
 							}
 						}
 					}
@@ -101,7 +100,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 									$cookieStore.put('connexion', connexion);
 								}//$cookieStore.put('employeID', );
 
-								// LOAD LIST CIVILITES
+								/*** LOAD LIST CIVILITES
 								civilites=$cookieStore.get('civilites');
 								if(!civilites){
 									LoadList.loadListCivilites(sessionId)
@@ -136,7 +135,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 											console.log("error : LOAD DATA");
 											console.log("error in loadListCivilites : "+err);
 										});
-								}
+								} ***/
 
 								// PASSWORD INCORRECT - INSCRIPTION L2
 								$state.go("saisieCiviliteEmployeur");
@@ -157,8 +156,8 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={
-				'villes': $cookieStore.get('villes')};
+			$scope.formData={'villes': DataProvider.getVilles()};
+			//$scope.formData={ 'villes': $cookieStore.get('villes')};
 		}
 
 		$scope.loadCodeInter=function(){

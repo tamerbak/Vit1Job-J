@@ -169,6 +169,10 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app');
   })
+  /**
+   .config(function($mdGestureProvider ){
+	   $mdGestureProvider.skipClickHijack();
+     })**/
 
   .directive('ngEnter', function() {
     return function(scope, element, attrs) {
@@ -182,7 +186,29 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
         }
       });
     };
-  });
+  })
+
+  .directive('reverseGeocode', function () {
+    return {
+      restrict: 'E',
+      template: '<div></div>',
+      link: function (scope, element, attrs) {
+        var geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(attrs.lat, attrs.lng);
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+              element.text(results[0].formatted_address);//
+            } else {
+              element.text('Location not found');
+            }
+          } else {
+            element.text('Geocoder failed due to: ' + status);
+          }
+        });
+      },
+      replace: true
+    }});
 
 /*document.addEventListener("exitButton", function(){
   navigator.notification.confirm(
@@ -197,3 +223,5 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
 function isEmpty(str) {
 	return (!str || 0 === str.length);
 }
+
+
