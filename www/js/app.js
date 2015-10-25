@@ -13,7 +13,7 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
                 'competenceCtrls', 'adressePersonelCtrls','adresseTravailCtrls',
                 'wsConnectors', 'parsingServices', 'fileServices', 'globalServices',
                 //'ng-mfb', 'cb.x2js', 'ngOpenFB'])
-                'ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova'])
+                'LocalStorageModule','ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});
@@ -87,6 +87,13 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
       function (error) {
         alert('Facebook error: ' + error.error_description);
       });
+  })
+
+
+  //Config LocalStorage
+  .config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('Vit1Job'); //Prefix ls.Vit1Job
   })
 
   .config(function($stateProvider, $urlRouterProvider) {

@@ -2,9 +2,9 @@
  * Created by Tamer on 15/10/2015.
  */
 
-angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalServices', 
+angular.module('competenceCtrls', ['ionic', 'wsConnectors', 'globalServices',
 		'providerServices', 'parsingServices'])
-	
+
 	/**.directive('clickEvent', function() {
 		return function(scope, element, attrs){
 			var clickingCallback = function() {
@@ -13,7 +13,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			element.bind('click', clickingCallback);
 		}
 	})**/
-	.controller('competenceCtrl', function ($scope, $cookieStore, $state, x2js, $rootScope, AuthentificatInServer,
+	.controller('competenceCtrl', function ($scope, localStorageService, $state, x2js, $rootScope, AuthentificatInServer,
 						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString) {
 		// FORMULAIRE
 		$scope.formData = {};
@@ -141,7 +141,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 		$scope.removeJobyer = function(){
 			if($rootScope.jobyers.length<=1)
 				return;
-			
+
 			idex=Number($scope.formData.currentFeuille);
 			// DELETE OBJECT FROM LIST
 			$rootScope.jobyers.splice(idex-1, 1);
@@ -161,28 +161,28 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 				$scope.formData.currentFeuille-=1;
 				$scope.loadJobyer(idex-1);
 			}
-			
+
 			// UPDATE NBRE ITEMS
 			$scope.formData['allFeuilles']=$rootScope.jobyers.length;
 		}
 
 		// LOAD NEXT FEUILLE
 		$scope.loadNextJobyer = function(){
-			
+
 			var idex=Number($scope.formData.currentFeuille);
 			console.log("Je suis ds loadNextJobyer -> Last Feuille = "+idex);
 			if(idex === 0)
 				idex=1;
-			
+
 			// TEST
 			if(idex>=$rootScope.jobyers.length || idex<=0)	// IN OUT-BOUND
 				return;
-				
+
 			// UPDATE FEUILLE
 			idex+=1;
 			$scope.formData.currentFeuille=idex;
 			console.log("loadNextJobyer : currentFeuille = "+idex);
-			
+
 			$scope.refrechNavigation();
 
 			$rootScope.jobyerCurrent=$rootScope.jobyers[idex-1];
@@ -195,18 +195,18 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
 			$scope.formData["maitrise"]= $rootScope.jobyerCurrent["maitrise"];
 			$scope.formData["maitriseIcon"]= $rootScope.jobyerCurrent["maitriseIcon"];
-			
+
 			//console.log("formData : "+JSON.stringify($scope.formData));
 			$scope.$apply(function(){});
 		}
-			
+
 		// LOAD FEUILLE N°i
 		$scope.loadJobyer = function(idex){
-			
+
 			// UPDATE FEUILLE
 			$scope.formData.currentFeuille=idex;
 			console.log("loadJobyer : currentFeuille = "+idex);
-			
+
 			$scope.refrechNavigation();
 
 			if(idex>$rootScope.jobyers.length || idex<1)	// IN OUT-BOUND
@@ -226,23 +226,23 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 
 		// LOAD PREV FEUILLE
 		$scope.loadPrevJobyer = function(){
-			
+
 			var idex=Number($scope.formData.currentFeuille);
 			console.log("Je suis ds loadPrevJobyer -> Last Feuille = "+idex);
 			if(idex === 0)
 				idex=1;
-			
+
 			// TEST
 			if(idex>$rootScope.jobyers.length || idex<=0)	// IN OUT-BOUND
 				return;
-				
+
 			// UPDATE FEUILLE
 			idex-=1;
 			if(idex===0)
 				idex=1;
 			$scope.formData.currentFeuille=idex;
 			console.log("loadPrevJobyer : currentFeuille = "+idex);
-			
+
 			$scope.refrechNavigation();
 
 			$rootScope.jobyerCurrent=$rootScope.jobyers[idex-1];
@@ -255,11 +255,11 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
 			$scope.formData["maitrise"]= $rootScope.jobyerCurrent["maitrise"];
 			$scope.formData["maitriseIcon"]= $rootScope.jobyerCurrent["maitriseIcon"];
-			
+
 			//console.log("formData : "+JSON.stringify($scope.formData));
 			$scope.$apply(function(){});
 		}
-		
+
 		// REFRESH BUTTONS
 		$scope.refrechNavigation=function(){
 
@@ -290,7 +290,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 
 			// RECUPERATION DU LAST JOBYER[FEUILLE COURANTE]
 			idex=Number($scope.formData.currentFeuille)-1;
-			
+
 			// MODIFICATION JOBYER COURANT
 			$rootScope.jobyers[idex].metier=$scope.formData.metier;
 			$rootScope.jobyers[idex].job=$scope.formData.job;
@@ -301,12 +301,12 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			$rootScope.jobyers[idex].maitriseIcon=$scope.formData.maitriseIcon;
 
 			// RECUPERATION CONNEXION
-			connexion=$cookieStore.get('connexion');
+			connexion=localStorageService.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
 			console.log("connexion : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			console.log("Offres A Persister : "+JSON.stringify($rootScope.jobyers));
 
@@ -324,7 +324,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 						// GET SESSION ID
           				sessionId = jsonResp.amanToken.sessionId;
           				console.log("New sessionId : "+sessionId);
-		  				$cookieStore.put('sessionID', sessionId);
+		  				localStorageService.set('sessionID', sessionId);
 						hasSessionID=1;
 					})
 					.error(function (err){
@@ -335,7 +335,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 
 			if(hasSessionID){
 				console.log("Je suis dans : hasSessionID");
-				
+
 				//  PERSIST IN BD - OFFRE
 				//LoadList.loadList("user_langue", sessionId)
 				//PullDataFromServer.pullDATA("user_langue", sessionId, "identifiant", 21, 21)
@@ -343,17 +343,17 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 				PersistInServer.persistInOffres(employeId, "Titre_2", "Description_2", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId)
 					.success(function (response){
 						console.log("response : "+response);
-						
+
 						// RECUPERATION EMPLOYEUR ID
 						offre=formatString.formatServerResult(response);
 						if(offre.dataModel.status || offre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-							$cookieStore.put('offreID', Number(offre.dataModel.status));
+							localStorageService.set('offreID', Number(offre.dataModel.status));
 						}
-						
+
 						// DONNEES ONT ETE SAUVEGARDES
-						console.log("offreID a été bien récuperé : "+$cookieStore.get('offreID'));
-						
-						offreId=$cookieStore.get('offreID');
+						console.log("offreID a été bien récuperé : "+localStorageService.get('offreID'));
+
+						offreId=localStorageService.get('offreID');
 						if(offreId){
 							// PARCOURIR ALL JOBYERS
 							for(var i=0; i<$rootScope.jobyers.length; i++){
@@ -390,13 +390,13 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 										});
 								}
 							}
-							
+
 							// SHOW MODAL
 							Global.showAlertPassword("Merci! Vos Offres sont été bien publiés.");
 							// REDIRECTION VERS SEARCH
 							$state.go("search");
 						}
-						
+
 					}).error(function (err){
 						console.log("error : insertion DATA");
 						console.log("error In PullDataFromServer.pullDATA: "+err);

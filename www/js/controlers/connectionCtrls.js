@@ -7,9 +7,9 @@ var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercon
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
 angular
-		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'ngCookies', 'parsingServices'])
+		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'parsingServices'])
 		.controller(
-				'connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
+				'connectCtrl', function($scope, localStorageService, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
 					// FORMULAIRE
 					$scope.formData = {};
 
@@ -106,8 +106,8 @@ angular
 					}
 
 					$scope.loadAllVilles = function(){
-						
-						sessionId=$cookieStore.get('sessionID');
+
+						sessionId=localStorageService.get('sessionID');
 						//if(!sessionId){
 							// CONNEXION AU SERVEUR
 							AuthentificatInServer.getSessionId()
@@ -121,11 +121,11 @@ angular
 									// PUT SESSION ID
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
-									$cookieStore.put('sessionID', sessionId);
-									
+									localStorageService.set('sessionID', sessionId);
+
 									/*** LOAD LIST VILLES
-									villes=$cookieStore.get('villes');
-									if(!villes){	
+									villes=localStorageService.get('villes');
+									if(!villes){
 										LoadList.loadListVilles(sessionId)
 											.success(
 													function(response){
@@ -133,7 +133,7 @@ angular
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
 														villeObjects = resp.dataModel.rows.dataRow;
-											
+
 														// GET VILLES
 														villes = [];
 														ville = {}; // ville.libelle | ville.id
@@ -154,7 +154,7 @@ angular
 														console.log("villes.length : "+ villes.length);
 														// PUT IN SESSION
 														console.log("villes : "+JSON.stringify(villes));
-														$cookieStore.put('villes', villes);
+														localStorageService.set('villes', villes);
 											})
 											.error(function(err) {
 														console.log("error : LOAD DATA");
@@ -165,17 +165,17 @@ angular
 								.error(function (data){
 									console.log("error : récuperation JSessionId");
 								});
-						
-						// REDIRECTION 
+
+						// REDIRECTION
 						$state.go("cPhone");
 					}
-					
+
 					$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 						if(states.fromCache && states.stateName == "connection" ){
 							// VERIFICATION S'IL EST CONNECTE OU PAS
-							
+
 							// RECUPERATION CONNEXION
-							connexion=$cookieStore.get('connexion');
+							connexion=localStorageService.get('connexion');
 							if(connexion){
 								if(connexion.etat)	// REDIRECTION
 									$state.go("search");

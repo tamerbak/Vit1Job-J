@@ -3,33 +3,33 @@
  */
 
 
-angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'providerServices'])
+angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'providerServices'])
 
-	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer, DataProvider){
+	.controller('adressePersonelCtrl', function ($scope, localStorageService, $state, UpdateInServer, DataProvider){
 
 		// FORMULAIRE
 		$scope.formData = {};
-		
+
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdressePersEmployeur = function(){
-		  
+
 			for(var obj in $scope.formData){
 				console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
-			
+
 			codePostal=$scope.formData.codePostal;
 			ville=$scope.formData.ville;
-			adresse1=$scope.formData.adresse1; 
+			adresse1=$scope.formData.adresse1;
 			adresse2=$scope.formData.adresse2;
-			
+
 			// RECUPERATION CONNEXION
-			connexion=$cookieStore.get('connexion');
+			connexion=localStorageService.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
-			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
+			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
-			
+			sessionId=localStorageService.get('sessionID');
+
 			// TEST DE VALIDATION
 			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){
 			if(codePostal && ville && adresse1 && adresse2){
@@ -46,17 +46,17 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 						console.log("error In updateAdressePersEmployeur: "+err);
 					});
 			}
-			
+
 			// REDIRECTION VERS PAGE - ADRESSE TRAVAIL
 			$state.go('adresseTravail');
 
 
 		}
-		
+
 		$scope.initForm=function(){
 			$scope.formData.zipCodes=DataProvider.getZipCodes();
 		}
-			
+
 		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 			if(states.fromCache && states.stateName == "adressePersonel" ){
 				$scope.initForm();

@@ -248,3 +248,11 @@ input[type="text"], input[type="email"], input[type="password"]{
 input#ex1_value, input#ex0_value{
 	margin: 0px !important;
 }
+
+.css-form .invalid {
+  border: 2px solid #FA787E;
+}
+
+.css-form .valid {
+  border: 2px solid #78FA89;
+}
