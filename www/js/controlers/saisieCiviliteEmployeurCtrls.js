@@ -7,7 +7,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'fileServic
 		'wsConnectors', 'parsingServices', 'providerServices'])
 
 	.controller('saisieCiviliteEmployeurCtrl', function ($scope, localStorageService, $state, UpdateInServer, UploadFile, $base64,
-				LoadList, formatString, DataProvider){
+				LoadList, formatString, DataProvider, ngFB){
 
 		// FORMULAIRE
 		$scope.formData = {};
