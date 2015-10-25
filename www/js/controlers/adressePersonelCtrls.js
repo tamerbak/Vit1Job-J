@@ -2,16 +2,17 @@
  * Created by Omar on 15/10/2015.
  */
 
+/**
+ * Modified by HODAIKY on 24/10/2015.
+ */
+'use strict';
 
-angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'providerServices'])
+starter
 
-	.controller('adressePersonelCtrl', function ($scope, localStorageService, $state, UpdateInServer, DataProvider){
+	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer){
 
 		// FORMULAIRE
 		$scope.formData = {};
-
-    var userCity = localStorage.getItem('userCity');
-    $scope.formData.ville = userCity;
 
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdressePersEmployeur = function(){
@@ -26,12 +27,12 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'providerServices']
 			adresse2=$scope.formData.adresse2;
 
 			// RECUPERATION CONNEXION
-			connexion=localStorageService.get('connexion');
+			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
-			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
+			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=localStorageService.get('sessionID');
+			sessionId=$cookieStore.get('sessionID');
 
 			// TEST DE VALIDATION
 			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){
@@ -54,15 +55,15 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'providerServices']
 			$state.go('adresseTravail');
 
 
-		}
+		};
 
 		$scope.initForm=function(){
-			$scope.formData.zipCodes=DataProvider.getZipCodes();
-		}
+			$scope.formData.zipCodes=$cookieStore.get('zipCodes');
+		};
 
 		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 			if(states.fromCache && states.stateName == "adressePersonel" ){
 				$scope.initForm();
 			}
 		});
-	})
+	});

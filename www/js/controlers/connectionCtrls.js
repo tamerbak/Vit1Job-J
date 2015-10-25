@@ -1,15 +1,18 @@
 /**
  * Created by Tamer on 14/10/2015.
  */
+/**
+ * Modified by HODAIKY on 25/10/2015.
+ */
+  'use strict';
 var requestToken = "";
 var accessToken = "";
 var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercontent.com";
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
-angular
-		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'parsingServices'])
+starter
 		.controller(
-				'connectCtrl', function($scope, localStorageService, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
+				'connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
 					// FORMULAIRE
 					$scope.formData = {};
 
@@ -18,11 +21,11 @@ angular
 
 					$scope.fbLogin = function(){
 						ngFB.login({
-							scope : 'email,user_work_history,user_location'
+							scope : 'email'
 						}).then(function(response) {
 							if (response.status === 'connected') {
 								console.log('Facebook login succeeded');
-								$state.go('saisieCiviliteEmployeur');
+								$state.go('profile');
 							} else {
 								alert('Facebook login failed');
 							}
@@ -31,7 +34,7 @@ angular
 
 					$scope.showAlert = function(){
 						Global.showAlert();
-					}
+					};
 
 					$scope.loginGmail = function(){
 						var ref = window
@@ -81,7 +84,7 @@ angular
 												ref.close();
 											}
 										});
-					}
+					};
 
 					$scope.digitalOceanLogin = function() {
 						$cordovaOauth.digitalOcean("CLIENT_ID_HERE",
@@ -92,7 +95,7 @@ angular
 								}, function(error) {
 									console.log(error);
 								});
-					}
+					};
 
 					$scope.getDroplets = function() {
 						$http.defaults.headers.common.Authorization = "Bearer "
@@ -103,11 +106,11 @@ angular
 								}).error(function(error) {
 									console.log(error);
 								});
-					}
+					};
 
 					$scope.loadAllVilles = function(){
 
-						sessionId=localStorageService.get('sessionID');
+						sessionId=$cookieStore.get('sessionID');
 						//if(!sessionId){
 							// CONNEXION AU SERVEUR
 							AuthentificatInServer.getSessionId()
@@ -121,26 +124,27 @@ angular
 									// PUT SESSION ID
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
-									localStorageService.set('sessionID', sessionId);
+									$cookieStore.put('sessionID', sessionId);
 
-									/*** LOAD LIST VILLES
-									villes=localStorageService.get('villes');
+									// LOAD LIST VILLES
+									var villes=$cookieStore.get('villes');
 									if(!villes){
 										LoadList.loadListVilles(sessionId)
 											.success(
 													function(response){
-														resp = formatString.formatServerResult(response);
+														var resp = formatString.formatServerResult(response);
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
-														villeObjects = resp.dataModel.rows.dataRow;
+														var villeObjects = resp.dataModel.rows.dataRow;
+														console.log("villeObjects : "+JSON.stringify(villeObjects));
 
 														// GET VILLES
 														villes = [];
-														ville = {}; // ville.libelle | ville.id
+														var ville = {}; // ville.libelle | ville.id
 
-														villesList = [].concat(villeObjects);
+														var villesList = [].concat(villeObjects);
 														for (var i = 0; i < villesList.length; i++) {
-															object = villesList[i].dataRow.dataEntry;
+															var object = villesList[i].dataRow.dataEntry;
 
 															// PARCOURIR LIST PROPERTIES
 															ville[object[0].attributeReference] = object[0].value;
@@ -153,14 +157,13 @@ angular
 
 														console.log("villes.length : "+ villes.length);
 														// PUT IN SESSION
-														console.log("villes : "+JSON.stringify(villes));
-														localStorageService.set('villes', villes);
+														$cookieStore.put('villes', villes);
 											})
 											.error(function(err) {
 														console.log("error : LOAD DATA");
-														console.log("error in loadListVilles : "+ err);
+														console.log("error in loadListCivilites : "+ err);
 											});
-									} **/
+									}
 								})
 								.error(function (data){
 									console.log("error : récuperation JSessionId");
@@ -168,14 +171,14 @@ angular
 
 						// REDIRECTION
 						$state.go("cPhone");
-					}
+					};
 
 					$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 						if(states.fromCache && states.stateName == "connection" ){
 							// VERIFICATION S'IL EST CONNECTE OU PAS
 
 							// RECUPERATION CONNEXION
-							connexion=localStorageService.get('connexion');
+							var connexion=$cookieStore.get('connexion');
 							if(connexion){
 								if(connexion.etat)	// REDIRECTION
 									$state.go("search");
@@ -183,3 +186,4 @@ angular
 						}
 					});
 				})
+;

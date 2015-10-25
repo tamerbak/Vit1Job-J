@@ -1,22 +1,13 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-
-
+'use strict';
 var sessionId = 'nn';
 var myCity = 'Paris';
 
-angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'listNextCtrls',
-                'connectionCtrls', 'cPhoneCtrls', 'cMailCtrls', 'saisieCiviliteEmployeurCtrls',
-                'competenceCtrls', 'adressePersonelCtrls','adresseTravailCtrls',
+var starter = angular.module('starter', ['ionic','LocalStorageModule','adresseTravailCtrls','connexionPhoneServices',
                 'wsConnectors', 'parsingServices', 'fileServices', 'globalServices',
                 //'ng-mfb', 'cb.x2js', 'ngOpenFB'])
-                'LocalStorageModule','ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova'])
-
-  .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
+                'ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova']).run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -75,89 +66,20 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
   });
 })
 
-  //Config LocalStorage
-  .config(function (localStorageServiceProvider) {
-    localStorageServiceProvider
-      .setPrefix('Vit1Job'); //Prefix ls.Vit1Job
+  // this control will be deleted because there will be no Profile page ..
+  .controller('ProfileCtrl', function ($scope, ngFB) {
+    ngFB.api({
+      path: '/me',
+      params: {fields: 'id,name'}
+    }).then(
+      function (user) {
+        $scope.user = user;
+      },
+      function (error) {
+        alert('Facebook error: ' + error.error_description);
+      });
   })
 
-  .config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-
-      .state('app', {
-        url: '/app',
-        templateUrl: 'templates/home.html',
-        controller: 'homeCtrl'
-      })
-
-      .state('search', {
-        url: '/search',
-        templateUrl: 'templates/search.html',
-        controller: 'searchCtrl'
-
-      })
-
-      .state('connection', {
-        url: '/connection',
-        templateUrl: 'templates/connections.html',
-        controller: 'connectCtrl'
-      })
-
-      .state('list', {
-        url: '/list',
-        templateUrl: 'templates/listJobyers.html',
-        controller: 'listCtrl'
-
-      })
-
-      .state('listNext', {
-        url: '/listNext',
-        templateUrl: 'templates/listJobyersNext.html',
-        controller: 'listNextCtrl'
-
-      })
-
-      .state('cPhone', {
-        url: '/cPhone',
-        templateUrl: 'templates/connexionPhone.html',
-        controller: 'cPhoneCtrl'
-      })
-
-      .state('cMail', {
-        url: '/cMail',
-        templateUrl: 'templates/connexionMail.html',
-        controller: 'cMailCtrl'
-      })
-      .state('saisieCiviliteEmployeur', {
-        url: '/saisieCivilite',
-        templateUrl: 'templates/saisieCiviliteEmployeur.html',
-        controller: 'saisieCiviliteEmployeurCtrl'
-      })
-
-      .state('adresseTravail', {
-        url: '/adresseTravail',
-        templateUrl: 'templates/adresseTravail.html',
-        controller: 'adresseTravailCtrl'
-      })
-
-      .state('adressePersonel', {
-        url: '/adressePersonel',
-        templateUrl: 'templates/adressePersonel.html',
-        controller: 'adressePersonelCtrl'
-      })
-
-      .state('competence', {
-        url: '/competence',
-        templateUrl: 'templates/competences.html',
-        controller: 'competenceCtrl'
-      })
-    // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app');
-  })
-  /**
-   .config(function($mdGestureProvider ){
-	   $mdGestureProvider.skipClickHijack();
-     })**/
 
   .directive('ngEnter', function() {
     return function(scope, element, attrs) {

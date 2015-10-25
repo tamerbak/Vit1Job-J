@@ -2,22 +2,15 @@
  * Created by Omar on 15/10/2015.
  */
 
-angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
-			'angucomplete', 'providerServices'])
+angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices', /**'autocomplete'**/ 'angucomplete'])
 
-	.controller('adresseTravailCtrl', function ($scope, $rootScope, localStorageService, $state, formatString,
-					UpdateInServer, LoadList, DataProvider){
+	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString, UpdateInServer, LoadList){
 
 		// FORMULAIRE
 		$scope.formData = {};
 		$scope.formData.listCodes=[];
 
-    var userCity = localStorage.getItem('userCity');
-    $scope.formData.ville = userCity;
-
-    console.log($scope.formData.ville);
-
-    // RECUPERATION SESSION-ID & EMPLOYEUR-ID
+		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdresseTravEmployeur = function(){
 
 			for(var obj in $scope.formData){
@@ -30,12 +23,12 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 			adresse2=$scope.formData.adresse2;
 
 			// RECUPERATION CONNEXION
-			connexion=localStorageService.get('connexion');
+			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
-			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
+			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=localStorageService.get('sessionID');
+			sessionId=$cookieStore.get('sessionID');
 
 			// TEST DE VALIDATION
 			if(codePostal && ville && adresse1  && adresse2){
@@ -53,8 +46,8 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 					});
 			}
 
-			/*** CHARGEMENT METIERS
-			metiers=localStorageService.get('metiers');
+			// CHARGEMENT METIERS
+			metiers=$cookieStore.get('metiers');
 			//metiers=$rootScope.metiers;
 			if(!metiers){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -85,10 +78,14 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 						}
 
 						console.log("metiers.length : "+metiers.length);
+						/**for(var i=0; i<metiers.length; i++){
+							console.log("pk_user_metier : "+metiers[i].pk_user_metier);
+							console.log("libelle : "+metiers[i].libelle);
+						}**/
 
 						// PUT IN SESSION
-						localStorageService.set('metiers', metiers);
-						console.log("metiers : "+JSON.stringify(metiers));
+						//$rootScope.metiers=metiers;
+						$cookieStore.put('metiers', metiers);
 					}).error(function (err){
 						console.log("error : GET DATA from metiers");
 						console.log("error In : "+err);
@@ -96,7 +93,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 			}
 
 			// CHARGEMENT LANGUES
-			langues=localStorageService.get('langues');
+			langues=$cookieStore.get('langues');
 			if(!langues){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListLangues(sessionId)
@@ -126,8 +123,8 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 
 						console.log("langues.length : "+langues.length);
 						// PUT IN SESSION
-						localStorageService.set('langues', langues);
-						console.log("langues : "+JSON.stringify(langues));
+						//$rootScope.langues=langues;
+						$cookieStore.put('langues', langues);
 					}).error(function (err){
 						console.log("error : GET DATA from langues");
 						console.log("error In : "+err);
@@ -135,7 +132,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 			}
 
 			// CHARGEMENT JOBS
-			jobs=localStorageService.get('jobs');
+			jobs=$cookieStore.get('jobs');
 			if(!jobs){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListJobs(sessionId)
@@ -165,8 +162,9 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 
 						console.log("jobs.length : "+jobs.length);
 						// PUT IN SESSION
-						localStorageService.set('jobs', jobs);
-						console.log("jobs : "+JSON.stringify(jobs));
+						//$rootScope.jobs=jobs;
+						$cookieStore.put('jobs', jobs);
+
 					}).error(function (err){
 						console.log("error : GET DATA from jobs");
 						console.log("error In : "+err);
@@ -174,7 +172,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 			}
 
 			// CHARGEMENT COMPETENCES INDISPENSABLES
-			transvers=localStorageService.get('transvers');
+			transvers=$cookieStore.get('transvers');
 			if(!transvers){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListIndespensables(sessionId)
@@ -204,21 +202,22 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices',
 
 						console.log("transvers.length : "+transvers.length);
 						// PUT IN SESSION
-						localStorageService.set('transvers', transvers);
-						console.log("transvers : "+JSON.stringify(transvers));
+						//$rootScope.transvers=transvers;
+						$cookieStore.put('transvers', transvers);
 					}).error(function (err){
 						console.log("error : GET DATA from transvers");
 						console.log("error In : "+err);
 					});
-			}***/
-
+			}
 			// REDIRECTION VERS PAGE - COMPETENCES
 			$state.go('competence');
+
+
 		}
 
 		$scope.initForm=function(){
-			$scope.formData.zipCodes=DataProvider.getZipCodes();
-			$scope.formData.villes=DataProvider.getVilles();
+			$scope.formData.zipCodes=$cookieStore.get('zipCodes');
+			$scope.formData.villes=$cookieStore.get('villes');
 			for(var i=0; i<$scope.formData.zipCodes.length; i++)
 				$scope.formData.listCodes[i]=$scope.formData.zipCodes[i].libelle;
 		}
