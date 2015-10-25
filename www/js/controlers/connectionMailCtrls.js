@@ -35,7 +35,6 @@ angular.module('cMailCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpen
               sessionId = jsonResp.amanToken.sessionId;
               console.log("sessionId : "+sessionId);
               console.log("email : "+email);
-              //$cookieStore.put('sessionID', sessionId);
               localStorageService.set('sessionID', sessionId);
 
               // INTERROGE PHONE_TABLE

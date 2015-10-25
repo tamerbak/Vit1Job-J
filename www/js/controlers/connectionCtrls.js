@@ -7,7 +7,7 @@ var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercon
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
 angular
-		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'ngCookies', 'parsingServices'])
+		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'parsingServices'])
 		.controller(
 				'connectCtrl', function($scope, localStorageService, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
 					// FORMULAIRE
@@ -18,11 +18,11 @@ angular
 
 					$scope.fbLogin = function(){
 						ngFB.login({
-							scope : 'email'
+							scope : 'email,user_work_history,user_location'
 						}).then(function(response) {
 							if (response.status === 'connected') {
 								console.log('Facebook login succeeded');
-								$state.go('profile');
+								$state.go('saisieCiviliteEmployeur');
 							} else {
 								alert('Facebook login failed');
 							}
@@ -121,10 +121,10 @@ angular
 									// PUT SESSION ID
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
-									$cookieStore.put('sessionID', sessionId);
+									localStorageService.set('sessionID', sessionId);
 
 									/*** LOAD LIST VILLES
-									villes=$cookieStore.get('villes');
+									villes=localStorageService.get('villes');
 									if(!villes){
 										LoadList.loadListVilles(sessionId)
 											.success(

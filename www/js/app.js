@@ -101,13 +101,6 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
         url: '/connection',
         templateUrl: 'templates/connections.html',
         controller: 'connectCtrl'
-
-      })
-
-      .state('profile', {
-        url: "/profile",
-        templateUrl: "templates/profile.html",
-        controller: "ProfileCtrl"
       })
 
       .state('list', {
