@@ -1,9 +1,13 @@
 /**
  * Created by Tamer on 14/10/2015.
  */
-
-angular.module('listCtrls', ['ionic'])
+/**
+ * Modified by HODAIKY on 25/10/2015.
+ */
+'use strict';
+starter
   .controller('listCtrl', function ($scope, $rootScope) {
     $scope.jobyersForMe = $rootScope.jobyersForMe;
 
   })
+;

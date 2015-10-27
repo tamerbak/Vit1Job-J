@@ -2,6 +2,11 @@
 
 /*##############################   style of Home.html ################################"*/
 
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img{
+  max-width: 200px;
+  max-height: 121px;
+}
+
 .vimg {
   width: 100%;
 }
@@ -247,12 +252,4 @@ input[type="text"], input[type="email"], input[type="password"]{
 
 input#ex1_value, input#ex0_value{
 	margin: 0px !important;
-}
-
-.css-form .invalid {
-  border: 2px solid #FA787E;
-}
-
-.css-form .valid {
-  border: 2px solid #78FA89;
 }

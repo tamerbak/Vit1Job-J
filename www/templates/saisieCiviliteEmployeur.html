@@ -13,13 +13,13 @@
 	<!-- TITRE -->
 	<div class="list">
 	  <label class="item item-input">
-        <select class="flat" data-ng-model="formData.civ">
-			    <option selected disabled style="display: none;">Titre</option>
-			    <option ng-selected="x.libelle == formData.civ" data-ng-repeat="x in formData.civilites" value="{{x.pk_user_civilite}}">{{x.libelle}}</option>
-		    </select>
-    </label>
+        <select class="flat" data-ng-model="formData.civ" data-ng-init="formData.civ='Titre'">
+			<option selected disabled style="display: none;">Titre</option>
+			<option data-ng-repeat="x in formData.civilites" value="{{x.pk_user_civilite}}">{{x.libelle}}</option>
+		</select>
+      </label>
 	</div>
-
+	
 	<!-- NOM -->
 	<div class="list">
       <label class="item item-input">
@@ -65,7 +65,7 @@
 	<div class="list">
 		<label class="item item-input">
 			<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">
-		</label>
+    </label>
 	</div>
 
 	<!-- ACTIONS -->

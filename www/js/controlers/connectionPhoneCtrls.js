@@ -1,29 +1,52 @@
 /**
  * Created by Tamer on 14/10/2015.
  */
-
-
-angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'globalServices', 'providerServices'])
-
-  .controller('cPhoneCtrl', function ($scope, localStorageService, $state, x2js, AuthentificatInServer, PullDataFromServer,
-				formatString, PersistInServer, LoadList, Global, DataProvider){
+/**
+ * Modified by HODAIKY on 24/10/2015.
+ */
+'use strict';
+starter
+  .controller('cPhoneCtrl',
+    function ($scope, localStorageService, $state, $ionicPopup, x2js, AuthentificatInServer, PullDataFromServer,
+                                          formatString, PersistInServer, LoadList, Global, Countries){
+    // An alert dialog
+    $scope.showAlert = function($var) {
+        var alertPopup = $ionicPopup.alert({
+          title: $var,
+          template: 'Refaire la sesie'
+        });
+    };
 
 	  // FORMULAIRE
 	  $scope.formData = {};
 
 	  $scope.connexionByPhone = function(){
+      //LOG
+      for(var obj in $scope.formData){
+        console.log("formData["+obj+"] : "+$scope.formData[obj]);
+      }
 
-		for(var obj in $scope.formData){
-			console.log("formData["+obj+"] : "+$scope.formData[obj]);
-		}
+      var session = localStorageService.get('sessionID');
+		  var phone = $scope.formData.phone;
+		  var country = $scope.formData.country;
+		  var password = $scope.formData.password;
 
-		phone=$scope.formData.phone;
-		country=$scope.formData.country;
-		password=$scope.formData.password;
+      // Load list Cities
+      loadListVille(session).success(function (response){
+        console.log(response);
+      });
+
+      localStorageService.set(citylist,LoadListVille.loadListVille(session));
+      localStorageService.get(citylist);
+      console.log(localStorageService.get(citylist));
 
 		var isNew=0;
-		if(isEmpty(phone) || isEmpty(country) || isEmpty(password))
-			return;
+
+      if(isEmpty(phone) || isEmpty(country) || isEmpty(password)) {
+        var $msg = 'Tous les champs sont vides. Merci de saisir vos informations pour se connecter ';
+        Global.showAlertPassword($msg);
+        return;
+      }
 
 		// CONNEXION AU SERVEUR
 		AuthentificatInServer.getSessionId()
@@ -37,14 +60,14 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
           // PUT SESSION ID
           sessionId = jsonResp.amanToken.sessionId;
           console.log("sessionId : "+sessionId);
-		      localStorageService.set('sessionID', sessionId);
+		  localStorageService.set('sessionID', sessionId);
 
           // INTERROGE PHONE_TABLE
           PullDataFromServer.pullDATA("user_employeur", sessionId, "telephone", phone, phone)
             .success(function (resp){
-              data=formatString.formatServerResult(resp);
+              var data=formatString.formatServerResult(resp);
 
-              result=data.dataModel.rows;
+             var result=data.dataModel.rows;
               if(typeof result === 'undefined' || result.length<=0 || result===""){
 				  console.log('Aucune résultat trouvé');
 				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
@@ -59,17 +82,17 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 							var object=listEntry[i];
 							console.log("object : "+JSON.stringify(object));
 
-							if(object.attributeReference === 'mot_de_passe'){
-								pass=object.value;
-								console.log("Mot de pass: "+pass);
-								if(pass === password){
-									// RECUPERATION ID EMPLOYEUR
-									employeurId=0;
-									if(listEntry[0].attributeReference === 'pk_user_employeur')
-										employeurId=listEntry[0].value;
+                    if(object.attributeReference === 'mot_de_passe'){
+                      var pass=object.value;
+                      console.log("Mot de pass: "+pass);
+                      if(pass === password){
+                        // RECUPERATION ID EMPLOYEUR
+                        var employeurId=0;
+                        if(listEntry[0].attributeReference === 'pk_user_employeur')
+                          employeurId=listEntry[0].value;
 
-									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
-									localStorageService.set('connexion', connexion);
+                        var connexion={'etat': true, 'libelle': 'Déconnexion', 'employeID': Number(employeurId)};
+                        localStorageService.set('connexion', connexion);
 
 									// USER REEL - REDIRECTION VERS RECHERCHE
 									$state.go("search");
@@ -92,29 +115,29 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 							.success(function (response){
 								console.log("ID EMPLOYEUR : "+response);
 
-								// RECUPERATION EMPLOYEUR ID
-								employeur=formatString.formatServerResult(response);
+                    // RECUPERATION EMPLOYEUR ID
+                    var employeur=formatString.formatServerResult(response);
 
 								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
+                  var connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
 									localStorageService.set('connexion', connexion);
 								}//localStorageService.set('employeID', );
 
-								/*** LOAD LIST CIVILITES
-								civilites=$cookieStore.get('civilites');
+								// LOAD LIST CIVILITES
+              var civilites=localStorageService.get('civilites');
 								if(!civilites){
 									LoadList.loadListCivilites(sessionId)
 										.success(function (response){
 											resp=formatString.formatServerResult(response);
 											// DONNEES ONT ETE CHARGES
 											console.log("les civilites ont été bien chargé");
-											civiliteObjects=resp.dataModel.rows.dataRow;
+											var civiliteObjects=resp.dataModel.rows.dataRow;
 
 											// GET CIVILITES
 											civilites=[];
-											civilite={}; // civilite.libelle | civilite.id
+											var civilite={}; // civilite.libelle | civilite.id
 
-											civilitesList=[].concat(civiliteObjects);
+											var civilitesList=[].concat(civiliteObjects);
 											for(var i=0; i<civilitesList.length; i++){
 												object=civilitesList[i].dataRow.dataEntry;
 
@@ -135,7 +158,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 											console.log("error : LOAD DATA");
 											console.log("error in loadListCivilites : "+err);
 										});
-								} ***/
+								}
 
 								// PASSWORD INCORRECT - INSCRIPTION L2
 								$state.go("saisieCiviliteEmployeur");
@@ -152,29 +175,67 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
         .error(function (data){
           console.log("error : récuperation JSessionId");
         });
-     }
+    };
 
 		$scope.initForm=function(){
-			// GET LIST
-			$scope.formData={'villes': DataProvider.getVilles()};
-			//$scope.formData={ 'villes': localStorageService.get('villes')};
-		}
 
-		$scope.loadCodeInter=function(){
-			code=$scope.formData.country;
-			if(code==1)
-				$scope.formData.phone="+212 ";
-			else if(code==2)
-				$scope.formData.phone="+33 ";
-			else if(code==3)
-				$scope.formData.phone="+1 ";
-			else
-				$scope.formData.phone="+00 ";
-		}
+      sessionId=localStorageService.get('sessionID');
+      //if(!sessionId){
+      // CONNEXION AU SERVEUR
+      AuthentificatInServer.getSessionId()
+        .success(function (response){
 
-		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
-			if(states.fromCache && states.stateName == "cPhone" ){
-				$scope.initForm();
-			}
-		});
+          var jsonResp = formatString.formatServerResult(response);
+
+          // PUT SESSION ID
+          sessionId = jsonResp.amanToken.sessionId;
+          console.log("New sessionId : "+sessionId);
+          localStorageService.set('sessionID', sessionId);
+
+          // GET LIST OF COUNTRIES
+          Countries.getAll(sessionId)
+            .success( function (response){
+              var resp = formatString.formatServerResult(response);
+              console.log("les villes ont été bien chargé");
+              var paysObjects = resp.dataModel.rows.dataRow;
+              console.log("villeObjects : "+JSON.stringify(paysObjects));
+              var result = [];
+              for (var i =0; i<paysObjects.length;i++){
+                result[i] = {'country':paysObjects[i].dataRow.dataEntry[1].value,
+                              'code':paysObjects[i].dataRow.dataEntry[3].value};
+              }
+
+              localStorageService.set ('countries',result);
+              $scope.items = localStorageService.get ('countries');
+
+            });
+          //$scope.formData={'villes': DataProvider.getVilles()};
+          //$scope.formData={ 'villes': localStorageService.get('villes')};
+        })
+    };
+
+
+
+  $scope.codetel="+33";
+
+    $scope.loadCodeInter=function(){
+      var code=$scope.formData.country;
+      if(code==1)
+        $scope.formData.phone="+212 ";
+      else if(code==2)
+        $scope.formData.phone="+33 ";
+      else if(code==3)
+        $scope.formData.phone="+1 ";
+      else
+        $scope.formData.phone="+33 ";
+
+      $scope.codetel = $scope.formData.phone;
+    };
+
+    $scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+      if(states.fromCache && states.stateName == "cPhone" ){
+        $scope.initForm();
+      }
+    });
   })
+;

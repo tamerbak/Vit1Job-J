@@ -1,9 +1,13 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
+/**
+ * Modified by HODAIKY on 24/10/2015.
+ */
+'use strict';
+starter
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, localStorageService, $cordovaGeolocation, $ionicLoading, $timeout,Global) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, localStorageService, $timeout) {
 		// FORMULAIRE
 		$scope.formData = {};
 		//$scope.formData.connexion= {};
@@ -21,7 +25,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
       $rootScope.queryText = query;
 
       if (sessionId!=''){
-        soapMessage = 'user_salarie;' + query; //'C# sur paris';
+       var soapMessage = 'user_salarie;' + query; //'C# sur paris';
         $http({
           method: 'POST',
           url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',
@@ -51,7 +55,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
               //if (jsonResp.dataModel.rows.dataRow.length > 0){
               //if (rowsCount > 0){
 
-              for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
+              for ( var i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
 
                 //jsonResp = parsingService.formatString.formatServerResult(response.data);
 
@@ -97,7 +101,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
                 idVille = idVille.replace("<![CDATA[",'');
                 idVille = idVille.replace("]]>",'');
 
-                for (j=0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length;j++){
+                for ( var j=0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length;j++){
                   if (jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
                     break;
                 }
@@ -176,10 +180,10 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
       navigator.app.exitApp();
     };
 
-	$scope.initConnexion= function(){
+	  $scope.initConnexion= function(){
 
 		$scope.formData.connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
-		cnx=localStorageService.get('connexion');
+		var cnx = localStorageService.get('connexion');
 		if(cnx){
 			$scope.formData.connexion=cnx;
 			console.log("Employeur est connecté");
@@ -188,23 +192,23 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'parsingServices'])
 		console.log("connexion[employeID] : "+$scope.formData.connexion.employeID);
 		console.log("connexion[libelle] : "+$scope.formData.connexion.libelle);
 		console.log("connexion[etat] : "+$scope.formData.connexion.etat);
-	}
+	};
 
-	$scope.$on( "$ionicView.beforeEnter", function( scopes, states ) {
+	  $scope.$on( "$ionicView.beforeEnter", function( scopes, states ) {
         if(states.fromCache && states.stateName == "app" ) {
 			$scope.initConnexion();
         }
     });
 
-	$scope.modeConnexion= function(){
-		estConnecte=0;
-		cnx=localStorageService.get('connexion');
+	  $scope.modeConnexion= function(){
+		var estConnecte=0;
+		var cnx =localStorageService.get('connexion');
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				console.log("IL S'AGIT D'UNE DECONNEXION");
 
 				localStorageService.remove('connexion');
-				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
+				var connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
 				localStorageService.set('connexion', connexion);
 
 				console.log("New Connexion : "+JSON.stringify(localStorageService.get('connexion')));

@@ -5,44 +5,49 @@
     <!--<h1 class="title">Connexion</h1>-->
     <a class="button icon-right ion-home button-clear button-light" ui-sref="search">  </a>
   </ion-header-bar>
-  <ion-content padding="true" data-ng-init="initAll()">
-	<!-- Title -->
-    <div>
-      <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
-    </div>
+  <ion-content padding="true">
+      <!-- Title -->
+    <br>
+      <div>
+        <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
+      </div>
+    <br>
 
-	<!-- PAYS -->
-	<div class="list">
-	  <label class="item item-input">
-        <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='France'" data-ng-change="loadCodeInter()">
-          <option selected disabled style="display: none;">France</option>
-		  <option value="1">Maroc</option>
-		  <option value="2">France</option>
-		  <option value="3">USA</option>
+    <form action="" data-ng-init="initForm()">
+      <!-- PAYS -->
+      <div class="list">
+        <label class="item item-input">
+          <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='France'" data-ng-change="loadCodeInter()">
+            <option selected disabled style="display: none;">France</option>
+            <option ng-repeat="item in items" value="{{item.code}}"> {{item.country}} </option>
 
-          <!--<option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>-->
-		</select>
-      </label>
-	</div>
-	<!-- TELEPHONE -->
-	<div class="list">
-      <label class="item item-input">
-        <i class="icon ion-ios-telephone placeholder-icon"></i>
-        <input type="text" data-ng-model="formData.phone" data-ng-init="formData.phone='+33 '">
-      </label>
-	</div>
+            <!--<option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>-->
+          </select>
+        </label>
+      </div>
+      <!-- TELEPHONE -->
+      <div class="list ">
+        <label class="item item-input">
+          <i class="icon ion-ios-telephone placeholder-icon"></i>
+          <span class="input-label inline" >{{ codetel }}</span>
+          <input type="tel" data-ng-model="formData.phone"  required="required" numbers-only="numbers-only" >
+        </label>
+      </div>
 
-	<!-- PASSWORD -->
-	<div class="list">
-	  <label class="item item-input">
-        <input type="text" placeholder="Mot de passe" data-ng-model="formData.password">
-      </label>
-    </div>
-	<br>
-	<!-- ACTIONS -->
-	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Se connecter</button>
-      <button class="button button-full button-positive grey" ui-sref="connection">Quitter</button>
-    </div>
+      <!-- PASSWORD -->
+      <div class="list">
+        <label class="item item-input">
+          <input type="password" placeholder="Mot de passe" data-ng-model="formData.password">
+        </label>
+      </div>
+      <br>
+      <!-- ACTIONS -->
+      <div class="buttonConnect">
+        <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Se connecter</button>
+        <button class="button button-full button-positive grey" ui-sref="adresseTravail">Quitter</button>
+      </div>
+    </form>
+
+
   </ion-content>
 </ion-view>
