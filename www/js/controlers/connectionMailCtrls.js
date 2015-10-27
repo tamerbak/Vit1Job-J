@@ -8,108 +8,126 @@
 
 starter
 
-  .controller('cMailCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer){
+  .controller('cMailCtrl', function ($scope, localStorageService, $state, x2js, AuthentificatInServer, PullDataFromServer, formatString, PersistInServer){
 
 	 // FORMULAIRE
 	 $scope.formData = {};
 
-     $scope.connexionByMail= function(){
+      $scope.connexionByMail= function() {
 
-	  email=$scope.formData.email;
-	  password$scope.formData.password;
+          var email=$scope.formData.email;
+          var password=$scope.formData.password;
 
-	  var isNew=0;
-	  if(isEmpty(email) || isEmpty(password))
-		  return;
-
-      // CONNEXION AU SERVEUR
-      AuthentificatInServer.getSessionId()
-        .success(function (response){
-
-          var jsonResp = x2js.xml_str2json(response);
-          var jsonText = JSON.stringify (jsonResp);
-          jsonText = jsonText.replace("fr.protogen.connector.model.AmanToken","amanToken");
-          jsonResp = JSON.parse(jsonText);
-
-          // GET SESSION ID
-          sessionId = jsonResp.amanToken.sessionId;
-          console.log("sessionId : "+sessionId);
           console.log("email : "+email);
-		  $cookieStore.put('sessionID', sessionId);
+          console.log("password : "+password);
 
-          // INTERROGE PHONE_TABLE
-          PullDataFromServer.pullDATA("user_employeur", sessionId, "email", email, email)
-            .success(function (resp){
-              var data=formatString.formatServerResult(resp);
-              console.log(resp);
+          var isNew = 0;
+          //if(isEmpty(email) || isEmpty(password))return;
 
-              var result=data.dataModel.rows;
-              if(typeof result === 'undefined' || result.length<0 || result===""){
-				  console.log('Aucune résultat trouvé');
-				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
-				  //$state.go("saisieCivilite");
-				  isNew=1;
-			  }
-			  else{
-					// VERIFICATION DU PASSWORD
-					var listEntry=[];
-					listEntry=result.dataRow.dataRow.dataEntry;
+          // CONNEXION AU SERVEUR
+          AuthentificatInServer.getSessionId()
+            .success(function (response){
 
-					for(var i=0; i<listEntry.length; i++){
-						var object=listEntry[i];
+              var jsonResp = x2js.xml_str2json(response);
+              var jsonText = JSON.stringify (jsonResp);
+              jsonText = jsonText.replace("fr.protogen.connector.model.AmanToken","amanToken");
+              jsonResp = JSON.parse(jsonText);
 
-						for (var property in object) {
-							if(property === 'attributeReference'){
-								if(object[property] === password){
-									// USER REEL - REDIRECTION VERS RECHERCHE
-									$state.go("search");
-								}
-								else
-									isNew=1;
-							}
-						}
-						//console.log(object);
-					}
-			  }
+              // GET SESSION ID
+              sessionId = jsonResp.amanToken.sessionId;
+              console.log("sessionId : "+sessionId);
+              console.log("email : "+email);
+              localStorageService.set('sessionID', sessionId);
 
-			  console.log("isNew : "+isNew);
-			  if(isNew === 1){
-				  // ID EMPLOYEUR
-				  //GlobalService.setEmployeId=0;
+              // INTERROGE PHONE_TABLE
+              PullDataFromServer.pullDATA("user_employeur", sessionId, "email", email, email)
+                .success(function (resp){
+                  data=formatString.formatServerResult(resp);
+                  console.log(resp);
 
-				  // SYSTEME VERIFICATION TEL
+                  var result=data.dataModel.rows;
+                  if(typeof result === 'undefined' || result.length<0 || result===""){
+                    console.log('Aucune résultat trouvé');
+                    // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
+                    //$state.go("saisieCivilite");
+                    isNew=1;
+                  }
+                  else{
+                    // VERIFICATION DU PASSWORD
+                    var listEntry=[].concat(result.dataRow.dataRow.dataEntry);
+                    if(listEntry.length > 0){
 
-				  // PERSIST IN BD - EMPLOYEUR
-					PersistInServer.persistInEmployeur
-						('', '', 0, 0, 0, '', '', '', email, password, '', '', '', '', '', sessionId)
-							.success(function (response){
-								console.log("ID EMPLOYEUR : "+response);
+                      for(var i=0; i<listEntry.length; i++){ // AUCUNE RESULTAT
+                        var object=listEntry[i];
+                        console.log("object : "+JSON.stringify(object));
 
-								// RECUPERATION EMPLOYEUR ID
-								var employeur=formatString.formatServerResult(response);
+                        if(object.attributeReference === 'mot_de_passe'){
+                          var pass=object.value;
+                          console.log("Mot de pass: "+pass);
+                          if(pass === password){
+                            // RECUPERATION ID EMPLOYEUR
+                            var employeurId=0;
+                            if(listEntry[0].attributeReference === 'pk_user_employeur')
+                              employeurId=listEntry[0].value;
 
-								if(employeur.dataModel.status)	// Bind to local storage service
-									$cookieStore.put('employeID', employeur.dataModel.status);
+                            var connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
+                            //$cookieStore.put('connexion', connexion);
+                            localStorageService.set('connexion', connexion);
 
-									//$cookies.put('employeID', employeur.dataModel.status);
-									//LocalStorageService.setItem('employeID', employeur.dataModel.status);
-									//GlobalService.setEmployeId=Number(employeur.dataModel.status);
+                            // USER REEL - REDIRECTION VERS RECHERCHE
+                            $state.go("search");
+                          }
+                          else	// MOT DE PASSE INCORRECT
+                            Global.showAlertPassword("Mot de passe incorrect");
+                        }
+                      }
+                    }
+                  }
 
-								console.log("ID EMPLOYEUR : "+GlobalService.setEmployeId);
-								// PASSWORD INCORRECT - REDIRECTION
-								$state.go("saisieCiviliteEmployeur");
-							}).error(function (err){
-								console.log("error : insertion DATA");
-								console.log("error : "+err);
-							});
-			  }
-            }).error(function (err){
-              console.log("error : récuperation DATA");
-              console.log("error : "+err);
-            });
-        })
-        .error(function (data){
-          console.log("error : récuperation JSessionId");
-        });
-    }
-  })
+                  console.log("isNew : "+isNew);
+                  if(isNew === 1){
+                    // ID EMPLOYEUR
+                    //GlobalService.setEmployeId=0;
+
+                    // SYSTEME VERIFICATION TEL
+
+                    // PERSIST IN BD - EMPLOYEUR
+                    PersistInServer.persistInEmployeur
+                      ('', '', 0, 0, 0, '', '', '', email, password, '', '', '', '', '', sessionId)
+                        .success(function (response){
+                          console.log("ID EMPLOYEUR : "+response);
+
+                          // RECUPERATION EMPLOYEUR ID
+                          var employeur=formatString.formatServerResult(response);
+
+                          if(employeur.dataModel.status)	// Bind to local storage service
+                          {
+                            //$cookieStore.remove('connexion');
+                            var connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
+                            //$cookieStore.put('connexion', connexion);
+                            localStorageService.set('connexion', connexion);
+                          }
+                            //$cookieStore.put('employeID', employeur.dataModel.status);
+
+                            //$cookies.put('employeID', employeur.dataModel.status);
+                            //LocalStorageService.setItem('employeID', employeur.dataModel.status);
+                            //GlobalService.setEmployeId=Number(employeur.dataModel.status);
+
+                          Global.showAlertPassword("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
+                          // PASSWORD INCORRECT - REDIRECTION
+                          $state.go("saisieCiviliteEmployeur");
+                        }).error(function (err){
+                          console.log("error : insertion DATA");
+                          console.log("error : "+err);
+                        });
+                  }
+                }).error(function (err){
+                  console.log("error : récuperation DATA");
+                  console.log("error : "+err);
+                });
+            })
+            .error(function (data){
+              console.log("error : récuperation JSessionId");
+            })
+        }
+    });

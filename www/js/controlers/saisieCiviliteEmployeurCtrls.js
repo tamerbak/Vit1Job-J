@@ -9,7 +9,7 @@
 starter
 
 	.controller('saisieCiviliteEmployeurCtrl', function ($scope, localStorageService, $state, UpdateInServer, UploadFile, $base64,
-				LoadList, formatString, DataProvider, ngFB){
+				LoadList, formatString, ngFB){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -147,7 +147,7 @@ starter
 
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={'civilites': DataProvider.getCivilites()};
+			//$scope.formData={'civilites': DataProvider.getCivilites()};
 		};
 
 		$scope.$on( "$ionicView.beforeEnter", function(scopes, states){
@@ -155,26 +155,27 @@ starter
 				$scope.initForm();
 			}
 		});
-	});
 
-ngFB.api({
-  path: '/me',
-  params: {fields: 'id,first_name,last_name,gender,work,location'}
-}).then(
-  function (user) {
-    $scope.user = user;
-    if(user.gender == "male")
-      $scope.formData.civ =  "Monsieur";
-    else if(user.gender == "female")
-      $scope.formData.civ =  "Mademoiselle";
-    else
-      $scope.formData.civ =  "Titre";
-    $scope.formData.prenom = user.first_name;
-    $scope.formData.nom = user.last_name;
-    $scope.formData.entreprise = user.work[0].employer.name;
-    localStorage.setItem('userCity', user.location.name);
-  },
-  function (error) {
-    alert('Facebook error: ' + error.error_description);
+
+    ngFB.api({
+      path: '/me',
+      params: {fields: 'id,first_name,last_name,gender,work,location'}
+    }).then(
+      function (user) {
+        $scope.user = user;
+        if(user.gender == "male")
+          $scope.formData.civ =  "Monsieur";
+        else if(user.gender == "female")
+          $scope.formData.civ =  "Mademoiselle";
+        else
+          $scope.formData.civ =  "Titre";
+        $scope.formData.prenom = user.first_name;
+        $scope.formData.nom = user.last_name;
+        $scope.formData.entreprise = user.work[0].employer.name;
+        localStorage.setItem('userCity', user.location.name);
+      },
+      function (error) {
+        alert('Facebook error: ' + error.error_description);
+      });
   });
 

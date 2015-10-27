@@ -46,13 +46,14 @@
       </label>
     </div>
 
-    <i ng-class="formData.maitriseIcon" style="display: inline-block; font-size: xx-large"></i>
-    <label for="maitrise" style="display: inline-block; color:#757575;" > {{formData.maitrise}}</label>
+    <!--i ng-class="formData.maitriseIcon" style="display: inline-block; font-size: xx-large"></i-->
+      <img ng-src="img/{{formData.maitriseIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px"/>
+      <label for="maitrise" style="display: inline-block; color:#757575;" > {{formData.maitrise}}</label>
     <div class="list">
       <div class="item range range-calm">
-        <i class="icon ion-egg calm"></i>
+        <img src="img\tree1_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
         <input id="maitrise" type="range" name="volume" min="0" max="100" data-ng-model="formData.degre" data-ng-init="formData.degre=10" data-ng-change="rangeChange()">
-        <i class="icon ion-ribbon-a calm"></i>
+        <img src="img\tree4_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
       </div>
     </div>
 

@@ -17,6 +17,11 @@
 
 /*##############################   style of Home.html ################################"*/
 
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img{
+  max-width: 200px;
+  max-height: 121px;
+}
+
 .vimg {
   width: 100%;
 }

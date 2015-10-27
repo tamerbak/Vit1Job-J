@@ -12,7 +12,7 @@ var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
 starter
 		.controller(
-				'connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
+				'connectCtrl', function($scope, localStorageService, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
 					// FORMULAIRE
 					$scope.formData = {};
 
@@ -110,7 +110,7 @@ starter
 
 					$scope.loadAllVilles = function(){
 
-						sessionId=$cookieStore.get('sessionID');
+						sessionId=localStorageService.get('sessionID');
 						//if(!sessionId){
 							// CONNEXION AU SERVEUR
 							AuthentificatInServer.getSessionId()
@@ -124,10 +124,10 @@ starter
 									// PUT SESSION ID
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
-									$cookieStore.put('sessionID', sessionId);
+                  localStorageService.set('sessionID', sessionId);
 
 									// LOAD LIST VILLES
-									var villes=$cookieStore.get('villes');
+									var villes=localStorageService.get('villes');
 									if(!villes){
 										LoadList.loadListVilles(sessionId)
 											.success(
@@ -157,7 +157,7 @@ starter
 
 														console.log("villes.length : "+ villes.length);
 														// PUT IN SESSION
-														$cookieStore.put('villes', villes);
+                            localStorageService.set('villes', villes);
 											})
 											.error(function(err) {
 														console.log("error : LOAD DATA");
@@ -178,7 +178,7 @@ starter
 							// VERIFICATION S'IL EST CONNECTE OU PAS
 
 							// RECUPERATION CONNEXION
-							var connexion=$cookieStore.get('connexion');
+							var connexion=localStorageService.get('connexion');
 							if(connexion){
 								if(connexion.etat)	// REDIRECTION
 									$state.go("search");

@@ -7,16 +7,19 @@
   </ion-header-bar>
   <ion-content padding="true">
       <!-- Title -->
+    <br>
       <div>
         <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
       </div>
+    <br>
 
+    <form action="" data-ng-init="initForm()">
       <!-- PAYS -->
       <div class="list">
         <label class="item item-input">
           <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='France'" data-ng-change="loadCodeInter()">
             <option selected disabled style="display: none;">France</option>
-            <option ng-repeat="item in items" value="{{item.pk_user_ville}}"> {{item.nom}} </option>
+            <option ng-repeat="item in items" value="{{item.code}}"> {{item.country}} </option>
 
             <!--<option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>-->
           </select>
@@ -43,6 +46,8 @@
         <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Se connecter</button>
         <button class="button button-full button-positive grey" ui-sref="adresseTravail">Quitter</button>
       </div>
+    </form>
+
 
   </ion-content>
 </ion-view>

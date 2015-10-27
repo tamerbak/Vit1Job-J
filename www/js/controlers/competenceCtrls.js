@@ -7,12 +7,13 @@
 'use strict';
 
 starter
-  .controller('competenceCtrl', function ($scope, $cookieStore, $state, x2js, $rootScope, AuthentificatInServer, Global) {
+  .controller('competenceCtrl', function ($scope, localStorageService, $state, x2js, $rootScope, AuthentificatInServer, Global) {
 		// FORMULAIRE
 		$scope.formData = {};
 
-    $scope.formData.maitriseIcon = "icon ion-ios-rainy calm";
+    $scope.formData.maitriseIcon = "img/tree1_small.png";
 		$scope.formData.maitrise = "Débutant";
+    $scope.formData.maitriseStyle = "display: inline;max-width: 33px;max-height: 50px;"
 
 		// ALL JOBYERS
 		$rootScope.jobyers=[];
@@ -31,10 +32,10 @@ starter
 			$scope.formData={
 				'currentFeuille': 1,
 				'allFeuilles': 1,
-				'metiers': $cookieStore.get('metiers'),
-				'langues': $cookieStore.get('langues'),
-				'jobs': $cookieStore.get('jobs'),
-				'transvers': $cookieStore.get('transvers'),
+				'metiers': localStorageService.get('metiers'),
+				'langues': localStorageService.get('langues'),
+				'jobs': localStorageService.get('jobs'),
+				'transvers': localStorageService.get('transvers'),
 				};
 
 			// FEUILLE N°0
@@ -49,21 +50,26 @@ starter
 			console.log("rangeModel : "+rangeModel);
 			if (rangeModel <= 25 ){
         		$scope.formData.maitrise = "Débutant";
-        		$scope.formData.maitriseIcon = "icon ion-ios-rainy calm";
+        		$scope.formData.maitriseIcon = "tree1_small.png";
+            $scope.formData.maitriseWidth = "33px";
+            $scope.formData.maitriseHeight = "50px";
       		}
 
       		else if (rangeModel > 25 && rangeModel <= 50 ) {
         		$scope.formData.maitrise = 'Habitué';
-        		$scope.formData.maitriseIcon = "icon ion-ios-cloudy-outline calm";
+        		$scope.formData.maitriseIcon = "tree2_small.png";
+            //$scope.formData.maitriseStyle = "display: inline;max-width: 33px;max-height: 50px;";
       		}
 
       		else if (rangeModel > 50 && rangeModel <= 75 ){
         		$scope.formData.maitrise = 'Confirmé';
-        		$scope.formData.maitriseIcon = "icon ion-ios-partlysunny-outline calm";
+        		$scope.formData.maitriseIcon = "tree3_small.png";
+            //$scope.formData.maitriseStyle = "display: inline;max-width: 59px;max-height: 77px;";
       		}
       		else if (rangeModel > 75 && rangeModel <= 100 ){
         		$scope.formData.maitrise = 'Waouh!';
-        		$scope.formData.maitriseIcon = "icon ion-ios-sunny-outline calm";
+        		$scope.formData.maitriseIcon = "tree4_small.png";
+            //$scope.formData.maitriseStyle = "display: inline;max-width: 60px;max-height: 80px;";
       		}
 		};
 
@@ -199,12 +205,12 @@ starter
 			var langue=$scope.formData.langue;
 
 			// RECUPERATION CONNEXION
-			var connexion=$cookieStore.get('connexion');
+			var connexion=localStorageService.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			var employeId=connexion.employeID;
 			console.log("connexion : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			for(var obj in $scope.formData){
 				console.log("formData["+obj+"] : "+$scope.formData[obj]);
@@ -224,7 +230,7 @@ starter
 						// GET SESSION ID
           				sessionId = jsonResp.amanToken.sessionId;
           				console.log("New sessionId : "+sessionId);
-		  				$cookieStore.put('sessionID', sessionId);
+            localStorageService.set('sessionID', sessionId);
 						hasSessionID=1;
 					})
 					.error(function (err){

@@ -8,8 +8,7 @@
 'use strict';
 
 starter
-
-	.controller('adressePersonelCtrl', function ($scope, $cookieStore, $state, UpdateInServer){
+	.controller('adressePersonelCtrl', function ($scope, localStorageService, $state, UpdateInServer){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -21,18 +20,18 @@ starter
 				console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 
-			codePostal=$scope.formData.codePostal;
-			ville=$scope.formData.ville;
-			adresse1=$scope.formData.adresse1;
-			adresse2=$scope.formData.adresse2;
+			var codePostal=$scope.formData.codePostal;
+			var ville=$scope.formData.ville;
+			var adresse1=$scope.formData.adresse1;
+			var adresse2=$scope.formData.adresse2;
 
 			// RECUPERATION CONNEXION
-			connexion=$cookieStore.get('connexion');
+			var connexion = localStorageService.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			employeId=connexion.employeID;
-			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
+			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			// TEST DE VALIDATION
 			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){
@@ -58,7 +57,7 @@ starter
 		};
 
 		$scope.initForm=function(){
-			$scope.formData.zipCodes=$cookieStore.get('zipCodes');
+			$scope.formData.zipCodes=localStorageService.get('zipCodes');
 		};
 
 		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
