@@ -17,29 +17,27 @@ starter
         });
     };
 
+
 	  // FORMULAIRE
 	  $scope.formData = {};
 
 	  $scope.connexionByPhone = function(){
       //LOG
-      for(var obj in $scope.formData){
-        console.log("formData["+obj+"] : "+$scope.formData[obj]);
-      }
+
 
       var session = localStorageService.get('sessionID');
-		  var phone = $scope.formData.phone;
-		  var country = $scope.formData.country;
+		  var phone = $scope.formData.pays.code+$scope.formData.phone;
+		  var country = $scope.formData.pays.country;
 		  var password = $scope.formData.password;
 
-      // Load list Cities
-      loadListVille(session).success(function (response){
-        console.log(response);
-      });
+      console.log(phone);
+      console.log(country);
+      console.log(password);
+      console.log(session);
 
-      localStorageService.set(citylist,LoadListVille.loadListVille(session));
-      localStorageService.get(citylist);
-      console.log(localStorageService.get(citylist));
-
+      // salit had l3jab kan recupiri tel pass session && country
+      // reste affaire traitement 3la tel & passeword
+/*
 		var isNew=0;
 
       if(isEmpty(phone) || isEmpty(country) || isEmpty(password)) {
@@ -175,10 +173,22 @@ starter
         .error(function (data){
           console.log("error : récuperation JSessionId");
         });
+
+      */
     };
 
-		$scope.initForm=function(){
 
+
+
+
+
+
+
+
+
+		$scope.initForm=function(){
+      $scope.pays ='';
+      $scope.tel = '';
       sessionId=localStorageService.get('sessionID');
       //if(!sessionId){
       // CONNEXION AU SERVEUR
@@ -203,11 +213,11 @@ starter
               for (var i =0; i<paysObjects.length;i++){
                 result[i] = {'country':paysObjects[i].dataRow.dataEntry[1].value,
                               'code':paysObjects[i].dataRow.dataEntry[3].value};
+                console.log(result[i]);
               }
 
               localStorageService.set ('countries',result);
               $scope.items = localStorageService.get ('countries');
-
             });
           //$scope.formData={'villes': DataProvider.getVilles()};
           //$scope.formData={ 'villes': localStorageService.get('villes')};
@@ -215,27 +225,6 @@ starter
     };
 
 
-
-  $scope.codetel="+33";
-
-    $scope.loadCodeInter=function(){
-      var code=$scope.formData.country;
-      if(code==1)
-        $scope.formData.phone="+212 ";
-      else if(code==2)
-        $scope.formData.phone="+33 ";
-      else if(code==3)
-        $scope.formData.phone="+1 ";
-      else
-        $scope.formData.phone="+33 ";
-
-      $scope.codetel = $scope.formData.phone;
-    };
-
-    $scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
-      if(states.fromCache && states.stateName == "cPhone" ){
-        $scope.initForm();
-      }
-    });
   })
 ;
+
