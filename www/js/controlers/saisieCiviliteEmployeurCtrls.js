@@ -4,13 +4,15 @@
 
 
 angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64', 
-		'wsConnectors', 'parsingServices', 'providerServices'])
+		'wsConnectors', 'parsingServices', 'providerServices', 'validationDataServices'])
 
-	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $cookieStore, $state, UpdateInServer, UploadFile, $base64, 
-				LoadList, formatString, DataProvider){
+	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $rootScope, $cookieStore, $state, UpdateInServer, UploadFile, $base64, 
+				LoadList, formatString, DataProvider, Validator){
 
 		// FORMULAIRE
 		$scope.formData = {};
+		// IMAGE
+		//$scope.formData.image={};
 		
 		$scope.updateCiviliteEmployeur = function(){
 		  
@@ -34,8 +36,20 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
 			
-			if(titre && nom && prenom && entreprise && siret && ape && numUssaf){
-			//if (1==2) {
+			if(!isNaN(titre) || nom || prenom || entreprise || siret || ape || numUssaf){
+				if(!nom)
+					nom="";
+				if(!prenom)
+					prenom="";
+				if(!entreprise)
+					entreprise="";
+				if(!siret)
+					siret="";
+				if(!ape)
+					ape="";
+				if(!numUssaf)
+					numUssaf="";
+				
 				// UPDATE EMPLOYEUR
 				UpdateInServer.updateCiviliteInEmployeur(
 					Number(employeId), Number(titre), nom, prenom, entreprise, siret, ape, numUssaf, sessionId)
@@ -44,7 +58,23 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 							// DONNEES ONT ETE SAUVEGARDES
 							console.log("les donnes ont été sauvegarde");
 							console.log("response"+response);
-
+							
+							employeur=$cookieStore.get('employeur');
+							if(!employeur)
+								employeur={};
+							
+							employeur.civilite=titre;
+							employeur.nom=nom;
+							employeur.prenom=prenom;
+							employeur.entreprise=entreprise;
+							employeur.siret=siret;
+							employeur.ape=ape;
+							employeur.numUssaf=numUssaf;
+							
+							console.log("employeur : "+JSON.stringify(employeur));
+							// PUT IN SESSION
+							$cookieStore.put('employeur', employeur);
+							
 						}).error(function (err){
 							console.log("error : insertion DATA");
 							console.log("error In updateCiviliteInEmployeur: "+err);
@@ -53,10 +83,13 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			
 			// UPLOAD IMAGE
 			if($scope.formData.imageEncode){
-				console.log("imageName : "+$scope.formData.imageName);
-				console.log("imageEncode : "+$scope.formData.imageEncode);
 				
-				UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode, employeId)
+				console.log("image name : "+$scope.formData.imageName);
+				//console.log("image en base64 : "+$scope.formData.imageEncode);
+				console.log("image en base64 : "+$scope.formData.imageEncode);
+				// ENVOI AU SERVEUR
+				//UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode.split(',')[1], employeId)
+				UploadFile.uploadFile("user_employeur", $scope.formData.imageName, $scope.formData.imageEncode, employeId)
 					.success(function (response){
 
 						// FILE A ETE BIEN TRANSFERE
@@ -106,7 +139,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 							
 							console.log("zipCodes.length : "+zipCodes.length);
 							// PUT IN SESSION
-							$cookieStore.put('zipCodes', zipCodes);
+							//$cookieStore.put('zipCodes', zipCodes);
 							console.log("zipCodes : "+JSON.stringify(zipCodes));
 						}).error(function (err){
 							console.log("error : LOAD DATA");
@@ -118,8 +151,11 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			$state.go('adressePersonel');	
 		}
 		
-		$scope.loadImage=function(){
-
+		$scope.loadImage=function(img){
+			
+			console.log("files.length : "+img.files.length);
+			console.log("files[0] : "+img.files[0]);
+			
 			function el(id){
 				var elem = document.getElementById(id);
 				if(typeof elem !== 'undefined' && elem !== null){
@@ -127,18 +163,22 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 				}
 			} // Get elem by ID
 			
-			if(image.files && image.files[0]){
+			if(img.files && img.files[0]){
 			
 				var FR= new FileReader();
 				FR.onload = function(e){
 					// RECUPERE FILE-NAME
-					$scope.formData.imageName=image.files[0].name;
-					
+					$scope.formData.imageName=img.files[0].name;
 					// RECUPERE ENCODAGE-64
 					$scope.formData.imageEncode=e.target.result;
 				};       
 				FR.readAsDataURL(image.files[0]);
+				//$scope.$apply(function(){});
 			}
+		}
+		
+		$scope.validatElement=function(id){
+			Validator.checkField(id);
 		}
 		
 		$scope.initForm=function(){
@@ -146,9 +186,30 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 			$scope.formData={'civilites': DataProvider.getCivilites()};
 		}
 		
-		$scope.$on( "$ionicView.beforeEnter", function(scopes, states){
+		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			if(states.fromCache && states.stateName == "saisieCiviliteEmployeur"){
 				$scope.initForm();
+				
+				console.log("Je suis ds $ionicView.beforeEnter(saisieCivilite)");
+				employeur=$cookieStore.get('employeur');
+				console.log("employeur : "+JSON.stringify(employeur));
+				if(employeur){
+					// INITIALISATION FORMULAIRE
+					if(employeur.civilite)
+						$scope.formData.civ=employeur.civilite;
+					if(employeur.nom)
+						$scope.formData.nom=employeur.nom;
+					if(employeur.prenom)
+						$scope.formData.prenom=employeur.prenom;
+					if(employeur.entreprise)
+						$scope.formData.entreprise=employeur.entreprise;
+					if(employeur.siret)
+						$scope.formData.siret=employeur.siret;
+					if(employeur.ape)
+						$scope.formData.ape=employeur.ape;
+					if(employeur.numUssaf)
+						$scope.formData.numUssaf=employeur.numUssaf;
+				}
 			}
 		});
 	})

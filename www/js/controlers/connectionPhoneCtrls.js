@@ -3,18 +3,20 @@
  */
 
 
-angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices', 'providerServices'])
+angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpenFB', 'ngCookies', 'globalServices', 
+	'providerServices', 'validationDataServices'])
 
-  .controller('cPhoneCtrl', function ($scope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, 
-				formatString, PersistInServer, LoadList, Global, DataProvider){
+  .controller('cPhoneCtrl', function ($scope, $rootScope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer, 
+				formatString, PersistInServer, LoadList, Global, DataProvider, Validator){
 
 	  // FORMULAIRE
 	  $scope.formData = {};
+	  $rootScope.employeur = {};
 	  
 	  $scope.connexionByPhone = function(){
 		  
 		for(var obj in $scope.formData){
-			console.log("formData["+obj+"] : "+$scope.formData[obj]);
+			//console.log("formData["+obj+"] : "+$scope.formData[obj]);
 		}
 		
 		phone=$scope.formData.phone;
@@ -22,9 +24,11 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 		password=$scope.formData.password;
 
 		var isNew=0;
-		if(isEmpty(phone) || isEmpty(country) || isEmpty(password))
+		if(isEmpty(phone) || isEmpty(country) || isEmpty(password)){
+			Global.showAlertPassword("Veuillez saisir vos coordonnées.");
 			return;
-
+		}
+		
 		// CONNEXION AU SERVEUR
 		AuthentificatInServer.getSessionId()
 			.success(function (response){
@@ -80,12 +84,9 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 						}
 					}
 			  }
-			//return;
-
+			  
 			  console.log("isNew : "+isNew);
 			  if(isNew === 1){
-				  // SYSTEME VERIFICATION TEL
-
 				  // PERSIST IN BD - EMPLOYEUR
 					PersistInServer.persistInEmployeur
 						('', '', 0, 0, 0, '', '', phone, '', password, '', '', '', '', '', sessionId)
@@ -98,9 +99,14 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
 									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
 									$cookieStore.put('connexion', connexion);
-								}//$cookieStore.put('employeID', );
 									
-								/*** LOAD LIST CIVILITES
+									$rootScope.employeur.id=Number(employeur.dataModel.status);
+									$rootScope.employeur.phone=phone;
+									$rootScope.employeur.country=country;
+									$rootScope.employeur.password=password;
+								}
+									
+								/*** LOAD LIST CIVILITES 
 								civilites=$cookieStore.get('civilites');
 								if(!civilites){	
 									LoadList.loadListCivilites(sessionId)
@@ -135,7 +141,7 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
 											console.log("error : LOAD DATA");
 											console.log("error in loadListCivilites : "+err);
 										});
-								} ***/
+								}***/
 								
 								// PASSWORD INCORRECT - INSCRIPTION L2
 								$state.go("saisieCiviliteEmployeur");
@@ -154,22 +160,26 @@ angular.module('cPhoneCtrls', ['ionic', 'parsingServices','wsConnectors', 'ngOpe
         });
      }
   
+		$scope.validatElement=function(id){
+			Validator.checkField(id);
+		}
+		
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={'villes': DataProvider.getVilles()};
+			$scope.formData={'pays': DataProvider.getPays()};
 			//$scope.formData={ 'villes': $cookieStore.get('villes')};
 		}
   
 		$scope.loadCodeInter=function(){
 			code=$scope.formData.country;
-			if(code==1)
-				$scope.formData.phone="+212 ";
-			else if(code==2)
+			$scope.formData.phone="+"+code+" ";
+			
+			/**else if(code==2)
 				$scope.formData.phone="+33 ";
 			else if(code==3)
 				$scope.formData.phone="+1 ";
 			else
-				$scope.formData.phone="+00 ";
+				$scope.formData.phone="+00 ";**/
 		}
   
 		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){

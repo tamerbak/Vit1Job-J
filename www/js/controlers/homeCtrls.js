@@ -77,11 +77,12 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
                 }
 
                 var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobyersForMe.push({
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                });
+                jobyersForMe.push(
+					{
+						'firstName': prenom,
+						'lastName': nom,
+						'city': ville
+					});
               }
             } else {
               //One Instance returned or null!
@@ -204,6 +205,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 				console.log("IL S'AGIT D'UNE DECONNEXION");
 				
 				$cookieStore.remove('connexion');
+				$cookieStore.remove('sessionID');
 				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
 				$cookieStore.put('connexion', connexion);
 				
@@ -217,7 +219,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 
 			}
 			else{ // IL S'AGIT D'UNE CONNEXION
-			console.log("IL S'AGIT D'UNE CONNEXION");
+				console.log("IL S'AGIT D'UNE CONNEXION");
 				$state.go("connection");
 			}
 		}

@@ -200,14 +200,14 @@ angular.module('wsConnectors', ['ionic'])
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
 			'<token>'+
-			'<username></username>'+
-			'<password></password>'+
-			'<nom>Jakjoud Abdeslam</nom>'+
-			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>'+sessionID+'</sessionId>'+
-			'<status>SUCCES</status>'+
-			'<id>206</id>'+
-			'<beanId>0</beanId>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
 			'</token>'+
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
@@ -215,7 +215,7 @@ angular.module('wsConnectors', ['ionic'])
 			'<operation>PUT</operation>'+		// INSERTION IN BD
 			'<clauses/>'+
 			'<page>1</page>'+
-			'<pages>5</pages>'+
+			'<pages>0</pages>'+
 			'<nbpages>0</nbpages>'+
 			'<iddriver>0</iddriver>'+
 			'<ignoreList></ignoreList>'+
@@ -595,7 +595,7 @@ angular.module('wsConnectors', ['ionic'])
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-        				'fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+
 							'<label>&lt;![CDATA[Offre]]&gt;</label>'+
 							'<attributeReference>fk_user_offre</attributeReference>'+
 							'<type>fk_user_offre</type>'+
@@ -715,7 +715,7 @@ angular.module('wsConnectors', ['ionic'])
 				"<password></password>" +
 				"<nom>Jakjoud Abdeslam</nom>" +
 				"<appId>FRZ48GAR4561FGD456T4E</appId>" +
-				"<sessionId>" + sessionID + "</sessionId>" +
+				"<sessionId>"+sessionID+"</sessionId>" +
 				"<status>SUCCES</status>" +
 				"<id>206</id>" +
 				"<beanId>0</beanId>" +
@@ -756,21 +756,21 @@ angular.module('wsConnectors', ['ionic'])
 							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
 							'<attributeReference>pk_user_employeur</attributeReference>'+
 							'<type>PK</type>'+
-							'<value>&lt;![CDATA['+id+']]&gt;</value>'+
+							'<value>'+id+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Ville
           					'<label>&lt;![CDATA[Ville]]&gt;</label>'+
           					'<attributeReference>fk_user_ville</attributeReference>'+
           					'<type>fk_user_ville</type>'+
           					'<list/>'+
-          					'<value>&lt;![CDATA['+ville+']]&gt;</value>'+
+          					'<value>'+ville+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Code postal
           					'<label>&lt;![CDATA[Code postal]]&gt;</label>'+
           					'<attributeReference>fk_user_code_postal</attributeReference>'+
           					'<type>fk_user_code_postal</type>'+
           					'<list/>'+
-          					'<value>&lt;![CDATA['+codePostal+']]&gt;</value>'+
+          					'<value>'+codePostal+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
           					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
@@ -788,28 +788,20 @@ angular.module('wsConnectors', ['ionic'])
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
 			'<token>'+
-			'<username></username>'+
-			'<password></password>'+
-			'<nom>Jakjoud Abdeslam</nom>'+
-			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>'+sessionID+'</sessionId>'+
-			'<status>SUCCES</status>'+
-			'<id>206</id>'+
-			'<beanId>0</beanId>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
 			'</token>'+
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
 			'<operation>UPDATE</operation>'+
-			'<clauses>'+
-			'<fr.protogen.connector.model.SearchClause>'+
-			'<field></field>'+
-			'<clause></clause>'+
-			'<gt></gt>'+
-			'<lt></lt>'+
-			'<type>TEXT</type>'+
-			'</fr.protogen.connector.model.SearchClause>'+
-			'</clauses>'+
+			'<clauses/>'+
 			'<page>1</page>'+
 			'<pages>5</pages>'+
 			'<nbpages>0</nbpages>'+
@@ -871,28 +863,20 @@ angular.module('wsConnectors', ['ionic'])
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
 			'<token>'+
-			'<username></username>'+
-			'<password></password>'+
-			'<nom>Jakjoud Abdeslam</nom>'+
-			'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-			'<sessionId>'+sessionID+'</sessionId>'+
-			'<status>SUCCES</status>'+
-			'<id>206</id>'+
-			'<beanId>0</beanId>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
 			'</token>'+
 			'<expired></expired>'+
 			'<unrecognized></unrecognized>'+
 			'<status></status>'+
 			'<operation>UPDATE</operation>'+
-			'<clauses>'+
-			'<fr.protogen.connector.model.SearchClause>'+
-			'<field></field>'+
-			'<clause></clause>'+
-			'<gt></gt>'+
-			'<lt></lt>'+
-			'<type>TEXT</type>'+
-			'</fr.protogen.connector.model.SearchClause>'+
-			'</clauses>'+
+			'<clauses/>'+
 			'<page>1</page>'+
 			'<pages>5</pages>'+
 			'<nbpages>0</nbpages>'+
@@ -934,9 +918,9 @@ angular.module('wsConnectors', ['ionic'])
 				'<status></status>'+
 				'<operation>GET</operation>'+
 				'<clauses/>'+
-				'<page>1</page>'+
-				'<pages>1</pages>'+
-				'<nbpages>1</nbpages>'+
+				'<page>0</page>'+	// PAGE D'INTERROGATION
+				'<pages>0</pages>'+ // NB DE LIGNES
+				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
 			'</fr.protogen.connector.model.DataModel>';
@@ -958,22 +942,22 @@ angular.module('wsConnectors', ['ionic'])
 				'<dataMap/>'+
 				'<rows/>'+
 				'<token>'+
-				'<username></username>'+
-				'<password></password>'+
-				'<nom>Jakjoud Abdeslam</nom>'+
-				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-				'<sessionId>'+sessionID+'</sessionId>'+
-				'<status>SUCCES</status>'+
-				'<id>206</id>'+
-				'<beanId>0</beanId>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
 				'</token>'+
 				'<expired></expired>'+
 				'<unrecognized></unrecognized>'+
 				'<status></status>'+
 				'<operation>GET</operation>'+
 				'<clauses/>'+
-				'<page>1</page>'+
-				'<pages>5</pages>'+
+				'<page>0</page>'+
+				'<pages>0</pages>'+
 				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
@@ -992,7 +976,7 @@ angular.module('wsConnectors', ['ionic'])
 	 this.loadListLangues = function(sessionID){
 		  soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
-				'<entity>user_langue</entity>'+
+				'<entity>user_maitrise_langue_offre</entity>'+
 				'<dataMap/>'+
 				'<rows/>'+
 				'<token>'+
@@ -1011,8 +995,8 @@ angular.module('wsConnectors', ['ionic'])
 				'<operation>GET</operation>'+
 				'<clauses/>'+
 				'<page>1</page>'+
-				'<pages>1</pages>'+
-				'<nbpages>1</nbpages>'+
+				'<pages>0</pages>'+
+				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
 			'</fr.protogen.connector.model.DataModel>';
@@ -1034,22 +1018,22 @@ angular.module('wsConnectors', ['ionic'])
 				'<dataMap/>'+
 				'<rows/>'+
 				'<token>'+
-				'<username></username>'+
-				'<password></password>'+
-				'<nom>Jakjoud Abdeslam</nom>'+
-				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-				'<sessionId>'+sessionID+'</sessionId>'+
-				'<status>SUCCES</status>'+
-				'<id>206</id>'+
-				'<beanId>0</beanId>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
 				'</token>'+
 				'<expired></expired>'+
 				'<unrecognized></unrecognized>'+
 				'<status></status>'+
 				'<operation>GET</operation>'+
 				'<clauses/>'+
-				'<page>1</page>'+
-				'<pages>5</pages>'+
+				'<page>0</page>'+
+				'<pages>0/pages>'+
 				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
@@ -1072,22 +1056,22 @@ angular.module('wsConnectors', ['ionic'])
 				'<dataMap/>'+
 				'<rows/>'+
 				'<token>'+
-				'<username></username>'+
-				'<password></password>'+
-				'<nom>Jakjoud Abdeslam</nom>'+
-				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-				'<sessionId>'+sessionID+'</sessionId>'+
-				'<status>SUCCES</status>'+
-				'<id>206</id>'+
-				'<beanId>0</beanId>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
 				'</token>'+
 				'<expired></expired>'+
 				'<unrecognized></unrecognized>'+
 				'<status></status>'+
 				'<operation>GET</operation>'+
 				'<clauses/>'+
-				'<page>1</page>'+
-				'<pages>5</pages>'+
+				'<page>0</page>'+
+				'<pages>0</pages>'+
 				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
@@ -1106,7 +1090,7 @@ angular.module('wsConnectors', ['ionic'])
 	  this.loadListVilles = function(sessionID){
 		soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
-				'<entity>user_ville</entity>'+
+				'<entity>user_nationalite</entity>'+
 				'<dataMap/>'+
 				'<rows/>'+
 				'<token>'+
@@ -1125,7 +1109,7 @@ angular.module('wsConnectors', ['ionic'])
 				'<operation>GET</operation>'+
 				'<clauses/>'+
 				'<page>1</page>'+
-				'<pages>5</pages>'+
+				'<pages>0</pages>'+
 				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
@@ -1162,8 +1146,8 @@ angular.module('wsConnectors', ['ionic'])
 				'<status></status>'+
 				'<operation>GET</operation>'+
 				'<clauses/>'+
-				'<page>1</page>'+
-				'<pages>5</pages>'+
+				'<page>0</page>'+
+				'<pages>0</pages>'+
 				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
@@ -1186,22 +1170,22 @@ angular.module('wsConnectors', ['ionic'])
 				'<dataMap/>'+
 				'<rows/>'+
 				'<token>'+
-				'<username></username>'+
-				'<password></password>'+
-				'<nom>Jakjoud Abdeslam</nom>'+
-				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
-				'<sessionId>'+sessionID+'</sessionId>'+
-				'<status>SUCCES</status>'+
-				'<id>206</id>'+
-				'<beanId>0</beanId>'+
+					'<username></username>'+
+					'<password></password>'+
+					'<nom>Jakjoud Abdeslam</nom>'+
+					'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+					'<sessionId>'+sessionID+'</sessionId>'+
+					'<status>SUCCES</status>'+
+					'<id>206</id>'+
+					'<beanId>0</beanId>'+
 				'</token>'+
 				'<expired></expired>'+
 				'<unrecognized></unrecognized>'+
 				'<status></status>'+
 				'<operation>GET</operation>'+
 				'<clauses/>'+
-				'<page>1</page>'+
-				'<pages>5</pages>'+
+				'<page>0</page>'+
+				'<pages>0</pages>'+
 				'<nbpages>0</nbpages>'+
 				'<iddriver>0</iddriver>'+
 				'<ignoreList></ignoreList>'+
@@ -1218,7 +1202,7 @@ angular.module('wsConnectors', ['ionic'])
 	  }; 
 	})
 
-  .service('GlobalService', function (){
+  .service('GlobalService', function(){
 	  //this.employeId=0;
 	  var employeId = window.employeId;
 

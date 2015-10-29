@@ -3,26 +3,31 @@
  */
 
 angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices',
-			'angucomplete', 'providerServices'])
+			'angucomplete', 'providerServices', 'validationDataServices', 'globalServices'])
 
-	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString, 
-					UpdateInServer, LoadList, DataProvider){
+	.controller('adresseTravailCtrl', function ($scope, $rootScope, $rootScope, $cookieStore, $state, formatString, 
+					UpdateInServer, LoadList, DataProvider, Validator, Global, $ionicPopup, $ionicHistory){
 
 		// FORMULAIRE
 		$scope.formData = {};
-		$scope.formData.listCodes=[];
 		
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdresseTravEmployeur = function(){
 		  
 			for(var obj in $scope.formData){
-				console.log("formData["+obj+"] : "+$scope.formData[obj]);
+				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 			
-			codePostal=$scope.formData.codePostal;
-			ville=$scope.formData.ville;
+			codePostal=0, ville=0;
+			if(codePostal)
+				codePostal=Number($scope.formData.codePostal.originalObject.pk_user_code_postal);
+			if(ville)
+				ville=Number($scope.formData.ville.originalObject.pk_user_ville);
 			adresse1=$scope.formData.adresse1;
 			adresse2=$scope.formData.adresse2;
+			
+			console.log("codePostal: "+codePostal);
+			console.log("ville : "+ville);
 
 			// RECUPERATION CONNEXION
 			connexion=$cookieStore.get('connexion');
@@ -33,8 +38,11 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			sessionId=$cookieStore.get('sessionID');
 			
 			// TEST DE VALIDATION
-			if(codePostal && ville && adresse1  && adresse2){
-			//if (1==2){
+			if(!isNaN(codePostal) || !isNaN(ville) || codePostal!== 0 || ville !== 0 || adresse1  || adresse2){
+				if(!adresse1)
+					adresse1='';
+				if(!adresse2)
+					adresse2='';
 				UpdateInServer.updateAdresseTravEmployeur(employeId, codePostal, ville, adresse1, adresse2, sessionId)
 					.success(function (response){
 
@@ -42,6 +50,16 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						console.log("les donnes ont été sauvegarde");
 						console.log("response"+response);
 						
+						employeur=$cookieStore.get('employeur');
+						if(!employeur)
+							employeur={};
+						adresseTravail={};
+						adresseTravail={'codePostal': codePostal, 'ville': ville, 'adresse1': adresse1, 'adresse2': adresse2};
+						employeur.adresseTravail=adresseTravail;
+						
+						// PUT IN SESSION
+						$cookieStore.put('employeur', employeur);
+						console.log("employeur : "+JSON.stringify(employeur));
 					}).error(function (err){
 						console.log("error : insertion DATA");
 						console.log("error In updateAdresseTravEmployeur: "+err);
@@ -211,34 +229,122 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			$state.go('competence');
 		}
 		
+		// VALIDATION
+		$scope.validatElement=function(id){
+			Validator.checkField(id);
+		}
+		
 		$scope.initForm=function(){
 			$scope.formData.zipCodes=DataProvider.getZipCodes();
 			$scope.formData.villes=DataProvider.getVilles();
-			for(var i=0; i<$scope.formData.zipCodes.length; i++)
-				$scope.formData.listCodes[i]=$scope.formData.zipCodes[i].libelle;
 		}
 		
-		$scope.updateZipCodes=function(typed){
+		/**$scope.$on('update-list-code', function(event, args){
 			
-			// VIDER LIST RESULT
-			$scope.formData.listCodes=[];
-			if($scope.formData.zipCodes.length <= 0)
-				return;
+			var params = args.params;
+			console.log("params : "+JSON.stringify(params));
 			
-			// PARCOURIR ALL CODES
-			for(var i=0; i<$scope.formData.zipCodes.length; i++){
-				codePostal=$scope.formData.zipCodes[i];
-				code=String(codePostal.libelle);
-				if(code.indexOf(typed) > -1){
-					$scope.formData.listCodes.push(code);
-					console.log("codePostal : "+JSON.stringify(codePostal));
+			list=params.list;
+			fk=params.fk;
+			// NEW LIST - CODES POSTAL
+			codes=[];
+			
+			if(list === "ville"){
+				// VIDER LIST - ZIP CODES
+				$scope.formData.zipCodes=[];
+				// TABLE ASSOCIATION
+				zip_ville=DataProvider.getZip_Ville();
+				// TABLE CODES POSTAL
+				zips=DataProvider.getZipCodes();
+				for(var i=0; i<zip_ville.length; i++){
+					if(Number(zip_ville[i]['ville']) === Number(fk)){
+						// PARCOURIR LIST CODES POSTAL
+						for(var j=0; j<zips.length; j++){
+							if(Number(zips[j]['pk_user_code_postal']) === Number(zip_ville[i]['zip'])){
+								zip={};
+								zip.pk_user_code_postal=zips[j]['pk_user_code_postal'];
+								zip.libelle=zips[j]['libelle'];
+								codes.push(zip);
+							}
+						}
+					}
 				}
+				
+				// UPDATE ZIP CODES - GLOBAL
+				$scope.formData.zipCodes=[];
+				$scope.formData.zipCodes=codes;
+				console.log("New $scope.formData.zipCodes : "+$scope.formData.zipCodes.length);
+				
+				// ENVOI AU AUTOCOMPLETE CONTROLLEUR
+				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
 			}
-		}
+		});**/
+		
+		$scope.$on('show-pop-up', function(event, args){
 			
-		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+			var params = args.params;
+			console.log("params : "+JSON.stringify(params));
+			
+			var myPopup = $ionicPopup.show({
+			  
+			  template: "Adresse de travail est identique à l'adresse du siège social. <br>",
+			  title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+			  buttons: [
+				{
+					text: '<b>Non</b>',
+					type: 'button-dark'
+				},{
+					text: '<b>Oui</b>',
+					type: 'button-calm',
+					onTap: function(e){
+						$scope.formData.adresse1=adresse1;
+						$scope.formData.adresse2=adresse2;
+						if(params.ville)
+							document.getElementById('ex2_value').value=params.vi;
+						if(params.code)
+							document.getElementById('ex3_value').value=params.code;
+					}
+				}
+			 ]
+		 });
+		});
+		
+		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			if(states.fromCache && states.stateName == "adresseTravail" ){
 				$scope.initForm();
+				
+				// AFFICHE POPUP - SI JE VIENS
+				if($ionicHistory.backView() === "adressePersonel"){
+					// SHOW 
+					/**Global.showCopyAddress("Adresse de travail est identique à l'adresse du siège social ?")
+						.then(function(result){    
+							// COPY SIEGE IN ADDRESS TRAVAIL
+							employeur=$cookieStore.get('employeur');
+							
+							if(employeur){
+								
+								$scope.formData.adresse1=employeur.adressePersonel.adresse1;
+								$scope.formData.adresse2= employeur.adressePersonel.adresse2;
+							}
+							console.log("adressePersonel : popup[Valider] : "+JSON.stringify(employeur));
+						});**/
+				}
+				console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
+				employeur=$cookieStore.get('employeur');
+				if(employeur){
+					// INITIALISATION FORMULAIRE
+					if(employeur['adresseTravail']){
+						// INITIALISATION FORMULAIRE
+						if(employeur['adresseTravail'].codePostal)
+							$scope.formData['codePostal']=employeur['adresseTravail']['codePostal'];
+						if(employeur.adresseTravail.ville)
+							$scope.formData['ville']=employeur['adresseTravail']['ville'];
+						if(employeur['adresseTravail']){
+							$scope.formData['adresse1']=employeur['adresseTravail']['adresse1'];
+							$scope.formData['adresse2']=employeur['adresseTravail']['adresse2'];
+						}
+					}
+				}
 			}
 		});
 	})

@@ -3,20 +3,16 @@
  */
 
 angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalServices', 
-		'providerServices', 'parsingServices'])
+		'providerServices', 'parsingServices', 'fileServices'])
 	
-	/**.directive('clickEvent', function() {
-		return function(scope, element, attrs){
-			var clickingCallback = function() {
-				alert('clicked!')
-			};
-			element.bind('click', clickingCallback);
-		}
-	})**/
-	.controller('competenceCtrl', function ($scope, $cookieStore, $state, x2js, $rootScope, AuthentificatInServer,
-						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString) {
+	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state, x2js, AuthentificatInServer,
+						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile){
 		// FORMULAIRE
-		$scope.formData = {};
+		$scope.formData={};
+		
+		$scope.formData.maitriseIcon = "img/tree1_small.png";
+		$scope.formData.maitrise = "Débutant";
+		$scope.formData.maitriseStyle = "display: inline;max-width: 33px;max-height: 50px;"
 
 		// ALL JOBYERS
 		$rootScope.jobyers=[];
@@ -33,7 +29,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 				'currentFeuille': 1,
 				'allFeuilles': 1,
 				'maitrise': 'Débutant',
-				'maitriseIcon': 'icon ion-ios-rainy calm',
+				'maitriseIcon': 'tree1_small.png',
 				'metiers': DataProvider.getMetiers(),
 				'langues': DataProvider.getLangues(),
 				'jobs': DataProvider.getJobs(),
@@ -47,26 +43,31 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			$scope.refrechNavigation();
 		};
 
-		$scope.rangeChange = function() {
-			rangeModel=$scope.formData.degre;
+		$scope.rangeChange = function(){
+			var rangeModel=$scope.formData.degre;
 			console.log("rangeModel : "+rangeModel);
 			if (rangeModel <= 25 ){
         		$scope.formData.maitrise = "Débutant";
-        		$scope.formData.maitriseIcon = "icon ion-ios-rainy calm";
+        		$scope.formData.maitriseIcon = "tree1_small.png";
+            $scope.formData.maitriseWidth = "33px";
+            $scope.formData.maitriseHeight = "50px";
       		}
 
       		else if (rangeModel > 25 && rangeModel <= 50 ) {
         		$scope.formData.maitrise = 'Habitué';
-        		$scope.formData.maitriseIcon = "icon ion-ios-cloudy-outline calm";
+        		$scope.formData.maitriseIcon = "tree2_small.png";
+            //$scope.formData.maitriseStyle = "display: inline;max-width: 33px;max-height: 50px;";
       		}
 
       		else if (rangeModel > 50 && rangeModel <= 75 ){
         		$scope.formData.maitrise = 'Confirmé';
-        		$scope.formData.maitriseIcon = "icon ion-ios-partlysunny-outline calm";
+        		$scope.formData.maitriseIcon = "tree3_small.png";
+            //$scope.formData.maitriseStyle = "display: inline;max-width: 59px;max-height: 77px;";
       		}
       		else if (rangeModel > 75 && rangeModel <= 100 ){
         		$scope.formData.maitrise = 'Waouh!';
-        		$scope.formData.maitriseIcon = "icon ion-ios-sunny-outline calm";
+        		$scope.formData.maitriseIcon = "tree4_small.png";
+            //$scope.formData.maitriseStyle = "display: inline;max-width: 60px;max-height: 80px;";
       		}
 		};
 
@@ -337,7 +338,9 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 				console.log("Je suis dans : hasSessionID");
 				
 				//  PERSIST IN BD - OFFRE
-				//LoadList.loadList("user_langue", sessionId)
+				//LoadList.loadListLangues(sessionId)
+				//LoadList.loadListLangues("user_maitrise_langue_offre", sessionId)
+				//LoadList.loadListLangues(sessionId)
 				//PullDataFromServer.pullDATA("user_langue", sessionId, "identifiant", 21, 21)
 				//PullDataFromServer.pullDATA("user_maitrise_langue_offre", sessionId, "fk_user_langue", 40, 40)
 				PersistInServer.persistInOffres(employeId, "Titre_2", "Description_2", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId)
@@ -392,7 +395,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 							}
 							
 							// SHOW MODAL
-							Global.showAlertPassword("Merci! Vos Offres sont été bien publiés.");
+							//Global.showAlertPassword("Merci! Vos Offres sont été bien publiés.");
 							// REDIRECTION VERS SEARCH
 							$state.go("search");
 						}
@@ -404,7 +407,21 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			}
 		}
 
-		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+		$scope.$on('update-list-job', function(event, args){
+			
+			var params = args.params;
+			console.log("params : "+JSON.stringify(params));
+			
+			// VIDER LIST - JOBS
+			$scope.formData.jobs=[];
+			jobs=DataProvider.getJobs();
+			for(var i=0; i<jobs.length; i++){
+				if(jobs[i]['fk_user_metier'] === params.fk)
+					$scope.formData.jobs.push(jobs[i]);
+			}
+		});
+		
+		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
 			if(states.fromCache && states.stateName == "competence" ){
 				console.log("Initialisation : beforeEnter");
 				$scope.formData['currentFeuille']=1;

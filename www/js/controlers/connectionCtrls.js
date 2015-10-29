@@ -123,12 +123,12 @@ angular
 									console.log("New sessionId : "+sessionId);
 									$cookieStore.put('sessionID', sessionId);
 									
-									/*** LOAD LIST VILLES
+									/*** LOAD LIST VILLES ***/
 									villes=$cookieStore.get('villes');
-									if(!villes){	
-										LoadList.loadListVilles(sessionId)
-											.success(
-													function(response){
+									//if(!villes){	
+										LoadList.loadList("user_niveau_de_maitrise", sessionId)
+											.success(function(response){
+														console.log("response "+response);
 														resp = formatString.formatServerResult(response);
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
@@ -145,6 +145,7 @@ angular
 															// PARCOURIR LIST PROPERTIES
 															ville[object[0].attributeReference] = object[0].value;
 															ville[object[1].attributeReference] = object[1].value;
+															//ville[object[3].attributeReference] = object[3].value;
 
 															if (ville)
 																villes.push(ville);
@@ -160,7 +161,7 @@ angular
 														console.log("error : LOAD DATA");
 														console.log("error in loadListVilles : "+ err);
 											});
-									} **/
+									//}
 								})
 								.error(function (data){
 									console.log("error : récuperation JSessionId");

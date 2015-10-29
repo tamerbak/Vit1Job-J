@@ -23,39 +23,51 @@
 	<!-- NOM -->
 	<div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="formData.nom">
+        <input type="text" id="nom" placeholder="Nom" data-ng-model="formData.nom">
       </label>
 	</div>
 	<!-- PRENOM -->
 	<div class="list">
       <label class="item item-input">
-        <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="formData.prenom">
+        <input type="text" id="prenom" placeholder="Prenom" data-ng-model="formData.prenom">
       </label>
 	</div>
 	<!-- NOM ENTREPRISE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Nom entreprise" class="searchPage2" data-ng-model="formData.entreprise">
+        <input type="text" id="entreprise" placeholder="Nom entreprise" data-ng-model="formData.entreprise">
       </label>
     </div>
 	<!-- SIRET -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="SIRET" class="searchPage2" data-ng-model="formData.siret">
+        <input type="text" id="siret" placeholder="SIRET" data-ng-model="formData.siret">
       </label>
     </div>
 	<!-- CODE APE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Code APE" class="searchPage2" data-ng-model="formData.ape">
+        <input type="text" id="ape" placeholder="Code APE" data-ng-model="formData.ape">
       </label>
     </div>
 	<!-- N°URSSAF -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="formData.numUssaf">
+        <input type="text" id="urssaf" placeholder="N°URSSAF" data-ng-model="formData.numUssaf">
       </label>
     </div>
+	
+	<!-- NATIONALITE 
+	<div angucomplete id="ex0"
+              placeholder="Nationalité"
+              pause="100"
+              selectedobject="formData.nationalite"
+              localdata="formData.nationalites"
+              searchfields="libelle"
+              titlefield="libelle"
+              minlength="1"
+              inputclass="form-control form-control-small inputAutoCompl" class="autoCompl">
+	</div>-->
 
 	<div align="left">
       <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3>
@@ -64,7 +76,8 @@
 	<!-- Image uploader -->
 	<div class="list">
 		<label class="item item-input">
-			<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">
+			<!--<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">-->
+			<input id="image" type="file" class="upload" data-ng-model="formData.image" onchange="angular.element(this).scope().loadImage(this)">
 		</label>
 	</div>
 
