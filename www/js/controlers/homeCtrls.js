@@ -3,15 +3,16 @@
  */
 angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout, $cookies) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout, $cookies,
+                                    localStorageService) {
 		// FORMULAIRE
 		$scope.formData = {};
 		//$scope.formData.connexion= {};
 
-    var jobyersForMe = [];
-    var jobyersNextToMe = [];
-
     $scope.getJobbers = function (query) {
+
+      var jobyersForMe = [];
+      var jobyersNextToMe = [];
 
       $rootScope.jobyersForMe = [];
       $rootScope.jobyersNextToMe = [];
@@ -31,6 +32,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
           data: soapMessage
         }).then(
           function(response){
+
             var jsonResp = x2js.xml_str2json(response.data);
             var jsonText = JSON.stringify (jsonResp);
             jsonText = jsonText.replace(/fr.protogen.connector.model.DataModel/g,"dataModel");
@@ -47,46 +49,46 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
             //var rowsCount = jsonResp.dataModel.rows.dataRow.length;
             //if (typeof (jsonResp.dataModel.rows.dataRow.dataRow) == 'undefined') {
             //if (Array.isArray(jsonResp.dataModel.rows.dataRow)){
-            if (jsonResp.dataModel.rows.dataRow instanceof Array){
+            if (jsonResp.dataModel.rows.dataRow instanceof Array) {
               //if (jsonResp.dataModel.rows.dataRow.length > 0){
               //if (rowsCount > 0){
 
-              for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
+                for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
 
-                //jsonResp = parsingService.formatString.formatServerResult(response.data);
+                  //jsonResp = parsingService.formatString.formatServerResult(response.data);
 
-                //jsonResp.dataModel.rows.dataRow[0].dataRow.dataEntry[1].value
-                var prenom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[1].value;
-                var nom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[2].value;
-                var idVille = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].value;
+                  //jsonResp.dataModel.rows.dataRow[0].dataRow.dataEntry[1].value
+                  var prenom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[1].value;
+                  var nom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[2].value;
+                  var idVille = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].value;
 
 
-                prenom = prenom.replace("<![CDATA[",'');
-                prenom = prenom.replace("]]>",'');
-                nom = nom.replace("<![CDATA[",'');
-                nom = nom.replace("]]>",'');
-                idVille = idVille.replace("<![CDATA[",'');
-                idVille = idVille.replace("]]>",'');
+                  prenom = prenom.replace("<![CDATA[",'');
+                  prenom = prenom.replace("]]>",'');
+                  nom = nom.replace("<![CDATA[",'');
+                  nom = nom.replace("]]>",'');
+                  idVille = idVille.replace("<![CDATA[",'');
+                  idVille = idVille.replace("]]>",'');
 
-                for (j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
-                  jsonText = JSON.stringify (jsonResp);
-                  jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
-                  jsonResp = JSON.parse(jsonText);
-                  if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
+                  for (j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
+                    jsonText = JSON.stringify (jsonResp);
+                    jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
+                    jsonResp = JSON.parse(jsonText);
+                    if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
+                      break;
+                  }
+
+                  var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
+                  jobyersForMe.push({
+                      'firstName': prenom,
+                      'lastName': nom,
+                      'city': ville
+                  });
                 }
-
-                var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobyersForMe.push(
-					{
-						'firstName': prenom,
-						'lastName': nom,
-						'city': ville
-					});
-              }
-            } else {
+            }
+            else {
               //One Instance returned or null!
-              if (jsonResp.dataModel.rows!=""){
+              if (jsonResp.dataModel.rows != ""){
                 prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
                 nom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[2].value;
                 idVille = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].value;
@@ -203,12 +205,12 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				console.log("IL S'AGIT D'UNE DECONNEXION");
-				
+
 				$cookieStore.remove('connexion');
 				$cookieStore.remove('sessionID');
 				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
 				$cookieStore.put('connexion', connexion);
-				
+
 				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));
 				$state.go("connection");
 				/*** REMOVE ALL COOKIES

@@ -13,7 +13,8 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
                 'competenceCtrls', 'adressePersonelCtrls','adresseTravailCtrls',
                 'wsConnectors', 'parsingServices', 'fileServices', 'globalServices',
                 //'ng-mfb', 'cb.x2js', 'ngOpenFB'])
-                'ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova'])
+                'ng-mfb', 'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova',
+                'LocalStorageModule'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});
@@ -74,6 +75,12 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
 
   });
 })
+
+  // Config Local Storage
+  .config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('Vit1Job');
+  })
 
   // this control will be deleted because there will be no Profile page ..
   .controller('ProfileCtrl', function ($scope, ngFB) {

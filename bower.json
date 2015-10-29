@@ -5,6 +5,7 @@
     "ionic": "driftyco/ionic-bower#1.1.0"
   },
   "dependencies": {
-    "ng-material-floating-button": "ng-mfb#~0.6.2"
+    "ng-material-floating-button": "ng-mfb#~0.6.2",
+    "angular-local-storage": "~0.2.3"
   }
 }

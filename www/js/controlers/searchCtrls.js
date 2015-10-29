@@ -14,7 +14,7 @@ angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
       var jobyersForMe = [];
       var jobyersNextToMe = [];
 
-      if ( search == ''){
+      if (search == '') {
         $rootScope.jobyersForMe = [];
         $rootScope.nbJobyersForMe = 0;
         $rootScope.nbJobyersNextToMe = 0;
@@ -65,19 +65,24 @@ angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
                 idVille = idVille.replace("<![CDATA[", '');
                 idVille = idVille.replace("]]>", '');
 
-                for (j = 0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length; j++) {
-                  if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
-                }
+                var dataCouple = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple;
 
-                var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobyersForMe.push({
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                });
+                if (dataCouple instanceof Array) {
+                  for (j = 0; j < dataCouple.length; j++) {
+                    if (dataCouple[j].id == idVille)
+                      break;
+                  }
+
+                  var ville = dataCouple[j].label;
+                  jobyersForMe.push({
+                    'firstName': prenom,
+                    'lastName': nom,
+                    'city': ville
+                  });
+                }
               }
-            } else {
+            }
+            else {
               //One Instance returned or null!
               if (jsonResp.dataModel.rows != "") {
                 prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
