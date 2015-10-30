@@ -256,3 +256,28 @@ input[type="text"], input[type="email"], input[type="password"]{
 input#ex1_value, input#ex0_value{
 	margin: 0px !important;
 }
+
+/*##############################   VALIDATION STYLES ################################"*/
+
+.has-error input{background:url(../img/icons/error.png)right no-repeat; border:solid 1px red !important;}
+
+/**
+.list {
+	padding: 1px !important;
+}
+.list .item{
+	width: 98% !important;
+	margin: 1px !important;
+}
+**/
+.has-warning{
+	background:url(../img/icons/error.png)right no-repeat; border-color:red !important;
+}
+.has-success{
+	background:url(../img/icons/ok.png)right no-repeat; border:solid 1px #14BAA6 !important;
+}
+
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
+    max-width: 200px;
+    max-height: 121px;
+}

@@ -51,11 +51,12 @@
     padding: 5px;
     color: #000000;
     margin-bottom: 4px;
-
+	text-align: left;
 }
 
 .angucomplete-selected-row, .angucomplete-row:hover {
-    background-color: lightblue;
+    background-color: #14BAA6;
+    /**background-color: lightblue;**/
     color: #ffffff;
 }
 
