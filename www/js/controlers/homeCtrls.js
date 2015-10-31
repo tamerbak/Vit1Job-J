@@ -12,10 +12,10 @@ starter
 		$scope.formData = {};
 		//$scope.formData.connexion= {};
 
-    var jobyersForMe = [];
-    var jobyersNextToMe = [];
-
     $scope.getJobbers = function (query) {
+
+      var jobyersForMe = [];
+      var jobyersNextToMe = [];
 
       $rootScope.jobyersForMe = [];
       $rootScope.jobyersNextToMe = [];

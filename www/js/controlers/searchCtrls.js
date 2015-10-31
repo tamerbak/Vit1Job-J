@@ -69,19 +69,23 @@ starter
                 idVille = idVille.replace("<![CDATA[", '');
                 idVille = idVille.replace("]]>", '');
 
-                for (var j = 0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length; j++) {
-                  if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
-                }
+                var dataCouple = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple;
+                if (dataCouple instanceof Array) {
+                  for (var j = 0; j < dataCouple.length; j++) {
+                    if (dataCouple[j].id == idVille)
+                      break;
+                  }
 
-                var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobyersForMe.push({
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                });
+                  var ville = dataCouple[j].label;
+                  jobyersForMe.push({
+                    'firstName': prenom,
+                    'lastName': nom,
+                    'city': ville
+                  });
+                }
               }
-            } else {
+            }
+            else {
               //One Instance returned or null!
               if (jsonResp.dataModel.rows != "") {
                 prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
