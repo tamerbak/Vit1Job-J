@@ -1,0 +1,39 @@
+<ion-view title="connection">
+  <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="app">  </a>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+    <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
+  </ion-header-bar>
+  <ion-content padding="true">
+    <div class="row">
+      <h3 class="h3Connect1">Vous voulez vous connectez avec :</h3>
+    </div>
+
+    <div class="row">
+      <button class="button button-full button-positive green" data-ng-click="loadAllVilles()"> Votre téléphone</button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-positive green" ui-sref="cMail"> Votre adresse mail</button>
+    </div>
+
+    <div class="row">
+      <div class="col col-45"><hr></div>
+      <div class="col col-10"><h3 class="h3Connect1">Ou</h3></div>
+      <div class="col col-45"><hr></div>
+    </div>
+
+    <div class="row">
+      <button class="button button-full button-positive linkedIn"> Votre compte LinkedIn</button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-positive red" data-ng-click="loginGmail()"> Votre compte Gmail</button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-positive facebook" data-ng-click="fbLogin()"> Votre compte Facebook</button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" > Quitter</button>
+    </div>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,46 @@
+<ion-view title="connection">
+  <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="connection">  </a>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+    <!--<h1 class="title">Connexion</h1>-->
+    <a class="button icon-right ion-home button-clear button-light" ui-sref="search">  </a>
+  </ion-header-bar>
+  <ion-content padding="true" data-ng-init="initForm()">
+	<!-- Title -->
+    <div>
+      <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
+    </div>
+
+	<!-- PAYS -->
+	<div class="list">
+	  <label class="item item-input">
+        <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='France'" data-ng-change="loadCodeInter()">
+          <option selected disabled style="display: none;">France</option>
+		 <option data-ng-repeat="x in formData.pays" value="{{x.indicatif_telephonique}}">{{x.libelle}}</option>
+
+          <!--<option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>-->
+		</select>
+      </label>
+	</div>
+	<!-- TELEPHONE -->
+	<div class="list">
+      <label class="item item-input">
+        <i class="icon ion-ios-telephone placeholder-icon calm"></i>
+        <input type="text" data-ng-model="formData.phone" data-ng-init="formData.phone='+33 '">
+      </label>
+	</div>
+	
+	<!-- PASSWORD -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="password" placeholder="Mot de passe" data-ng-model="formData.password">
+      </label>
+    </div>
+	<br>
+	<!-- ACTIONS -->
+	<div class="buttonConnect">
+      <button class="button button-full button-positive green" data-ng-click="connexionByPhone()">Se connecter</button>
+      <button class="button button-full button-positive grey" ui-sref="connection">Quitter</button>
+    </div>
+  </ion-content>
+</ion-view>
