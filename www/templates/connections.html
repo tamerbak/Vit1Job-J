@@ -4,7 +4,7 @@
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
-  <ion-content class="has-header padding">
+  <ion-content padding="true">
     <div class="row">
       <h3 class="h3Connect1">Vous voulez vous connectez avec :</h3>
     </div>
@@ -22,14 +22,17 @@
       <div class="col col-45"><hr></div>
     </div>
 
-    <div class="button-bar ">
-      <a class="button button-calm icon ion-social-facebook" data-ng-click="fbLogin()"></a>
-      <a class="button button-calm icon ion-social-google" data-ng-click="loginGmail()"> </a>
-      <a class="button button-calm icon  ion-social-linkedin"></a>
-    </div>
-
     <div class="row">
-      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" ><i class="icon ion-log-out"></i> Quitter</button>
+      <button class="button button-full button-positive linkedIn"> Votre compte LinkedIn</button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-positive red" data-ng-click="loginGmail()"> Votre compte Gmail</button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-positive facebook" data-ng-click="fbLogin()"> Votre compte Facebook</button>
+    </div>
+    <div class="row">
+      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" > Quitter</button>
     </div>
 
   </ion-content>

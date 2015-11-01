@@ -2,11 +2,6 @@
 
 /*##############################   style of Home.html ################################"*/
 
-ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img{
-  max-width: 200px;
-  max-height: 121px;
-}
-
 .vimg {
   width: 100%;
 }
@@ -168,22 +163,19 @@ label.item.item-input  input.searchPage2[type="search"]{
 
 /*##############################   styles of Connection.html ################################"*/
 
-a.button.button-calm.icon.ion-social-linkedin{
-  border-top-right-radius: 27px;
-  border-bottom-right-radius: 27px;
-  background-color:#006599;
-  border-color: #006599;
+button.button.button-full.button-positive.linkedIn {
+  padding: 2px;
+  font-size: 1em;
 }
-a.button.button-calm.icon.ion-social-facebook {
-  border-top-left-radius: 27px;
-  border-bottom-left-radius: 27px;
-  background-color:#3C5A9A;
-  border-color: #3C5A9A;
-}
-a.button.button-calm.icon.ion-social-google{
 
-  background-color:#E81011;
-  border-color: #E81011;
+button.button.button-full.button-positive.red {
+  padding: 2px;
+  font-size: 1em;
+}
+
+button.button.button-full.button-positive.facebook {
+  padding: 2px;
+  font-size: 1em;
 }
 
 .h3Connect1{
@@ -251,10 +243,11 @@ input[type="text"], input[type="email"], input[type="password"]{
 	padding-top: 1%;
 	padding-bottom: 1%;
 	padding-left: 3%;
+	/**z-index:0 !important; **/
 }
 
 input#ex1_value, input#ex0_value{
-	margin: 0px !important;
+	margin: 0px !important; /**z-index:9999 !important;**/
 }
 
 /*##############################   VALIDATION STYLES ################################"*/
@@ -280,4 +273,19 @@ input#ex1_value, input#ex0_value{
 ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
     max-width: 200px;
     max-height: 121px;
+}
+
+.arriere{
+	display: none;
+	position: relative;
+	top: -38px;
+	left: 0px;
+	/*z-index: 10 !important;*/
+	width: 96%;
+	width: 5%;
+	margin-left: 92%;
+}
+
+.inSameLine{
+	display: inline;
 }

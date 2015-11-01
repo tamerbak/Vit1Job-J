@@ -81,9 +81,11 @@ angular.module('validationDataServices', ['ionic', 'cb.x2js', 'providerServices'
 			console.log("list : "+list);
 			
 			//$rootScope.$broadcast('scanner-started');
-			if(list === "ville")
-				$rootScope.$broadcast('update-list-code', {params: {fk, list}});
+			/**if(list === "ville")
+				$rootScope.$broadcast('update-list-code', {params: {fk, list}});**/
+			if(list === "postal")
+				$rootScope.$broadcast('update-list-ville', {params: {'fk':fk, 'list':list}});
 			if(list === "metier")
-				$rootScope.$broadcast('update-list-job', {params: {fk, list}});
+				$rootScope.$broadcast('update-list-job', {params: {'fk':fk, 'list':list}});
 		}
   })

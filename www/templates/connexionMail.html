@@ -6,36 +6,32 @@
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app"> </a>
   </ion-header-bar>
   <ion-content padding="true">
-
-  <!-- Title -->
-  <div>
-    <h3 class="titlePhone"><b>Entrez votre Email : </b></h3>
-  </div>
-
-  <form name="emailForm" class="css-form" novalidate>
-    <!-- EMAIL -->
-    <div class="list">
-        <label class="item item-input"
-               ng-class="{'invalid' : emailForm.email.$touched && emailForm.email.$invalid, 'valid' : emailForm.email.$touched && emailForm.email.$valid}">
-          <i class="icon ion-email placeholder-icon calm" style="font-size: large"></i>
-          <input type="email" name="email" placeholder="Email" data-ng-model="formData.email" required>
-        </label>
+	<!-- Title -->
+    <div>
+      <h3 class="titlePhone"><b>Entrez votre Email : </b></h3>
     </div>
-    <!-- PASSWORD -->
-    <div class="list">
+
+	<!-- TELEPHONE -->
+	<div class="list">
       <label class="item item-input">
-          <input type="password" placeholder="Mot de passe" data-ng-model="formData.password" required>
-        </label>
+        <i class="icon ion-email placeholder-icon calm" style="font-size: large"></i>
+        <input id="email" type="text" placeholder="Email" data-ng-model="formData.email" data-ng-blur="validatEmail('email')">
+		<!--<span class="error" >Required!</span>
+		<span class="error" >Not valid email!</span>-->
+      </label>
+	</div>
+	
+	<!-- PASSWORD -->
+	<div class="list">
+	  <label class="item item-input">
+        <input type="password" placeholder="Mot de passe" data-ng-model="formData.password">
+      </label>
     </div>
 
-    <!-- ACTIONS -->
-    <div class="buttonConnect">
-        <button class="button button-full button-positive green" data-ng-click="connexionByMail()" ng-disabled="emailForm.$invalid">
-          Connecter
-        </button>
-        <button class="button button-full button-positive grey" ui-sref="connection">Quitter</button>
+	<!-- ACTIONS -->
+	<div class="buttonConnect">
+      <button class="button button-full button-positive green" data-ng-click="connexionByMail()">Connecter</button>
+      <button class="button button-full button-positive grey" ui-sref="connection">Quitter</button>
     </div>
-  </form>
-
   </ion-content>
 </ion-view>

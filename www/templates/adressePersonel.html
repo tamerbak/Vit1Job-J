@@ -4,43 +4,51 @@
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
-  <ion-content padding="true">
-    <br>
+  <ion-content padding="true" data-ng-init="initForm()">
 	<!-- Title -->
     <div>
       <h3 class="titlePhone"><b>Siège social</b></h3>
     </div>
 
-    <br>
-    <!-- VILLE -->
-    <div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Ville</span>
-        <input type="text" class="searchPage2 inline decale" data-ng-model="formData.ville">
-      </label>
-    </div>
-
 	<!-- CODE POSTAL -->
+	<div angucomplete-alt id="ex0"
+		placeholder="Code postal"
+		maxlength="50"
+		pause="100"
+		selected-object="formData.codePostal"
+		local-data="formData.zipCodes"
+		search-fields="libelle"
+		title-field="libelle"
+		minlength="1"
+		input-class="form-control form-control-small"
+		match-class="highlight" class="autoCompl">
+	</div>
+	<br>
+	<!-- VILLE -->
+	<div angucomplete-alt id="ex1"
+		placeholder="Ville"
+		maxlength="50"
+		pause="100"
+		selected-object="formData.ville"
+		local-data="formData.villes"
+		search-fields="libelle"
+		title-field="libelle"
+		minlength="1"
+		input-class="form-control form-control-small"
+		match-class="highlight" class="autoCompl">
+	</div>
+	<br>
+	<!-- ADRESSE 1 -->
 	<div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Code Postal</span>
-        <input type="text" class="searchPage2 inline decale" data-ng-model="formData.codePostal">
+      <label class="item item-input">
+        <input type="text" id="addressP1" placeholder="Adresse 1" data-ng-model="formData.adresse1">
       </label>
 	</div>
 
-	<!-- SIEGE SOCIAL -->
+	<!-- ADRESSE 2 -->
 	<div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Adresse 1</span>
-        <input type="text" class="searchPage2 inline decale" data-ng-model="formData.adresse1">
-      </label>
-	</div>
-
-	<!-- ADRESSE 2-->
-	<div class="list" align="left">
-      <label class="item item-input item-stacked-label">
-        <span class="input-label inline">Adresse 2</span>
-        <input type="text" class="searchPage2 inline decale" data-ng-model="formData.adresse2">
+      <label class="item item-input">
+        <input type="text" id="addressP2" placeholder="Adresse 2" data-ng-model="formData.adresse2">
       </label>
 	</div>
 

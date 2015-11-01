@@ -1,11 +1,7 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-/**
- * Modified by HODAIKY on 25/10/2015.
- */
-'use strict';
-starter
+angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
 
   .controller('searchCtrl', function ($scope, $rootScope,$state, $http, x2js) {
 
@@ -29,7 +25,7 @@ starter
 
 
       if (sessionId != '') {
-        var soapMessage = 'user_salarie;' + search; //'C# sur paris';
+        soapMessage = 'user_salarie;' + search; //'C# sur paris';
         $http({
           method: 'POST',
           url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',
@@ -49,7 +45,7 @@ starter
 
             //Check if there are rows!
             if (jsonResp.dataModel.rows.dataRow instanceof Array) {
-              for (var i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
+              for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
                 jsonText = JSON.stringify(jsonResp);
                 jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
                 jsonText = jsonText.replace("fr.protogen.connector.model.DataRow", "dataRow");
@@ -69,23 +65,19 @@ starter
                 idVille = idVille.replace("<![CDATA[", '');
                 idVille = idVille.replace("]]>", '');
 
-                var dataCouple = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple;
-                if (dataCouple instanceof Array) {
-                  for (var j = 0; j < dataCouple.length; j++) {
-                    if (dataCouple[j].id == idVille)
-                      break;
-                  }
-
-                  var ville = dataCouple[j].label;
-                  jobyersForMe.push({
-                    'firstName': prenom,
-                    'lastName': nom,
-                    'city': ville
-                  });
+                for (j = 0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length; j++) {
+                  if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
+                    break;
                 }
+
+                var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
+                jobyersForMe.push({
+                  'firstName': prenom,
+                  'lastName': nom,
+                  'city': ville
+                });
               }
-            }
-            else {
+            } else {
               //One Instance returned or null!
               if (jsonResp.dataModel.rows != "") {
                 prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
@@ -165,4 +157,3 @@ starter
       }
     }
   })
-;
