@@ -24,7 +24,7 @@
         <div class="list list-inset page2">
           <label class="item item-input">
             <i class="icon ion-search placeholder-icon"></i>
-            <input type="search" placeholder="Votre recherche ici..." class="searchPage2"  ng-model = "search" ng-change="onSearchChange(search)" >
+            <input type="search" placeholder="Votre recherche ici..." class="searchPage2" ng-model-options="{ debounce: 500 }" ng-model="search" ng-change="onSearchChange(search)">
           </label>
         </div>
       </div>
