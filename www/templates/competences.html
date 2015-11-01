@@ -5,50 +5,57 @@
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
   <ion-content padding="true" data-ng-init="initAll()">
-    <!-- Title -->
-    <!--div class="row">
-        <div class="col alignright">
-          <h3 class="titlePhone"><b>Jobyer N° {{njobyer}}</b></h3>
-        </div>
-        <div class="col alignleft">
-            <!--button class="round-overlay-button bottom-right calm button button-icon icon ion-ios7-search-strong light"><span>+</span></button-->
-            <!--button class="button" data-ng-click="">+</button>
-
-        </div>
-    </div-->
-	<a class="button icon-left ion-chevron-left button-clear" data-ng-click="loadJobyer(formData.currentFeuille-1)" data-ng-disabled="formData.showButtLeft"></a>
-	<div  class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
+  
+  <!-- BUTTONS CONTROLS -->
+	<div class="button icon-left ion-chevron-left button-clear" style="vertical-align: middle" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>
+	<!-- <div class="button icon-left ion-chevron-left button-clear" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>-->
+	
+	<div class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
       <span style="vertical-align: middle !important;">-</span>
     </div>
-    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{formData.currentFeuille}}</b></h3>
+    <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{ formData.currentFeuille }}</b></h3>
     <div  class="divButton" style="display: inline-block" align="center" data-ng-click="addJobyer()">
       <span style="vertical-align: middle !important;">+</span>
     </div>
-	<a class="button icon-right ion-chevron-right button-clear" data-ng-click="loadJobyer(formData.currentFeuille+1)" data-ng-disabled="formData.showButtRight"></a>
+	
+	<div class="button icon-right ion-chevron-right button-clear" style="vertical-align: middle" onclick="angular.element(this).scope().loadNextJobyer()" data-ng-disabled="formData.showButtRight"></div>
 
     <br><br>
-
-    <div class="list">
-      <label class="item item-input">
-        <select class="flat" data-ng-model="formData.metier" data-ng-init="formData.metier='Métier'">
-          <option selected disabled style="display: none;">Métier</option>
-		  <option data-ng-repeat="x in formData.metiers" value="{{x.pk_user_metier}}">{{x.libelle}}</option>
-        </select>
-      </label>
-    </div>
-
-     <div class="list">
-      <label class="item item-input">
-        <select class="flat" data-ng-model="formData.job" data-ng-init="formData.job='Job'">
-          <option selected disabled style="display: none;">Job</option>
-          <option data-ng-repeat="x in formData.jobs" value="{{x.pk_user_competence}}">{{x.libelle}}</option>
-        </select>
-      </label>
-    </div>
-
-    <!--i ng-class="formData.maitriseIcon" style="display: inline-block; font-size: xx-large"></i-->
-      <img ng-src="img/{{formData.maitriseIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px"/>
-      <label for="maitrise" style="display: inline-block; color:#757575;" > {{formData.maitrise}}</label>
+	<!-- METIERS -->
+	<div class ="xcontainer">
+		<div angucomplete-alt id="metiers"
+			placeholder="Métier"
+			maxlength="50"
+			pause="100"
+			selected-object="formData.metier"
+			local-data="formData.metiers"
+			search-fields="libelle"
+			title-field="libelle"
+			minlength="1"
+			input-class="form-control form-control-small"
+			match-class="highlight" class="autoCompl">
+		</div>
+		<select class="arriere flat" data-ng-model="formData.metierS" data-ng-change="updateAutoComplete()">
+			<option data-ng-repeat="x in formData.metiers" value="{{x.libelle}}">{{x.libelle}}</option>
+		</select>
+	</div>
+	<br>
+	<!-- JOBS -->
+	<div angucomplete-alt id="jobs"
+			placeholder="Job"
+			maxlength="50"
+			pause="100"
+			selected-object="formData.job"
+			local-data="formData.jobs"
+			search-fields="libelle"
+			title-field="libelle"
+			minlength="1"
+			input-class="form-control form-control-small"
+			match-class="highlight" class="autoCompl">
+	</div>
+	<!-- MAITRISE -->
+    <img ng-src="img/{{formData.maitriseIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px;vertical-align: middle;"/>
+    <label for="maitrise" style="display: inline-block; color:#757575;vertical-align: middle;" > {{formData.maitrise}}</label>
     <div class="list">
       <div class="item range range-calm">
         <img src="img\tree1_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
@@ -56,7 +63,7 @@
         <img src="img\tree4_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
       </div>
     </div>
-
+	<!-- INDESPENSABLES -->
     <div class="list">
       <label class="item item-input">
         <select class="flat" data-ng-model="formData.indisp" data-ng-init="formData.indisp='Les indispensables'">
@@ -65,7 +72,7 @@
         </select>
       </label>
     </div>
-
+	<!-- LANGUES -->
     <div class="list">
       <label class="item item-input">
         <select class="flat" data-ng-model="formData.langue" data-ng-init="formData.langue='Langue'">
@@ -78,7 +85,7 @@
     <br>
     <!-- ACTIONS -->
     <div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="afficheList()">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="saveJobyers()">Valider</button>
       <button class="button button-full button-positive grey icon-right ion-chevron-right" ui-sref="app">Passer</button>
     </div>
   </ion-content>

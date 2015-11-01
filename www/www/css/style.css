@@ -1,0 +1,291 @@
+/* Empty. Add your own CSS if you like */
+
+/*##############################   style of Home.html ################################"*/
+
+.vimg {
+  width: 100%;
+}
+
+.vimgBar {
+  width: 100%;
+  text-align: center;
+}
+
+.bar.bar-calm.bar-footer{
+  bottom: 90px !important;
+  border-color: transparent !important;
+}
+
+button.button.button-full.button-positive.grey {
+  padding: 2px;
+  font-size: 1em;
+}
+
+button.button.button-full.button-positive.green, button.button.button-positive.green {
+  padding: 2px;
+  font-size: 1em;
+}
+
+.list.list-inset {
+  width: 100%;
+}
+
+label.item.item-input input[type="search"]{
+  font-size:1em;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.hslide1{
+  padding-top: 0 !important;
+  padding-bottom: 4% !important;
+  font-size : 1em;
+  width: 100%;
+}
+
+/*.keyboard-open .tabs{
+  display:none;
+}
+.keyboard-open .has-tabs{
+  bottom:0;
+}*/
+
+.keyboard-open .hide-on-keyboard-open {
+  display: none !important;
+}
+
+ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
+  background-color: transparent;
+  display: inherit;
+  bottom: 15%;
+  border: transparent;
+}
+
+.buttonConnect {
+  padding: 5px;
+}
+
+/*##############################   styles of Search.html ################################"*/
+
+.col {
+  border: 0 solid red !important;
+}
+
+.mfb-component__button--main {
+  left: 20%; /*5vw;*/
+
+}
+
+.lineContainer {
+  padding-left: 40px;
+  /* position: relative; */
+}
+
+.mfb-component__list li:nth-child(2) a:nth-child(1) {
+  left: 28%; !important; /*9vw*/
+  text-align: center;
+}
+
+.mfb-component__list li:nth-child(1) a:nth-child(1) {
+  background: #757575;
+  width: 90px;/*90px;*/
+  height: 90px;
+  left: 30%;  /*9vw;*/
+}
+
+.mfb-component__list li:nth-child(0) a:nth-child(1) {
+  left: 9vw !important;
+}
+
+.mfb-component__list li:nth-child(3) a:nth-child(1) {
+  background: transparent;
+  box-shadow: 0 0 0 white, 0 0 0 white;
+  margin-top: -150%;
+  /*left : 50vw;*/
+}
+
+.mfb-component__list li:nth-child(3) a:nth-child(1)::after {
+  color: #757575;
+  left: 143%; /*5vw;*/
+  top: 390%; /*28vh;*/
+  font-size: 1.5em;
+}
+
+.mfb-component__list li:nth-child(4) a:nth-child(1) {
+  background: transparent;
+  box-shadow: 0 0 0 white, 0 0 0 white;
+
+}
+
+.mfb-component__list li:nth-child(4) a:nth-child(1)::after {
+  color: #14BAA6;
+  left: 143%;
+  top: 219%;
+  font-size: 1.5em;
+}
+
+.vertical-line{
+  position: absolute;
+  border-left:medium #757575 solid;
+  height:320px;
+  /*margin-left: 13.5%;/*16vw;*/
+  margin-top: -4.5vh;
+  z-index: 1;
+}
+
+.list.list-inset.page2 {
+  z-index: 0;
+  margin-left: 7px;
+  margin-top: 256px;
+  width: 300%;
+}
+
+.list.list-inset.page2 .item.item-input .ion-search:before{
+  color: white;
+}
+
+input.searchPage2.ng-pristine.ng-untouched.ng-valid {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+label.item.item-input  input.searchPage2[type="search"]{
+  padding-bottom: 4%;
+  padding-left: 6%;
+  font-size: 0.9em;
+}
+
+.searchPage2{
+  height: 4vh !important;
+  width: 100% !important; /*60vw
+  padding: 3px !important;*/
+}
+
+/*##############################   styles of Connection.html ################################"*/
+
+button.button.button-full.button-positive.linkedIn {
+  padding: 2px;
+  font-size: 1em;
+}
+
+button.button.button-full.button-positive.red {
+  padding: 2px;
+  font-size: 1em;
+}
+
+button.button.button-full.button-positive.facebook {
+  padding: 2px;
+  font-size: 1em;
+}
+
+.h3Connect1{
+  font-size : 1em;
+  color : #757575;
+  width: 100%;
+}
+
+
+
+/*##############################   styles of connexionPhone.html ################################"*/
+
+.titlePhone{
+  font-size: 14px;
+  font-family: "Helvetica Neue","Roboto","Segoe UI",sans-serif;
+  line-height: 20px;
+  text-rendering: optimizelegibility;
+  color: #757575;}
+.flat{
+  border: 0 none; width: 99%;color: #757575; background-color: transparent; padding: 4px;}
+.flat option{
+  color: #757575;border: 0 none; width: 99%;}
+
+/*##############################   styles of saisieCivilite.html ################################"*/
+/**
+input[type="file"]{
+	width: 99%;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	opacity: 0;
+}
+**/
+.inline{
+	display: inline !important;
+	text-align:left;
+	width: auto !important;
+	vertical-align: middle;
+	padding: 1px !important;
+}
+
+.decale{
+	padding-right: 4px;
+	color: #757575 !important;
+	opacity:.7;
+}
+
+
+input[type="text"], input[type="email"], input[type="password"]{
+	color: #757575;
+}
+
+.button.icon-right:before {
+  padding-right: 5%;
+  margin-left: -10%;
+}
+
+.autoCompl{
+	border: solid 1px #000;
+	border-radius: 27px;
+	border-color: #14BAA6;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	padding-left: 3%;
+	/**z-index:0 !important; **/
+}
+
+input#ex1_value, input#ex0_value{
+	margin: 0px !important; /**z-index:9999 !important;**/
+}
+
+/*##############################   VALIDATION STYLES ################################"*/
+
+.has-error input{background:url(../img/icons/error.png)right no-repeat; border:solid 1px red !important;}
+
+/**
+.list {
+	padding: 1px !important;
+}
+.list .item{
+	width: 98% !important;
+	margin: 1px !important;
+}
+**/
+.has-warning{
+	background:url(../img/icons/error.png)right no-repeat; border-color:red !important;
+}
+.has-success{
+	background:url(../img/icons/ok.png)right no-repeat; border:solid 1px #14BAA6 !important;
+}
+
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
+    max-width: 200px;
+    max-height: 121px;
+}
+
+.arriere{
+	display: none;
+	position: relative;
+	top: -38px;
+	left: 0px;
+	/*z-index: 10 !important;*/
+	width: 96%;
+	width: 5%;
+	margin-left: 92%;
+}
+
+.inSameLine{
+	display: inline;
+}

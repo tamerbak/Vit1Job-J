@@ -1,0 +1,45 @@
+
+
+.col.alignright {
+  text-align: right;
+}
+
+.col.alignleft {
+  text-align: left;
+}
+
+button.button-icon.round-overlay-button.calm {
+
+}
+
+button.button-icon.round-overlay-button.bottom-right {
+  bottom: 0;
+  margin-bottom: 0;
+  right: 0;
+  z-index: 0;
+}
+
+button.button-icon.round-overlay-button {
+  height: 30px;
+  width: 30px;
+  min-height: 30px;
+}
+
+.divButton{
+  border-radius: 50%;
+  height: 30px;
+  width : 30px;
+  background-color: #757575;
+  color: white;
+  font-size: 1.6em;
+
+}
+
+.divButton :hover {
+  /**background-color: white;**/
+  cursor: pointer;
+}
+
+.item.range.range-calm.range {
+  border-color: white;
+}
