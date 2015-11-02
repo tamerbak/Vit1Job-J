@@ -1,18 +1,15 @@
 /**
  * Created by Tamer on 14/10/2015.
  */
-/**
- * Modified by HODAIKY on 25/10/2015.
- */
-  'use strict';
 var requestToken = "";
 var accessToken = "";
 var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercontent.com";
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
-starter
+angular
+		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'ngCookies', 'parsingServices'])
 		.controller(
-				'connectCtrl', function($scope, localStorageService, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
+				'connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
 					// FORMULAIRE
 					$scope.formData = {};
 
@@ -34,7 +31,7 @@ starter
 
 					$scope.showAlert = function(){
 						Global.showAlert();
-					};
+					}
 
 					$scope.loginGmail = function(){
 						var ref = window
@@ -84,7 +81,7 @@ starter
 												ref.close();
 											}
 										});
-					};
+					}
 
 					$scope.digitalOceanLogin = function() {
 						$cordovaOauth.digitalOcean("CLIENT_ID_HERE",
@@ -95,7 +92,7 @@ starter
 								}, function(error) {
 									console.log(error);
 								});
-					};
+					}
 
 					$scope.getDroplets = function() {
 						$http.defaults.headers.common.Authorization = "Bearer "
@@ -106,11 +103,11 @@ starter
 								}).error(function(error) {
 									console.log(error);
 								});
-					};
+					}
 
 					$scope.loadAllVilles = function(){
-
-						sessionId=localStorageService.get('sessionID');
+						
+						sessionId=$cookieStore.get('sessionID');
 						//if(!sessionId){
 							// CONNEXION AU SERVEUR
 							AuthentificatInServer.getSessionId()
@@ -124,31 +121,31 @@ starter
 									// PUT SESSION ID
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
-                  localStorageService.set('sessionID', sessionId);
-
-									// LOAD LIST VILLES
-									var villes=localStorageService.get('villes');
-									if(!villes){
-										LoadList.loadListVilles(sessionId)
-											.success(
-													function(response){
-														var resp = formatString.formatServerResult(response);
+									$cookieStore.put('sessionID', sessionId);
+									
+									/*** LOAD LIST VILLES ***/
+									villes=$cookieStore.get('villes');
+									//if(!villes){	
+										LoadList.loadList("user_competence_offre", sessionId)
+											.success(function(response){
+														console.log("response "+response);
+														resp = formatString.formatServerResult(response);
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
-														var villeObjects = resp.dataModel.rows.dataRow;
-														console.log("villeObjects : "+JSON.stringify(villeObjects));
-
+														villeObjects = resp.dataModel.rows.dataRow;
+											
 														// GET VILLES
 														villes = [];
-														var ville = {}; // ville.libelle | ville.id
+														ville = {}; // ville.libelle | ville.id
 
-														var villesList = [].concat(villeObjects);
+														villesList = [].concat(villeObjects);
 														for (var i = 0; i < villesList.length; i++) {
-															var object = villesList[i].dataRow.dataEntry;
+															object = villesList[i].dataRow.dataEntry;
 
 															// PARCOURIR LIST PROPERTIES
 															ville[object[0].attributeReference] = object[0].value;
 															ville[object[1].attributeReference] = object[1].value;
+															//ville[object[2].attributeReference] = object[2].value;
 
 															if (ville)
 																villes.push(ville);
@@ -157,28 +154,29 @@ starter
 
 														console.log("villes.length : "+ villes.length);
 														// PUT IN SESSION
-                            localStorageService.set('villes', villes);
+														console.log("villes : "+JSON.stringify(villes));
+														$cookieStore.put('villes', villes);
 											})
 											.error(function(err) {
 														console.log("error : LOAD DATA");
-														console.log("error in loadListCivilites : "+ err);
+														console.log("error in loadListVilles : "+ err);
 											});
-									}
+									//}
 								})
 								.error(function (data){
 									console.log("error : récuperation JSessionId");
 								});
-
-						// REDIRECTION
+						
+						// REDIRECTION 
 						$state.go("cPhone");
-					};
-
+					}
+					
 					$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 						if(states.fromCache && states.stateName == "connection" ){
 							// VERIFICATION S'IL EST CONNECTE OU PAS
-
+							
 							// RECUPERATION CONNEXION
-							var connexion=localStorageService.get('connexion');
+							connexion=$cookieStore.get('connexion');
 							if(connexion){
 								if(connexion.etat)	// REDIRECTION
 									$state.go("search");
@@ -186,4 +184,3 @@ starter
 						}
 					});
 				})
-;

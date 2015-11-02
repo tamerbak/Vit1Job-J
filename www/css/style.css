@@ -2,11 +2,6 @@
 
 /*##############################   style of Home.html ################################"*/
 
-ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img{
-  max-width: 200px;
-  max-height: 121px;
-}
-
 .vimg {
   width: 100%;
 }
@@ -241,15 +236,54 @@ input[type="text"], input[type="email"], input[type="password"]{
   margin-left: -10%;
 }
 
-.autoCompl{
-	border: solid 1px #000;
-	border-radius: 27px;
-	border-color: #14BAA6;
-	padding-top: 1%;
-	padding-bottom: 1%;
-	padding-left: 3%;
+
+
+/*##############################   VALIDATION STYLES ################################"*/
+
+.has-error input{background:url(../img/icons/error.png)right no-repeat; border:solid 1px red !important;}
+
+/**
+.list {
+	padding: 1px !important;
+}
+.list .item{
+	width: 98% !important;
+	margin: 1px !important;
+}
+**/
+.has-warning{
+	background:url(../img/icons/error.png)right no-repeat; border-color:red !important;
+}
+.has-success{
+	background:url(../img/icons/ok.png)right no-repeat; border:solid 1px #14BAA6 !important;
 }
 
-input#ex1_value, input#ex0_value{
-	margin: 0px !important;
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
+    max-width: 200px;
+    max-height: 121px;
 }
+
+.arriere{
+	/**display: none;**/
+	position: relative;
+	top: -38px;
+	left: 0px;
+	color: transparent; 
+	z-index: 3 !important;
+	/* background-color: blue; */
+}
+.select { text-indent: 5px; }
+.inSameLine{
+	display: inline;
+}
+
+input#ex0_value, input#ex1_value,input#ex2_value, input#ex3_value,input#jobs_value, input#metiers_value{
+	width: 100%;
+	z-index: 5 !important;
+	position: relative;
+}
+
+div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div#ex2_dropdown,div#ex3_dropdown {
+	z-index: 100 !important;
+}
+

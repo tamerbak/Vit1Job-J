@@ -4,4 +4,7 @@
 node_modules/
 platforms/
 plugins/
-.idea/
+.idea
+.iws
+workspace.xml
+tasks.xml

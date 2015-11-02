@@ -4,24 +4,48 @@
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
-  <ion-content padding="true">
+  <ion-content padding="true" data-ng-init="initForm()">
 	<!-- Title -->
     <div>
       <h3 class="titlePhone"><b>Adresse de Travail</b></h3>
     </div>
 
-	<!-- VILLE -->
-	<div angucomplete id="ex0"
-              placeholder="Ville"
-              pause="100"
-              selectedobject="ville"
-              localdata="formData.villes"
-              searchfields="nom"
-              titlefield="nom"
-              minlength="1"
-              inputclass="form-control form-control-small inputAutoCompl" class="autoCompl">
+	<!-- CODE POSTAL -->
+	<div class ="xcontainer">
+		<div angucomplete-alt id="ex2"
+			placeholder="Code postal"
+			maxlength="50"
+			pause="100"
+			selected-object="formData.codePostal"
+			local-data="formData.zipCodes"
+			search-fields="libelle"
+			title-field="libelle"
+			minlength="1"
+			input-class="form-control form-control-small"
+			match-class="highlight" class="autoCompl">
+		</div>
+		<select class="arriere flat select" data-ng-model="formData.zipCodeSelected.pk" data-ng-change="updateAutoCompleteZip()">
+			<option data-ng-repeat="x in formData.zipCodes" value="{{x.pk_user_code_postal}}">{{x.libelle}}</option>
+		</select>
 	</div>
-	<br>
+	<!-- VILLE -->
+	<div class ="xcontainer">
+		<div angucomplete-alt id="ex3"
+			placeholder="Ville"
+			maxlength="50"
+			pause="100"
+			selected-object="formData.ville"
+			local-data="formData.villes"
+			search-fields="libelle"
+			title-field="libelle"
+			minlength="1"
+			input-class="form-control form-control-small"
+			match-class="highlight" class="autoCompl">
+		</div>
+		<select class="arriere flat select" data-ng-model="formData.villeSelected.pk" data-ng-change="updateAutoCompleteVille()">
+			<option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
+		</select>
+	</div>
 	<!--<div>
 		<autocomplete ng-model="formData.codePostal" data="formData.listCodes" on-type="updateZipCodes"></autocomplete>
 			<angucomplete id="ex1"
@@ -34,32 +58,20 @@
               minlength="1"
               inputclass="form-control form-control-small"/>
 		</div>-->
-	<!-- CODE POSTAL -->
-	<div angucomplete id="ex1"
-              placeholder="Code postal"
-              pause="100"
-              selectedobject="codePostal"
-              localdata="formData.zipCodes"
-              searchfields="libelle"
-              titlefield="libelle"
-              minlength="1"
-              inputclass="form-control form-control-small" class="autoCompl">
-	</div>
-	<br>
 
 	<!-- ADRESSE 1 -->
 	<div class="list" align="left">
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input">
         <!--<span class="input-label inline">Adresse 1</span>-->
-        <input type="text" placeholder="Adresse 1" data-ng-model="formData.adresse1">
+        <input type="text" id="addressT1" placeholder="Adresse 1" data-ng-model="formData.adresse1">
       </label>
 	</div>
 
 	<!-- ADRESSE 2 -->
 	<div class="list" align="left">
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input">
        <!--<span class="input-label inline">Adresse 2</span>-->
-        <input type="text" placeholder="Adresse 2" data-ng-model="formData.adresse2">
+        <input type="text" id="addressT2" placeholder="Adresse 2" data-ng-model="formData.adresse2">
       </label>
 	</div>
 
