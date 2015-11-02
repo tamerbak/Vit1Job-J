@@ -1,8 +1,9 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
+'use strict';
 
+starter
   .controller('searchCtrl', function ($scope, $rootScope,$state, $http, x2js) {
 
     $scope.mfbMenuState = 'open';
@@ -25,7 +26,7 @@ angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
 
 
       if (sessionId != '') {
-        soapMessage = 'user_salarie;' + search; //'C# sur paris';
+        var soapMessage = 'user_salarie;' + search; //'C# sur paris';
         $http({
           method: 'POST',
           url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',
@@ -45,7 +46,7 @@ angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
 
             //Check if there are rows!
             if (jsonResp.dataModel.rows.dataRow instanceof Array) {
-              for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
+              for (var i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
                 jsonText = JSON.stringify(jsonResp);
                 jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
                 jsonText = jsonText.replace("fr.protogen.connector.model.DataRow", "dataRow");
@@ -65,7 +66,7 @@ angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
                 idVille = idVille.replace("<![CDATA[", '');
                 idVille = idVille.replace("]]>", '');
 
-                for (j = 0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length; j++) {
+                for (var j = 0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length; j++) {
                   if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
                     break;
                 }
@@ -157,3 +158,4 @@ angular.module('searchCtrls', ['ionic','cb.x2js', 'ng-mfb'])
       }
     }
   })
+;

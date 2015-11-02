@@ -163,19 +163,22 @@ label.item.item-input  input.searchPage2[type="search"]{
 
 /*##############################   styles of Connection.html ################################"*/
 
-button.button.button-full.button-positive.linkedIn {
-  padding: 2px;
-  font-size: 1em;
+a.button.button-calm.icon.ion-social-linkedin{
+  border-top-right-radius: 27px;
+  border-bottom-right-radius: 27px;
+  background-color:#006599;
+  border-color: #006599;
 }
-
-button.button.button-full.button-positive.red {
-  padding: 2px;
-  font-size: 1em;
+a.button.button-calm.icon.ion-social-facebook {
+  border-top-left-radius: 27px;
+  border-bottom-left-radius: 27px;
+  background-color:#3C5A9A;
+  border-color: #3C5A9A;
 }
+a.button.button-calm.icon.ion-social-google{
 
-button.button.button-full.button-positive.facebook {
-  padding: 2px;
-  font-size: 1em;
+  background-color:#E81011;
+  border-color: #E81011;
 }
 
 .h3Connect1{
@@ -236,7 +239,19 @@ input[type="text"], input[type="email"], input[type="password"]{
   margin-left: -10%;
 }
 
+.autoCompl{
+	border: solid 1px #000;
+	border-radius: 27px;
+	border-color: #14BAA6;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	padding-left: 3%;
+	/**z-index:0 !important; **/
+}
 
+input#ex1_value, input#ex0_value{
+	margin: 0px !important; /**z-index:9999 !important;**/
+}
 
 /*##############################   VALIDATION STYLES ################################"*/
 
@@ -264,26 +279,26 @@ ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
 }
 
 .arriere{
-	/**display: none;**/
+	display: none;
 	position: relative;
 	top: -38px;
 	left: 0px;
-	color: transparent; 
-	z-index: 3 !important;
-	/* background-color: blue; */
+	/*z-index: 10 !important;*/
+	width: 96%;
+	width: 5%;
+	margin-left: 92%;
 }
-.select { text-indent: 5px; }
+
 .inSameLine{
 	display: inline;
 }
 
-input#ex0_value, input#ex1_value,input#ex2_value, input#ex3_value,input#jobs_value, input#metiers_value{
-	width: 100%;
-	z-index: 5 !important;
-	position: relative;
+/*##############################   MAP  ################################"*/
+#map {
+  width: 100%;
+  height: 100%;
 }
 
-div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div#ex2_dropdown,div#ex3_dropdown {
-	z-index: 100 !important;
+.scroll {
+  height: 100%;
 }
-

@@ -1,0 +1,28 @@
+span.clear-query-icon {
+  position: relative;
+}
+
+span.clear-query-icon:after {
+  position: absolute;
+  font-family: "Ionicons";
+  content: "\f129";
+  right: 8px;
+  top: -0.7em;
+  color: #444;
+}
+
+span.clear-query-icon:after {
+  font-size: 10.44pt !important;
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  span.clear-query-icon:after {
+    font-size: 12.76pt !important;
+  }
+}
+
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  span.clear-query-icon:after {
+    font-size: 14.21pt !important;
+  }
+}

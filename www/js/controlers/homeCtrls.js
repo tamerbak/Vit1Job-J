@@ -1,7 +1,9 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
+'use strict';
+
+starter
 
   .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout, $cookies) {
 		// FORMULAIRE
@@ -21,7 +23,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
       $rootScope.queryText = query;
 
       if (sessionId!=''){
-        soapMessage = 'user_salarie;' + query; //'C# sur paris';
+        var soapMessage = 'user_salarie;' + query; //'C# sur paris';
         $http({
           method: 'POST',
           url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',
@@ -51,7 +53,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
               //if (jsonResp.dataModel.rows.dataRow.length > 0){
               //if (rowsCount > 0){
 
-              for (i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
+              for (var i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
 
                 //jsonResp = parsingService.formatString.formatServerResult(response.data);
 
@@ -68,7 +70,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
                 idVille = idVille.replace("<![CDATA[",'');
                 idVille = idVille.replace("]]>",'');
 
-                for (j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
+                for (var j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
                   jsonText = JSON.stringify (jsonResp);
                   jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
                   jsonResp = JSON.parse(jsonText);
@@ -180,7 +182,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 	$scope.initConnexion= function(){
 
 		$scope.formData.connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
-		cnx=$cookieStore.get('connexion');
+		var cnx=$cookieStore.get('connexion');
 		if(cnx){
 			$scope.formData.connexion=cnx;
 			console.log("Employeur est connecté");
@@ -189,7 +191,7 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		console.log("connexion[employeID] : "+$scope.formData.connexion.employeID);
 		console.log("connexion[libelle] : "+$scope.formData.connexion.libelle);
 		console.log("connexion[etat] : "+$scope.formData.connexion.etat);
-	}
+	};
 
 	$scope.$on( "$ionicView.beforeEnter", function( scopes, states ) {
         if(states.fromCache && states.stateName == "app" ) {
@@ -198,15 +200,15 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
     });
 
 	$scope.modeConnexion= function(){
-		estConnecte=0;
-		cnx=$cookieStore.get('connexion');
+		var estConnecte=0;
+		var cnx=$cookieStore.get('connexion');
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				console.log("IL S'AGIT D'UNE DECONNEXION");
 
 				$cookieStore.remove('connexion');
 				$cookieStore.remove('sessionID');
-				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
+				var connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
 				$cookieStore.put('connexion', connexion);
 
 				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));
