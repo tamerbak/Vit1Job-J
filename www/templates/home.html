@@ -11,7 +11,7 @@
     </div>
 
 
-    <div class = "row">
+    <div class = "row" data-ng-init="initConnexion()">
       <div class="list list-inset">
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
@@ -25,11 +25,17 @@
     </div>
 
 
-      <div class="row" data-ng-init="initConnexion()">
-        <button class="button button-full button-positive green" data-ng-click="modeConnexion()">
-          {{ formData.connexion.libelle }}
-        </button>
-      </div>
+    <div class="row">
+      <button class="button button-full button-positive green" data-ng-click="getJobbers(query)">
+        Lancer la recherche
+      </button>
+    </div>
+
+    <div class="row">
+      <button class="button button-full button-positive green" data-ng-click="modeConnexion()">
+        {{ formData.connexion.libelle }}
+      </button>
+    </div>
     <!--<div class="row">ui-sref="connection" ng-click="showPopup()"
       <button class="button button-full button-positive grey">
         Inscription

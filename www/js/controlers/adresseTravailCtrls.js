@@ -372,4 +372,40 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 				}
 			}
 		});
+		
+		$scope.updateAutoCompleteZip= function(){
+			console.log("zip : "+$scope.formData.zipCodeSelected.pk);
+			var zipCodes=$scope.formData.zipCodes;
+			// RECHERCHE LIBELLE
+			for(var i=0; i<zipCodes.length; i++){
+				if(zipCodes[i]['pk_user_code_postal'] === $scope.formData.zipCodeSelected.pk){
+					$scope.formData.zipCodeSelected.libelle=zipCodes[i]['libelle'];
+					break;
+				}
+			}
+
+			if(typeof $scope.formData.codePostal === 'undefined')
+				$scope.formData.codePostal={};
+			$scope.formData.codePostal.originalObject={'pk_user_code_postal': $scope.formData.zipCodeSelected.pk, 'libelle': $scope.formData.zipCodeSelected.libelle};
+			console.log("formData.codePostal : "+JSON.stringify($scope.formData.codePostal));
+			document.getElementById('ex02_value').value=$scope.formData.zipCodeSelected['libelle'];
+		}
+		
+		$scope.updateAutoCompleteVille= function(){
+			console.log("ville : "+$scope.formData.villeSelected.pk);
+			var villes=$scope.formData.villes;
+			// RECHERCHE LIBELLE
+			for(var i=0; i<villes.length; i++){
+				if(villes[i]['pk_user_ville'] === $scope.formData.villeSelected.pk){
+					$scope.formData.villeSelected.libelle=villes[i]['libelle'];
+					break;
+				}
+			}
+
+			if(typeof $scope.formData.ville === 'undefined')
+				$scope.formData.ville={};
+			$scope.formData.ville.originalObject={'pk_user_ville': $scope.formData.villeSelected.pk, 'libelle': $scope.formData.villeSelected.libelle};
+			console.log("formData.ville : "+JSON.stringify($scope.formData.ville));
+			document.getElementById('ex3_value').value=$scope.formData.villeSelected['libelle'];
+		}
 	})

@@ -5,19 +5,21 @@
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
   <ion-content padding="true" data-ng-init="initAll()">
-  
+
   <!-- BUTTONS CONTROLS -->
 	<div class="button icon-left ion-chevron-left button-clear" style="vertical-align: middle" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>
 	<!-- <div class="button icon-left ion-chevron-left button-clear" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>-->
-	
+
 	<div class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
       <span style="vertical-align: middle !important;">-</span>
     </div>
+
     <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{ formData.currentFeuille }}</b></h3>
+
     <div  class="divButton" style="display: inline-block" align="center" data-ng-click="addJobyer()">
       <span style="vertical-align: middle !important;">+</span>
     </div>
-	
+
 	<div class="button icon-right ion-chevron-right button-clear" style="vertical-align: middle" onclick="angular.element(this).scope().loadNextJobyer()" data-ng-disabled="formData.showButtRight"></div>
 
     <br><br>
@@ -35,11 +37,10 @@
 			input-class="form-control form-control-small"
 			match-class="highlight" class="autoCompl">
 		</div>
-		<select class="arriere flat" data-ng-model="formData.metierSelected.pk" data-ng-change="updateAutoComplete()">
+		<select class="arriere flat select" data-ng-model="formData.metierSelected.pk" data-ng-change="updateAutoComplete()">
 			<option data-ng-repeat="x in formData.metiers" value="{{x.pk_user_metier}}">{{x.libelle}}</option>
 		</select>
 	</div>
-	<br>
 	<!-- JOBS -->
 	<div class ="xcontainer">
 		<div angucomplete-alt id="jobs"

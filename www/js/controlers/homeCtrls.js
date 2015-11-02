@@ -8,10 +8,10 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		$scope.formData = {};
 		//$scope.formData.connexion= {};
 
-    var jobyersForMe = [];
-    var jobyersNextToMe = [];
-
     $scope.getJobbers = function (query) {
+
+      var jobyersForMe = [];
+      var jobyersNextToMe = [];
 
       $rootScope.jobyersForMe = [];
       $rootScope.jobyersNextToMe = [];
@@ -203,12 +203,12 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				console.log("IL S'AGIT D'UNE DECONNEXION");
-				
+
 				$cookieStore.remove('connexion');
 				$cookieStore.remove('sessionID');
 				connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
 				$cookieStore.put('connexion', connexion);
-				
+
 				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));
 				$state.go("connection");
 				/*** REMOVE ALL COOKIES
