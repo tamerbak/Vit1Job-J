@@ -25,7 +25,7 @@ starter
       }
 
 
-      if (sessionId != '') {
+      if (sessionId!=''){
         var soapMessage = 'user_salarie;' + search; //'C# sur paris';
         $http({
           method: 'POST',
@@ -35,17 +35,18 @@ starter
           },
           data: soapMessage
         }).then(
-          function (response) {
+          function(response){
             var jsonResp = x2js.xml_str2json(response.data);
-            var jsonText = JSON.stringify(jsonResp);
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataRow", "dataRow");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataEntry", "dataEntry");
-            jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
+            var jsonText = JSON.stringify (jsonResp);
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataModel/g,"dataModel");
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataRow/g,"dataRow");
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataEntry/g,"dataEntry");
+            jsonText = jsonText.replace(/fr.protogen.connector.model.DataCouple/g, "dataCouple");
+            jsonText = jsonText.replace(/<!\[CDATA\[/g, '').replace(/\]\]\>/g,'');
             jsonResp = JSON.parse(jsonText);
 
             //Check if there are rows!
-            if (jsonResp.dataModel.rows.dataRow instanceof Array) {
+            if (jsonResp.dataModel.rows.dataRow instanceof Array){
               for (var i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
                 jsonText = JSON.stringify(jsonResp);
                 jsonText = jsonText.replace("fr.protogen.connector.model.DataModel", "dataModel");
@@ -59,40 +60,43 @@ starter
                 var nom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[2].value;
                 var idVille = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].value;
 
-                prenom = prenom.replace("<![CDATA[", '');
-                prenom = prenom.replace("]]>", '');
-                nom = nom.replace("<![CDATA[", '');
-                nom = nom.replace("]]>", '');
-                idVille = idVille.replace("<![CDATA[", '');
-                idVille = idVille.replace("]]>", '');
+                prenom = prenom.replace("<![CDATA[",'');
+                prenom = prenom.replace("]]>",'');
+                nom = nom.replace("<![CDATA[",'');
+                nom = nom.replace("]]>",'');
+                idVille = idVille.replace("<![CDATA[",'');
+                idVille = idVille.replace("]]>",'');
 
-                for (var j = 0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length; j++) {
+                for (var j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
+                  jsonText = JSON.stringify (jsonResp);
+                  jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
+                  jsonResp = JSON.parse(jsonText);
                   if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
                     break;
                 }
 
                 var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
                 jobyersForMe.push({
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                });
+                    'firstName': prenom,
+                    'lastName': nom,
+                    'city': ville
+                  });
               }
             } else {
               //One Instance returned or null!
-              if (jsonResp.dataModel.rows != "") {
+              if (jsonResp.dataModel.rows!=""){
                 prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
                 nom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[2].value;
                 idVille = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].value;
 
-                prenom = prenom.replace("<![CDATA[", '');
-                prenom = prenom.replace("]]>", '');
-                nom = nom.replace("<![CDATA[", '');
-                nom = nom.replace("]]>", '');
-                idVille = idVille.replace("<![CDATA[", '');
-                idVille = idVille.replace("]]>", '');
+                prenom = prenom.replace("<![CDATA[",'');
+                prenom= prenom.replace("]]>",'');
+                nom = nom.replace("<![CDATA[",'');
+                nom = nom.replace("]]>",'');
+                idVille = idVille.replace("<![CDATA[",'');
+                idVille = idVille.replace("]]>",'');
 
-                for (j = 0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length; j++) {
+                for (j=0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length;j++){
                   if (jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
                     break;
                 }
@@ -120,8 +124,8 @@ starter
             $rootScope.jobyersForMe = jobyersForMe;
             $rootScope.nbJobyersForMe = jobyersForMe.length;
 
-            // Send Http query to get jobbers with same competencies and same city as mine
-            for (i = 0; i < jobyersForMe.length; i++) {
+            // Send Http search to get jobbers with same competencies and same city as mine
+            for (i=0; i < jobyersForMe.length ; i++){
               if (jobyersForMe[i].city == myCity) {
                 jobyersNextToMe.push({
                   'firstName': jobyersForMe[i].firstName,
@@ -131,16 +135,16 @@ starter
               }
             }
             $rootScope.jobyersNextToMe = jobyersNextToMe;
-            $rootScope.nbJobyersNextToMe = jobyersNextToMe.length;
+            $rootScope.nbJobyersNextToMe= jobyersNextToMe.length;
             $scope.mfbMenuState = 'open';
           },
-          function (response) {
+          function(response){
             $rootScope.jobyersForMe = [];
             $rootScope.nbJobyersForMe = 0;
             $rootScope.nbJobyersNextToMe = 0;
             $rootScope.jobyersNextToMe = [];
             $scope.mfbMenuState = 'open';
-            alert("Error : " + response.data);
+            alert("Error : "+response.data);
           }
         );
       }
