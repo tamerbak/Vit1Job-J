@@ -171,7 +171,7 @@ starter
 
 		$scope.loadCodeInter=function(){
 			var code=$scope.formData.country;
-			$scope.formData.phone="+"+code+" ";
+			$scope.formData.phone= code ;
 
 			/**else if(code==2)
 				$scope.formData.phone="+33 ";
