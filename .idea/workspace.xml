@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="20df95de-59ab-4241-843f-b91f73689e76" name="Default" comment="commit end map &amp; cnxphone">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+    <list default="true" id="20df95de-59ab-4241-843f-b91f73689e76" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="8fd70984-332c-4f6c-b09a-9ed0b0b6d36e" name="Failed commit: Default" comment="interface AM" />
-    <list id="089fbe65-a95d-4440-bbf0-443f82f528f4" name="Rejected commit: Default" comment="commit end map &amp; cnxphone">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/js/services/dd.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/js/controlers/geocalisationCrtls.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/www/templates/map.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/lib/angular/.bower.json" afterPath="$PROJECT_DIR$/www/lib/angular/.bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/adressePersonel.html" afterPath="$PROJECT_DIR$/www/templates/adressePersonel.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/app.js" afterPath="$PROJECT_DIR$/www/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/controlers/connectionPhoneCtrls.js" afterPath="$PROJECT_DIR$/www/js/controlers/connectionPhoneCtrls.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/connections.html" afterPath="$PROJECT_DIR$/www/templates/connections.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/connexionPhone.html" afterPath="$PROJECT_DIR$/www/templates/connexionPhone.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/directives/connexionPhoneDirectives.js" afterPath="$PROJECT_DIR$/www/js/directives/connexionPhoneDirectives.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/templates/home.html" afterPath="$PROJECT_DIR$/www/templates/home.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.html" afterPath="$PROJECT_DIR$/www/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/js/routing.js" afterPath="$PROJECT_DIR$/www/js/routing.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/css/style.css" afterPath="$PROJECT_DIR$/www/css/style.css" />
-    </list>
     <ignored path="test.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,7 +37,7 @@
       <file leaf-file-name="geocalisationCrtls.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/www/js/controlers/geocalisationCrtls.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6528">
+            <state vertical-scroll-proportion="2.1232">
               <caret line="86" column="48" selection-start-line="86" selection-start-column="48" selection-end-line="86" selection-end-column="48" />
               <folding />
             </state>
@@ -461,7 +444,19 @@
       <option name="project" value="LOCAL" />
       <updated>1446161106695</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="commit end map &amp; cnxphone">
+      <created>1446459942118</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1446459942118</updated>
+    </task>
+    <task id="LOCAL-00007" summary="commit end map &amp; cnxphone">
+      <created>1446460315560</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1446460315560</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -881,7 +876,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/js/controlers/geocalisationCrtls.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6528">
+        <state vertical-scroll-proportion="2.1232">
           <caret line="86" column="48" selection-start-line="86" selection-start-column="48" selection-end-line="86" selection-end-column="48" />
           <folding />
         </state>
