@@ -199,5 +199,5 @@ angular.module('starter', ['ionic', 'homeCtrls', 'searchCtrls', 'listCtrls', 'li
 
 
 function isEmpty(str) {
-	return (!str || 0 === str.length);
+	return (!str || 0 === str.length || typeof str === 'undefined' || str === null);
 }

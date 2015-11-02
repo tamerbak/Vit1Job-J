@@ -126,7 +126,7 @@ angular
 									/*** LOAD LIST VILLES ***/
 									villes=$cookieStore.get('villes');
 									//if(!villes){	
-										LoadList.loadList("user_niveau_de_maitrise", sessionId)
+										LoadList.loadList("user_competence_offre", sessionId)
 											.success(function(response){
 														console.log("response "+response);
 														resp = formatString.formatServerResult(response);
@@ -145,7 +145,7 @@ angular
 															// PARCOURIR LIST PROPERTIES
 															ville[object[0].attributeReference] = object[0].value;
 															ville[object[1].attributeReference] = object[1].value;
-															//ville[object[3].attributeReference] = object[3].value;
+															//ville[object[2].attributeReference] = object[2].value;
 
 															if (ville)
 																villes.push(ville);

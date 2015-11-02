@@ -47,7 +47,7 @@
 	<!-- CODE APE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" id="ape" placeholder="Code APE" data-ng-model="formData.ape">
+        <input type="text" id="ape" placeholder="Code APE ou code NAF" data-ng-model="formData.ape">
       </label>
     </div>
 	<!-- N°URSSAF -->
@@ -77,7 +77,7 @@
 	<div class="list">
 		<label class="item item-input">
 			<!--<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">-->
-			<input id="image" type="file" class="upload" data-ng-model="formData.image" onchange="angular.element(this).scope().loadImage(this)">
+			<input id="image" type="file" class="upload" capture="camera" accept="image/*" data-ng-model="formData.image" onchange="angular.element(this).scope().loadImage(this)">
 		</label>
 	</div>
 

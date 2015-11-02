@@ -4,7 +4,7 @@
 
 
 angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'providerServices', 
-		'validationDataServices', 'globalServices'])
+		'validationDataServices', 'globalServices', "angucomplete-alt"])
 
 	.controller('adressePersonelCtrl', function ($scope, $rootScope, $cookieStore, $state, UpdateInServer, 
 			DataProvider, Validator, Global ){
@@ -18,12 +18,19 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 			for(var obj in $scope.formData){
 				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
+			/**if($scope.formData.codePostal !== null && typeof $scope.formData.codePostal !== 'undefined'){
+				console.log("code postale: "+JSON.stringify($scope.formData.codePostal));
+				console.log("postale: "+$scope.formData.codePostal.originalObject.pk_user_code_postal);
+			}
+			return;**/
 			
-			codePostal=0, ville=0;
-			if(codePostal)
-				codePostal=Number($scope.formData.codePostal.originalObject.pk_user_code_postal);
-			if(ville)
-				ville=Number($scope.formData.ville.originalObject.pk_user_ville);
+			codePostal="A", ville="A";
+			if(typeof $scope.formData.codePostal !== 'undefined')
+				if(typeof $scope.formData.codePostal.originalObject !== 'undefined')
+					codePostal=Number($scope.formData.codePostal.originalObject.pk_user_code_postal);
+			if(typeof $scope.formData.ville !== 'undefined')
+				if(typeof $scope.formData.ville.originalObject !== 'undefined')
+					ville=Number($scope.formData.ville.originalObject.pk_user_ville);
 			adresse1=$scope.formData.adresse1; 
 			adresse2=$scope.formData.adresse2;
 			
@@ -65,18 +72,20 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 						console.log("employeur : "+JSON.stringify(employeur));
 						
 						var code="", vi="";
-						if($scope.formData.codePostal)
-							code=$scope.formData.codePostal.originalObject.libelle;
-						if($scope.formData.ville)
-							vi=$scope.formData.ville.originalObject.libelle;
+						if(typeof $scope.formData.codePostal !== 'undefined')
+							if(typeof $scope.formData.codePostal.originalObject !== 'undefined')
+								code=$scope.formData.codePostal.originalObject.libelle;
+						if(typeof $scope.formData.ville !== 'undefined')
+							if(typeof $scope.formData.ville.originalObject !== 'undefined')
+								vi=$scope.formData.ville.originalObject.libelle;
 						
 						// AFFICHE POPUP
 						$rootScope.$broadcast('show-pop-up', {params: 
 							{
-								adresse1, 
-								adresse2,
-								vi, 
-								code
+								'adresse1': adresse1, 
+								'adresse2': adresse2,
+								'vi': vi, 
+								'code': code
 							}
 								});	
 					}).error(function (err){
@@ -98,46 +107,38 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 			//console.log('zipCodes.length : '+$scope.formData.zipCodes.length);
 		});
 		
-		/**$scope.$on('update-list-code', function(event, args){
+		$scope.$on('update-list-ville', function(event, args){
 			
 			var params = args.params;
 			console.log("params : "+JSON.stringify(params));
 			
 			list=params.list;
 			fk=params.fk;
-			// NEW LIST - CODES POSTAL
-			codes=[];
+			// NEW LIST - VILLES
+			vls=[];
 			
-			if(list === "ville"){
-				// VIDER LIST - ZIP CODES
-				$scope.formData.zipCodes=[];
-				// TABLE ASSOCIATION
-				zip_ville=DataProvider.getZip_Ville();
-				// TABLE CODES POSTAL
-				zips=DataProvider.getZipCodes();
-				for(var i=0; i<zip_ville.length; i++){
-					if(Number(zip_ville[i]['ville']) === Number(fk)){
-						// PARCOURIR LIST CODES POSTAL
-						for(var j=0; j<zips.length; j++){
-							if(Number(zips[j]['pk_user_code_postal']) === Number(zip_ville[i]['zip'])){
-								zip={};
-								zip.pk_user_code_postal=zips[j]['pk_user_code_postal'];
-								zip.libelle=zips[j]['libelle'];
-								codes.push(zip);
-							}
-						}
+			if(list === "postal"){
+				// VIDER LIST - VILLES
+				$scope.formData.villes=[];
+				
+				allVilles=DataProvider.getVilles();
+				villes=[];
+				for(var i=0; i<allVilles.length; i++){
+					if(allVilles[i]['fk_user_code_postal'] === fk){
+						villes.push(allVilles[i]);
 					}
 				}
 				
+				
 				// UPDATE ZIP CODES - GLOBAL
-				$scope.formData.zipCodes=[];
-				$scope.formData.zipCodes=codes;
-				console.log("New $scope.formData.zipCodes : "+$scope.formData.zipCodes.length);
+				$scope.formData.villes=[];
+				$scope.formData.villes=villes;
+				console.log("New $scope.formData.villes : "+JSON.stringify($scope.formData.villes));
 				
 				// ENVOI AU AUTOCOMPLETE CONTROLLEUR
 				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
 			}
-		});**/
+		});
 		
 		$scope.initForm=function(){
 			/**var elm = angular.element(document.querySelector('#ex0_value'));
@@ -152,6 +153,23 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 				
 				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
 				employeur=$cookieStore.get('employeur');
+				if(employeur){
+					// INITIALISATION FORMULAIRE
+					if(employeur['adressePersonel']){
+						// INITIALISATION FORMULAIRE
+						/**if(employeur['adressePersonel'].codePostal)
+							document.getElementById('ex0_value').value=employeur['adressePersonel']['codePostal'];
+						if(employeur.adresseTravail.ville)
+							document.getElementById('ex1_value').value=employeur['adressePersonel']['ville'];**/
+						if(employeur['adressePersonel']){
+							$scope.formData['adresse1']=employeur['adressePersonel']['adresse1'];
+							$scope.formData['adresse2']=employeur['adressePersonel']['adresse2'];
+						}
+					}
+				}
+				
+				/**
+				employeur=$cookieStore.get('employeur');
 				if(employeur && employeur['adressePersonel']){
 					// INITIALISATION FORMULAIRE
 					if(employeur['adressePersonel'].codePostal)
@@ -162,7 +180,7 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 						$scope.formData.adresse1=employeur['adressePersonel'].adresse1;
 						$scope.formData.adresse2=employeur['adressePersonel'].adresse2;
 					}
-				}
+				} **/
 			}
 		});
 	})

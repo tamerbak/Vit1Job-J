@@ -3,7 +3,7 @@
  */
 
 angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsingServices',
-			'angucomplete', 'providerServices', 'validationDataServices', 'globalServices'])
+			"angucomplete-alt", 'providerServices', 'validationDataServices', 'globalServices'])
 
 	.controller('adresseTravailCtrl', function ($scope, $rootScope, $rootScope, $cookieStore, $state, formatString, 
 					UpdateInServer, LoadList, DataProvider, Validator, Global, $ionicPopup, $ionicHistory){
@@ -18,15 +18,20 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 			
-			codePostal=0, ville=0;
-			if(codePostal)
-				codePostal=Number($scope.formData.codePostal.originalObject.pk_user_code_postal);
-			if(ville)
-				ville=Number($scope.formData.ville.originalObject.pk_user_ville);
+			codePost="A", ville="A";
+			if(typeof $scope.formData.codePostal !== 'undefined')
+				if(typeof $scope.formData.codePostal.originalObject !== 'undefined'){
+					console.log("codePostal : "+JSON.stringify($scope.formData.codePostal));
+					codePost=Number($scope.formData.codePostal.originalObject.pk_user_code_postal);
+				}
+				
+			if(typeof $scope.formData.ville !== 'undefined')
+				if(typeof $scope.formData.ville.originalObject !== 'undefined')
+					ville=Number($scope.formData.ville.originalObject.pk_user_ville);
 			adresse1=$scope.formData.adresse1;
 			adresse2=$scope.formData.adresse2;
 			
-			console.log("codePostal: "+codePostal);
+			console.log("codePostal: "+codePost);
 			console.log("ville : "+ville);
 
 			// RECUPERATION CONNEXION
@@ -38,12 +43,12 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			sessionId=$cookieStore.get('sessionID');
 			
 			// TEST DE VALIDATION
-			if(!isNaN(codePostal) || !isNaN(ville) || codePostal!== 0 || ville !== 0 || adresse1  || adresse2){
+			if(!isNaN(codePost) || !isNaN(ville) || adresse1  || adresse2){
 				if(!adresse1)
 					adresse1='';
 				if(!adresse2)
 					adresse2='';
-				UpdateInServer.updateAdresseTravEmployeur(employeId, codePostal, ville, adresse1, adresse2, sessionId)
+				UpdateInServer.updateAdresseTravEmployeur(employeId, codePost, ville, adresse1, adresse2, sessionId)
 					.success(function (response){
 
 						// DONNEES ONT ETE SAUVEGARDES
@@ -54,7 +59,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 						if(!employeur)
 							employeur={};
 						adresseTravail={};
-						adresseTravail={'codePostal': codePostal, 'ville': ville, 'adresse1': adresse1, 'adresse2': adresse2};
+						adresseTravail={'codePostal': codePost, 'ville': ville, 'adresse1': adresse1, 'adresse2': adresse2};
 						employeur.adresseTravail=adresseTravail;
 						
 						// PUT IN SESSION
@@ -239,6 +244,39 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 			$scope.formData.villes=DataProvider.getVilles();
 		}
 		
+		$scope.$on('update-list-ville', function(event, args){
+			
+			var params = args.params;
+			console.log("params : "+JSON.stringify(params));
+			
+			list=params.list;
+			fk=params.fk;
+			// NEW LIST - VILLES
+			vls=[];
+			
+			if(list === "postal"){
+				// VIDER LIST - VILLES
+				$scope.formData.villes=[];
+				
+				allVilles=DataProvider.getVilles();
+				villes=[];
+				for(var i=0; i<allVilles.length; i++){
+					if(allVilles[i]['fk_user_code_postal'] === fk){
+						villes.push(allVilles[i]);
+					}
+				}
+				
+				
+				// UPDATE ZIP CODES - GLOBAL
+				$scope.formData.villes=[];
+				$scope.formData.villes=villes;
+				console.log("New $scope.formData.villes : "+JSON.stringify($scope.formData.villes));
+				
+				// ENVOI AU AUTOCOMPLETE CONTROLLEUR
+				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
+			}
+		});
+		
 		/**$scope.$on('update-list-code', function(event, args){
 			
 			var params = args.params;
@@ -299,10 +337,10 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 					onTap: function(e){
 						$scope.formData.adresse1=adresse1;
 						$scope.formData.adresse2=adresse2;
-						if(params.ville)
-							document.getElementById('ex2_value').value=params.vi;
 						if(params.code)
-							document.getElementById('ex3_value').value=params.code;
+							document.getElementById('ex2_value').value=params.code;
+						if(params.vi)
+							document.getElementById('ex3_value').value=params.vi;
 					}
 				}
 			 ]
@@ -314,31 +352,18 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'parsin
 				$scope.initForm();
 				
 				// AFFICHE POPUP - SI JE VIENS
-				if($ionicHistory.backView() === "adressePersonel"){
-					// SHOW 
-					/**Global.showCopyAddress("Adresse de travail est identique à l'adresse du siège social ?")
-						.then(function(result){    
-							// COPY SIEGE IN ADDRESS TRAVAIL
-							employeur=$cookieStore.get('employeur');
-							
-							if(employeur){
-								
-								$scope.formData.adresse1=employeur.adressePersonel.adresse1;
-								$scope.formData.adresse2= employeur.adressePersonel.adresse2;
-							}
-							console.log("adressePersonel : popup[Valider] : "+JSON.stringify(employeur));
-						});**/
-				}
+				if($ionicHistory.backView() === "adressePersonel"){}
 				console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
+				
 				employeur=$cookieStore.get('employeur');
 				if(employeur){
 					// INITIALISATION FORMULAIRE
 					if(employeur['adresseTravail']){
 						// INITIALISATION FORMULAIRE
-						if(employeur['adresseTravail'].codePostal)
-							$scope.formData['codePostal']=employeur['adresseTravail']['codePostal'];
+						/**if(employeur['adresseTravail'].codePostal)
+							document.getElementById('ex2_value').value=employeur['adresseTravail']['codePostal'];
 						if(employeur.adresseTravail.ville)
-							$scope.formData['ville']=employeur['adresseTravail']['ville'];
+							document.getElementById('ex3_value').value=employeur['adresseTravail']['ville'];**/
 						if(employeur['adresseTravail']){
 							$scope.formData['adresse1']=employeur['adresseTravail']['adresse1'];
 							$scope.formData['adresse2']=employeur['adresseTravail']['adresse2'];

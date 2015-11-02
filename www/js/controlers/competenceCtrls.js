@@ -3,7 +3,7 @@
  */
 
 angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalServices', 
-		'providerServices', 'parsingServices', 'fileServices'])
+		'providerServices', 'parsingServices', 'fileServices', "angucomplete-alt"])
 	
 	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state, x2js, AuthentificatInServer,
 						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile){
@@ -22,6 +22,53 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 		$scope.formData.showButtRight=true;
 		$scope.formData.showButtLeft=true;
 
+		$scope.updateAutoComplete= function(){
+			console.log("metier : "+$scope.formData.metierSelected.pk);
+			var metiers=$scope.formData.metiers;
+			// RECHERCHE LIBELLE
+			for(var i=0; i<metiers.length; i++){
+				if(metiers[i]['pk_user_metier'] === $scope.formData.metierSelected.pk){
+					$scope.formData.metierSelected.libelle=metiers[i]['libelle'];
+					break;
+				}
+			}
+			
+			if(typeof $scope.formData.metier === 'undefined')
+				$scope.formData.metier={};
+			$scope.formData.metier.originalObject={'pk_user_metier': $scope.formData.metierSelected.pk, 'libelle': $scope.formData.metierSelected.libelle};
+			console.log("formData.metier : "+JSON.stringify($scope.formData.metier));
+			document.getElementById('metiers_value').value=$scope.formData.metierSelected['libelle'];
+			
+			// VIDER LIST - JOBS
+			$scope.formData.jobs=[];
+			jobs=DataProvider.getJobs();
+			for(var i=0; i<jobs.length; i++){
+				if(jobs[i]['fk_user_metier'] === $scope.formData.metierSelected.pk)
+					$scope.formData.jobs.push(jobs[i]);
+			}
+			
+			// RE-INITIALISE INPUT JOB
+			document.getElementById('jobs_value').value='Jobs';
+		}
+		
+		$scope.updateAutoJob= function(){
+			console.log("job : "+$scope.formData.jobSelected.pk);
+			var jobs=$scope.formData.jobs;
+			// RECHERCHE LIBELLE
+			for(var i=0; i<jobs.length; i++){
+				if(jobs[i]['pk_user_competence'] === $scope.formData.jobSelected.pk){
+					$scope.formData.jobSelected.libelle=jobs[i]['libelle'];
+					break;
+				}
+			}
+			
+			if(typeof $scope.formData.job === 'undefined')
+				$scope.formData.job={};
+			$scope.formData.job.originalObject={'pk_user_competence': $scope.formData.jobSelected.pk, 'libelle': $scope.formData.jobSelected.libelle};
+			console.log("formData.job : "+JSON.stringify($scope.formData.job));
+			document.getElementById('jobs_value').value=$scope.formData.jobSelected['libelle'];
+		}
+		
 		$scope.initAll = function(){
 
 			// GET LIST
@@ -79,16 +126,27 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 
 		$scope.addJobyer = function(){
 			// VALIDATION DES CHAMPS
-			metier=$scope.formData.metier;
-			job=$scope.formData.job;
+			metier=null, job=null;
+			if(typeof $scope.formData.metier !== 'undefined')
+				if(typeof $scope.formData.metier.originalObject !== 'undefined'){
+					metier=$scope.formData.metier.originalObject;
+				}
+			if(typeof $scope.formData.job !== 'undefined')
+				if(typeof $scope.formData.job.originalObject !== 'undefined'){
+					job=$scope.formData.job.originalObject;
+				}
+			
+			/**metier=$scope.formData.metier;
+			job=$scope.formData.job;**/
 			degre=$scope.formData.degre;
 			indisp=$scope.formData.indisp;
 			langue=$scope.formData.langue;
 			maitrise=$scope.formData.maitrise;
 			maitriseIcon=$scope.formData.maitriseIcon;
 
-			if(!$scope.isValid(metier) || !$scope.isValid(job) || !$scope.isValid(indisp) || !$scope.isValid(langue)){
-				Global.showAlertValidation("Tous les champs sont requis");
+			//if(metier === null || job === null || !$scope.isValid(indisp) || !$scope.isValid(langue)){
+			if(metier === null || job === null || isNaN(indisp) || isNaN(langue)){
+				Global.showAlertValidation("Remplir tous les champs.");
 				return;
 			}
 
@@ -189,8 +247,10 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			$rootScope.jobyerCurrent=$rootScope.jobyers[idex-1];
 			console.log("jobyerCurrent : "+JSON.stringify($rootScope.jobyerCurrent));
 			// CHARGER FORMULAIRE
-			$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
-			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];
+			document.getElementById('metiers_value').value=$rootScope.jobyerCurrent["metier"]["libelle"];
+			document.getElementById('jobs_value').value=$rootScope.jobyerCurrent["job"]["libelle"];
+			/**$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
+			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];**/
 			$scope.formData["degre"]= $rootScope.jobyerCurrent["degre"];
 			$scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
@@ -216,8 +276,10 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			$rootScope.jobyerCurrent=$rootScope.jobyers[idex-1];
 			console.log("jobyerCurrent : "+JSON.stringify($rootScope.jobyerCurrent));
 			// CHARGER FORMULAIRE
-			$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
-			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];
+			document.getElementById('metiers_value').value=$rootScope.jobyerCurrent["metier"]["libelle"];
+			document.getElementById('jobs_value').value=$rootScope.jobyerCurrent["job"]["libelle"];
+			/**$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
+			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];**/
 			$scope.formData["degre"]= $rootScope.jobyerCurrent["degre"];
 			$scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
@@ -249,8 +311,10 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			$rootScope.jobyerCurrent=$rootScope.jobyers[idex-1];
 			console.log("jobyerCurrent : "+JSON.stringify($rootScope.jobyerCurrent));
 			// CHARGER FORMULAIRE
-			$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
-			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];
+			document.getElementById('metiers_value').value=$rootScope.jobyerCurrent["metier"]["libelle"];
+			document.getElementById('jobs_value').value=$rootScope.jobyerCurrent["job"]["libelle"];
+			/**$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
+			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];**/
 			$scope.formData["degre"]= $rootScope.jobyerCurrent["degre"];
 			$scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
@@ -292,15 +356,38 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 			// RECUPERATION DU LAST JOBYER[FEUILLE COURANTE]
 			idex=Number($scope.formData.currentFeuille)-1;
 			
+			if($rootScope.jobyers.length <= 1)
+				if(isEmpty($scope.formData.metier) || isEmpty($scope.formData.job) || 
+					isEmpty($scope.formData.degre) || isNaN($scope.formData.indisp) || isNaN($scope.formData.langue)){
+						
+						console.log("jobyers : "+JSON.stringify($rootScope.jobyers));
+						Global.showAlertValidation("Remplir tous les champs.");
+						return;
+				}
+					
 			// MODIFICATION JOBYER COURANT
-			$rootScope.jobyers[idex].metier=$scope.formData.metier;
-			$rootScope.jobyers[idex].job=$scope.formData.job;
+			met=null, comp=null;
+			if(typeof $scope.formData.metier !== 'undefined')
+				if(typeof $scope.formData.metier.originalObject !== 'undefined'){
+					met=$scope.formData.metier.originalObject;
+				}
+			if(typeof $scope.formData.job !== 'undefined')
+				if(typeof $scope.formData.job.originalObject !== 'undefined'){
+					comp=$scope.formData.job.originalObject;
+				}
+			
+			if(met !== null)
+				$rootScope.jobyers[idex].metier=met;
+			if(comp !== null)
+				$rootScope.jobyers[idex].job=comp;
+			/**$rootScope.jobyers[idex].metier=$scope.formData.metier;
+			$rootScope.jobyers[idex].job=$scope.formData.job;**/
 			$rootScope.jobyers[idex].degre=$scope.formData.degre;
 			$rootScope.jobyers[idex].indisp=$scope.formData.indisp;
 			$rootScope.jobyers[idex].langue=$scope.formData.langue;
 			$rootScope.jobyers[idex].maitrise=$scope.formData.maitrise;
 			$rootScope.jobyers[idex].maitriseIcon=$scope.formData.maitriseIcon;
-
+			
 			// RECUPERATION CONNEXION
 			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
@@ -348,9 +435,9 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 						console.log("response : "+response);
 						
 						// RECUPERATION EMPLOYEUR ID
-						offre=formatString.formatServerResult(response);
-						if(offre.dataModel.status || offre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-							$cookieStore.put('offreID', Number(offre.dataModel.status));
+						ofre=formatString.formatServerResult(response);
+						if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
+							$cookieStore.put('offreID', Number(ofre.dataModel.status));
 						}
 						
 						// DONNEES ONT ETE SAUVEGARDES
@@ -363,7 +450,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 								offre=$rootScope.jobyers[i];
 								if(offre.job){
 									// PERSISTENCE IN COMPETANCE
-									PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job), Number(offreId))
+									PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
 										.success(function (response){
 											console.log("success : persistInOffres_Competences"+response);
 										}).error(function (err){
@@ -371,7 +458,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 												console.log("error In persistInOffres_Competences: "+err);
 										});
 								}
-								if(offre.indisp){
+								if(!isNaN(offre.indisp)){
 									// PERSISTENCE IN TRANSVERS
 									PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
 										.success(function (response){
@@ -381,7 +468,27 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 												console.log("error In persistInOffres_Transvers: "+err);
 										});
 								}
-								if(offre.langue){
+								if(!isNaN(offre.maitrise)){
+									/*** Plist=DataProvider.getNiveauxMaitrise();
+									niveau=0;
+									for(var i=0; i<list.length; i++){
+										if(list[i]['libelle'] === offre.maitrise){
+											niveau=Number(list[i]['pk_user_niveau_de_maitrise']); break;
+										}
+									}
+									if(niveau){
+										console.log("niveau : "+niveau);
+										ERSISTENCE IN NIVEAU MAITRISE
+										PersistInServer.persistInOffres_Niveaux(sessionId, Number(niveau), Number(offreId))
+											.success(function (response){
+												console.log("success : persistInOffres_Niveaux"+response);
+											}).error(function (err){
+												console.log("error : insertion DATA");
+												console.log("error In persistInOffres_Niveaux: "+err);
+											});
+									}**/
+								}
+								if(!isNaN(offre.langue)){
 									console.log("langue : "+offre.langue);
 									// PERSISTENCE IN LANGUES
 									PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
@@ -423,7 +530,7 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 		
 		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
 			if(states.fromCache && states.stateName == "competence" ){
-				console.log("Initialisation : beforeEnter");
+				console.log("Initialisation : beforeEnter(competence)");
 				$scope.formData['currentFeuille']=1;
 				$scope.formData['allFeuilles']=1;
 
@@ -436,7 +543,6 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 		});
 
 		$scope.isValid=function(field){
-
 			return !isNaN(Number(field));
 		}
 

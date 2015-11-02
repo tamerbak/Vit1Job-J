@@ -208,8 +208,8 @@ angular.module('angucomplete', ['validationDataServices'] )
 					// SAVOIR QUELLE LIST ? IL S'AGIT
 					for(var obj in data[0]){
 						if(obj !== 'libelle'){
-							if(obj === 'pk_user_ville'){
-								list="ville";
+							if(obj === 'pk_user_code_postal'){
+								list="postal";
 							}
 							if(obj ==='pk_user_metier'){
 								list="metier";
@@ -223,8 +223,14 @@ angular.module('angucomplete', ['validationDataServices'] )
 							isIn=1;
 							// RECUPERATION DU PRIMARY KEY
 							for(var ob in data[i]){
-								if(ob !== 'libelle')
-									fk=data[i][ob];
+								if(list==="metier"){
+									fk=data[i]['pk_user_metier'];
+								}
+								if(list==="postal"){
+									fk=data[i]['pk_user_code_postal'];
+								}
+								/**if(ob !== 'libelle')
+									fk=data[i][ob];**/
 							}
 							break;
 						}	

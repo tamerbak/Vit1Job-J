@@ -10,16 +10,32 @@
       <h3 class="titlePhone"><b>Adresse de Travail</b></h3>
     </div>
 
+	<!-- CODE POSTAL -->
+	<div angucomplete-alt id="ex2"
+		placeholder="Code postal"
+		maxlength="50"
+		pause="100"
+		selected-object="formData.codePostal"
+		local-data="formData.zipCodes"
+		search-fields="libelle"
+		title-field="libelle"
+		minlength="1"
+		input-class="form-control form-control-small"
+		match-class="highlight" class="autoCompl">
+	</div>
+	<br>
 	<!-- VILLE -->
-	<div angucomplete id="ex2"
-              placeholder="Ville"
-              pause="100"
-              selectedobject="formData.ville"
-              localdata="formData.villes"
-              searchfields="libelle"
-              titlefield="libelle"
-              minlength="1"
-              inputclass="form-control form-control-small inputAutoCompl" class="autoCompl">
+	<div angucomplete-alt id="ex3"
+		placeholder="Ville"
+		maxlength="50"
+		pause="100"
+		selected-object="formData.ville"
+		local-data="formData.villes"
+		search-fields="libelle"
+		title-field="libelle"
+		minlength="1"
+		input-class="form-control form-control-small"
+		match-class="highlight" class="autoCompl">
 	</div>
 	<br>
 	<!--<div>
@@ -34,18 +50,6 @@
               minlength="1"
               inputclass="form-control form-control-small"/>
 		</div>-->
-	<!-- CODE POSTAL -->
-	<div angucomplete id="ex3"
-              placeholder="Code postal"
-              pause="100"
-              selectedobject="formData.codePostal"
-              localdata="formData.zipCodes"
-              searchfields="libelle"
-              titlefield="libelle"
-              minlength="1"
-              inputclass="form-control form-control-small" class="autoCompl">
-	</div>
-	<br>
 
 	<!-- ADRESSE 1 -->
 	<div class="list" align="left">

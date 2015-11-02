@@ -243,10 +243,11 @@ input[type="text"], input[type="email"], input[type="password"]{
 	padding-top: 1%;
 	padding-bottom: 1%;
 	padding-left: 3%;
+	z-index:1 !important;
 }
 
 input#ex1_value, input#ex0_value{
-	margin: 0px !important;
+	margin: 0px !important; /**z-index:9999 !important;**/
 }
 
 /*##############################   VALIDATION STYLES ################################"*/
@@ -273,3 +274,30 @@ ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
     max-width: 200px;
     max-height: 121px;
 }
+
+.arriere{
+	/**display: none;**/
+	position: relative;
+	top: -38px;
+	left: 0px;
+	/*z-index: 10 !important;
+	width: 5%;
+	width: 96%;
+	margin-left: 92%;*/
+	color: transparent;
+	z-index: 3 !important;
+}
+
+.inSameLine{
+	display: inline;
+}
+
+input#jobs_value, input#metiers_value{
+	width: 100%;
+	z-index: 5 !important;
+}
+
+div#metiers_dropdown{
+	z-index: 100 !important;
+}
+    

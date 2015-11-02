@@ -646,6 +646,50 @@ angular.module('wsConnectors', ['ionic'])
     };
   
   
+	this.persistInOffres_Niveaux=function(sessionID, niveauID, offreID){
+
+      soapMessage=
+		'<fr.protogen.connector.model.DataModel>'+
+			'<entity>user_maitrise_langue_offre</entity>'+
+			'<dataMap/>'+
+			'<rows>'+
+    			'<fr.protogen.connector.model.DataRow>'+
+					'<dataRow>'+
+					'</dataRow>'+
+    			'</fr.protogen.connector.model.DataRow>'+
+  			'</rows>'+
+			'<token>'+
+				'<username></username>'+
+				'<password></password>'+
+				'<nom>Jakjoud Abdeslam</nom>'+
+				'<appId>FRZ48GAR4561FGD456T4E</appId>'+
+				'<sessionId>'+sessionID+'</sessionId>'+
+				'<status>SUCCES</status>'+
+				'<id>206</id>'+
+				'<beanId>0</beanId>'+
+			'</token>'+
+			'<expired></expired>'+
+			'<unrecognized></unrecognized>'+
+			'<status></status>'+
+			'<operation>PUT</operation>'+
+			'<clauses/>'+
+			'<page>1</page>'+
+			'<pages>5</pages>'+
+			'<nbpages>0</nbpages>'+
+			'<iddriver>0</iddriver>'+
+			'<ignoreList></ignoreList>'+
+		'</fr.protogen.connector.model.DataModel>';
+
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+        },
+        data: soapMessage
+      });
+    };  
   })
 
   .service('UpdateInServer', function ($http){

@@ -7,42 +7,56 @@
   <ion-content padding="true" data-ng-init="initAll()">
   
   <!-- BUTTONS CONTROLS -->
-	<div class="button icon-left ion-chevron-left button-clear" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>
+	<div class="button icon-left ion-chevron-left button-clear" style="vertical-align: middle" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>
 	<!-- <div class="button icon-left ion-chevron-left button-clear" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>-->
 	
 	<div class="divButton" style="display: inline-block" align="center" data-ng-click="removeJobyer()">
       <span style="vertical-align: middle !important;">-</span>
     </div>
-	
     <h3 class="titlePhone" style="display: inline-block"><b>Jobyer N° {{ formData.currentFeuille }}</b></h3>
-		
     <div  class="divButton" style="display: inline-block" align="center" data-ng-click="addJobyer()">
       <span style="vertical-align: middle !important;">+</span>
     </div>
-	<div class="button icon-right ion-chevron-right button-clear" onclick="angular.element(this).scope().loadNextJobyer()" data-ng-disabled="formData.showButtRight"></div>
+	
+	<div class="button icon-right ion-chevron-right button-clear" style="vertical-align: middle" onclick="angular.element(this).scope().loadNextJobyer()" data-ng-disabled="formData.showButtRight"></div>
 
     <br><br>
 	<!-- METIERS -->
-	<div angucomplete id="ex0"
-              placeholder="Métier"
-              pause="100"
-              selectedobject="formData.metier"
-              localdata="formData.metiers"
-              searchfields="libelle"
-              titlefield="libelle"
-              minlength="1"
-              inputclass="form-control form-control-small inputAutoCompl" class="autoCompl">
-	</div><br>
+	<div class ="xcontainer">
+		<div angucomplete-alt id="metiers"
+			placeholder="Métier"
+			maxlength="50"
+			pause="100"
+			selected-object="formData.metier"
+			local-data="formData.metiers"
+			search-fields="libelle"
+			title-field="libelle"
+			minlength="1"
+			input-class="form-control form-control-small"
+			match-class="highlight" class="autoCompl">
+		</div>
+		<select class="arriere flat" data-ng-model="formData.metierSelected.pk" data-ng-change="updateAutoComplete()">
+			<option data-ng-repeat="x in formData.metiers" value="{{x.pk_user_metier}}">{{x.libelle}}</option>
+		</select>
+	</div>
+	<br>
 	<!-- JOBS -->
-	<div angucomplete id="ex0"
-              placeholder="Job"
-              pause="100"
-              selectedobject="formData.job"
-              localdata="formData.jobs"
-              searchfields="libelle"
-              titlefield="libelle"
-              minlength="1"
-              inputclass="form-control form-control-small inputAutoCompl" class="autoCompl">
+	<div class ="xcontainer">
+		<div angucomplete-alt id="jobs"
+			placeholder="Job"
+			maxlength="50"
+			pause="100"
+			selected-object="formData.job"
+			local-data="formData.jobs"
+			search-fields="libelle"
+			title-field="libelle"
+			minlength="1"
+			input-class="form-control form-control-small"
+			match-class="highlight" class="autoCompl">
+		</div>
+		<select class="arriere flat" data-ng-model="formData.jobSelected.pk" data-ng-change="updateAutoJob()">
+			<option data-ng-repeat="x in formData.jobs" value="{{x.pk_user_competence}}">{{x.libelle}}</option>
+		</select>
 	</div>
 	<!-- MAITRISE -->
     <img ng-src="img/{{formData.maitriseIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px;vertical-align: middle;"/>

@@ -10,28 +10,32 @@
       <h3 class="titlePhone"><b>Siège social</b></h3>
     </div>
 
-	<!-- VILLE -->
-	<div angucomplete id="ex0"
-              placeholder="Ville"
-              pause="100"
-              selectedobject="formData.ville"
-              localdata="formData.villes"
-              searchfields="libelle"
-              titlefield="libelle"
-              minlength="1"
-              inputclass="form-control form-control-small inputAutoCompl" class="autoCompl">
+	<!-- CODE POSTAL -->
+	<div angucomplete-alt id="ex0"
+		placeholder="Code postal"
+		maxlength="50"
+		pause="100"
+		selected-object="formData.codePostal"
+		local-data="formData.zipCodes"
+		search-fields="libelle"
+		title-field="libelle"
+		minlength="1"
+		input-class="form-control form-control-small"
+		match-class="highlight" class="autoCompl">
 	</div>
 	<br>
-	<!-- CODE POSTAL -->
-	<div angucomplete id="ex1"
-              placeholder="Code postal"
-              pause="100"
-              selectedobject="formData.codePostal"
-              localdata="formData.zipCodes"
-              searchfields="libelle"
-              titlefield="libelle"
-              minlength="1"
-              inputclass="form-control form-control-small" class="autoCompl">
+	<!-- VILLE -->
+	<div angucomplete-alt id="ex1"
+		placeholder="Ville"
+		maxlength="50"
+		pause="100"
+		selected-object="formData.ville"
+		local-data="formData.villes"
+		search-fields="libelle"
+		title-field="libelle"
+		minlength="1"
+		input-class="form-control form-control-small"
+		match-class="highlight" class="autoCompl">
 	</div>
 	<br>
 	<!-- ADRESSE 1 -->
