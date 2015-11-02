@@ -2,6 +2,11 @@
 
 /*##############################   style of Home.html ################################"*/
 
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img{
+  max-width: 200px;
+  max-height: 121px;
+}
+
 .vimg {
   width: 100%;
 }
@@ -246,7 +251,6 @@ input[type="text"], input[type="email"], input[type="password"]{
 	padding-top: 1%;
 	padding-bottom: 1%;
 	padding-left: 3%;
-	/**z-index:0 !important; **/
 }
 
 input#ex1_value, input#ex0_value{
@@ -301,4 +305,44 @@ ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
 
 .scroll {
   height: 100%;
+}
+
+/*##############################   VALIDATION STYLES ################################"*/
+
+.has-error input{background:url(../img/icons/error.png)right no-repeat; border:solid 1px red !important;}
+
+/**
+.list {
+	padding: 1px !important;
+}
+.list .item{
+	width: 98% !important;
+	margin: 1px !important;
+}
+**/
+.has-warning{
+	background:url(../img/icons/error.png)right no-repeat; border-color:red !important;
+}
+.has-success{
+	background:url(../img/icons/ok.png)right no-repeat; border:solid 1px #14BAA6 !important;
+}
+
+ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
+    max-width: 200px;
+    max-height: 121px;
+}
+
+.arriere{
+	display: none;
+	position: relative;
+	top: -38px;
+	left: 0px;
+	/*z-index: 10 !important;*/
+	width: 96%;
+	width: 5%;
+	margin-left: 92%;
+}
+
+.inSameLine{
+	display: inline;
 }
