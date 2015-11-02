@@ -1,12 +1,9 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-/**
- * Modified by HODAIKY on 25/10/2015.
- */
 'use strict';
-starter
 
+starter
   .controller('searchCtrl', function ($scope, $rootScope,$state, $http, x2js) {
 
     $scope.mfbMenuState = 'open';

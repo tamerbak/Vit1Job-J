@@ -1,18 +1,14 @@
 /**
  * Created by Tamer on 14/10/2015.
  */
-/**
- * Modified by HODAIKY on 25/10/2015.
- */
-  'use strict';
+'use strict';
 var requestToken = "";
 var accessToken = "";
 var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercontent.com";
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
 starter
-		.controller(
-				'connectCtrl', function($scope, localStorageService, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
+		.controller('connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
 					// FORMULAIRE
 					$scope.formData = {};
 
@@ -110,7 +106,7 @@ starter
 
 					$scope.loadAllVilles = function(){
 
-						sessionId=localStorageService.get('sessionID');
+						sessionId=$cookieStore.get('sessionID');
 						//if(!sessionId){
 							// CONNEXION AU SERVEUR
 							AuthentificatInServer.getSessionId()
@@ -124,19 +120,18 @@ starter
 									// PUT SESSION ID
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
-                  localStorageService.set('sessionID', sessionId);
+									$cookieStore.put('sessionID', sessionId);
 
-									// LOAD LIST VILLES
-									var villes=localStorageService.get('villes');
-									if(!villes){
-										LoadList.loadListVilles(sessionId)
-											.success(
-													function(response){
+									/*** LOAD LIST VILLES ***/
+									var villes=$cookieStore.get('villes');
+									//if(!villes){
+										LoadList.loadList("user_niveau_de_maitrise", sessionId)
+											.success(function(response){
+														console.log("response "+response);
 														var resp = formatString.formatServerResult(response);
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
 														var villeObjects = resp.dataModel.rows.dataRow;
-														console.log("villeObjects : "+JSON.stringify(villeObjects));
 
 														// GET VILLES
 														villes = [];
@@ -149,6 +144,7 @@ starter
 															// PARCOURIR LIST PROPERTIES
 															ville[object[0].attributeReference] = object[0].value;
 															ville[object[1].attributeReference] = object[1].value;
+															//ville[object[2].attributeReference] = object[2].value;
 
 															if (ville)
 																villes.push(ville);
@@ -157,13 +153,14 @@ starter
 
 														console.log("villes.length : "+ villes.length);
 														// PUT IN SESSION
-                            localStorageService.set('villes', villes);
+														console.log("villes : "+JSON.stringify(villes));
+														$cookieStore.put('villes', villes);
 											})
 											.error(function(err) {
 														console.log("error : LOAD DATA");
-														console.log("error in loadListCivilites : "+ err);
+														console.log("error in loadListVilles : "+ err);
 											});
-									}
+									//}
 								})
 								.error(function (data){
 									console.log("error : récuperation JSessionId");
@@ -178,7 +175,7 @@ starter
 							// VERIFICATION S'IL EST CONNECTE OU PAS
 
 							// RECUPERATION CONNEXION
-							var connexion=localStorageService.get('connexion');
+						var 	connexion=$cookieStore.get('connexion');
 							if(connexion){
 								if(connexion.etat)	// REDIRECTION
 									$state.go("search");

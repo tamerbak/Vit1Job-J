@@ -1,53 +1,77 @@
 /**
  * Created by Omar on 15/10/2015.
  */
+'use strict';
+starter
 
-angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /**'autocomplete'**/ 'angucomplete'])
-
-	.controller('adresseTravailCtrl', function ($scope, $rootScope, localStorageService, $state, formatString, UpdateInServer, LoadList){
+	.controller('adresseTravailCtrl', function ($scope, $rootScope, $cookieStore, $state, formatString,
+					UpdateInServer, LoadList, DataProvider, Validator, Global, $ionicPopup, $ionicHistory){
 
 		// FORMULAIRE
 		$scope.formData = {};
-		$scope.formData.listCodes=[];
 
 		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
 		$scope.updateAdresseTravEmployeur = function(){
 
 			for(var obj in $scope.formData){
-				console.log("formData["+obj+"] : "+$scope.formData[obj]);
+				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 
-			var codePostal=$scope.formData.codePostal;
-			var ville=$scope.formData.ville;
+			var codePost="A", ville="A";
+			if(typeof $scope.formData.codePostal !== 'undefined')
+				if(typeof $scope.formData.codePostal.originalObject !== 'undefined'){
+					console.log("codePostal : "+JSON.stringify($scope.formData.codePostal));
+					codePost=Number($scope.formData.codePostal.originalObject.pk_user_code_postal);
+				}
+
+			if(typeof $scope.formData.ville !== 'undefined')
+				if(typeof $scope.formData.ville.originalObject !== 'undefined')
+					ville=Number($scope.formData.ville.originalObject.pk_user_ville);
 			var adresse1=$scope.formData.adresse1;
 			var adresse2=$scope.formData.adresse2;
 
+			console.log("codePostal: "+codePost);
+			console.log("ville : "+ville);
+
 			// RECUPERATION CONNEXION
-			var connexion=localStorageService.get('connexion');
+			var connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			var employeId=connexion.employeID;
-			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
+			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=localStorageService.get('sessionID');
+			sessionId=$cookieStore.get('sessionID');
 
 			// TEST DE VALIDATION
-			if(codePostal && ville && adresse1  && adresse2){
-			//if (1==2){
-				UpdateInServer.updateAdresseTravEmployeur(employeId, codePostal, ville, adresse1, adresse2, sessionId)
+			if(!isNaN(codePost) || !isNaN(ville) || adresse1  || adresse2){
+				if(!adresse1)
+					adresse1='';
+				if(!adresse2)
+					adresse2='';
+				UpdateInServer.updateAdresseTravEmployeur(employeId, codePost, ville, adresse1, adresse2, sessionId)
 					.success(function (response){
 
 						// DONNEES ONT ETE SAUVEGARDES
 						console.log("les donnes ont été sauvegarde");
 						console.log("response"+response);
 
+						employeur=$cookieStore.get('employeur');
+						if(!employeur)
+							var employeur={};
+						var adresseTravail={};
+						 adresseTravail={'codePostal': codePost, 'ville': ville, 'adresse1': adresse1, 'adresse2': adresse2};
+						employeur.adresseTravail=adresseTravail;
+
+						// PUT IN SESSION
+						$cookieStore.put('employeur', employeur);
+						console.log("employeur : "+JSON.stringify(employeur));
 					}).error(function (err){
 						console.log("error : insertion DATA");
 						console.log("error In updateAdresseTravEmployeur: "+err);
 					});
 			}
 
-			// CHARGEMENT METIERS
-			metiers=localStorageService.get('metiers');
+			/*** CHARGEMENT METIERS
+			metiers=$cookieStore.get('metiers');
 			//metiers=$rootScope.metiers;
 			if(!metiers){
 				// CHARGEMENT DES DONNES AUPRES BD
@@ -78,14 +102,10 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 						}
 
 						console.log("metiers.length : "+metiers.length);
-						/**for(var i=0; i<metiers.length; i++){
-							console.log("pk_user_metier : "+metiers[i].pk_user_metier);
-							console.log("libelle : "+metiers[i].libelle);
-						}**/
 
 						// PUT IN SESSION
-						//$rootScope.metiers=metiers;
-            localStorageService.set('metiers', metiers);
+						$cookieStore.put('metiers', metiers);
+						console.log("metiers : "+JSON.stringify(metiers));
 					}).error(function (err){
 						console.log("error : GET DATA from metiers");
 						console.log("error In : "+err);
@@ -93,7 +113,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 			}
 
 			// CHARGEMENT LANGUES
-			langues=localStorageService.get('langues');
+			langues=$cookieStore.get('langues');
 			if(!langues){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListLangues(sessionId)
@@ -123,8 +143,8 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 
 						console.log("langues.length : "+langues.length);
 						// PUT IN SESSION
-						//$rootScope.langues=langues;
-            localStorageService.set('langues', langues);
+						$cookieStore.put('langues', langues);
+						console.log("langues : "+JSON.stringify(langues));
 					}).error(function (err){
 						console.log("error : GET DATA from langues");
 						console.log("error In : "+err);
@@ -132,22 +152,22 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 			}
 
 			// CHARGEMENT JOBS
-			var jobs=localStorageService.get('jobs');
+			jobs=$cookieStore.get('jobs');
 			if(!jobs){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListJobs(sessionId)
 					.success(function (response){
 
-						var resp=formatString.formatServerResult(response);
+						resp=formatString.formatServerResult(response);
 						// DONNEES ONT ETE CHARGES
 						console.log("les jobs ont été bien chargé");
-						var jobsObjects=resp.dataModel.rows.dataRow;
+						jobsObjects=resp.dataModel.rows.dataRow;
 
 						// GET LANGUES
 						jobs=[];
-						var job={}; // job.libelle | job.id
+						job={}; // job.libelle | job.id
 
-						var jobsList=[].concat(jobsObjects);
+						jobsList=[].concat(jobsObjects);
 						for(var i=0; i<jobsList.length; i++){
 							object=jobsList[i].dataRow.dataEntry;
 
@@ -162,9 +182,8 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 
 						console.log("jobs.length : "+jobs.length);
 						// PUT IN SESSION
-						//$rootScope.jobs=jobs;
-            localStorageService.set('jobs', jobs);
-
+						$cookieStore.put('jobs', jobs);
+						console.log("jobs : "+JSON.stringify(jobs));
 					}).error(function (err){
 						console.log("error : GET DATA from jobs");
 						console.log("error In : "+err);
@@ -172,7 +191,7 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 			}
 
 			// CHARGEMENT COMPETENCES INDISPENSABLES
-			var transvers=localStorageService.get('transvers');
+			transvers=$cookieStore.get('transvers');
 			if(!transvers){
 				// CHARGEMENT DES DONNES AUPRES BD
 				LoadList.loadListIndespensables(sessionId)
@@ -181,13 +200,13 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 						resp=formatString.formatServerResult(response);
 						// DONNEES ONT ETE CHARGES
 						console.log("les transvers ont été bien chargé");
-						var transversObjects=resp.dataModel.rows.dataRow;
+						transversObjects=resp.dataModel.rows.dataRow;
 
 						// GET TRANSVERS
 						transvers=[];
-						var transver={}; // transver.libelle | transver.id
+						transver={}; // transver.libelle | transver.id
 
-						var transversList=[].concat(transversObjects);
+						transversList=[].concat(transversObjects);
 						for(var i=0; i<transversList.length; i++){
 							object=transversList[i].dataRow.dataEntry;
 
@@ -202,47 +221,155 @@ angular.module('adresseTravailCtrls', ['ionic', 'ngOpenFB', 'parsingServices', /
 
 						console.log("transvers.length : "+transvers.length);
 						// PUT IN SESSION
-						//$rootScope.transvers=transvers;
-            localStorageService.set('transvers', transvers);
+						$cookieStore.put('transvers', transvers);
+						console.log("transvers : "+JSON.stringify(transvers));
 					}).error(function (err){
 						console.log("error : GET DATA from transvers");
 						console.log("error In : "+err);
 					});
-			}
+			}***/
+
 			// REDIRECTION VERS PAGE - COMPETENCES
 			$state.go('competence');
+		};
 
-
-		}
+		// VALIDATION
+		$scope.validatElement=function(id){
+			Validator.checkField(id);
+		};
 
 		$scope.initForm=function(){
-			$scope.formData.zipCodes=localStorageService.get('zipCodes');
-			$scope.formData.villes=localStorageService.get('villes');
-			for(var i=0; i<$scope.formData.zipCodes.length; i++)
-				$scope.formData.listCodes[i]=$scope.formData.zipCodes[i].libelle;
-		}
+			$scope.formData.zipCodes=DataProvider.getZipCodes();
+			$scope.formData.villes=DataProvider.getVilles();
+		};
 
-		$scope.updateZipCodes=function(typed){
+		$scope.$on('update-list-ville', function(event, args){
 
-			// VIDER LIST RESULT
-			$scope.formData.listCodes=[];
-			if($scope.formData.zipCodes.length <= 0)
-				return;
+			var params = args.params;
+			console.log("params : "+JSON.stringify(params));
 
-			// PARCOURIR ALL CODES
-			for(var i=0; i<$scope.formData.zipCodes.length; i++){
-				var codePostal=$scope.formData.zipCodes[i];
-				var code=String(codePostal.libelle);
-				if(code.indexOf(typed) > -1){
-					$scope.formData.listCodes.push(code);
-					console.log("codePostal : "+JSON.stringify(codePostal));
+			var list=params.list;
+			var fk=params.fk;
+			// NEW LIST - VILLES
+			var vls=[];
+
+			if(list === "postal"){
+				// VIDER LIST - VILLES
+				$scope.formData.villes=[];
+
+				var allVilles=DataProvider.getVilles();
+				var villes=[];
+				for(var i=0; i<allVilles.length; i++){
+					if(allVilles[i]['fk_user_code_postal'] === fk){
+						villes.push(allVilles[i]);
+					}
 				}
-			}
-		}
 
-		$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+
+				// UPDATE ZIP CODES - GLOBAL
+				$scope.formData.villes=[];
+				$scope.formData.villes=villes;
+				console.log("New $scope.formData.villes : "+JSON.stringify($scope.formData.villes));
+
+				// ENVOI AU AUTOCOMPLETE CONTROLLEUR
+				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
+			}
+		});
+
+		/**$scope.$on('update-list-code', function(event, args){
+
+			var params = args.params;
+			console.log("params : "+JSON.stringify(params));
+
+			list=params.list;
+			fk=params.fk;
+			// NEW LIST - CODES POSTAL
+			codes=[];
+
+			if(list === "ville"){
+				// VIDER LIST - ZIP CODES
+				$scope.formData.zipCodes=[];
+				// TABLE ASSOCIATION
+				zip_ville=DataProvider.getZip_Ville();
+				// TABLE CODES POSTAL
+				zips=DataProvider.getZipCodes();
+				for(var i=0; i<zip_ville.length; i++){
+					if(Number(zip_ville[i]['ville']) === Number(fk)){
+						// PARCOURIR LIST CODES POSTAL
+						for(var j=0; j<zips.length; j++){
+							if(Number(zips[j]['pk_user_code_postal']) === Number(zip_ville[i]['zip'])){
+								zip={};
+								zip.pk_user_code_postal=zips[j]['pk_user_code_postal'];
+								zip.libelle=zips[j]['libelle'];
+								codes.push(zip);
+							}
+						}
+					}
+				}
+
+				// UPDATE ZIP CODES - GLOBAL
+				$scope.formData.zipCodes=[];
+				$scope.formData.zipCodes=codes;
+				console.log("New $scope.formData.zipCodes : "+$scope.formData.zipCodes.length);
+
+				// ENVOI AU AUTOCOMPLETE CONTROLLEUR
+				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
+			}
+		});**/
+
+		$scope.$on('show-pop-up', function(event, args){
+
+			var params = args.params;
+			console.log("params : "+JSON.stringify(params));
+
+			var myPopup = $ionicPopup.show({
+
+			  template: "Adresse de travail est identique à l'adresse du siège social. <br>",
+			  title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+			  buttons: [
+				{
+					text: '<b>Non</b>',
+					type: 'button-dark'
+				},{
+					text: '<b>Oui</b>',
+					type: 'button-calm',
+					onTap: function(e){
+						$scope.formData.adresse1=adresse1;
+						$scope.formData.adresse2=adresse2;
+						if(params.code)
+							document.getElementById('ex2_value').value=params.code;
+						if(params.vi)
+							document.getElementById('ex3_value').value=params.vi;
+					}
+				}
+			 ]
+		 });
+		});
+
+		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			if(states.fromCache && states.stateName == "adresseTravail" ){
 				$scope.initForm();
+
+				// AFFICHE POPUP - SI JE VIENS
+				if($ionicHistory.backView() === "adressePersonel"){}
+				console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
+
+				var employeur=$cookieStore.get('employeur');
+				if(employeur){
+					// INITIALISATION FORMULAIRE
+					if(employeur['adresseTravail']){
+						// INITIALISATION FORMULAIRE
+						/**if(employeur['adresseTravail'].codePostal)
+							document.getElementById('ex2_value').value=employeur['adresseTravail']['codePostal'];
+						if(employeur.adresseTravail.ville)
+							document.getElementById('ex3_value').value=employeur['adresseTravail']['ville'];**/
+						if(employeur['adresseTravail']){
+							$scope.formData['adresse1']=employeur['adresseTravail']['adresse1'];
+							$scope.formData['adresse2']=employeur['adresseTravail']['adresse2'];
+						}
+					}
+				}
 			}
 		});
 	})
+;

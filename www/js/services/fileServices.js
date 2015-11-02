@@ -6,19 +6,20 @@ angular.module('fileServices', ['ionic', 'cb.x2js'])
 
   .service('UploadFile', function ($http) {
 	  
-	  this.uploadFile=function(fileName, contenu, employeurID){
+	  this.uploadFile=function(table, fileName, contenu, employeurID){
 		  
 		var soapMessage=
 			'<fr.protogen.connector.model.StreamedFile>'+
+				'<identifiant>'+employeurID+'</identifiant>'+
 				'<fileName>'+fileName+'</fileName>'+
-				'<table>user_salarie</table>'+
+				'<table>'+table+'</table>'+
 				'<operation>PUT</operation>'+
 				'<stream>'+contenu+'</stream>'+
 			'</fr.protogen.connector.model.StreamedFile>';
 			
 		return $http({
 			method: 'POST',
-			url: 'ns389914.ovh.net:8080/vit1job/api/fss',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/fss',
 			headers: {
 				"Content-Type": "text/xml"
 			},
@@ -27,19 +28,20 @@ angular.module('fileServices', ['ionic', 'cb.x2js'])
 	  }
 	  
 	  
-	  this.downloadFile=function(fileName){
+	  this.downloadFile=function(table, employeurID){
 		  
 		var soapMessage=
 			'<fr.protogen.connector.model.StreamedFile>'+
-				'<fileName>'+fileName+'</fileName>'+
-				'<table>user_salarie</table>'+
+				'<identifiant>'+employeurID+'</identifiant>'+
+				'<fileName></fileName>'+
+				'<table>'+table+'</table>'+
 				'<operation>GET</operation>'+
-				'<stream>'+'</stream>'+
+				'<stream></stream>'+
 			'</fr.protogen.connector.model.StreamedFile>';
 			
 		return $http({
 			method: 'POST',
-			url: 'ns389914.ovh.net:8080/vit1job/api/fss',
+			url: 'http://ns389914.ovh.net:8080/vit1job/api/fss',
 			headers: {
 				"Content-Type": "text/xml"
 			},

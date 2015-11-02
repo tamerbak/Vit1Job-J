@@ -1,21 +1,19 @@
 /**
  * Created by Tamer on 09/10/2015.
  */
-/**
- * Modified by HODAIKY on 24/10/2015.
- */
 'use strict';
+
 starter
 
-  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, localStorageService, $timeout) {
+  .controller('homeCtrl', function ($scope, $rootScope, $http, $state, x2js, $ionicPopup, $cookieStore, $timeout, $cookies) {
 		// FORMULAIRE
 		$scope.formData = {};
 		//$scope.formData.connexion= {};
 
-    var jobyersForMe = [];
-    var jobyersNextToMe = [];
-
     $scope.getJobbers = function (query) {
+
+      var jobyersForMe = [];
+      var jobyersNextToMe = [];
 
       $rootScope.jobyersForMe = [];
       $rootScope.jobyersNextToMe = [];
@@ -25,7 +23,7 @@ starter
       $rootScope.queryText = query;
 
       if (sessionId!=''){
-       var soapMessage = 'user_salarie;' + query; //'C# sur paris';
+        var soapMessage = 'user_salarie;' + query; //'C# sur paris';
         $http({
           method: 'POST',
           url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',
@@ -55,7 +53,7 @@ starter
               //if (jsonResp.dataModel.rows.dataRow.length > 0){
               //if (rowsCount > 0){
 
-              for ( var i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
+              for (var i = 0; i < jsonResp.dataModel.rows.dataRow.length; i++) {
 
                 //jsonResp = parsingService.formatString.formatServerResult(response.data);
 
@@ -72,7 +70,7 @@ starter
                 idVille = idVille.replace("<![CDATA[",'');
                 idVille = idVille.replace("]]>",'');
 
-                for (j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
+                for (var j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
                   jsonText = JSON.stringify (jsonResp);
                   jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
                   jsonResp = JSON.parse(jsonText);
@@ -81,11 +79,12 @@ starter
                 }
 
                 var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
-                jobyersForMe.push({
-                  'firstName': prenom,
-                  'lastName': nom,
-                  'city': ville
-                });
+                jobyersForMe.push(
+					{
+						'firstName': prenom,
+						'lastName': nom,
+						'city': ville
+					});
               }
             } else {
               //One Instance returned or null!
@@ -101,7 +100,7 @@ starter
                 idVille = idVille.replace("<![CDATA[",'');
                 idVille = idVille.replace("]]>",'');
 
-                for ( var j=0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length;j++){
+                for (j=0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length;j++){
                   if (jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
                     break;
                 }
@@ -180,10 +179,10 @@ starter
       navigator.app.exitApp();
     };
 
-	  $scope.initConnexion= function(){
+	$scope.initConnexion= function(){
 
 		$scope.formData.connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
-		var cnx = localStorageService.get('connexion');
+		var cnx=$cookieStore.get('connexion');
 		if(cnx){
 			$scope.formData.connexion=cnx;
 			console.log("Employeur est connecté");
@@ -194,77 +193,40 @@ starter
 		console.log("connexion[etat] : "+$scope.formData.connexion.etat);
 	};
 
-	  $scope.$on( "$ionicView.beforeEnter", function( scopes, states ) {
+	$scope.$on( "$ionicView.beforeEnter", function( scopes, states ) {
         if(states.fromCache && states.stateName == "app" ) {
 			$scope.initConnexion();
         }
     });
 
-	  $scope.modeConnexion= function(){
+	$scope.modeConnexion= function(){
 		var estConnecte=0;
-		var cnx =localStorageService.get('connexion');
+		var cnx=$cookieStore.get('connexion');
 		if(cnx){
 			if(cnx.etat){ // IL S'AGIT D'UNE DECONNEXION
 				console.log("IL S'AGIT D'UNE DECONNEXION");
 
-				localStorageService.remove('connexion');
+				$cookieStore.remove('connexion');
+				$cookieStore.remove('sessionID');
 				var connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
-				localStorageService.set('connexion', connexion);
+				$cookieStore.put('connexion', connexion);
 
-				console.log("New Connexion : "+JSON.stringify(localStorageService.get('connexion')));
+				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));
 				$state.go("connection");
 				/*** REMOVE ALL COOKIES
 				var cookies = $cookies.getAll();
 				angular.forEach(cookies, function (v, k) {
-					localStorageService.remove(k);
+					$cookieStore.remove(k);
 				});**/
 
 			}
 			else{ // IL S'AGIT D'UNE CONNEXION
-			console.log("IL S'AGIT D'UNE CONNEXION");
+				console.log("IL S'AGIT D'UNE CONNEXION");
 				$state.go("connection");
 			}
 		}
 		else
 			$state.go("connection");
-	};
+	}
 
-    $scope.getposition = function() {
-
-      $scope.modal = $ionicLoading.show({
-        content: 'Fetching Current Location...',
-        showBackdrop: false
-      });
-
-
-      var posOptions = {
-        timeout: 10000,
-        enableHighAccuracy: false
-      };
-      $cordovaGeolocation
-        .getCurrentPosition(posOptions)
-        .then(function(position) {
-          $scope.latitude = position.coords.latitude;
-          $scope.longitude = position.coords.longitude;
-          $scope.accuracy = position.coords.accuracy;
-          $scope.dataReceived = true;
-
-          Global.showAlertValidation("Latitude : " + $scope.latitude + "<br>" +
-          "Longitude : " + $scope.longitude + "<br>Votre adresse est : <br>" +
-            "<reverse-geocode lat='" + $scope.latitude + "' lng='" +$scope.longitude+ "'/>");
-          $scope.modal.hide();
-
-
-        }, function(err) {
-          // error
-          console.log ("error");
-          $scope.modal.hide();
-          $scope.modal = $ionicLoading.show({
-            content: 'Oops!! ' + err,
-            showBackdrop: false
-          });
-
-          $timeout(function() {$scope.modal.hide();}, 3000);
-        });
-    };
   });

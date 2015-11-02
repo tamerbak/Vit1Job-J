@@ -5,11 +5,13 @@
     <!--<h1 class="title">Connexion employeur</h1>-->
     <a class="button icon-left ion-android-exit button-clear button-light" ng-click="exitVit()">  </a>
   </ion-header-bar>
-  <ion-content class="splash padding has-subheader">
+  <ion-content padding="true">
     <div class = "row">
-      <div class="vimg"><img src="img/vit1job.png"></div>
+      <div class="vimg"><img src="img/logo_employeur2.png"></div>
     </div>
-    <div class = "row">
+
+
+    <div class = "row" data-ng-init="initConnexion()">
       <div class="list list-inset">
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
@@ -17,16 +19,23 @@
         </label>
       </div>
     </div>
+
     <div class = "row">
       <h3 class="hslide1">Trouvez vos Jobyers immédiatement disponibles!</h3>
     </div>
 
 
-      <div class="row" data-ng-init="initConnexion()">
-        <button class="button button-full button-positive green" data-ng-click="modeConnexion()">
-          {{ formData.connexion.libelle }}
-        </button>
-      </div>
+    <div class="row">
+      <button class="button button-full button-positive green" data-ng-click="getJobbers(query)">
+        Lancer la recherche
+      </button>
+    </div>
+
+    <div class="row">
+      <button class="button button-full button-positive green" data-ng-click="modeConnexion()">
+        {{ formData.connexion.libelle }}
+      </button>
+    </div>
     <!--<div class="row">ui-sref="connection" ng-click="showPopup()"
       <button class="button button-full button-positive grey">
         Inscription
@@ -37,6 +46,9 @@
 
 
   </div>-->
+
+
+
 </ion-content>
 <!--<ion-footer-bar class="hide-on-keyboard-open">
 
