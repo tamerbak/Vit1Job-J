@@ -22,17 +22,15 @@
       <div class="col col-45"><hr></div>
     </div>
 
-    <div class="row">
-      <button class="button button-full button-positive linkedIn"> Votre compte LinkedIn</button>
+
+    <div class="button-bar ">
+      <a class="button button-calm icon ion-social-facebook" data-ng-click="fbLogin()"></a>
+      <a class="button button-calm icon ion-social-google" data-ng-click="loginGmail()"> </a>
+      <a class="button button-calm icon  ion-social-linkedin"></a>
     </div>
+
     <div class="row">
-      <button class="button button-full button-positive red" data-ng-click="loginGmail()"> Votre compte Gmail</button>
-    </div>
-    <div class="row">
-      <button class="button button-full button-positive facebook" data-ng-click="fbLogin()"> Votre compte Facebook</button>
-    </div>
-    <div class="row">
-      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" > Quitter</button>
+      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" ><i class="icon ion-log-out"></i> Quitter</button>
     </div>
 
   </ion-content>

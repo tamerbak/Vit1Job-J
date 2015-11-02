@@ -26,7 +26,7 @@ starter
 
 
       var session = localStorageService.get('sessionID');
-		  var phone = $scope.formData.pays.code+$scope.formData.phone;
+		  var phone = $scope.formData.pays.code + $scope.formData.phone;
 		  var country = $scope.formData.pays.country;
 		  var password = $scope.formData.password;
 
@@ -35,17 +35,19 @@ starter
       console.log(password);
       console.log(session);
 
-      // salit had l3jab kan recupiri tel pass session && country
-      // reste affaire traitement 3la tel & passeword
-/*
-		var isNew=0;
-
-      if(isEmpty(phone) || isEmpty(country) || isEmpty(password)) {
-        var $msg = 'Tous les champs sont vides. Merci de saisir vos informations pour se connecter ';
-        Global.showAlertPassword($msg);
-        return;
-      }
-
+       if (isEmpty($scope.formData.phone) ){
+         var $msg = 'Veuillez saisir le numéro de téléphone';
+         Global.showAlertPassword($msg);
+         return;
+        }else if (isEmpty(password)){
+         var $msg = 'Veuillez saisir le mot de passe.';
+         Global.showAlertPassword($msg);
+         return;
+       }else if (isEmpty(password) && isEmpty(phone)){
+         var $msg = 'Tous les champs sont vides. Merci de saisir vos informations pour se connecter ';
+         Global.showAlertPassword($msg);
+         return;
+       }
 		// CONNEXION AU SERVEUR
 		AuthentificatInServer.getSessionId()
 			.success(function (response){
@@ -69,10 +71,12 @@ starter
               if(typeof result === 'undefined' || result.length<=0 || result===""){
 				  console.log('Aucune résultat trouvé');
 				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
-				  isNew=1;
+				 var isNew=1;
 			  }
 			  else{
 					// VERIFICATION DU PASSWORD
+                $state.go("search");
+                return;
 					var listEntry=[].concat(result.dataRow.dataRow.dataEntry);
 					if(listEntry.length > 0){
 
@@ -173,8 +177,6 @@ starter
         .error(function (data){
           console.log("error : récuperation JSessionId");
         });
-
-      */
     };
 
 
@@ -187,6 +189,8 @@ starter
 
 
 		$scope.initForm=function(){
+
+
       $scope.pays ='';
       $scope.tel = '';
       sessionId=localStorageService.get('sessionID');

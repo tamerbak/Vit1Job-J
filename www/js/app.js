@@ -64,6 +64,13 @@ var starter = angular.module('starter', ['ionic','LocalStorageModule','adresseTr
 
       })
 
+      .state('map', {
+        url: '/map',
+        templateUrl: 'templates/map.html',
+        controller: 'MapCtrl'
+
+      })
+
       .state('listNext', {
         url: '/listNext',
         templateUrl: 'templates/listJobyersNext.html',
@@ -104,7 +111,7 @@ var starter = angular.module('starter', ['ionic','LocalStorageModule','adresseTr
         url: '/competence',
         templateUrl: 'templates/competences.html',
         controller: 'competenceCtrl'
-      })
+      });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app');
   })
@@ -147,7 +154,7 @@ var starter = angular.module('starter', ['ionic','LocalStorageModule','adresseTr
         var latlng = new google.maps.LatLng(attrs.lat, attrs.lng);
         geocoder.geocode({ 'latLng': latlng }, function (results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
-            if (results[1]) {
+            if (results[0]) {
               element.text(results[0].formatted_address);//
             } else {
               element.text('Location not found');

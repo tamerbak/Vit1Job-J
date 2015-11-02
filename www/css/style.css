@@ -166,19 +166,22 @@ label.item.item-input  input.searchPage2[type="search"]{
 
 /*##############################   styles of Connection.html ################################"*/
 
-button.button.button-full.button-positive.linkedIn {
-  padding: 2px;
-  font-size: 1em;
+a.button.button-calm.icon.ion-social-linkedin{
+  border-top-right-radius: 27px;
+  border-bottom-right-radius: 27px;
+  background-color:#006599;
+  border-color: #006599;
 }
-
-button.button.button-full.button-positive.red {
-  padding: 2px;
-  font-size: 1em;
+a.button.button-calm.icon.ion-social-facebook {
+  border-top-left-radius: 27px;
+  border-bottom-left-radius: 27px;
+  background-color:#3C5A9A;
+  border-color: #3C5A9A;
 }
+a.button.button-calm.icon.ion-social-google{
 
-button.button.button-full.button-positive.facebook {
-  padding: 2px;
-  font-size: 1em;
+  background-color:#E81011;
+  border-color: #E81011;
 }
 
 .h3Connect1{
