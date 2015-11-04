@@ -10,7 +10,8 @@ var sessionId = 'nn';
 var myCity = 'Paris';
 
 var starter = angular.module('starter', ['ionic','wsConnectors', 'parsingServices', 'fileServices', 'globalServices','ng-mfb',
-                            'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova','validationDataServices','providerServices','connexionPhoneServices'])
+                            'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova','validationDataServices','providerServices',
+                            'LocalStorageModule','connexionPhoneServices'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});
