@@ -11,7 +11,7 @@ var myCity = 'Paris';
 
 var starter = angular.module('starter', ['ionic','wsConnectors', 'parsingServices', 'fileServices', 'globalServices','ng-mfb',
                             'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova','validationDataServices','providerServices',
-                            'LocalStorageModule','connexionPhoneServices'])
+                            'LocalStorageModule','connexionPhoneServices', 'Services'])
 
   .run(function($ionicPlatform, $rootScope, $http, x2js, ngFB) {
   ngFB.init({appId: '426767167530378'});
@@ -71,8 +71,14 @@ var starter = angular.module('starter', ['ionic','wsConnectors', 'parsingService
     );*/
 
   });
-})
-;
+});
+
+/**
+ * Create module for services
+ *
+ * @type {module|*}
+ */
+var services = angular.module('Services', []);
 
   /**
    .config(function($mdGestureProvider ){
