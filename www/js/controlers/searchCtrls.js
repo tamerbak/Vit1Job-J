@@ -54,7 +54,7 @@ starter
 
                     userGeoAddr.address = results[0].formatted_address;
                     localStorageService.set('user_geo_addr', userGeoAddr);
-                    alert(results[0].formatted_address);
+                    console.log(results[0].formatted_address);
                     console.log(results);
                     return results[0].formatted_address;
                   } else {
@@ -94,7 +94,7 @@ starter
     var getDistance = function(lat1, lon1) {
 
       console.log();
-      var userGeoAddr = localStorageService.set('user_geo_addr');
+      var userGeoAddr = localStorageService.get('user_geo_addr');
 
       if(!userGeoAddr) {
         return null;
@@ -181,28 +181,27 @@ starter
                 //jsonResp.dataModel.rows.dataRow[0].dataRow.dataEntry[1].value
                 var prenom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[1].value;
                 var nom = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[2].value;
-                var idVille = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].value;
+                var coordLambert = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[5].value;
 
                 prenom = prenom.replace("<![CDATA[",'');
                 prenom = prenom.replace("]]>",'');
                 nom = nom.replace("<![CDATA[",'');
                 nom = nom.replace("]]>",'');
-                idVille = idVille.replace("<![CDATA[",'');
-                idVille = idVille.replace("]]>",'');
+                coordLambert = coordLambert.replace("<![CDATA[",'');
+                coordLambert = coordLambert.replace("]]>",'');
 
-                for (var j=0; j < jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple.length;j++){
-                  jsonText = JSON.stringify (jsonResp);
-                  jsonText = jsonText.replace("fr.protogen.connector.model.DataCouple", "dataCouple");
-                  jsonResp = JSON.parse(jsonText);
-                  if (jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
+                var jobyerLat = '';
+                var jobyerLong = '';
+                if (coordLambert.indexOf(",") > -1){
+                  jobyerLat = coordLambert.split (',')[0];
+                  jobyerLong = coordLambert.split (',')[1];
                 }
 
-                var ville = jsonResp.dataModel.rows.dataRow[i].dataRow.dataEntry[6].list.dataCouple[j].label;
                 jobyersForMe.push({
                     'firstName': prenom,
                     'lastName': nom,
-                    'city': ville
+                    'lat': 48.717132, //jobyerLat,
+                    'long': 2.245816 //jobyerLong
                   });
               }
             } else {
@@ -210,26 +209,25 @@ starter
               if (jsonResp.dataModel.rows!=""){
                 prenom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[1].value;
                 nom = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[2].value;
-                idVille = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].value;
+                coordLambert = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[5].value;
 
                 prenom = prenom.replace("<![CDATA[",'');
                 prenom= prenom.replace("]]>",'');
                 nom = nom.replace("<![CDATA[",'');
                 nom = nom.replace("]]>",'');
-                idVille = idVille.replace("<![CDATA[",'');
-                idVille = idVille.replace("]]>",'');
+                coordLambert = coordLambert.replace("<![CDATA[",'');
+                coordLambert = coordLambert.replace("]]>",'');
 
-                for (j=0; j < jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple.length;j++){
-                  if (jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].id == idVille)
-                    break;
+                if (coordLambert.indexOf(",") > -1){
+                  jobyerLat = coordLambert.split (',')[0];
+                  jobyerLong = coordLambert.split (',')[1];
                 }
-
-                ville = jsonResp.dataModel.rows.dataRow.dataRow.dataEntry[6].list.dataCouple[j].label;
 
                 jobyersForMe[0] = {
                   'firstName': prenom,
                   'lastName': nom,
-                  'city': ville
+                  'lat': jobyerLat,
+                  'long': jobyerLong
                 };
               } else {
                 $rootScope.jobyersForMe = [];
@@ -249,11 +247,14 @@ starter
 
             // Send Http search to get jobbers with same competencies and same city as mine
             for (i=0; i < jobyersForMe.length ; i++){
-              if (jobyersForMe[i].city == myCity) {
+              var proximity = getDistance(jobyersForMe[i].lat, jobyersForMe[i].long);
+              proximity = proximity.toFixedDown(2);
+              console.log(proximity);
+              if (proximity <= 10) { // à proximité de 10Km
                 jobyersNextToMe.push({
                   'firstName': jobyersForMe[i].firstName,
                   'lastName': jobyersForMe[i].lastName,
-                  'city': jobyersForMe[i].city
+                  'proximity': proximity
                 });
               }
             }
@@ -283,6 +284,12 @@ starter
       if ($scope.nbJobyersNextToMe != 0){
         $state.go('listNext');
       }
-    }
+    };
+
+    Number.prototype.toFixedDown = function(digits) {
+      var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+        m = this.toString().match(re);
+      return m ? parseFloat(m[1]) : this.valueOf();
+    };
   })
 ;
