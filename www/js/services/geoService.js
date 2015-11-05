@@ -109,6 +109,9 @@ services
         this.getUserGeo()
           .then(function(userGeo) {
 
+            var lat = userGeo.latitude;
+            var long = userGeo.longitude;
+
             var geocoder = new google.maps.Geocoder();
             var latlng = new google.maps.LatLng(lat, long);
             geocoder.geocode({'latLng': latlng}, function (results, status) {
