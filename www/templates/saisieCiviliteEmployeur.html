@@ -76,7 +76,8 @@
 	<!-- Image uploader -->
 	<div class="list">
 		<label class="item item-input">
-			<!--<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">-->
+			<!--<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">
+			<input id="image" type="file" class="upload" accept="image/*" data-ng-model="formData.image" onchange="angular.element(this).scope().takePicture()">-->
 			<input id="image" type="file" class="upload" capture="camera" accept="image/*" data-ng-model="formData.image" onchange="angular.element(this).scope().loadImage(this)">
 		</label>
 	</div>

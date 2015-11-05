@@ -386,7 +386,7 @@ angular.module('wsConnectors', ['ionic'])
       });
 	}
 	
-	this.persistInOffres=function(identifiant, titre, description, disponible_du, disponible_au, sessionID, employeurID){
+	this.persistInOffres=function(identifiant, titre, description, disponible_du, disponible_au, sessionID, employeurID, niveauID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
@@ -417,20 +417,27 @@ angular.module('wsConnectors', ['ionic'])
           					'<label>&lt;![CDATA[Disponible du]]&gt;</label>'+
          					' <attributeReference>disponible_du</attributeReference>'+
           					'<type>DATE</type>'+
-          					'<value>'+disponible_du+'</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
+          					'<value>&lt;![CDATA[2015-09-27 02:00:00.0]]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+	**/
         				'<fr.protogen.connector.model.DataEntry>'+		// disponible_au
           					'<label>&lt;![CDATA[Disponible au]]&gt;</label>'+
           					'<attributeReference>disponible_au</attributeReference>'+
           					'<type>DATE</type>'+
-          					'<value>'+disponible_au+'</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+**/// ID EMPLOYEUR
+          					'<value>&lt;![CDATA[2015-12-12 08:00:00.0]]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+		// ID EMPLOYEUR
 						'<fr.protogen.connector.model.DataEntry>'+
 							'<label>&lt;![CDATA[Employeur]]&gt;</label>'+
 							'<attributeReference>fk_user_employeur</attributeReference>'+
 							'<type>fk_user_employeur</type>'+
 							'<list/>'+
 							'<value>'+employeurID+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Niveau de maitrise]]&gt;</label>'+
+          					'<attributeReference>fk_user_niveau_de_maitrise</attributeReference>'+
+          					'<type>fk_user_niveau_de_maitrise</type>'+
+          					'<list/>'+
+          					'<value>'+niveauID+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+

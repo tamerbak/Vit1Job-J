@@ -4,10 +4,10 @@
 
 
 angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'fileServices', 'base64', 
-		'wsConnectors', 'parsingServices', 'providerServices', 'validationDataServices'])
+		'wsConnectors', 'parsingServices', 'providerServices', 'validationDataServices', 'ngCordova'])
 
 	.controller('saisieCiviliteEmployeurCtrl', function ($scope, $rootScope, $cookieStore, $state, UpdateInServer, UploadFile, $base64, 
-				LoadList, formatString, DataProvider, Validator){
+				LoadList, formatString, DataProvider, Validator, $cordovaCamera){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -90,6 +90,7 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 				// ENVOI AU SERVEUR
 				//UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode.split(',')[1], employeId)
 				UploadFile.uploadFile("user_employeur", $scope.formData.imageName, $scope.formData.imageEncode, employeId)
+				//UploadFile.downloadFile("user_employeur", employeId)
 					.success(function (response){
 
 						// FILE A ETE BIEN TRANSFERE
@@ -212,5 +213,29 @@ angular.module('saisieCiviliteEmployeurCtrls', ['ionic', 'ngOpenFB', 'ngCookies'
 				}
 			}
 		});
+		
+		$scope.takePicture = function(){
+			
+			console.log("Je suis ds takePicture() ");
+			var options = {
+				quality: 50,
+				destinationType: Camera.DestinationType.DATA_URL,
+				sourceType: Camera.PictureSourceType.CAMERA,
+				allowEdit: true,
+				encodingType: Camera.EncodingType.JPEG,
+				targetWidth: 100,
+				targetHeight: 100,
+				popoverOptions: CameraPopoverOptions,
+				saveToPhotoAlbum: false,
+				correctOrientation:true
+			};
+
+			$cordovaCamera.getPicture(options).then(function(imageData){
+				$scope.imgURI = "data:image/jpeg;base64," + imageData;
+				console.log("imageData : "+imageData);
+			});
+			
+			console.log("imgURI : "+$scope.imgURI);
+		}
 	})
 	

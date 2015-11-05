@@ -200,6 +200,18 @@ angular.module('adressePersonelCtrls', ['ionic', 'ngOpenFB', 'ngCookies', 'provi
 			$scope.formData.codePostal.originalObject={'pk_user_code_postal': $scope.formData.zipCodeSelected.pk, 'libelle': $scope.formData.zipCodeSelected.libelle};
 			console.log("formData.codePostal : "+JSON.stringify($scope.formData.codePostal));
 			document.getElementById('ex0_value').value=$scope.formData.zipCodeSelected['libelle'];
+
+			// VIDER LIST - VILLES
+			$scope.formData.villes=[];
+			villes=DataProvider.getVilles();
+			for(var i=0; i<villes.length; i++){
+				if(villes[i]['fk_user_code_postal'] === $scope.formData.zipCodeSelected.pk)
+					$scope.formData.villes.push(villes[i]);
+			}
+
+			// RE-INITIALISE INPUT VILLE
+			document.getElementById('ex1_value').value='Villes';
+			$scope.formData.ville={};
 		}
 		
 		$scope.updateAutoCompleteVille= function(){

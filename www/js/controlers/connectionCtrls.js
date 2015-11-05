@@ -126,7 +126,7 @@ angular
 									/*** LOAD LIST VILLES ***/
 									villes=$cookieStore.get('villes');
 									//if(!villes){	
-										LoadList.loadList("user_competence_offre", sessionId)
+										LoadList.loadList("user_offre", sessionId)
 											.success(function(response){
 														console.log("response "+response);
 														resp = formatString.formatServerResult(response);

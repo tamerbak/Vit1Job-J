@@ -421,166 +421,90 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 						console.log("error In saveJobyers: "+err);
 					});
 			}
-			
-			var promiseArray = [];
+
 			if(hasSessionID){
 				console.log("Je suis dans : hasSessionID");
 				
 				// PARCOURIR ALL JOBYERS
 				for(var i=0; i<$rootScope.jobyers.length; i++){
-						
-						offre=$rootScope.jobyers[0];
-						if(typeof offre.metier === 'undefined' || typeof offre.job === 'undefined' || isNaN(offre.indisp) || isNaN(offre.langue)){
-							console.log("Il manque des informations")
-							return;
+					offre=$rootScope.jobyers[i];
+					if(typeof offre.metier === 'undefined' || typeof offre.job === 'undefined' || isNaN(offre.indisp) || isNaN(offre.langue)){
+						console.log("Il manque des informations")
+						return;
+					}
+					
+					// GET NIVEAU
+					list=DataProvider.getNiveauxMaitrise();
+					niveau=0;
+					for(var i=0; i<list.length; i++){
+						if(list[i]['libelle'] === offre.maitrise){
+							niveau=Number(list[i]['pk_user_niveau_de_maitrise']); break;
 						}
-						
-						// GET NIVEAU
-						list=DataProvider.getNiveauxMaitrise();
-						niveau=0;
-						for(var i=0; i<list.length; i++){
-							if(list[i]['libelle'] === offre.maitrise){
-								niveau=Number(list[i]['pk_user_niveau_de_maitrise']); break;
+					}
+					if(niveau){
+						console.log("niveau : "+niveau);
+					}
+					// PERSISTENCE OFFRE N°i
+					PersistInServer.persistInOffres(employeId, "Titre_3", "Description_3", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId, niveau)
+						.success(function (response){
+							console.log("response : "+response);
+
+							// RECUPERATION EMPLOYEUR ID*
+							offreId=0;
+							ofre=formatString.formatServerResult(response);
+							if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
+								offreId=Number(ofre.dataModel.status);
+								// $cookieStore.put('offreID', Number(ofre.dataModel.status));
 							}
-						}
-						if(niveau){
-							console.log("niveau : "+niveau);
-						}
-						
-						// PERSISTENCE OFFRE N°i
-						PersistInServer.persistInOffres(employeId, "Titre_4", "Description_4", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId, niveau)
-							.then(
-								function (response){
-									console.log("response : "+JSON.stringify(response));
 
-									// RECUPERATION EMPLOYEUR ID*
-									offreId=0;
-									ofre=formatString.formatServerResult(response.data);
-									console.log("ofre : "+JSON.stringify(ofre));
-									if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-										offreId=Number(ofre.dataModel.status);
-										// $cookieStore.put('offreID', Number(ofre.dataModel.status));
-									}
-									// DONNEES ONT ETE SAUVEGARDES
-									console.log("offreID a été bien récuperé : "+offreId);
-									if(offreId){
-										if(offre.job){
-											console.log("job : "+offre.job.pk_user_competence);
-											// PERSISTENCE IN COMPETANCE
-											PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
-												.then(
-													function (response){
-														console.log("success : persistInOffres_Competences"+response);
-													},function (err){
-															console.log("error : insertion DATA");
-															console.log("error In persistInOffres_Competences: "+err);
-													}
-												)
-												.then(
-													function (e){												
-														if(!isNaN(offre.indisp)){
-															console.log("indisp : "+offre.indisp);
-															// PERSISTENCE IN TRANSVERS
-															PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
-																.then(
-																	function (response){
-																		console.log("success : persistInOffres_Transvers"+response);
-																	},function (err){
-																			console.log("error : insertion DATA");
-																			console.log("error In persistInOffres_Transvers: "+err);
-																	}
-																);
-														}
-													}
-												)
-												.then(
-													function (e){	
-														if(!isNaN(offre.langue)){
-															console.log("offreId : "+offreId);
-															console.log("langue : "+offre.langue);
-															// PERSISTENCE IN LANGUES
-															PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
-																.then(
-																	function (response){
-																		console.log("success : persistInOffres_Langues"+response);
-																	},function (err){
-																			console.log("error : insertion DATA");
-																		console.log("error In persistInOffres_Langues: "+err);
-																	}
-																);
-														}
-													}
-												);
-										}
-											
-														
-									}
-								},function (err){
-									console.log("error : insertion DATA");
-									console.log("error In PullDataFromServer.pullDATA: "+err);
+							// DONNEES ONT ETE SAUVEGARDES
+							console.log("offreID a été bien récuperé : "+offreId);
+							
+							if(offreId){
+								if(offre.job){
+									console.log("offreId : "+offreId);
+									console.log("job : "+offre.job.pk_user_competence);
+									// PERSISTENCE IN COMPETANCE
+									PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
+											.success(function (response){
+												console.log("success : persistInOffres_Competences"+response);
+											}).error(function (err){
+													console.log("error : insertion DATA");
+													console.log("error In persistInOffres_Competences: "+err);
+											});
 								}
-							);
-							/**
-							.success(function (response){
-								console.log("response : "+response);
-
-								// RECUPERATION EMPLOYEUR ID*
-								offreId=0;
-								ofre=formatString.formatServerResult(response);
-								if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-									offreId=Number(ofre.dataModel.status);
-									// $cookieStore.put('offreID', Number(ofre.dataModel.status));
+									
+								if(!isNaN(offre.indisp)){
+									console.log("offreId : "+offreId);
+									console.log("indisp : "+offre.indisp);
+									// PERSISTENCE IN TRANSVERS
+									PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
+											.success(function (response){
+												console.log("success : persistInOffres_Transvers"+response);
+											}).error(function (err){
+													console.log("error : insertion DATA");
+													console.log("error In persistInOffres_Transvers: "+err);
+											});
 								}
-
-								// DONNEES ONT ETE SAUVEGARDES
-								console.log("offreID a été bien récuperé : "+offreId);
-								
-								if(offreId){
-									if(offre.job){
+									
+								if(!isNaN(offre.langue)){
 										console.log("offreId : "+offreId);
-										console.log("job : "+offre.job.pk_user_competence);
-										// PERSISTENCE IN COMPETANCE
-										PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
-												.success(function (response){
-													console.log("success : persistInOffres_Competences"+response);
-												}).error(function (err){
-														console.log("error : insertion DATA");
-														console.log("error In persistInOffres_Competences: "+err);
-												});
-									}
-										
-									if(!isNaN(offre.indisp)){
-										console.log("offreId : "+offreId);
-										console.log("indisp : "+offre.indisp);
-										// PERSISTENCE IN TRANSVERS
-										PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
-												.success(function (response){
-													console.log("success : persistInOffres_Transvers"+response);
-												}).error(function (err){
-														console.log("error : insertion DATA");
-														console.log("error In persistInOffres_Transvers: "+err);
-												});
-									}
-										
-									if(!isNaN(offre.langue)){
-											console.log("offreId : "+offreId);
-											console.log("langue : "+offre.langue);
-											// PERSISTENCE IN LANGUES
-											PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
-												.success(function (response){
-													console.log("success : persistInOffres_Langues"+response);
-												}).error(function (err){
-														console.log("error : insertion DATA");
-														console.log("error In persistInOffres_Langues: "+err);
-												});
-										}				
-								}
+										console.log("langue : "+offre.langue);
+										// PERSISTENCE IN LANGUES
+										PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
+											.success(function (response){
+												console.log("success : persistInOffres_Langues"+response);
+											}).error(function (err){
+													console.log("error : insertion DATA");
+													console.log("error In persistInOffres_Langues: "+err);
+											});
+									}				
+							}
 
-							}).error(function (err){
-								console.log("error : insertion DATA");
-								console.log("error In PullDataFromServer.pullDATA: "+err);
-							});**/
-	
+						}).error(function (err){
+							console.log("error : insertion DATA");
+							console.log("error In PullDataFromServer.pullDATA: "+err);
+						});
 				}
 				
 				// SHOW MODAL
