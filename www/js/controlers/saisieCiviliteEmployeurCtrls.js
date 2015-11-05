@@ -145,6 +145,7 @@ starter
 			}***/
 
 			// REDIRECTION VERS PAGE - ADRESSE PERSONEL
+
 			$state.go('adressePersonel');
 		};
 
@@ -209,5 +210,28 @@ starter
 				}
 			}
 		});
-	})
-	;
+
+		$scope.takePicture = function(){
+
+			console.log("Je suis ds takePicture() ");
+			var options = {
+				quality: 50,
+				destinationType: Camera.DestinationType.DATA_URL,
+				sourceType: Camera.PictureSourceType.CAMERA,
+				allowEdit: true,
+				encodingType: Camera.EncodingType.JPEG,
+				targetWidth: 100,
+				targetHeight: 100,
+				popoverOptions: CameraPopoverOptions,
+				saveToPhotoAlbum: false,
+				correctOrientation:true
+			};
+
+			$cordovaCamera.getPicture(options).then(function(imageData){
+				$scope.imgURI = "data:image/jpeg;base64," + imageData;
+				console.log("imageData : "+imageData);
+			});
+
+			console.log("imgURI : "+$scope.imgURI);
+		}
+	});

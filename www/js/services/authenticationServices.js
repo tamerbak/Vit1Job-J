@@ -385,8 +385,8 @@ angular.module('wsConnectors', ['ionic'])
         data: soapMessage
       });
 	}
-	
-	this.persistInOffres=function(identifiant, titre, description, disponible_du, disponible_au, sessionID, employeurID){
+
+	this.persistInOffres=function(identifiant, titre, description, disponible_du, disponible_au, sessionID, employeurID, niveauID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
@@ -417,20 +417,27 @@ angular.module('wsConnectors', ['ionic'])
           					'<label>&lt;![CDATA[Disponible du]]&gt;</label>'+
          					' <attributeReference>disponible_du</attributeReference>'+
           					'<type>DATE</type>'+
-          					'<value>'+disponible_du+'</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
+          					'<value>&lt;![CDATA[2015-09-27 02:00:00.0]]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+	**/
         				'<fr.protogen.connector.model.DataEntry>'+		// disponible_au
           					'<label>&lt;![CDATA[Disponible au]]&gt;</label>'+
           					'<attributeReference>disponible_au</attributeReference>'+
           					'<type>DATE</type>'+
-          					'<value>'+disponible_au+'</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+**/// ID EMPLOYEUR
+          					'<value>&lt;![CDATA[2015-12-12 08:00:00.0]]&gt;</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+		// ID EMPLOYEUR
 						'<fr.protogen.connector.model.DataEntry>'+
 							'<label>&lt;![CDATA[Employeur]]&gt;</label>'+
 							'<attributeReference>fk_user_employeur</attributeReference>'+
 							'<type>fk_user_employeur</type>'+
 							'<list/>'+
 							'<value>'+employeurID+'</value>'+
+        				'</fr.protogen.connector.model.DataEntry>'+
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[Niveau de maitrise]]&gt;</label>'+
+          					'<attributeReference>fk_user_niveau_de_maitrise</attributeReference>'+
+          					'<type>fk_user_niveau_de_maitrise</type>'+
+          					'<list/>'+
+          					'<value>'+niveauID+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
@@ -467,7 +474,7 @@ angular.module('wsConnectors', ['ionic'])
         data: soapMessage
       });
     };
-	
+
 	this.persistInOffres_Competences=function(sessionID, competenceID, offreID){
 
       soapMessage=
@@ -526,7 +533,7 @@ angular.module('wsConnectors', ['ionic'])
         data: soapMessage
       });
     };
-  
+
 	this.persistInOffres_Transvers=function(sessionID, transversID, offreID){
 
       soapMessage=
@@ -585,7 +592,7 @@ angular.module('wsConnectors', ['ionic'])
         data: soapMessage
       });
     };
-  
+
 	this.persistInOffres_Langues=function(sessionID, langueID, offreID){
 
       soapMessage=
@@ -644,8 +651,8 @@ angular.module('wsConnectors', ['ionic'])
         data: soapMessage
       });
     };
-  
-  
+
+
 	this.persistInOffres_Niveaux=function(sessionID, niveauID, offreID){
 
       soapMessage=
@@ -689,7 +696,7 @@ angular.module('wsConnectors', ['ionic'])
         },
         data: soapMessage
       });
-    };  
+    };
   })
 
   .service('UpdateInServer', function ($http){
@@ -788,7 +795,7 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-	this.updateAdressePersEmployeur=function(id, codePostal, ville, adresse1, adresse2, sessionID){
+	this.updateAdressePersEmployeur=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
 		soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
 			'<entity>user_employeur</entity>'+
@@ -816,15 +823,21 @@ angular.module('wsConnectors', ['ionic'])
           					'<list/>'+
           					'<value>'+codePostal+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
-          					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
-          					'<attributeReference>adresse_1</attributeReference>'+
+                '<fr.protogen.connector.model.DataEntry>'+
+                  '<label>&lt;![CDATA[Num]]&gt;</label>'+
+                  '<attributeReference>num</attributeReference>'+
+                  '<type>TEXT</type>'+
+                  '<value>&lt;![CDATA['+num+']]&gt;</value>'+
+                '</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Rue
+          					'<label>&lt;![CDATA[Rue]]&gt;</label>'+
+          					'<attributeReference>rue</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adresse1+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 2
-          					'<label>&lt;![CDATA[Adresse 2]]&gt;</label>'+
-          					'<attributeReference>adresse_2</attributeReference>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Complément
+          					'<label>&lt;![CDATA[Complément]]&gt;</label>'+
+          					'<attributeReference>complement</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adresse2+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
@@ -939,7 +952,7 @@ angular.module('wsConnectors', ['ionic'])
     };
 
   })
-  
+
   .service('LoadList', function ($http){
 	  this.loadList = function(table, sessionID){
 		  soapMessage=
@@ -978,7 +991,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-	  
+
 	  this.loadListMetiers = function(sessionID){
 		  soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -1016,7 +1029,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-	  
+
 	 this.loadListLangues = function(sessionID){
 		  soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -1054,7 +1067,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-		  
+
 	  this.loadListJobs = function(sessionID){
 		soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -1092,7 +1105,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-	  
+
 	 this.loadListIndespensables = function(sessionID){
 		soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -1130,7 +1143,7 @@ angular.module('wsConnectors', ['ionic'])
 			data: soapMessage
 		});
 	  };
-	  
+
 	  this.loadListVilles = function(sessionID){
 		soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -1167,7 +1180,7 @@ angular.module('wsConnectors', ['ionic'])
 			},
 			data: soapMessage
 		});
-	  }; 
+	  };
 
 	  this.loadZipCodes = function(sessionID){
 		soapMessage=
@@ -1205,8 +1218,8 @@ angular.module('wsConnectors', ['ionic'])
 			},
 			data: soapMessage
 		});
-	  }; 
-	  
+	  };
+
 	  this.loadListCivilites = function(sessionID){
 		soapMessage=
 			'<fr.protogen.connector.model.DataModel>'+
@@ -1243,7 +1256,7 @@ angular.module('wsConnectors', ['ionic'])
 			},
 			data: soapMessage
 		});
-	  }; 
+	  };
 	})
 
   .service('GlobalService', function(){

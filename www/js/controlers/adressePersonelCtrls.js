@@ -29,6 +29,7 @@ starter
 			if(typeof $scope.formData.ville !== 'undefined')
 				if(typeof $scope.formData.ville.originalObject !== 'undefined')
 					ville=Number($scope.formData.ville.originalObject.pk_user_ville);
+      var num = $scope.formData.num;
 			var adresse1=$scope.formData.adresse1;
 			var adresse2=$scope.formData.adresse2;
 
@@ -36,7 +37,7 @@ starter
 			console.log("ville : "+ville);
 
 			// RECUPERATION CONNEXION
-			var connexion=$cookieStore.get('connexion');
+			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
 			var employeId=connexion.employeID;
 			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
@@ -45,13 +46,15 @@ starter
 
 			// TEST DE VALIDATION
 			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){
-			if(!isNaN(codePostal) || !isNaN(ville) || adresse1 || adresse2){
+			if(!isNaN(codePostal) || !isNaN(ville) || adresse1 || adresse2 || num){
 				if(!adresse1)
 					adresse1='';
 				if(!adresse2)
 					adresse2='';
+        if(!num)
+          num='';
 
-				UpdateInServer.updateAdressePersEmployeur(employeId, codePostal, ville, adresse1, adresse2, sessionId)
+				UpdateInServer.updateAdressePersEmployeur(employeId, codePostal, ville, num, adresse1, adresse2, sessionId)
 					.success(function (response){
 
 						// DONNEES ONT ETE SAUVEGARDES
@@ -62,7 +65,7 @@ starter
 						if(!employeur)
 							var employeur={};
 						var adressePersonel={};
-						adressePersonel={'codePostal': codePostal, 'ville': ville, 'adresse1': adresse1, 'adresse2': adresse2};
+						adressePersonel={'codePostal': codePostal, 'ville': ville, 'num':num, 'adresse1': adresse1, 'adresse2': adresse2};
 						employeur.adressePersonel=adressePersonel;
 
 						// PUT IN SESSION
@@ -80,6 +83,7 @@ starter
 						// AFFICHE POPUP
 						$rootScope.$broadcast('show-pop-up', {params:
 							{
+                'num': num,
 								'adresse1': adresse1,
 								'adresse2': adresse2,
 								'vi': vi,
@@ -113,14 +117,14 @@ starter
 			var list =params.list;
 			var fk=params.fk;
 			// NEW LIST - VILLES
-			var vls=[];
+			vls=[];
 
 			if(list === "postal"){
 				// VIDER LIST - VILLES
 				$scope.formData.villes=[];
 
-				var allVilles=DataProvider.getVilles();
-				var villes=[];
+				allVilles=DataProvider.getVilles();
+				villes=[];
 				for(var i=0; i<allVilles.length; i++){
 					if(allVilles[i]['fk_user_code_postal'] === fk){
 						villes.push(allVilles[i]);
@@ -150,7 +154,7 @@ starter
 				$scope.initForm();
 
 				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
-			var	employeur =$cookieStore.get('employeur');
+				employeur=$cookieStore.get('employeur');
 				if(employeur){
 					// INITIALISATION FORMULAIRE
 					if(employeur['adressePersonel']){
@@ -162,6 +166,7 @@ starter
 						if(employeur['adressePersonel']){
 							$scope.formData['adresse1']=employeur['adressePersonel']['adresse1'];
 							$scope.formData['adresse2']=employeur['adressePersonel']['adresse2'];
+              $scope.formData['num']=employeur['adressePersonel']['num'];
 						}
 					}
 				}
@@ -181,5 +186,72 @@ starter
 				} **/
 			}
 		});
-	})
-;
+
+		$scope.updateAutoCompleteZip= function(){
+			console.log("zip : "+$scope.formData.zipCodeSelected.pk);
+			var zipCodes=$scope.formData.zipCodes;
+			// RECHERCHE LIBELLE
+			for(var i=0; i<zipCodes.length; i++){
+				if(zipCodes[i]['pk_user_code_postal'] === $scope.formData.zipCodeSelected.pk){
+					$scope.formData.zipCodeSelected.libelle=zipCodes[i]['libelle'];
+					break;
+				}
+			}
+
+			if(typeof $scope.formData.codePostal === 'undefined')
+				$scope.formData.codePostal={};
+			$scope.formData.codePostal.originalObject={'pk_user_code_postal': $scope.formData.zipCodeSelected.pk, 'libelle': $scope.formData.zipCodeSelected.libelle};
+			console.log("formData.codePostal : "+JSON.stringify($scope.formData.codePostal));
+			document.getElementById('ex0_value').value=$scope.formData.zipCodeSelected['libelle'];
+		};
+
+		$scope.updateAutoCompleteVille= function(){
+			console.log("ville : "+$scope.formData.villeSelected.pk);
+			var villes=$scope.formData.villes;
+			// RECHERCHE LIBELLE
+			for(var i=0; i<villes.length; i++){
+				if(villes[i]['pk_user_ville'] === $scope.formData.villeSelected.pk){
+					$scope.formData.villeSelected.libelle=villes[i]['libelle'];
+					break;
+				}
+			}
+
+			if(typeof $scope.formData.ville === 'undefined')
+				$scope.formData.ville={};
+			$scope.formData.ville.originalObject={'pk_user_ville': $scope.formData.villeSelected.pk, 'libelle': $scope.formData.villeSelected.libelle};
+			console.log("formData.ville : "+JSON.stringify($scope.formData.ville));
+			document.getElementById('ex1_value').value=$scope.formData.villeSelected['libelle'];
+		}
+
+
+    $scope.$on('show-pop-up-geo', function(event, args) {
+      ///
+
+      var params = args.params;
+      console.log("params : "+JSON.stringify(params));
+
+      var myPopup = $ionicPopup.show({
+
+        template: "Votre géolocalisation pour renseigner votre adresse du siège social? <br>",
+        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+        buttons: [
+          {
+            text: '<b>Non</b>',
+            type: 'button-dark'
+          },{
+            text: '<b>Oui</b>',
+            type: 'button-calm',
+            onTap: function(e){
+              $scope.formData.adresse1= params.adresse1;
+              $scope.formData.adresse2= params.adresse2;
+              $scope.formData.num= params.num;
+              if(params.code)
+                document.getElementById('ex2_value').value=params.code;
+              if(params.vi)
+                document.getElementById('ex3_value').value=params.vi;
+            }
+          }
+        ]
+      });
+    });
+	});

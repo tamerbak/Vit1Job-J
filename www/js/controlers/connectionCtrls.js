@@ -125,7 +125,7 @@ starter
 									/*** LOAD LIST VILLES ***/
 									var villes=$cookieStore.get('villes');
 									//if(!villes){
-										LoadList.loadList("user_niveau_de_maitrise", sessionId)
+										LoadList.loadList("user_offre", sessionId)
 											.success(function(response){
 														console.log("response "+response);
 														var resp = formatString.formatServerResult(response);

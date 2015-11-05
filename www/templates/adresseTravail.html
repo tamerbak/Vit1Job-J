@@ -11,33 +11,43 @@
     </div>
 
 	<!-- CODE POSTAL -->
-	<div angucomplete-alt id="ex2"
-		placeholder="Code postal"
-		maxlength="50"
-		pause="100"
-		selected-object="formData.codePostal"
-		local-data="formData.zipCodes"
-		search-fields="libelle"
-		title-field="libelle"
-		minlength="1"
-		input-class="form-control form-control-small"
-		match-class="highlight" class="autoCompl">
-	</div>
-	<br>
-	<!-- VILLE -->
-	<div angucomplete-alt id="ex3"
-		placeholder="Ville"
-		maxlength="50"
-		pause="100"
-		selected-object="formData.ville"
-		local-data="formData.villes"
-		search-fields="libelle"
-		title-field="libelle"
-		minlength="1"
-		input-class="form-control form-control-small"
-		match-class="highlight" class="autoCompl">
-	</div>
-	<br>
+    <div class ="xcontainer">
+      <div angucomplete-alt id="ex2"
+        placeholder="Code postal"
+        maxlength="50"
+        pause="100"
+        selected-object="formData.codePostal"
+        local-data="formData.zipCodes"
+        search-fields="libelle"
+        title-field="libelle"
+        minlength="1"
+        input-class="form-control form-control-small"
+        match-class="highlight" class="autoCompl">
+      </div>
+      <select class="arriere flat select" data-ng-model="formData.zipCodeSelected.pk" data-ng-change="updateAutoCompleteZip()">
+        <option data-ng-repeat="x in formData.zipCodes" value="{{x.pk_user_code_postal}}">{{x.libelle}}</option>
+      </select>
+      </div>
+
+	  <!-- VILLE -->
+    <div class ="xcontainer">
+      <div angucomplete-alt id="ex3"
+        placeholder="Ville"
+        maxlength="50"
+        pause="100"
+        selected-object="formData.ville"
+        local-data="formData.villes"
+        search-fields="libelle"
+        title-field="libelle"
+        minlength="1"
+        input-class="form-control form-control-small"
+        match-class="highlight" class="autoCompl">
+      </div>
+      <select class="arriere flat select" data-ng-model="formData.villeSelected.pk" data-ng-change="updateAutoCompleteVille()">
+        <option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
+      </select>
+    </div>
+
 	<!--<div>
 		<autocomplete ng-model="formData.codePostal" data="formData.listCodes" on-type="updateZipCodes"></autocomplete>
 			<angucomplete id="ex1"
@@ -51,21 +61,35 @@
               inputclass="form-control form-control-small"/>
 		</div>-->
 
-	<!-- ADRESSE 1 -->
-	<div class="list" align="left">
-      <label class="item item-input">
-        <!--<span class="input-label inline">Adresse 1</span>-->
-        <input type="text" id="addressT1" placeholder="Adresse 1" data-ng-model="formData.adresse1">
-      </label>
-	</div>
+    <!-- Numéro + rue  -->
+    <div class="list xtel" align="left">
+      <div class="row" >
+        <div class="col-20 num">
+          <label class="item item-input it1">
+            <input type="text" id="addressP0" placeholder="N°" data-ng-model="formData.num">
+          </label>
+        </div>
+        <div class="col-80 rue">
+          <label class="item item-input it2">
+            <input type="text" id="addressP1" placeholder="Rue" data-ng-model="formData.adresse1">
+          </label>
+        </div>
+      </div>
+    </div>
 
-	<!-- ADRESSE 2 -->
-	<div class="list" align="left">
+    <!-- Rue
+    <div class="list" align="left">
+        <label class="item item-input">
+          <input type="text" id="addressP1" placeholder="Rue" data-ng-model="formData.adresse1">
+        </label>
+    </div>-->
+
+    <!-- Complément -->
+    <div class="list" align="left">
       <label class="item item-input">
-       <!--<span class="input-label inline">Adresse 2</span>-->
-        <input type="text" id="addressT2" placeholder="Adresse 2" data-ng-model="formData.adresse2">
+        <input type="text" id="addressP2" placeholder="Complément" data-ng-model="formData.adresse2">
       </label>
-	</div>
+    </div>
 
 	<br>
 	<!-- ACTIONS -->

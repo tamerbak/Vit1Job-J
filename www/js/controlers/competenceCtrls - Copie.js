@@ -2,8 +2,8 @@
  * Created by Tamer on 15/10/2015.
  */
 
-'use strict';
-starter
+angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalServices',
+		'providerServices', 'parsingServices', 'fileServices', "angucomplete-alt"])
 
 	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state, x2js, AuthentificatInServer,
 						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile){
@@ -41,7 +41,7 @@ starter
 
 			// VIDER LIST - JOBS
 			$scope.formData.jobs=[];
-			var jobs=DataProvider.getJobs();
+			jobs=DataProvider.getJobs();
 			for(var i=0; i<jobs.length; i++){
 				if(jobs[i]['fk_user_metier'] === $scope.formData.metierSelected.pk)
 					$scope.formData.jobs.push(jobs[i]);
@@ -50,7 +50,7 @@ starter
 			// RE-INITIALISE INPUT JOB
 			document.getElementById('jobs_value').value='Jobs';
 			$scope.formData.job={};
-		};
+		}
 
 		$scope.updateAutoJob= function(){
 			console.log("job : "+$scope.formData.jobSelected.pk);
@@ -68,7 +68,7 @@ starter
 			$scope.formData.job.originalObject={'pk_user_competence': $scope.formData.jobSelected.pk, 'libelle': $scope.formData.jobSelected.libelle};
 			console.log("formData.job : "+JSON.stringify($scope.formData.job));
 			document.getElementById('jobs_value').value=$scope.formData.jobSelected['libelle'];
-		};
+		}
 
 		$scope.initAll = function(){
 
@@ -81,7 +81,7 @@ starter
 				'metiers': DataProvider.getMetiers(),
 				'langues': DataProvider.getLangues(),
 				'jobs': DataProvider.getJobs(),
-				'transvers': DataProvider.getTransvers()
+				'transvers': DataProvider.getTransvers(),
 				};
 
 			// FEUILLE N°0
@@ -127,7 +127,7 @@ starter
 
 		$scope.addJobyer = function(){
 			// VALIDATION DES CHAMPS
-			var metier=null, job=null;
+			metier=null, job=null;
 			if(typeof $scope.formData.metier !== 'undefined')
 				if(typeof $scope.formData.metier.originalObject !== 'undefined'){
 					metier=$scope.formData.metier.originalObject;
@@ -139,11 +139,11 @@ starter
 
 			/**metier=$scope.formData.metier;
 			job=$scope.formData.job;**/
-			var degre=$scope.formData.degre;
-			var indisp=$scope.formData.indisp;
-			var langue=$scope.formData.langue;
-			var maitrise=$scope.formData.maitrise;
-			var maitriseIcon=$scope.formData.maitriseIcon;
+			degre=$scope.formData.degre;
+			indisp=$scope.formData.indisp;
+			langue=$scope.formData.langue;
+			maitrise=$scope.formData.maitrise;
+			maitriseIcon=$scope.formData.maitriseIcon;
 
 			//if(metier === null || job === null || !$scope.isValid(indisp) || !$scope.isValid(langue)){
 			if(metier === null || job === null || isNaN(indisp) || isNaN(langue)){
@@ -153,7 +153,7 @@ starter
 
 
 			// RECUPERER JOBYER Current
-			var jobyerCurrent=$rootScope.jobyerCurrent;
+			jobyerCurrent=$rootScope.jobyerCurrent;
 			console.log("Indice jobyerCurrent : "+jobyerCurrent.indice);
 			// VERIFICATION
 			if(jobyerCurrent.indice && jobyerCurrent.indice>0){
@@ -196,13 +196,13 @@ starter
 			}
 
 			$scope.refrechNavigation();
-		};
+		}
 
 		$scope.removeJobyer = function(){
 			if($rootScope.jobyers.length<=1)
 				return;
 
-			var idex=Number($scope.formData.currentFeuille);
+			idex=Number($scope.formData.currentFeuille);
 			// DELETE OBJECT FROM LIST
 			$rootScope.jobyers.splice(idex-1, 1);
 			// UPDATE ALL INDICES
@@ -224,7 +224,7 @@ starter
 
 			// UPDATE NBRE ITEMS
 			$scope.formData['allFeuilles']=$rootScope.jobyers.length;
-		};
+		}
 
 		// LOAD NEXT FEUILLE
 		$scope.loadNextJobyer = function(){
@@ -260,7 +260,7 @@ starter
 
 			//console.log("formData : "+JSON.stringify($scope.formData));
 			$scope.$apply(function(){});
-		};
+		}
 
 		// LOAD FEUILLE N°i
 		$scope.loadJobyer = function(idex){
@@ -286,7 +286,7 @@ starter
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
 			$scope.formData["maitrise"]= $rootScope.jobyerCurrent["maitrise"];
 			$scope.formData["maitriseIcon"]= $rootScope.jobyerCurrent["maitriseIcon"];
-		};
+		}
 
 		// LOAD PREV FEUILLE
 		$scope.loadPrevJobyer = function(){
@@ -324,12 +324,12 @@ starter
 
 			//console.log("formData : "+JSON.stringify($scope.formData));
 			$scope.$apply(function(){});
-		};
+		}
 
 		// REFRESH BUTTONS
 		$scope.refrechNavigation=function(){
 
-			var idex=Number($scope.formData.currentFeuille);
+			idex=Number($scope.formData.currentFeuille);
 			if(idex<1 || idex>$rootScope.jobyers.length)
 				return;
 
@@ -349,13 +349,13 @@ starter
 
 			console.log("$scope.formData.showButtLeft : "+$scope.formData.showButtLeft);
 			console.log("$scope.formData.showButtRight : "+$scope.formData.showButtRight);
-		};
+		}
 
 		// PERSIST LIST JOBYERS
 		$scope.saveJobyers=function(){
 
 			// RECUPERATION DU LAST JOBYER[FEUILLE COURANTE]
-			var idex=Number($scope.formData.currentFeuille)-1;
+			idex=Number($scope.formData.currentFeuille)-1;
 
 			if($rootScope.jobyers.length <= 1)
 				if(typeof $scope.formData.metier === 'undefined' || typeof $scope.formData.job === 'undefined' ||
@@ -367,7 +367,7 @@ starter
 				}
 
 			// MODIFICATION JOBYER COURANT
-			var met=null, comp=null;
+			met=null, comp=null;
 			if(typeof $scope.formData.metier !== 'undefined')
 				if(typeof $scope.formData.metier.originalObject !== 'undefined'){
 					met=$scope.formData.metier.originalObject;
@@ -390,16 +390,16 @@ starter
 			$rootScope.jobyers[idex].maitriseIcon=$scope.formData.maitriseIcon;
 
 			// RECUPERATION CONNEXION
-			var connexion=$cookieStore.get('connexion');
+			connexion=$cookieStore.get('connexion');
 			// RECUPERATION EMPLOYEUR ID
-			var employeId=connexion.employeID;
+			employeId=connexion.employeID;
 			console.log("connexion : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
 
 			console.log("Offres A Persister : "+JSON.stringify($rootScope.jobyers));
 
-			var hasSessionID=0;
+			hasSessionID=0;
 			if(sessionId)
 				hasSessionID=1;
 			else{	// RECUPERATION SESSION-ID
@@ -422,173 +422,97 @@ starter
 					});
 			}
 
-			var promiseArray = [];
 			if(hasSessionID){
 				console.log("Je suis dans : hasSessionID");
-
+				
 				// PARCOURIR ALL JOBYERS
 				for(var i=0; i<$rootScope.jobyers.length; i++){
-
-						offre=$rootScope.jobyers[0];
-						if(typeof offre.metier === 'undefined' || typeof offre.job === 'undefined' || isNaN(offre.indisp) || isNaN(offre.langue)){
-							console.log("Il manque des informations")
-							return;
+					offre=$rootScope.jobyers[i];
+					if(typeof offre.metier === 'undefined' || typeof offre.job === 'undefined' || isNaN(offre.indisp) || isNaN(offre.langue)){
+						console.log("Il manque des informations")
+						return;
+					}
+					
+					// GET NIVEAU
+					list=DataProvider.getNiveauxMaitrise();
+					niveau=0;
+					for(var i=0; i<list.length; i++){
+						if(list[i]['libelle'] === offre.maitrise){
+							niveau=Number(list[i]['pk_user_niveau_de_maitrise']); break;
 						}
+					}
+					if(niveau){
+						console.log("niveau : "+niveau);
+					}
+					// PERSISTENCE OFFRE N°i
+					PersistInServer.persistInOffres(employeId, "Titre_3", "Description_3", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId, niveau)
+						.success(function (response){
+							console.log("response : "+response);
 
-						// GET NIVEAU
-						var list=DataProvider.getNiveauxMaitrise();
-						var niveau=0;
-						for(var i=0; i<list.length; i++){
-							if(list[i]['libelle'] === offre.maitrise){
-								niveau=Number(list[i]['pk_user_niveau_de_maitrise']); break;
+							// RECUPERATION EMPLOYEUR ID*
+							offreId=0;
+							ofre=formatString.formatServerResult(response);
+							if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
+								offreId=Number(ofre.dataModel.status);
+								// $cookieStore.put('offreID', Number(ofre.dataModel.status));
 							}
-						}
-						if(niveau){
-							console.log("niveau : "+niveau);
-						}
 
-						// PERSISTENCE OFFRE N°i
-						PersistInServer.persistInOffres(employeId, "Titre_4", "Description_4", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId, niveau)
-							.then(
-								function (response){
-									console.log("response : "+JSON.stringify(response));
-
-									// RECUPERATION EMPLOYEUR ID*
-									var offreId=0;
-									var ofre=formatString.formatServerResult(response.data);
-									console.log("ofre : "+JSON.stringify(ofre));
-									if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-										offreId=Number(ofre.dataModel.status);
-										// $cookieStore.put('offreID', Number(ofre.dataModel.status));
-									}
-									// DONNEES ONT ETE SAUVEGARDES
-									console.log("offreID a été bien récuperé : "+offreId);
-									if(offreId){
-										if(offre.job){
-											console.log("job : "+offre.job.pk_user_competence);
-											// PERSISTENCE IN COMPETANCE
-											PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
-												.then(
-													function (response){
-														console.log("success : persistInOffres_Competences"+response);
-													},function (err){
-															console.log("error : insertion DATA");
-															console.log("error In persistInOffres_Competences: "+err);
-													}
-												)
-												.then(
-													function (e){
-														if(!isNaN(offre.indisp)){
-															console.log("indisp : "+offre.indisp);
-															// PERSISTENCE IN TRANSVERS
-															PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
-																.then(
-																	function (response){
-																		console.log("success : persistInOffres_Transvers"+response);
-																	},function (err){
-																			console.log("error : insertion DATA");
-																			console.log("error In persistInOffres_Transvers: "+err);
-																	}
-																);
-														}
-													}
-												)
-												.then(
-													function (e){
-														if(!isNaN(offre.langue)){
-															console.log("offreId : "+offreId);
-															console.log("langue : "+offre.langue);
-															// PERSISTENCE IN LANGUES
-															PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
-																.then(
-																	function (response){
-																		console.log("success : persistInOffres_Langues"+response);
-																	},function (err){
-																			console.log("error : insertion DATA");
-																		console.log("error In persistInOffres_Langues: "+err);
-																	}
-																);
-														}
-													}
-												);
-										}
-
-
-									}
-								},function (err){
-									console.log("error : insertion DATA");
-									console.log("error In PullDataFromServer.pullDATA: "+err);
+							// DONNEES ONT ETE SAUVEGARDES
+							console.log("offreID a été bien récuperé : "+offreId);
+							
+							if(offreId){
+								if(offre.job){
+									console.log("offreId : "+offreId);
+									console.log("job : "+offre.job.pk_user_competence);
+									// PERSISTENCE IN COMPETANCE
+									PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
+											.success(function (response){
+												console.log("success : persistInOffres_Competences"+response);
+											}).error(function (err){
+													console.log("error : insertion DATA");
+													console.log("error In persistInOffres_Competences: "+err);
+											});
 								}
-							);
-							/**
-							.success(function (response){
-								console.log("response : "+response);
-
-								// RECUPERATION EMPLOYEUR ID*
-								offreId=0;
-								ofre=formatString.formatServerResult(response);
-								if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-									offreId=Number(ofre.dataModel.status);
-									// $cookieStore.put('offreID', Number(ofre.dataModel.status));
+									
+								if(!isNaN(offre.indisp)){
+									console.log("offreId : "+offreId);
+									console.log("indisp : "+offre.indisp);
+									// PERSISTENCE IN TRANSVERS
+									PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
+											.success(function (response){
+												console.log("success : persistInOffres_Transvers"+response);
+											}).error(function (err){
+													console.log("error : insertion DATA");
+													console.log("error In persistInOffres_Transvers: "+err);
+											});
 								}
-
-								// DONNEES ONT ETE SAUVEGARDES
-								console.log("offreID a été bien récuperé : "+offreId);
-
-								if(offreId){
-									if(offre.job){
+									
+								if(!isNaN(offre.langue)){
 										console.log("offreId : "+offreId);
-										console.log("job : "+offre.job.pk_user_competence);
-										// PERSISTENCE IN COMPETANCE
-										PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
-												.success(function (response){
-													console.log("success : persistInOffres_Competences"+response);
-												}).error(function (err){
-														console.log("error : insertion DATA");
-														console.log("error In persistInOffres_Competences: "+err);
-												});
-									}
+										console.log("langue : "+offre.langue);
+										// PERSISTENCE IN LANGUES
+										PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
+											.success(function (response){
+												console.log("success : persistInOffres_Langues"+response);
+											}).error(function (err){
+													console.log("error : insertion DATA");
+													console.log("error In persistInOffres_Langues: "+err);
+											});
+									}				
+							}
 
-									if(!isNaN(offre.indisp)){
-										console.log("offreId : "+offreId);
-										console.log("indisp : "+offre.indisp);
-										// PERSISTENCE IN TRANSVERS
-										PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
-												.success(function (response){
-													console.log("success : persistInOffres_Transvers"+response);
-												}).error(function (err){
-														console.log("error : insertion DATA");
-														console.log("error In persistInOffres_Transvers: "+err);
-												});
-									}
-
-									if(!isNaN(offre.langue)){
-											console.log("offreId : "+offreId);
-											console.log("langue : "+offre.langue);
-											// PERSISTENCE IN LANGUES
-											PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
-												.success(function (response){
-													console.log("success : persistInOffres_Langues"+response);
-												}).error(function (err){
-														console.log("error : insertion DATA");
-														console.log("error In persistInOffres_Langues: "+err);
-												});
-										}
-								}
-
-							}).error(function (err){
-								console.log("error : insertion DATA");
-								console.log("error In PullDataFromServer.pullDATA: "+err);
-							});**/
-
+						}).error(function (err){
+							console.log("error : insertion DATA");
+							console.log("error In PullDataFromServer.pullDATA: "+err);
+						});
 				}
-
+				
 				// SHOW MODAL
 				//Global.showAlertPassword("Merci! Vos Offres sont été bien publiés.");
 				// REDIRECTION VERS SEARCH
 				$state.go("search");
 			}
-		};
+		}
 
 		$scope.$on('update-list-job', function(event, args){
 
@@ -597,7 +521,7 @@ starter
 
 			// VIDER LIST - JOBS
 			$scope.formData.jobs=[];
-			var jobs=DataProvider.getJobs();
+			jobs=DataProvider.getJobs();
 			for(var i=0; i<jobs.length; i++){
 				if(jobs[i]['fk_user_metier'] === params.fk)
 					$scope.formData.jobs.push(jobs[i]);
