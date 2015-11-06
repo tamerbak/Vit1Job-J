@@ -118,7 +118,17 @@ services
               if (status == google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
 
-                  userAddress = results[0].formatted_address;
+                  userAddress = {
+                    'postalCode': results[0].address_components[6].long_name,
+                    'city': results[0].address_components[2].long_name,
+                    'num': results[0].address_components[0].long_name,
+                    'street': results[0].address_components[1].long_name,
+                    'complement': results[0].address_components[3].long_name+', '+
+                                  results[0].address_components[4].long_name+', '+
+                                  results[0].address_components[5].long_name,
+                    'fullAddress': results[0].formatted_address
+                  };
+
                   localStorageService.set('user_address', userAddress);
                   deferred.resolve(userAddress);
                 } else {

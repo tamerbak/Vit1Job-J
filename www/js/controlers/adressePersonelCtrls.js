@@ -5,7 +5,7 @@
 starter
 
 	.controller('adressePersonelCtrl', function ($scope, $rootScope, $cookieStore, $state, UpdateInServer,
-			DataProvider, Validator, Global ){
+			DataProvider, Validator, UserService, GeoService, $ionicPopup,localStorageService ){
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -150,7 +150,7 @@ starter
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
-			if(states.fromCache && states.stateName == "adressePersonel" ){
+			if(states.stateName == "adressePersonel" ){ //states.fromCache &&
 				$scope.initForm();
 
 				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
@@ -158,7 +158,39 @@ starter
 				if(employeur){
 					// INITIALISATION FORMULAIRE
 					if(employeur['adressePersonel']){
-						// INITIALISATION FORMULAIRE
+            // INITIALISATION FORMULAIRE
+
+          GeoService.getUserAddress()
+              .then(function() {
+                var myPopup = $ionicPopup.show({
+
+                  template: "Votre géolocalisation pour renseigner votre adresse du siège social? <br>",
+                  title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+                  buttons: [
+                    {
+                      text: '<b>Non</b>',
+                      type: 'button-dark'
+                    },{
+                      text: '<b>Oui</b>',
+                      type: 'button-calm',
+                      onTap: function(e){
+                        var geoAddress = localStorageService.get('user_address');
+                        $scope.formData.adresse1= geoAddress.street;
+                        $scope.formData.adresse2= geoAddress.complement;
+                        $scope.formData.num= geoAddress.num;
+                        //if(params.code)
+                          document.getElementById('cp_value').value='54245';
+                        //if(params.vi)
+                          //document.getElementById('ex3_value').value=3;
+                      }
+                    }
+                  ]
+                });
+              }, function(error) {
+
+              }
+              );
+
 						/**if(employeur['adressePersonel'].codePostal)
 							document.getElementById('ex0_value').value=employeur['adressePersonel']['codePostal'];
 						if(employeur.adresseTravail.ville)

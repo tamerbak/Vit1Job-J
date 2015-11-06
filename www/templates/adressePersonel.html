@@ -24,8 +24,8 @@
         input-class="form-control form-control-small"
         match-class="highlight" class="autoCompl">
       </div>
-        <select class="arriere flat select" data-ng-model="formData.zipCodeSelected.pk" data-ng-change="updateAutoCompleteZip()">
-          <option data-ng-repeat="x in formData.zipCodes" value="{{x.pk_user_code_postal}}">{{x.libelle}}</option>
+        <select id="ex1" class="arriere flat select" data-ng-model="formData.zipCodeSelected.pk" data-ng-change="updateAutoCompleteZip()">
+          <option  id="cp_value" data-ng-repeat="x in formData.zipCodes" value="{{x.pk_user_code_postal}}">{{x.libelle}}</option>
         </select>
       </div>
 
@@ -43,8 +43,8 @@
         input-class="form-control form-control-small"
         match-class="highlight" class="autoCompl">
       </div>
-      <select class="arriere flat select" data-ng-model="formData.villeSelected.pk" data-ng-change="updateAutoCompleteVille()">
-        <option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
+      <select id="ex2" class="arriere flat select" data-ng-model="formData.villeSelected.pk" data-ng-change="updateAutoCompleteVille()">
+        <option id="city_value" data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
       </select>
     </div>
 

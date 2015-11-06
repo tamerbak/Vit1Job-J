@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+.row.sear {
+  margin-top: -5%;
+}
+
 .vimgBar {
   width: 100%;
   text-align: center;
@@ -282,7 +286,7 @@ ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
 	display: inline;
 }
 
-input#ex0_value, input#ex1_value,input#ex2_value, input#ex3_value,input#jobs_value, input#metiers_value{
+input#ex0_value, input#ex1_value,input#cp_value, input#city_value,input#jobs_value, input#metiers_value{
 	width: 100%;
 
 	z-index: 5 !important;
@@ -322,4 +326,8 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   border-top-left-radius: 0;
   border-color: $calm;
   border-left: none;
+}
+
+.card .item.item-input input#addressP0, .list-inset .item.item-input input#addressP0, .padding > .list .item.item-input input#addressP0, .padding-horizontal > .list .item.item-input input#addressP0 {
+  padding-right: 0 !important;
 }
