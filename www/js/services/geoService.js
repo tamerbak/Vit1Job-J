@@ -119,10 +119,11 @@ services
                 if (results[0]) {
 
                   var address_components = results[0].address_components;
+
                   var postalCode = address_components[6] ? address_components[6].long_name : '';
                   var city = address_components[2].long_name;
-                  var num = address_components[0].long_name;
-                  var street = address_components[1].long_name;
+                  var num = address_components[0] ? address_components[0].long_name : '';
+                  var street = address_components[1]? address_components[1].long_name : '';
                   var complement = address_components[3].long_name+', '+
                     address_components[4].long_name+', '+
                     (address_components[5] ? address_components[5].long_name : '');
