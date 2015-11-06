@@ -118,15 +118,23 @@ services
               if (status == google.maps.GeocoderStatus.OK) {
                 if (results[0]) {
 
+                  var address_components = results[0].address_components;
+                  var postalCode = address_components[6] ? address_components[6].long_name : '';
+                  var city = address_components[2].long_name;
+                  var num = address_components[0].long_name;
+                  var street = address_components[1].long_name;
+                  var complement = address_components[3].long_name+', '+
+                    address_components[4].long_name+', '+
+                    (address_components[5] ? address_components[5].long_name : '');
+                  var fullAddress = results[0].formatted_address;
+
                   userAddress = {
-                    'postalCode': results[0].address_components[6].long_name,
-                    'city': results[0].address_components[2].long_name,
-                    'num': results[0].address_components[0].long_name,
-                    'street': results[0].address_components[1].long_name,
-                    'complement': results[0].address_components[3].long_name+', '+
-                                  results[0].address_components[4].long_name+', '+
-                                  results[0].address_components[5].long_name,
-                    'fullAddress': results[0].formatted_address
+                    'postalCode': postalCode,
+                    'city': city,
+                    'num': num,
+                    'street': street,
+                    'complement': complement,
+                    'fullAddress': fullAddress
                   };
 
                   localStorageService.set('user_address', userAddress);
