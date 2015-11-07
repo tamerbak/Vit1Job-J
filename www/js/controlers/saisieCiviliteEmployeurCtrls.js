@@ -149,6 +149,10 @@ starter
 			$state.go('adressePersonel');
 		};
 
+    $scope.selectImage = function() {
+      document.getElementById('image').click();
+    };
+
 		$scope.loadImage=function(img){
 
 			console.log("files.length : "+img.files.length);
@@ -172,6 +176,10 @@ starter
 				};
 				FR.readAsDataURL(image.files[0]);
 				//$scope.$apply(function(){});
+
+        FR.onload = function (oFREvent) {
+          document.getElementById("uploadPreview").src = oFREvent.target.result;
+        };
 			}
 		};
 

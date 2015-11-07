@@ -75,18 +75,31 @@
                   inputclass="form-control form-control-small inputAutoCompl" class="autoCompl">
       </div>-->
 
-      <div align="left">
-          <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3>
+      <div align="list">
+          <!-- <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3> -->
+          <button class="button button-full button-positive green" data-ng-click="selectImage()">
+              Charger un scan de votre extrait k-bis
+          </button>
+          <input id="image"
+                 type="file"
+                 class="upload"
+                 style="display: none"
+                 capture="camera"
+                 accept="image/*"
+                 data-ng-model="formData.image"
+                 onchange="angular.element(this).scope().loadImage(this)">
+
+          <img id="uploadPreview" style="max-width: 100px; max-height: 100px;" />
       </div>
 
-      <!-- Image uploader -->
+      <!--&lt;!&ndash; Image uploader &ndash;&gt;
       <div class="list">
           <label class="item item-input">
-            <!--<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">
-            <input id="image" type="file" class="upload" accept="image/*" data-ng-model="formData.image" onchange="angular.element(this).scope().takePicture()">-->
+            &lt;!&ndash;<input id="image" type="file" class="upload" data-ng-model="formData.image" multiple onchange="angular.element(this).scope().loadImage()">
+            <input id="image" type="file" class="upload" accept="image/*" data-ng-model="formData.image" onchange="angular.element(this).scope().takePicture()">&ndash;&gt;
             <input id="image" type="file" class="upload" capture="camera" accept="image/*" data-ng-model="formData.image" onchange="angular.element(this).scope().loadImage(this)">
           </label>
-      </div>
+      </div>-->
 
       <!-- ACTIONS -->
       <div class="buttonConnect">
