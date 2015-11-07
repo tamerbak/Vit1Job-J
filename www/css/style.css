@@ -274,7 +274,7 @@ ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
 	top: -38px;
 	left: 0px;
 	color: transparent;
-	z-index: 3 !important;
+	/*z-index: 3 !important;*/
 
 
 
@@ -289,7 +289,7 @@ ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
 input#ex0_value, input#ex1_value,input#cp_value, input#city_value,input#jobs_value, input#metiers_value{
 	width: 100%;
 
-	z-index: 5 !important;
+	/*z-index: 5 !important;*/
 	position: relative;
 }
 

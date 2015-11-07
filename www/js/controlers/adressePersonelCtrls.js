@@ -175,11 +175,13 @@ starter
                       type: 'button-calm',
                       onTap: function(e){
                         var geoAddress = localStorageService.get('user_address');
-                        $scope.formData.adresse1= geoAddress.street;
-                        $scope.formData.adresse2= geoAddress.complement;
-                        $scope.formData.num= geoAddress.num;
+                        $scope.formData.adresse1 = geoAddress.street;
+                        $scope.formData.adresse2 = geoAddress.complement;
+                        $scope.formData.num = geoAddress.num;
+						  $scope.formData.initialCity = geoAddress.city;
+						  $scope.formData.initialPC = geoAddress.postalCode;
                         //if(params.code)
-                          document.getElementById('cp_value').value='54245';
+                          //document.getElementById('cp_value').value = '54245';
                         //if(params.vi)
                           //document.getElementById('ex3_value').value=3;
                       }
