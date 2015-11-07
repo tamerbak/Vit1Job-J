@@ -174,24 +174,27 @@ a.button.button-calm.linked{
 }
 
 i.icon.ion-social-linkedin {
-  vertical-align: -3%;
+  vertical-align: bottom;
 }
 
 i.icon.ion-social-google {
-  vertical-align: -3%;
+  vertical-align: bottom;
 }
 
 i.icon.ion-social-facebook {
-  vertical-align: -2%;
+  vertical-align: bottom;
 }
+
 a.button.button-calm.fb{
   border-top-left-radius: 27px;
   border-bottom-left-radius: 27px;
   border-color: #14BAA6;
 }
-a.button.button-calm{
-
-  border-color: #14BAA6;
+a.button.button-calm {
+  border-top: 1px solid #14BAA6;
+  border-bottom: 1px solid #14BAA6;
+  border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #FFFFFF;
 }
 
 .h3Connect1{
