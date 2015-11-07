@@ -170,7 +170,7 @@ label.item.item-input  input.searchPage2[type="search"]{
 a.button.button-calm.linked{
   border-top-right-radius: 27px;
   border-bottom-right-radius: 27px;
-  border-color: #0d7557;
+  border-color: #14BAA6;
 }
 
 i.icon.ion-social-linkedin {
@@ -187,11 +187,11 @@ i.icon.ion-social-facebook {
 a.button.button-calm.fb{
   border-top-left-radius: 27px;
   border-bottom-left-radius: 27px;
-  border-color: #0d7557;
+  border-color: #14BAA6;
 }
-a.button.button-calm.icon.ion-social-google{
+a.button.button-calm{
 
-  border-color: #0d7557;
+  border-color: #14BAA6;
 }
 
 .h3Connect1{
