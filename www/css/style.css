@@ -167,22 +167,31 @@ label.item.item-input  input.searchPage2[type="search"]{
 
 /*##############################   styles of Connection.html ################################"*/
 
-a.button.button-calm.icon.ion-social-linkedin{
+a.button.button-calm.linked{
   border-top-right-radius: 27px;
   border-bottom-right-radius: 27px;
-  background-color:#006599;
-  border-color: #006599;
+  border-color: #14BAA6;
 }
-a.button.button-calm.icon.ion-social-facebook {
+
+i.icon.ion-social-linkedin {
+  vertical-align: -3%;
+}
+
+i.icon.ion-social-google {
+  vertical-align: -3%;
+}
+
+i.icon.ion-social-facebook {
+  vertical-align: -2%;
+}
+a.button.button-calm.fb{
   border-top-left-radius: 27px;
   border-bottom-left-radius: 27px;
-  background-color:#3C5A9A;
-  border-color: #3C5A9A;
+  border-color: #14BAA6;
 }
-a.button.button-calm.icon.ion-social-google{
+a.button.button-calm{
 
-  background-color:#E81011;
-  border-color: #E81011;
+  border-color: #14BAA6;
 }
 
 .h3Connect1{
@@ -315,7 +324,7 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   border-bottom-left-radius: 27px;
   border-top-right-radius: 0;
   border-top-left-radius: 27px;
-  border-color: $calm;
+  border-color: #14BAA6;
   border-right: none;
 }
 
@@ -324,7 +333,7 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   border-bottom-left-radius: 0;
   border-top-right-radius: 27px;
   border-top-left-radius: 0;
-  border-color: $calm;
+  border-color: #14BAA6;
   border-left: none;
 }
 
