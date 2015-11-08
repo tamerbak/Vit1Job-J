@@ -80,7 +80,7 @@ angular.module('wsConnectors', ['ionic'])
 
   .service('PersistInServer', function ($http){
     this.persistInSalarie=function(
-		nom, prenom, cin, description, lambert, ville, zipCode, adress1, adress2,
+		nom, prenom, cin, description, lambert, ville, zipCode, num, adress1, adress2,
 		civilite, birthDate, numSS, nationalite, phone, email, password, sessionID){
 
       soapMessage=
@@ -140,15 +140,21 @@ angular.module('wsConnectors', ['ionic'])
           					'<list/>'+
           					'<value>&lt;![CDATA['+zipCode+']]&gt;</value>'+
 						'</fr.protogen.connector.model.DataEntry>'+
-						'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
-          					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
-          					'<attributeReference>adresse_1</attributeReference>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// Numéro de la rue
+						'<label>&lt;![CDATA[Num]]&gt;</label>'+
+						'<attributeReference>num</attributeReference>'+
+						'<type>TEXT</type>'+
+						'<value>&lt;![CDATA['+num+']]&gt;</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// Rue
+          					'<label>&lt;![CDATA[Rue]]&gt;</label>'+
+          					'<attributeReference>rue</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adress1+']]&gt;</value>'+
 						'</fr.protogen.connector.model.DataEntry>'+
-						'<fr.protogen.connector.model.DataEntry>'+	// Adresse 2
-          					'<label>&lt;![CDATA[Adresse 2]]&gt;</label>'+
-          					'<attributeReference>adresse_2</attributeReference>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// Complément d'adresse.
+          					'<label>&lt;![CDATA[Complément]]&gt;</label>'+
+          					'<attributeReference>complement</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adress2+']]&gt;</value>'+
 						'</fr.protogen.connector.model.DataEntry>'+
@@ -233,7 +239,7 @@ angular.module('wsConnectors', ['ionic'])
     };
 
 	this.persistInEmployeur=function(
-			nom, prenom, ville, zipCode, civilite, adress1, adress2, phone,
+			nom, prenom, ville, zipCode, civilite, num, adress1, adress2, phone,
 			email, password, raisonSocial, siret, codeAPE, numUrssaf, cni_ou_rc, sessionID){
 
       soapMessage=
@@ -275,15 +281,21 @@ angular.module('wsConnectors', ['ionic'])
           					'<list/>'+
           					'<value>&lt;![CDATA['+zipCode+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
-          					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
-          					'<attributeReference>adresse_1</attributeReference>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// Numéro
+						'<label>&lt;![CDATA[Num]]&gt;</label>'+
+						'<attributeReference>num</attributeReference>'+
+						'<type>TEXT</type>'+
+						'<value>&lt;![CDATA['+num+']]&gt;</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Rue
+          					'<label>&lt;![CDATA[Rue]]&gt;</label>'+
+          					'<attributeReference>rue</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adress1+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 2
-          					'<label>&lt;![CDATA[Adresse 2]]&gt;</label>'+
-          					'<attributeReference>adresse_2</attributeReference>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Complément
+          					'<label>&lt;![CDATA[Complément]]&gt;</label>'+
+          					'<attributeReference>complement</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adress2+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
@@ -876,7 +888,7 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-	this.updateAdresseTravEmployeur=function(id, codePostal, ville, adresse1, adresse2, sessionID){
+	this.updateAdresseTravEmployeur=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
 		soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
 			'<entity>user_employeur</entity>'+
@@ -904,15 +916,21 @@ angular.module('wsConnectors', ['ionic'])
           					'<list/>'+
           					'<value>'+Number(codePostal)+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 1
-          					'<label>&lt;![CDATA[Adresse 1]]&gt;</label>'+
-          					'<attributeReference>adresse_1</attributeReference>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// Num
+						'<label>&lt;![CDATA[Num]]&gt;</label>'+
+						'<attributeReference>num</attributeReference>'+
+						'<type>TEXT</type>'+
+						'<value>&lt;![CDATA['+num+']]&gt;</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Rue
+          					'<label>&lt;![CDATA[Rue]]&gt;</label>'+
+          					'<attributeReference>rue</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adresse1+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Adresse 2
-          					'<label>&lt;![CDATA[Adresse 2]]&gt;</label>'+
-          					'<attributeReference>adresse_2</attributeReference>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Complément
+          					'<label>&lt;![CDATA[Complément]]&gt;</label>'+
+          					'<attributeReference>complement</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+adresse2+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
