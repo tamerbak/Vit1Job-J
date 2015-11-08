@@ -22,6 +22,21 @@
 		</select>
       </label>
 	</div>
+
+  <!-- NEW TELEPHONE -->
+  <div class="list">
+    <label class="item item-input">
+      <i class="icon ion-ios-telephone placeholder-icon calm"></i>
+      <input class="indicatif_tel" type="tel" ng-model="formData.index" numbers-only="numbers-only"/>
+      <select class="item item-select indicatif_tel" ng-model="formData.index">
+        <option ng-repeat="item in formData.pays" ng-value="item.indicatif_telephonique">
+          {{item.libelle}}
+        </option>
+      </select>
+      <input type="tel" ng-model="formData.phone" numbers-only="numbers-only">
+    </label>
+  </div>
+
 	<!-- TELEPHONE -->
 	<div class="list">
       <label class="item item-input">
