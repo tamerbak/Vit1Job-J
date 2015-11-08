@@ -11,7 +11,7 @@
       <h3 class="titlePhone"><b>Entrez votre numéro de téléphone : </b></h3>
     </div>
 
-	<!-- PAYS -->
+	<!-- PAYS
 	<div class="list">
 	  <label class="item item-input">
         <select class="flat" data-ng-model="formData.country" data-ng-init="formData.country='France'" data-ng-change="loadCodeInter()">
@@ -19,15 +19,15 @@
 		 <option data-ng-repeat="x in formData.pays" value="{{x.indicatif_telephonique}}">{{x.libelle}}</option>
 
           <!--<option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.nom}}</option>-->
-		</select>
-      </label>
-	</div>
+    <!--</select>
+  </label>
+</div>-->
 
   <!-- NEW TELEPHONE -->
   <div class="list">
-    <label class="item item-input">
+    <label class="item item-input ">
       <i class="icon ion-ios-telephone placeholder-icon calm"></i>
-      <input class="indicatif_tel" type="tel" ng-model="formData.index" numbers-only="numbers-only"/>
+
       <select class="item item-select indicatif_tel" ng-model="formData.index">
         <option ng-repeat="item in formData.pays" ng-value="item.indicatif_telephonique">
           {{item.libelle}}
@@ -37,13 +37,25 @@
     </label>
   </div>
 
+    <!--i class="icon ion-ios-telephone placeholder-icon calm"></i>
+    <input class="indicatif_tel" type="text" ng-model="formData.index"/>
+    <select class="item item-select indicatif_tel" ng-model="formData.index">
+      <option ng-repeat="item in formData.pays" ng-value="item.indicatif_telephonique">
+        {{item.libelle}}
+      </option>
+    </select-->
+
     <div class="list xtel" align="left">
       <div class="row" >
-        <div class="col-33 num">
+        <div class="col-25 num">
           <label class="item item-input it1">
             <i class="icon ion-ios-telephone placeholder-icon calm"></i>
-            <input class="indicatif_tel" type="text" ng-model="formData.index"/>
-            <select class="item item-select indicatif_tel" ng-model="formData.index">
+            <input class="input-indicatif" type="text" ng-model="formData.index" placeholder="0033"/>
+          </label>
+        </div>
+        <div class="col-10 num">
+          <label class="item item-input it3">
+            <select class="item item-select indicatif" ng-model="formData.index">
               <option ng-repeat="item in formData.pays" ng-value="item.indicatif_telephonique">
                 {{item.libelle}}
               </option>
@@ -52,7 +64,7 @@
         </div>
         <div class="col-67 rue">
           <label class="item item-input it2">
-            <input type="text" id="addressP1" placeholder="Rue" data-ng-model="formData.adresse1">
+            <input type="text" id="addressP1" placeholder="Téléphone" data-ng-model="formData.adresse1">
           </label>
         </div>
       </div>
