@@ -218,6 +218,19 @@ a.button.button-calm {
 .flat option{
   color: #757575;border: 0 none; width: 99%;}
 
+/*input.indicatif_tel {
+  z-index: 100;
+  width: 78px;
+  position: absolute;
+  top: 0;
+  background-color: white;
+  padding-right: 0px !important;
+}*/
+
+select.indicatif_tel {
+
+}
+
 /*##############################   styles of saisieCivilite.html ################################"*/
 /**
 input[type="file"]{
