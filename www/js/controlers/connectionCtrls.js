@@ -8,7 +8,8 @@ var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercon
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
 starter
-		.controller('connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
+		.controller('connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList ) {
+
 					// FORMULAIRE
 					$scope.formData = {};
 
@@ -16,6 +17,11 @@ starter
 					$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 					$scope.fbLogin = function(){
+
+						Global.showAlertValidation("En cours de construction.");
+						return;
+
+
 						ngFB.login({
 							scope : 'email'
 						}).then(function(response) {
@@ -32,7 +38,16 @@ starter
 						Global.showAlert();
 					};
 
+			$scope.linkedinLogin = function(){
+				Global.showAlertValidation("En cours de construction.");
+			};
+
+
+
 					$scope.loginGmail = function(){
+
+						Global.showAlertValidation("En cours de construction.");
+						return;
 						var ref = window
 								.open(
 										'https://accounts.google.com/o/oauth2/auth?client_id='

@@ -88,7 +88,7 @@ starter
 			  if(isNew === 1){
 				  // PERSIST IN BD - EMPLOYEUR
 					PersistInServer.persistInEmployeur
-						('', '', 0, 0, 0, '', '', phone, '', password, '', '', '', '', '', sessionId)
+						('', '', 0, 0, 0, '', '', '', phone, '', password, '', '', '', '', '', sessionId)
 							.success(function (response){
 								console.log("ID EMPLOYEUR : "+response);
 
