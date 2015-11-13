@@ -9,7 +9,27 @@
     <div>
       <h3 class="titlePhone"><b>Adresse de Travail</b></h3>
     </div>
+	
+	  <!-- VILLE -->
+    <div class ="xcontainer">
+      <div angucomplete-alt id="ex3"
+        placeholder="Ville"
+        maxlength="50"
+        pause="100"
+        selected-object="formData.ville"
+        local-data="formData.villes"
+        search-fields="libelle"
+        title-field="libelle"
+        minlength="1"
+        input-class="form-control form-control-small"
+        match-class="highlight" class="autoCompl">
+      </div>
+      <select class="arriere flat select" data-ng-model="formData.villeSelected.pk" data-ng-change="updateAutoCompleteVille()">
+        <option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
+      </select>
+    </div>
 
+	
 	<!-- CODE POSTAL -->
     <div class ="xcontainer">
       <div angucomplete-alt id="ex2"
@@ -29,24 +49,6 @@
       </select>
       </div>
 
-	  <!-- VILLE -->
-    <div class ="xcontainer">
-      <div angucomplete-alt id="ex3"
-        placeholder="Ville"
-        maxlength="50"
-        pause="100"
-        selected-object="formData.ville"
-        local-data="formData.villes"
-        search-fields="libelle"
-        title-field="libelle"
-        minlength="1"
-        input-class="form-control form-control-small"
-        match-class="highlight" class="autoCompl">
-      </div>
-      <select class="arriere flat select" data-ng-model="formData.villeSelected.pk" data-ng-change="updateAutoCompleteVille()">
-        <option data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
-      </select>
-    </div>
 
 	<!--<div>
 		<autocomplete ng-model="formData.codePostal" data="formData.listCodes" on-type="updateZipCodes"></autocomplete>
