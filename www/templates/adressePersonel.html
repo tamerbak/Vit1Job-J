@@ -10,28 +10,8 @@
       <h3 class="titlePhone"><b>Siège social</b></h3>
     </div>
 
-	<!-- CODE POSTAL -->
-    <div class ="xcontainer">
-      <div angucomplete-alt id="ex0"
-        placeholder="Code postal"
-        maxlength="50"
-        pause="100"
-        selected-object="formData.codePostal"
-        local-data="formData.zipCodes"
-        search-fields="libelle"
-        title-field="libelle"
-           initial-value = "formData.initialPC"
-        minlength="1"
-        input-class="form-control form-control-small"
-        match-class="highlight" class="autoCompl">
-      </div>
-        <!--select id="ex1" class="arriere flat select" data-ng-model="formData.zipCodeSelected.pk" data-ng-change="updateAutoCompleteZip()">
-          <option  id="cp_value" data-ng-repeat="x in formData.zipCodes" value="{{x.pk_user_code_postal}}">{{x.libelle}}</option>
-        </select-->
-      </div>
-
 	<!-- VILLE -->
-    <div class ="xcontainer">
+    <div class ="xcontainer list">
       <div angucomplete-alt id="ex1"
         placeholder="Ville"
         maxlength="50"
@@ -49,6 +29,26 @@
         <option id="city_value" data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
       </select-->
     </div>
+	
+		<!-- CODE POSTAL -->
+    <div class ="xcontainer list">
+      <div angucomplete-alt id="ex0"
+        placeholder="Code postal"
+        maxlength="50"
+        pause="100"
+        selected-object="formData.codePostal"
+        local-data="formData.zipCodes"
+        search-fields="libelle"
+        title-field="libelle"
+           initial-value = "formData.initialPC"
+        minlength="1"
+        input-class="form-control form-control-small"
+        match-class="highlight" class="autoCompl">
+      </div>
+        <!--select id="ex1" class="arriere flat select" data-ng-model="formData.zipCodeSelected.pk" data-ng-change="updateAutoCompleteZip()">
+          <option  id="cp_value" data-ng-repeat="x in formData.zipCodes" value="{{x.pk_user_code_postal}}">{{x.libelle}}</option>
+        </select-->
+      </div>
 
 	<!-- Numéro + rue  -->
     <div class="list xtel" align="left">

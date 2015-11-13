@@ -336,11 +336,14 @@ starter
 					onTap: function(e){
 						$scope.formData.adresse1= params.adresse1;
 						$scope.formData.adresse2= params.adresse2;
-            $scope.formData.num= params.num;
+						$scope.formData.num= params.num;
 						if(params.code)
 							document.getElementById('ex2_value').value=params.code;
 						if(params.vi)
 							document.getElementById('ex3_value').value=params.vi;
+						$scope.updateAdresseTravEmployeur();
+						// REDIRECTION VERS PAGE - COMPETENCES
+						//$state.go('competence');	
 					}
 				}
 			 ]
