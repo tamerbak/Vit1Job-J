@@ -39,6 +39,12 @@ starter.config(function($stateProvider, $urlRouterProvider) {
 
     })
 
+    .state('map', {
+      url: '/map',
+      templateUrl: 'templates/map.html',
+      controller: 'MapCtrl'
+
+    })
     .state('listNext', {
       url: '/listNext',
       templateUrl: 'templates/listJobyersNext.html',

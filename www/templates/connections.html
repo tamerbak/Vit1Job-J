@@ -10,10 +10,10 @@
     </div>
 
     <div class="row">
-      <button class="button button-full button-positive green" data-ng-click="loadAllVilles()"> Votre téléphone</button>
+      <button class="button button-full icon ion-iphone button-positive green" data-ng-click="loadAllVilles()"> Votre téléphone</button>
     </div>
     <div class="row">
-      <button class="button button-full button-positive green" ui-sref="cMail"> Votre adresse mail</button>
+      <button class="button button-full icon ion-email button-positive green" ui-sref="cMail"> Votre adresse mail</button>
     </div>
 
     <div class="row">
@@ -22,18 +22,15 @@
       <div class="col col-45"><hr></div>
     </div>
 
-    <div class="row">
-      <button class="button button-full button-positive linkedIn"> Votre compte LinkedIn</button>
+    <div class="button-bar ">
+      <a class="button button-calm fb green" data-ng-click="fbLogin()"><i class="icon ion-social-facebook"></i>acebook</a>
+      <a class="button button-calm green" data-ng-click="loginGmail()"><i class="icon ion-social-google">mail</i></a>
+      <a class="button button-calm linked green" data-ng-click="linkedinLogin()">Linked<i class="icon ion-social-linkedin"></i></a>
     </div>
     <div class="row">
-      <button class="button button-full button-positive red" data-ng-click="loginGmail()"> Votre compte Gmail</button>
+      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" ><i class="icon ion-log-out"></i> Quitter</button>
     </div>
-    <div class="row">
-      <button class="button button-full button-positive facebook" data-ng-click="fbLogin()"> Votre compte Facebook</button>
-    </div>
-    <div class="row">
-      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" > Quitter</button>
-    </div>
+
 
   </ion-content>
 </ion-view>

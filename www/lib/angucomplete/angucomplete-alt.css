@@ -1,5 +1,20 @@
+
+.autoCompl{
+	border: solid 1px #14BAA6;
+	border-radius: 27px;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	padding-left: 3%;
+	z-index:1 !important;
+	/* position: relative; */
+	/* background-color: red; */
+}
+
 .angucomplete-holder {
-    position: relative;
+    /* position: relative; */
+	z-index: 4 !important;
+	width: 95%;
+	/* background-color: yellow; */
 }
 
 .angucomplete-dropdown {
@@ -7,16 +22,18 @@
     border-width: 1px;
     border-style: solid;
     border-radius: 2px;
-    width: 250px;
+    width: 95%;
     padding: 6px;
     cursor: pointer;
-    z-index: 9999;
+	/* position: relative; */
+    z-index: 100000 !important; 
     position: absolute;
     /*top: 32px;
     left: 0px;
     */
     margin-top: -6px;
     background-color: #ffffff;
+	/* background-color: maroon; */
 }
 
 .angucomplete-searching {
@@ -33,6 +50,16 @@
     color: #000000;
     margin-bottom: 4px;
     clear: both;
+	z-index: 100000 !important; 
+	position: relative;
+	text-align: left;
+	width: 100%;
+}
+
+.angucomplete-selected-row, .angucomplete-row:hover {
+    background-color: #14BAA6;
+    /**background-color: lightblue;**/
+    color: #ffffff;
 }
 
 .angucomplete-selected-row {

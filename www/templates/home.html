@@ -1,9 +1,9 @@
 <ion-view title="home">
   <ion-header-bar class="bar-calm">
-    <a class="button icon-left ion-chevron-left button-clear button-light">  </a>
+    <!--a class="button icon-left ion-chevron-left button-clear button-light">  </a-->
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <!--<h1 class="title">Connexion employeur</h1>-->
-    <a class="button icon-left ion-android-exit button-clear button-light" ng-click="exitVit()">  </a>
+    <a class="button icon-left ion-log-out button-clear button-light" ng-click="exitVit()">  </a>
   </ion-header-bar>
   <ion-content padding="true">
     <div class = "row">
@@ -11,7 +11,7 @@
     </div>
 
 
-    <div class = "row" data-ng-init="initConnexion()">
+    <div class = "row sear" data-ng-init="initConnexion()">
       <div class="list list-inset">
         <label class="item item-input">
           <i class="icon ion-search placeholder-icon"></i>
@@ -32,14 +32,14 @@
     </div>
 
     <div class="row">
-      <button class="button button-full button-positive green" data-ng-click="modeConnexion()">
+      <button class="button button-full button-positive grey" data-ng-click="modeConnexion()">
         {{ formData.connexion.libelle }}
       </button>
     </div>
-    <!--<div class="row">ui-sref="connection" ng-click="showPopup()"
-      <button class="button button-full button-positive grey">
-        Inscription
-      </button>
+    <div class="row">
+      <h6 style="width: 100%">
+        Version: VIT 0.0.4
+      </h6>
     </div>
   <!--<div c="buttonConnect">
 

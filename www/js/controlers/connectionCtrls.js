@@ -1,15 +1,15 @@
 /**
  * Created by Tamer on 14/10/2015.
  */
+'use strict';
 var requestToken = "";
 var accessToken = "";
 var clientId = "715296704477-gt8soaf11ftbncgbadj59pvjbq2fv7f0.apps.googleusercontent.com";
 var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 
-angular
-		.module('connectionCtrls', ['ionic', 'ngOpenFB', 'globalServices', 'ngCordova', 'ngCookies', 'parsingServices'])
-		.controller(
-				'connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList) {
+starter
+		.controller('connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList ) {
+
 					// FORMULAIRE
 					$scope.formData = {};
 
@@ -17,6 +17,11 @@ angular
 					$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 					$scope.fbLogin = function(){
+
+						Global.showAlertValidation("En cours de construction.");
+						return;
+
+
 						ngFB.login({
 							scope : 'email'
 						}).then(function(response) {
@@ -31,9 +36,18 @@ angular
 
 					$scope.showAlert = function(){
 						Global.showAlert();
-					}
+					};
+
+			$scope.linkedinLogin = function(){
+				Global.showAlertValidation("En cours de construction.");
+			};
+
+
 
 					$scope.loginGmail = function(){
+
+						Global.showAlertValidation("En cours de construction.");
+						return;
 						var ref = window
 								.open(
 										'https://accounts.google.com/o/oauth2/auth?client_id='
@@ -81,7 +95,7 @@ angular
 												ref.close();
 											}
 										});
-					}
+					};
 
 					$scope.digitalOceanLogin = function() {
 						$cordovaOauth.digitalOcean("CLIENT_ID_HERE",
@@ -92,7 +106,7 @@ angular
 								}, function(error) {
 									console.log(error);
 								});
-					}
+					};
 
 					$scope.getDroplets = function() {
 						$http.defaults.headers.common.Authorization = "Bearer "
@@ -103,10 +117,10 @@ angular
 								}).error(function(error) {
 									console.log(error);
 								});
-					}
+					};
 
 					$scope.loadAllVilles = function(){
-						
+
 						sessionId=$cookieStore.get('sessionID');
 						//if(!sessionId){
 							// CONNEXION AU SERVEUR
@@ -122,25 +136,25 @@ angular
 									sessionId = jsonResp.amanToken.sessionId;
 									console.log("New sessionId : "+sessionId);
 									$cookieStore.put('sessionID', sessionId);
-									
+
 									/*** LOAD LIST VILLES ***/
-									villes=$cookieStore.get('villes');
-									//if(!villes){	
-										LoadList.loadList("user_niveau_de_maitrise", sessionId)
+									var villes=$cookieStore.get('villes');
+									//if(!villes){
+										LoadList.loadList("user_offre", sessionId)
 											.success(function(response){
 														console.log("response "+response);
-														resp = formatString.formatServerResult(response);
+														var resp = formatString.formatServerResult(response);
 														// DONNEES ONT ETE CHARGES
 														console.log("les villes ont été bien chargé");
-														villeObjects = resp.dataModel.rows.dataRow;
-											
+														var villeObjects = resp.dataModel.rows.dataRow;
+
 														// GET VILLES
 														villes = [];
-														ville = {}; // ville.libelle | ville.id
+														var ville = {}; // ville.libelle | ville.id
 
-														villesList = [].concat(villeObjects);
+														var villesList = [].concat(villeObjects);
 														for (var i = 0; i < villesList.length; i++) {
-															object = villesList[i].dataRow.dataEntry;
+															var object = villesList[i].dataRow.dataEntry;
 
 															// PARCOURIR LIST PROPERTIES
 															ville[object[0].attributeReference] = object[0].value;
@@ -166,17 +180,17 @@ angular
 								.error(function (data){
 									console.log("error : récuperation JSessionId");
 								});
-						
-						// REDIRECTION 
+
+						// REDIRECTION
 						$state.go("cPhone");
-					}
-					
+					};
+
 					$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 						if(states.fromCache && states.stateName == "connection" ){
 							// VERIFICATION S'IL EST CONNECTE OU PAS
-							
+
 							// RECUPERATION CONNEXION
-							connexion=$cookieStore.get('connexion');
+						var 	connexion=$cookieStore.get('connexion');
 							if(connexion){
 								if(connexion.etat)	// REDIRECTION
 									$state.go("search");
@@ -184,3 +198,4 @@ angular
 						}
 					});
 				})
+;
