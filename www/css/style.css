@@ -16,6 +16,52 @@
   border-color: transparent !important;
 }
 
+div.searchMask
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #000000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
+div.screenMask
+{
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    background-color: #000000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
+div.winsideMask
+{
+	position: absolute;
+    left: 10px;
+    top: 320px;
+    width: 98.5%;
+    height: 42%;
+	border-radius: 10px;
+	z-index: 10;
+    background-color: #FFFFFF;
+}
+
+div.winsideMask p
+{	
+	text-align: center;
+	margin-top: 8%;
+	font-size : 18px;
+    color: #757575;
+}
+
 button.button.button-full.button-positive.grey {
   padding: 2px;
   font-size: 1em;

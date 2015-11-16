@@ -1,42 +1,42 @@
-<ion-view title="home">
+<ion-view title="home"> 
   <ion-header-bar class="bar-calm">
-    <a class="button icon-left ion-chevron-left button-clear button-light">  </a>
+	<a class="button icon-left ion-chevron-left button-clear button-light">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <!--<h1 class="title">Connexion employeur</h1>-->
     <a class="button icon-left ion-android-exit button-clear button-light" ng-click="exitVit()">  </a>
   </ion-header-bar>
+	
   <ion-content padding="true">
-    <div class = "row">
+	<div class=""> <!-- //screenMask only! --> </div>
+	
+	<div class = "row">
       <div class="vimg"><img src="img/logo_employeur2.png"></div>
     </div>
-
-
+	
     <div class = "row" data-ng-init="initConnexion()">
-      <div class="list list-inset">
+      <div class="list list-inset">  
         <label class="item item-input">
-          <i class="icon ion-search placeholder-icon"></i>
-          <input type="search" placeholder="Votre recherche ici..." ng-model="query" ng-enter = "getJobbers(query)">
-        </label>
+          <i class="icon ion-search placeholder-icon"></i>	 
+		  <input type="search" placeholder="Votre recherche ici..." ng-model="query" ng-enter = "getJobbers(query)">
+		</label>
       </div>
     </div>
-
     <div class = "row">
       <h3 class="hslide1">Trouvez vos Jobyers immédiatement disponibles!</h3>
     </div>
-
-
+	
+		  
     <div class="row">
       <button class="button button-full button-positive green" data-ng-click="getJobbers(query)">
         Lancer la recherche
       </button>
     </div>
-
-    <div class="row">
+	<div class="row">
       <button class="button button-full button-positive green" data-ng-click="modeConnexion()">
         {{ formData.connexion.libelle }}
       </button>
     </div>
-    <!--<div class="row">ui-sref="connection" ng-click="showPopup()"
+	<!--<div class="row">ui-sref="connection" ng-click="showPopup()"
       <button class="button button-full button-positive grey">
         Inscription
       </button>
@@ -45,13 +45,20 @@
 
 
 
-  </div>-->
+  </div>-->	
 
-
-
-</ion-content>
-<!--<ion-footer-bar class="hide-on-keyboard-open">
-
-</ion-footer-bar>-->
+  </ion-content>	
+<div class="screenMask" ng-show="showScreenVar"> <!-- //screenMask only! --> </div>
+  
+<div class="winsideMask" ng-show="showWindowVar"> <!-- //winsideMask only! -->	
+	<p>Voulez-vous de l'aide pour faire une recherche</p><br/><br/>
+	<div class="row">
+		<button class="button button-full button-positive grey" name="no" data-ng-click="homeBack()">Non</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<button class="button button-full button-positive green" name="yes" data-ng-click="">Oui</button>
+	</div>
+</div>
+  <ion-footer-bar class="bar-stable">
+	<a class="button icon-left button-clear button-calm" data-ng-click="homeBack()">Back</a>
+	<a class="button icon-right ion-chevron-right button-calm" data-ng-click="aide()">Aide&nbsp;</a>
+  </ion-footer-bar>
 </ion-view>
-
