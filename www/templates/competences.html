@@ -22,7 +22,9 @@
 
     <br><br>
 	<!-- METIERS -->
-	<div class ="xcontainer">
+    <div class="list">
+      <label class="item item-input">
+	  <!--
 		<div angucomplete-alt id="metiers"
 			placeholder="Métier"
 			maxlength="50"
@@ -35,12 +37,18 @@
 			input-class="form-control form-control-small"
 			match-class="highlight" class="autoCompl">
 		</div>
-		<select class="arriere flat" data-ng-model="formData.metierS" data-ng-change="updateAutoComplete()">
+		-->
+		<select class="flat" data-ng-model="formData.metierS" data-ng-init="formData.metierS='Metiers'">
+			<option selected disabled style="display: none;">Metiers</option>				
 			<option data-ng-repeat="x in formData.metiers" value="{{x.libelle}}">{{x.libelle}}</option>
 		</select>
+		</label>
 	</div>
-	<br>
+	<!-- <br> -->
 	<!-- JOBS -->
+    <div class="list">
+      <label class="item item-input">
+	  <!--	
 	<div angucomplete-alt id="jobs"
 			placeholder="Job"
 			maxlength="50"
@@ -53,6 +61,13 @@
 			input-class="form-control form-control-small"
 			match-class="highlight" class="autoCompl">
 	</div>
+		-->
+		<select class="flat" data-ng-model="formData.jobS" data-ng-init="formData.jobS='Job'">
+			<option selected disabled style="display: none;">Job</option>		
+			<option data-ng-repeat="x in formData.jobs" value="{{x.libelle}}">{{x.libelle}}</option>
+		</select>
+		</label>
+	</div>	
 	<!-- MAITRISE -->
 	<div id="maitriseDiv">
 		<img ng-src="img/{{formData.maitriseIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px;vertical-align: middle;"/>
