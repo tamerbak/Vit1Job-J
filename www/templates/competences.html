@@ -4,7 +4,7 @@
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>
-  <ion-content padding="true" data-ng-init="initAll()">
+  <ion-content id="competenceContent" padding="true" data-ng-init="initAll()">
   
   <!-- BUTTONS CONTROLS -->
 	<div class="button icon-left ion-chevron-left button-clear" style="vertical-align: middle" onclick="angular.element(this).scope().loadPrevJobyer()" data-ng-disabled="formData.showButtLeft"></div>
@@ -38,7 +38,7 @@
 			match-class="highlight" class="autoCompl">
 		</div>
 		-->
-		<select class="flat" data-ng-model="formData.metierS" data-ng-init="formData.metierS='Metiers'">
+		<select class="flat" data-ng-model="formData.metier" data-ng-init="formData.metier='Metiers'">
 			<option selected disabled style="display: none;">Metiers</option>				
 			<option data-ng-repeat="x in formData.metiers" value="{{x.libelle}}">{{x.libelle}}</option>
 		</select>
@@ -62,7 +62,7 @@
 			match-class="highlight" class="autoCompl">
 	</div>
 		-->
-		<select class="flat" data-ng-model="formData.jobS" data-ng-init="formData.jobS='Job'">
+		<select class="flat" data-ng-model="formData.job" data-ng-init="formData.job='Job'">
 			<option selected disabled style="display: none;">Job</option>		
 			<option data-ng-repeat="x in formData.jobs" value="{{x.libelle}}">{{x.libelle}}</option>
 		</select>
