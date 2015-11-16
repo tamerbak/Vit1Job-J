@@ -5,7 +5,7 @@
 'use strict';
 starter
 
-	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state, x2js, AuthentificatInServer,
+	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state,$ionicHistory, x2js, AuthentificatInServer,
 						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile){
 		// FORMULAIRE
 		$scope.formData={};
@@ -589,7 +589,11 @@ starter
 				$state.go("search");
 			}
 		};
-
+	  $scope.backbutton = function()
+	  {
+		console.log("backbutton");
+		console.log($ionicHistory.backView());
+	  };
 		$scope.$on('update-list-job', function(event, args){
 
 			var params = args.params;
