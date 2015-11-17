@@ -17,13 +17,13 @@
 
     <div class="row">
       <div class="col col-33 spec">
-        <button class="button button-small button-calm" ng-click="openModal()"><i class="icon ion-information-circled"> Disponibilité</i></button>
+        <button class="button button-small button-calm" ng-click="loadModal('templates/disponibilityModal.html')"><i class="icon ion-information-circled"> Disponibilité</i></button>
       </div>
       <div class="col col-33">
-        <button class="button button-small button-calm"><i class="icon ion-arrow-shrink"> Matching</i></button>
+        <button class="button button-small button-calm" ng-click="loadModal('templates/matchingModal.html')"><i class="icon ion-arrow-shrink"> Matching</i></button>
       </div>
       <div class="col col-33">
-        <button class="button button-small button-calm"><i class="icon ion-pinpoint"> Position</i></button>
+        <button class="button button-small button-calm" ng-click="loadModal('templates/positionModal.html')"><i class="icon ion-pinpoint"> Position</i></button>
       </div>
     </div>
 

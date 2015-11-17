@@ -177,6 +177,10 @@ button.button.button-positive.rel {
 
 .item.item-button-right.rel {
   text-align: left;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
 .col.col-33.spec {
@@ -188,6 +192,27 @@ button.button.button-positive.rel {
   background: #14BAA6;
   border-color: #14BAA6;
 }
+
+.modal {
+  display: block;
+  position: absolute;
+  top: 24%;
+  bottom: 20%;
+  right: 10%;
+  left: 10%;
+  z-index: 10;
+  overflow: hidden;
+  min-height: 50%;
+  width: 79%;
+  background-color: #14BAA6;
+  border-color: black;
+  color: white;
+}
+
+ion-content.modalContent.scroll-content.ionic-scroll.has-header {
+  padding: 10px;
+}
+
 
 /*##############################   styles of Connection.html ################################"*/
 
