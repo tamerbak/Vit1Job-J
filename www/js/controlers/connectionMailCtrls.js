@@ -21,7 +21,7 @@ starter
 
 	  var isNew=0;
 	  if(isEmpty(email) || isEmpty(password)){
-		  Global.showAlertPassword("Veuillez saisir tous les champs.");
+		  Global.showAlertValidation("Veuillez saisir tous les champs.");
 		  return;
 	  }
 
@@ -107,7 +107,7 @@ starter
 									$rootScope.employeur.password=password;
 								}
 
-								Global.showAlertPassword("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
+								Global.showAlertValidation("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
 								// PASSWORD INCORRECT - REDIRECTION
 								$state.go("saisieCiviliteEmployeur");
 							}).error(function (err){
