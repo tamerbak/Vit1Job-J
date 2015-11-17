@@ -87,10 +87,10 @@ starter
 			  console.log("isNew : "+isNew);
 			  if(isNew === 1){
 				  // SYSTEME VERIFICATION EMAIL
-
+					console.log("email : "+email+" password : "+password+" sessionId : "+sessionId);
 				  // PERSIST IN BD - EMPLOYEUR
 					PersistInServer.persistInEmployeur
-						('', '', 0, 0, 0, '', '', '', email, password, '', '', '', '', '', sessionId)
+						('', '', 0, 0, 0, '', '', '','', email, password, '', '', '', '', '', sessionId)
 							.success(function (response){
 								console.log("ID EMPLOYEUR : "+response);
 
