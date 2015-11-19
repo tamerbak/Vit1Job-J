@@ -227,14 +227,27 @@ angular.module('homeCtrls', ['ionic','cb.x2js', 'ngCookies', 'parsingServices'])
 			$state.go("connection");
 	}
 	
+	$scope.showScreenVar = false;
+	$scope.showWindowVar = false;
+	$scope.showSearchVar = false;
+	
 	$scope.homeBack = function () {
 		$scope.showScreenVar = false;
 		$scope.showWindowVar = false;
+		$scope.showSearchVar = false;
     };
 	
-	$scope.aide = function () {
+	$scope.firstHelp = function () {
 		$scope.showWindowVar = true;
 		$scope.showScreenVar = true;
+		$scope.showSearchVar = false;
+	};
+	
+	$scope.secondHelp = function () {
+		$scope.showSearchVar = true;
+		$scope.showWindowVar = false;
+		$scope.showScreenVar = false;
+		
 	};
 
   });

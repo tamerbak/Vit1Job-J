@@ -1,5 +1,6 @@
 <ion-view title="home"> 
   <ion-header-bar class="bar-calm">
+	<div class="barMask" ng-show="showSearchVar"> <!-- //barMask only! --> </div>
 	<a class="button icon-left ion-chevron-left button-clear button-light">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <!--<h1 class="title">Connexion employeur</h1>-->
@@ -7,7 +8,7 @@
   </ion-header-bar>
 	
   <ion-content padding="true">
-	<div class=""> <!-- //screenMask only! --> </div>
+	<div class="searchMask" ng-show="showSearchVar"> <!-- //searchMask only! --> </div>
 	
 	<div class = "row">
       <div class="vimg"><img src="img/logo_employeur2.png"></div>
@@ -53,12 +54,12 @@
 <div class="winsideMask" ng-show="showWindowVar"> <!-- //winsideMask only! -->	
 	<p>Voulez-vous de l'aide pour faire une recherche</p><br/><br/>
 	<div class="row">
-		<button class="button button-full button-positive grey" name="no" data-ng-click="homeBack()">Non</button>&nbsp;&nbsp;&nbsp;&nbsp;
-		<button class="button button-full button-positive green" name="yes" data-ng-click="">Oui</button>
+		<button class="button button-full button-positive grey" data-ng-click="homeBack()">Non</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<button class="button button-full button-positive green" data-ng-click="secondHelp()">Oui</button>
 	</div>
 </div>
   <ion-footer-bar class="bar-stable">
-	<a class="button icon-left button-clear button-calm" data-ng-click="homeBack()">Back</a>
-	<a class="button icon-right ion-chevron-right button-calm" data-ng-click="aide()">Aide&nbsp;</a>
+	<a class="button icon-left ion-chevron-left button-calm" data-ng-click="homeBack()">&nbsp;Retour</a>
+	<a class="button icon-right ion-chevron-right button-calm" data-ng-click="firstHelp()">Aide&nbsp;</a>
   </ion-footer-bar>
 </ion-view>

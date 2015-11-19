@@ -16,13 +16,26 @@
   border-color: transparent !important;
 }
 
+div.barMask
+{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 102%;
+    z-index: 2;
+    background-color: #000000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+
 div.searchMask
 {
     position: absolute;
     left: 0px;
     top: 0px;
     width: 100%;
-    height: 100%;
+    height: 135%;
     z-index: 1;
     background-color: #000000;
     opacity: 0.8;
@@ -49,8 +62,8 @@ div.winsideMask
     top: 320px;
     width: 98.5%;
     height: 42%;
-	border-radius: 10px;
-	z-index: 10;
+	border-radius: 9px;
+	z-index: 9;
     background-color: #FFFFFF;
 }
 
