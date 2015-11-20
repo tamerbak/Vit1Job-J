@@ -4,8 +4,47 @@
 'use strict';
 starter
   .controller('listNextCtrl', function ($scope, $rootScope,$ionicModal) {
+
     $scope.jobyersNextToMe = $rootScope.jobyersNextToMe;
-	$scope.matchingOptions = {
+
+    // Tri de la table
+    $scope.jobyersNextToMe = [
+      {firstName:'mohammed', distance:10},
+      {firstName:'adil', distance:20},
+      {firstName:'sami', distance:15},
+      {firstName:'mehdi', distance:45},
+      {firstName:'tamer', distance:0},
+      {firstName:'khalid', distance:95},
+      {firstName:'mourad', distance:100},
+      {firstName:'ali', distance:55}
+    ];
+
+    $scope.SortOrder = '+firstName';
+
+    $scope.position = {distance : 15};
+
+    $scope.change = function() {
+
+      if($scope.availabilityChecked)
+      {
+
+      }
+
+      if($scope.matchingChecked)
+      {
+
+      }
+
+      if($scope.positionChecked)
+      {
+        $scope.SortOrder = '+distance'
+      }
+
+    };
+
+    // Fin Tri de la table
+
+    $scope.matchingOptions = {
       'comp' : 20,
       'job' : 20,
       'mait' : 20,

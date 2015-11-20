@@ -13,40 +13,47 @@
       </ion-item>
     </ion-list>
 	-->
-	
+
 	<div class="row">
       <div class="col col-33 spec">
-        <button class="button button-small button-calm" ng-click="loadModal('templates/disponibilityModal.html')"><i class="icon ion-information-circled"> Disponibilité</i></button>
+        <button class="button button-small button-calm" ng-click="loadModal('templates/disponibilityModal.html')">
+          <i class="icon ion-information-circled"> Disponibilité</i>
+        </button>
       </div>
       <div class="col col-33">
-        <button class="button button-small button-calm" ng-click="loadModal('templates/matchingModal.html')"><i class="icon ion-arrow-shrink"> Matching</i></button>
+        <button class="button button-small button-calm" ng-click="loadModal('templates/matchingModal.html')">
+          <i class="icon ion-arrow-shrink"> Matching</i>
+        </button>
       </div>
       <div class="col col-33">
-        <button class="button button-small button-calm" ng-click="loadModal('templates/positionModal.html')"><i class="icon ion-pinpoint"> Position</i></button>
+        <button class="button button-small button-calm" ng-click="loadModal('templates/positionModal.html')">
+          <i class="icon ion-pinpoint"> Position</i>
+        </button>
       </div>
     </div>
-	
+
 	<div class="row">
       <div class="col col-33">
         <label class="checkbox rel">
-          <input type="checkbox">
+          <input type="checkbox" ng-model="availabilityChecked" ng-checked="change()">
         </label>
       </div>
       <div class="col col-33">
         <label class="checkbox ">
-          <input type="checkbox">
+          <input type="checkbox" ng-model="matchingChecked" ng-checked="change()">
         </label>
       </div>
       <div class="col col-33">
         <label class="checkbox">
-          <input type="checkbox">
+          <input type="checkbox" ng-model="positionChecked" ng-checked="change()">
         </label>
       </div>
     </div>
 
     <div class="list">
 
-      <div class="item item-button-right rel" ng-repeat="jobber in jobyersNextToMe" ng-class-odd="'odd'" ng-class-even="'even'">
+      <div class="item item-button-right rel" ng-repeat="jobber in jobyersNextToMe | orderBy : SortOrder"
+           ng-class-odd="'odd'" ng-class-even="'even'">
         {{jobber.firstName}}
         <div class="buttons">
             <button class="button button-positive rel">
@@ -59,11 +66,14 @@
             </button>
             <button class="button button-positive rel">
               <i class="icon ion-pinpoint "></i>
-              P:2.31Km
+              <span ng-if="jobber.distance == 0" class="animate-if">C</span>
+              <span ng-if="jobber.distance != 0 && jobber.distance <= position.distance" class="animate-if">P</span>
+              <span ng-if="jobber.distance > position.distance" class="animate-if">A</span>
+               : {{jobber.distance}} Km
             </button>
         </div>
       </div>
     </div>
-	
+
   </ion-content>
 </ion-view>

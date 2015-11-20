@@ -4,6 +4,16 @@
     <h1 class="title">Options de la position</h1>
   </ion-header-bar>
   <ion-content class="modalContent">
-    Options de la position
+    <div class="row">
+      <div class="col col-50">
+        <label for="comp">Distance choisie :</label>
+      </div>
+      <div class="col col-25" >
+        <input id="comp" type="number" style="width: 100%;padding-left: 10px;" min="0" max="100" ng-model="position.distance"  >
+      </div>
+      <div class="col col-25" >
+        Km
+      </div>
+    </div>
   </ion-content>
 </ion-modal-view>
