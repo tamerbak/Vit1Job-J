@@ -193,7 +193,7 @@ starter
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
-			if(states.fromCache && states.stateName == "saisieCiviliteEmployeur"){
+			if(states.fromCache && states.stateName == "saisieCiviliteJobeyer"){
 				$scope.initForm();
 
 				console.log("Je suis ds $ionicView.beforeEnter(saisieCivilite)");

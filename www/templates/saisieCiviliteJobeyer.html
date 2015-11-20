@@ -1,54 +1,59 @@
-<ion-view title="connection">
+<ion-view title="connection" ng-app="ui.validate">
   <ion-header-bar class="bar-calm">
-    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="connection">  </a>
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="app">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
-    <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
+    <a class="button icon-right ion-chevron-right button-clear button-light" ui-sref="adressePersonel">  </a>
   </ion-header-bar>
-  <ion-content padding="true">
-	<!-- Title -->
-    <div>
-      <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
-    </div>
+  <ion-content padding="true" data-ng-init="initForm()">
+     <!-- Title -->
+      <div>
+          <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
+      </div>
 
-	<!-- TITRE -->
-	<div class="list">
-      <label class="item item-input">
-        <input type="text" placeholder="Titre" class="searchPage2" data-ng-model="titre">
-      </label>
-	</div>
-	<!-- NOM -->
-	<div class="list">
-      <label class="item item-input">
-        <input type="text" placeholder="Nom" class="searchPage2" data-ng-model="formData.nom">
-      </label>
-	</div>
-	<!-- PRENOM -->
-	<div class="list">
-      <label class="item item-input">
-        <input type="text" placeholder="Prenom" class="searchPage2" data-ng-model="formData.prenom">
-      </label>
-	</div>
+      <!-- TITRE -->
+      <div class="list">
+          <label class="item item-input">
+            <select class="flat" data-ng-model="formData.civ" data-ng-init="formData.civ='Titre'">
+              <option selected disabled style="display: none;">Titre</option>
+              <option data-ng-repeat="x in formData.civilites" value="{{x.pk_user_civilite}}">{{x.libelle}}</option>
+            </select>
+          </label>
+      </div>
+
+      <!-- NOM -->
+      <div class="list">
+          <label class="item item-input">
+            <input type="text" id="nom" placeholder="Nom" data-ng-model="formData.nom">
+          </label>
+      </div>
+
+      <!-- PRENOM -->
+      <div class="list">
+          <label class="item item-input">
+            <input type="text" id="prenom" placeholder="Prenom" data-ng-model="formData.prenom">
+          </label>
+      </div>
 	<!-- DATE DE NAISSANCE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Date de Naissance" class="searchPage2" data-ng-model="formData.dateNaissance">
+        <input type="date" placeholder="Date de Naissance" class="searchPage2" data-ng-model="formData.dateNaissance">
       </label>
     </div>
 	<!-- N° SS -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="N° SS" class="searchPage2" data-ng-model="formData.numSS">
+        <input id="num_ss" name="num_ss" type="text" placeholder="N° SS" class="searchPage2" data-ng-model="formData.numSS" data-ng-blur="validateNumSS('num_ss')">
       </label>
     </div>
 	<!-- NATIONALITE -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="formData.nationalite">
+        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="formData.nationalite" data-ng-change="displayScanTitle()">
       </label>
     </div>
 
 	<div align="left">
-      <h3 class="titlePhone">Charger un scan de votre CNI</h3>
+      <h3 class="titlePhone">{{formData.scanTitle}}</h3>
     </div>
 
 	<!-- Image uploader -->
@@ -62,7 +67,7 @@
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
       <button class="button button-full button-positive green" data-ng-click="updateCivilite()">Valider</button>
-      <button class="button button-full button-positive grey icon-right ion-chevron-right">Passer</button>
+      <button class="button button-full button-positive grey icon-right ion-chevron-right" ui-sref="adressePersonel">Passer</button>
     </div>
   </ion-content>
 </ion-view>

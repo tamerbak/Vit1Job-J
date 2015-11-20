@@ -63,10 +63,10 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/connexionMail.html',
       controller: 'cMailCtrl'
     })
-    .state('saisieCiviliteEmployeur', {
+    .state('saisieCiviliteJobeyer', {
       url: '/saisieCivilite',
-      templateUrl: 'templates/saisieCiviliteEmployeur.html',
-      controller: 'saisieCiviliteEmployeurCtrl'
+      templateUrl: 'templates/saisieCiviliteJobeyer.html',
+      controller: 'saisieCiviliteJobeyerCtrl'
     })
 
     .state('adresseTravail', {

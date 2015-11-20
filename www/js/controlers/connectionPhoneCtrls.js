@@ -145,7 +145,7 @@ starter
 								}***/
 
 								// PASSWORD INCORRECT - INSCRIPTION L2
-								$state.go("saisieCiviliteEmployeur");
+								$state.go("saisieCiviliteJobeyer");
 							}).error(function (err){
 								console.log("error : insertion DATA");
 								console.log("error : "+err);

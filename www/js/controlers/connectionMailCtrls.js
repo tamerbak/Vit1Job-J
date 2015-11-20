@@ -129,7 +129,7 @@ starter
 
 								Global.showAlertValidation("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
 								// PASSWORD INCORRECT - REDIRECTION
-								$state.go("saisieCiviliteEmployeur");
+								$state.go("saisieCiviliteJobeyer");
 							}).error(function (err){
 								console.log("error : insertion DATA");
 								console.log("error : "+err);
