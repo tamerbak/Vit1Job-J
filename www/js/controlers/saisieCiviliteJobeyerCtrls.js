@@ -8,15 +8,16 @@ starter
 
 		// FORMULAIRE
 		$scope.formData = {};
+		$scope.numSSValide =false;
 		// IMAGE
 		//$scope.formData.image={};
 		$scope.validateNumSS= function(id){
-			Validator.checkNumSS(id);			
+			Validator.checkNumSS(id);
+			//$scope.numSSValide =false;
 		}
-		
 		$scope.displayScanTitle= function(){
 			if($scope.formData.nationalite!=null){
-				if($scope.formData.nationalite =="française")
+				if(JSON.parse($scope.formData.nationalite).libelle =="Français")
 					$scope.formData.scanTitle="Charger un scan de votre CNI";
 				else
 					$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";			
@@ -34,8 +35,9 @@ starter
 			var prenom=$scope.formData.prenom;
 			var dateNaissance=$scope.formData.dateNaissance;
 			var numSS=$scope.formData.numSS;
-			var nationalite=$scope.formData.nationalite;
-			
+			var nationalite=JSON.parse($scope.formData['nationalite']);
+			var pk_user_nationalite=nationalite.pk_user_nationalite;
+			console.log("nationalite : "+pk_user_nationalite);
 			// RECUPERATION CONNEXION
 			var connexion=$cookieStore.get('connexion');
 			// RECUPERATION JOBEYER ID
@@ -44,7 +46,7 @@ starter
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
 
-			if(!isNaN(titre) || nom || prenom || dateNaissance || numSS || nationalite){
+			if(!isNaN(titre) || nom || prenom || dateNaissance || numSS || pk_user_nationalite){
 				if(!nom)
 					nom="";
 				if(!prenom)
@@ -52,16 +54,19 @@ starter
 				if(!dateNaissance)
 					dateNaissance=new Date();
 
-				dateNaissance=new Date(dateNaissance).getTime();
-
+				dateNaissance=new Date(dateNaissance);
+				var day = dateNaissance.getDate();
+				var monthIndex = dateNaissance.getMonth()+1;
+				var year = dateNaissance.getFullYear();
+				var dateNaissanceFormatted=year+"-"+monthIndex+"-"+day+" 00:00:00.0";
 				if(!numSS)
 					numSS="";
-				if(!nationalite)
-					nationalite="";
-				console.log("dateNaissance : "+dateNaissance);
+				if(!pk_user_nationalite)
+					pk_user_nationalite="";
+				console.log("dateNaissance : "+dateNaissanceFormatted);
 				// UPDATE JOBEYER
 				UpdateInServer.updateCiviliteInJobeyer(
-					Number(jobeyeId), Number(titre), nom, prenom, dateNaissance, numSS, nationalite, sessionId)
+					Number(jobeyeId), Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
 						.success(function (response){
 
 							// DONNEES ONT ETE SAUVEGARDES
@@ -77,7 +82,7 @@ starter
 							jobeyer.prenom=prenom;
 							jobeyer.dateNaissance=dateNaissance;
 							jobeyer.numSS=numSS;
-							jobeyer.nationalite=nationalite;
+							jobeyer.nationalite=JSON.parse($scope.formData.nationalite);
 							
 							console.log("jobeyer : "+JSON.stringify(jobeyer));
 							// PUT IN SESSION
@@ -200,9 +205,8 @@ starter
 
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={'civilites': DataProvider.getCivilites()};
+			$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
 			$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";			
-
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){

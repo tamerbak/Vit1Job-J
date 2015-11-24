@@ -46,12 +46,17 @@
       </label>
     </div>
 	<!-- NATIONALITE -->
-	<div class="list">
-	  <label class="item item-input">
-        <input type="text" placeholder="Nationalité" class="searchPage2" data-ng-model="formData.nationalite" data-ng-change="displayScanTitle()">
-      </label>
-    </div>
-
+    <div class="list">
+      <label class="item item-input">
+		<select class="flat" data-ng-model="formData.nationalite" data-ng-init="formData.nationalite='Nationalité'" data-ng-change="displayScanTitle()">
+			<option selected disabled style="display: none;">Nationalité</option>				
+			<option data-ng-repeat="x in formData.nationalites" value="{{x}}">{{x.libelle}}</option>
+		</select>
+		</label>
+	</div>
+	
+	
+	
 	<div align="left">
       <h3 class="titlePhone">{{formData.scanTitle}}</h3>
     </div>
@@ -66,7 +71,7 @@
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="updateCivilite()">Valider</button>
+      <button class="button button-full button-positive green"  data-ng-click="updateCivilite()">Valider</button>
       <button class="button button-full button-positive grey icon-right ion-chevron-right" ui-sref="adressePersonel">Passer</button>
     </div>
   </ion-content>

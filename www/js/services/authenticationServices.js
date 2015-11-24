@@ -253,7 +253,7 @@ angular.module('wsConnectors', ['ionic'])
         				'<fr.protogen.connector.model.DataEntry>'+	// dateNaissance
           					'<label>&lt;![CDATA[DATE DE NAISSANCE]]&gt;</label>'+
           					'<attributeReference>date_de_naissance</attributeReference>'+
-          					'<type>TIMESTAMP</type>'+
+          					'<type>DATE</type>'+
           					'<value>&lt;![CDATA['+dateNaissance+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
 						*/
@@ -730,29 +730,25 @@ angular.module('wsConnectors', ['ionic'])
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+prenom+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-						/*
         				'<fr.protogen.connector.model.DataEntry>'+	// DATE DE NAISSANCE
           					'<label>&lt;![CDATA[DATE DE NAISSANCE]]&gt;</label>'+
           					'<attributeReference>date_de_naissance</attributeReference>'+
-          					'<type>TIMESTAMP</type>'+
+          					'<type>DATE</type>'+
           					'<value>&lt;![CDATA['+dateNaissance+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-						*/
         				'<fr.protogen.connector.model.DataEntry>'+	// NUMERO SS
           					'<label>&lt;![CDATA[NUMERO SS]]&gt;</label>'+
           					'<attributeReference>numero_ss</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+numSS+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-												/*
-
         				'<fr.protogen.connector.model.DataEntry>'+	// NATIONALITE
           					'<label>&lt;![CDATA[NATIONALITE]]&gt;</label>'+
           					'<attributeReference>fk_user_nationalite</attributeReference>'+
           					'<type>fk_user_nationalite</type>'+
          					'<value>&lt;![CDATA['+nationalite+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-						*/
+					
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
