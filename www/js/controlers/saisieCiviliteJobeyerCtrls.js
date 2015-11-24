@@ -38,8 +38,8 @@ starter
 			
 			// RECUPERATION CONNEXION
 			var connexion=$cookieStore.get('connexion');
-			// RECUPERATION EMPLOYEUR ID
-			var employeId=connexion.employeID;
+			// RECUPERATION JOBEYER ID
+			var jobeyeId=connexion.jobeyeId;
 			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
@@ -50,39 +50,42 @@ starter
 				if(!prenom)
 					prenom="";
 				if(!dateNaissance)
-					dateNaissance="";
+					dateNaissance=new Date();
+
+				dateNaissance=new Date(dateNaissance).getTime();
+
 				if(!numSS)
 					numSS="";
 				if(!nationalite)
 					nationalite="";
-
-				// UPDATE EMPLOYEUR
-				UpdateInServer.updateCiviliteInEmployeur(
-					Number(employeId), Number(titre), nom, prenom, dateNaissance, numSS, nationalite, sessionId)
+				console.log("dateNaissance : "+dateNaissance);
+				// UPDATE JOBEYER
+				UpdateInServer.updateCiviliteInJobeyer(
+					Number(jobeyeId), Number(titre), nom, prenom, dateNaissance, numSS, nationalite, sessionId)
 						.success(function (response){
 
 							// DONNEES ONT ETE SAUVEGARDES
 							console.log("les donnes ont été sauvegarde");
 							console.log("response"+response);
 
-							var employeur=$cookieStore.get('employeur');
-							if(!employeur)
-								employeur={};
+							var jobeyer=$cookieStore.get('jobeyer');
+							if(!jobeyer)
+								jobeyer={};
 
-							employeur.civilite=titre;
-							employeur.nom=nom;
-							employeur.prenom=prenom;
-							employeur.dateNaissance=dateNaissance;
-							employeur.numSS=numSS;
-							employeur.nationalite=nationalite;
+							jobeyer.civilite=titre;
+							jobeyer.nom=nom;
+							jobeyer.prenom=prenom;
+							jobeyer.dateNaissance=dateNaissance;
+							jobeyer.numSS=numSS;
+							jobeyer.nationalite=nationalite;
 							
-							console.log("employeur : "+JSON.stringify(employeur));
+							console.log("jobeyer : "+JSON.stringify(jobeyer));
 							// PUT IN SESSION
-							$cookieStore.put('employeur', employeur);
+							$cookieStore.put('jobeyer', jobeyer);
 
 						}).error(function (err){
 							console.log("error : insertion DATA");
-							console.log("error In updateCiviliteInEmployeur: "+err);
+							console.log("error In updateCiviliteInjobeyer: "+err);
 						});
 			}
 
@@ -93,8 +96,8 @@ starter
 				//console.log("image en base64 : "+$scope.formData.imageEncode);
 				console.log("image en base64 : "+$scope.formData.imageEncode);
 				// ENVOI AU SERVEUR
-				//UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode.split(',')[1], employeId)
-				UploadFile.uploadFile("user_employeur", $scope.formData.imageName, $scope.formData.imageEncode, employeId)
+				//UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode.split(',')[1], jobeyeId)
+				UploadFile.uploadFile("user_salarie", $scope.formData.imageName, $scope.formData.imageEncode, jobeyeId)
 					.success(function (response){
 
 						// FILE A ETE BIEN TRANSFERE
@@ -207,22 +210,22 @@ starter
 				$scope.initForm();
 
 				console.log("Je suis ds $ionicView.beforeEnter(saisieCivilite)");
-			  var employeur=$cookieStore.get('employeur');
-				console.log("employeur : "+JSON.stringify(employeur));
-				if(employeur){
+			  var jobeyer=$cookieStore.get('jobeyer');
+				console.log("jobeyer : "+JSON.stringify(jobeyer));
+				if(jobeyer){
 					// INITIALISATION FORMULAIRE
-					if(employeur.civilite)
-						$scope.formData.civ=employeur.civilite;
-					if(employeur.nom)
-						$scope.formData.nom=employeur.nom;
-					if(employeur.prenom)
-						$scope.formData.prenom=employeur.prenom;
-					if(employeur.dateNaissance)
-						$scope.formData.dateNaissance=employeur.dateNaissance;
-					if(employeur.numSS)
-						$scope.formData.numSS=employeur.numSS;
-					if(employeur.nationalite)
-						$scope.formData.nationalite=employeur.nationalite;
+					if(jobeyer.civilite)
+						$scope.formData.civ=jobeyer.civilite;
+					if(jobeyer.nom)
+						$scope.formData.nom=jobeyer.nom;
+					if(jobeyer.prenom)
+						$scope.formData.prenom=jobeyer.prenom;
+					if(jobeyer.dateNaissance)
+						$scope.formData.dateNaissance=jobeyer.dateNaissance;
+					if(jobeyer.numSS)
+						$scope.formData.numSS=jobeyer.numSS;
+					if(jobeyer.nationalite)
+						$scope.formData.nationalite=jobeyer.nationalite;
 				}
 			}
 		});

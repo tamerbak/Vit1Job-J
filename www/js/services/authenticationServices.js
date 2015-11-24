@@ -85,7 +85,7 @@ angular.module('wsConnectors', ['ionic'])
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_employeur</entity>'+
+			'<entity>user_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
@@ -238,34 +238,30 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-	this.persistInEmployeur=function(
+	this.persistInJobeyer=function(
 			nom, prenom, ville, zipCode, civilite, num, adress1, adress2, phone,
-			email, password, raisonSocial, siret, codeAPE, numUrssaf, cni_ou_rc, sessionID){
+			email, password, numSS, nationalite, sessionID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_employeur</entity>'+
+			'<entity>user_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Nom ou raison sociale
-          					'<label>&lt;![CDATA[Nom ou raison sociale]]&gt;</label>'+
-          					'<attributeReference>nom_ou_raison_sociale</attributeReference>'+
-          					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA['+raisonSocial+']]&gt;</value>'+
+					/*
+        				'<fr.protogen.connector.model.DataEntry>'+	// dateNaissance
+          					'<label>&lt;![CDATA[DATE DE NAISSANCE]]&gt;</label>'+
+          					'<attributeReference>date_de_naissance</attributeReference>'+
+          					'<type>TIMESTAMP</type>'+
+          					'<value>&lt;![CDATA['+dateNaissance+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Identifiant fiscal
-          					'<label>&lt;![CDATA[Identifiant fiscal]]&gt;</label>'+
-          					'<attributeReference>identifiant_fiscal</attributeReference>'+
+						*/
+        				'<fr.protogen.connector.model.DataEntry>'+	// numero_ss
+          					'<label>&lt;![CDATA[NUMERO SS]]&gt;</label>'+
+          					'<attributeReference>numero_ss</attributeReference>'+
           					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA[]]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// CNI ou RC
-          					'<label>&lt;![CDATA[CNI ou RC]]&gt;</label>'+
-          					'<attributeReference>cni_ou_rc</attributeReference>'+
-          					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA['+cni_ou_rc+']]&gt;</value>'+
+          					'<value>&lt;![CDATA['+numSS+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Ville
           					'<label>&lt;![CDATA[Ville]]&gt;</label>'+
@@ -306,35 +302,23 @@ angular.module('wsConnectors', ['ionic'])
           					'<list/>'+
           					'<value>&lt;![CDATA['+civilite+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Nom du dirigeant
-          					'<label>&lt;![CDATA[Nom du dirigeant]]&gt;</label>'+
-          					'<attributeReference>nom_du_dirigeant</attributeReference>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Nom
+          					'<label>&lt;![CDATA[Nom]]&gt;</label>'+
+          					'<attributeReference>nom</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+nom+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Prénom du dirigeant
-          					'<label>&lt;![CDATA[Prénom du dirigeant]]&gt;</label>'+
-          					'<attributeReference>prenom_du_dirigeant</attributeReference>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Prénom
+          					'<label>&lt;![CDATA[Prénom]]&gt;</label>'+
+          					'<attributeReference>prenom</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+prenom+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// SIRET
-          					'<label>&lt;![CDATA[SIRET]]&gt;</label>'+
-          					'<attributeReference>siret</attributeReference>'+
-          					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA['+siret+']]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Code APE
-          					'<label>&lt;![CDATA[Code APE]]&gt;</label>'+
-          					'<attributeReference>code_ape</attributeReference>'+
-          					'<type>TEXT</type>'+
-         					'<value>&lt;![CDATA['+codeAPE+']]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Numéro URSSAF
-          					'<label>&lt;![CDATA[Numéro URSSAF]]&gt;</label>'+
-          					'<attributeReference>numero_urssaf</attributeReference>'+
-          					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA['+numUrssaf+']]&gt;</value>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// nationalite
+          					'<label>&lt;![CDATA[Nationalité]]&gt;</label>'+
+          					'<attributeReference>fk_user_nationalite</attributeReference>'+
+          					'<type>fk_user_nationalite</type>'+
+          					'<value>&lt;![CDATA['+nationalite+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+	// Téléphone
           					'<label>&lt;![CDATA[Téléphone]]&gt;</label>'+
@@ -712,18 +696,18 @@ angular.module('wsConnectors', ['ionic'])
   })
 
   .service('UpdateInServer', function ($http){
-	this.updateCiviliteInEmployeur = function(id, civilite, nom, prenom, raisonSocial, siret, codeAPE, numUrssaf, sessionID){
-
+	this.updateCiviliteInJobeyer = function(id, civilite, nom, prenom, dateNaissance, numSS, nationalite, sessionID){
+		console.log(id+ ","+ civilite+ ","+ nom+ ","+ prenom+ ","+ dateNaissance+ ","+ numSS+ ","+ nationalite+ ","+ sessionID);
        soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_employeur</entity>'+
+			'<entity>user_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-						'<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
-							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
-							'<attributeReference>pk_user_employeur</attributeReference>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// ID SALARIE
+							'<label>&lt;![CDATA[ID SALARIE]]&gt;</label>'+
+							'<attributeReference>pk_user_salarie</attributeReference>'+
 							'<type>PK</type>'+
 							'<value>'+id+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
@@ -734,42 +718,41 @@ angular.module('wsConnectors', ['ionic'])
           					'<list/>'+
           					'<value>'+civilite+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Nom du dirigeant
-          					'<label>&lt;![CDATA[Nom du dirigeant]]&gt;</label>'+
-          					'<attributeReference>nom_du_dirigeant</attributeReference>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Nom
+          					'<label>&lt;![CDATA[Nom]]&gt;</label>'+
+          					'<attributeReference>nom</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+nom+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Prénom du dirigeant
-          					'<label>&lt;![CDATA[Prénom du dirigeant]]&gt;</label>'+
-          					'<attributeReference>prenom_du_dirigeant</attributeReference>'+
+        				'<fr.protogen.connector.model.DataEntry>'+	// Prénom
+          					'<label>&lt;![CDATA[Prénom]]&gt;</label>'+
+          					'<attributeReference>prenom</attributeReference>'+
           					'<type>TEXT</type>'+
           					'<value>&lt;![CDATA['+prenom+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Nom ou raison sociale
-          					'<label>&lt;![CDATA[Nom ou raison sociale]]&gt;</label>'+
-          					'<attributeReference>nom_ou_raison_sociale</attributeReference>'+
-          					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA['+raisonSocial+']]&gt;</value>'+
+						/*
+        				'<fr.protogen.connector.model.DataEntry>'+	// DATE DE NAISSANCE
+          					'<label>&lt;![CDATA[DATE DE NAISSANCE]]&gt;</label>'+
+          					'<attributeReference>date_de_naissance</attributeReference>'+
+          					'<type>TIMESTAMP</type>'+
+          					'<value>&lt;![CDATA['+dateNaissance+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// SIRET
-          					'<label>&lt;![CDATA[SIRET]]&gt;</label>'+
-          					'<attributeReference>siret</attributeReference>'+
+						*/
+        				'<fr.protogen.connector.model.DataEntry>'+	// NUMERO SS
+          					'<label>&lt;![CDATA[NUMERO SS]]&gt;</label>'+
+          					'<attributeReference>numero_ss</attributeReference>'+
           					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA['+siret+']]&gt;</value>'+
+          					'<value>&lt;![CDATA['+numSS+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Code APE
-          					'<label>&lt;![CDATA[Code APE]]&gt;</label>'+
-          					'<attributeReference>code_ape</attributeReference>'+
-          					'<type>TEXT</type>'+
-         					'<value>&lt;![CDATA['+codeAPE+']]&gt;</value>'+
+												/*
+
+        				'<fr.protogen.connector.model.DataEntry>'+	// NATIONALITE
+          					'<label>&lt;![CDATA[NATIONALITE]]&gt;</label>'+
+          					'<attributeReference>fk_user_nationalite</attributeReference>'+
+          					'<type>fk_user_nationalite</type>'+
+         					'<value>&lt;![CDATA['+nationalite+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+	// Numéro URSSAF
-          					'<label>&lt;![CDATA[Numéro URSSAF]]&gt;</label>'+
-          					'<attributeReference>numero_urssaf</attributeReference>'+
-          					'<type>TEXT</type>'+
-          					'<value>&lt;![CDATA['+numUrssaf+']]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
+						*/
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -807,17 +790,17 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-	this.updateAdressePersEmployeur=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
+	this.updateAdressePersJobeyer=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
 		soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_employeur</entity>'+
+			'<entity>user_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-						'<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
-							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
-							'<attributeReference>pk_user_employeur</attributeReference>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// ID SALARIE
+							'<label>&lt;![CDATA[ID SALARIE]]&gt;</label>'+
+							'<attributeReference>pk_user_salarie</attributeReference>'+
 							'<type>PK</type>'+
 							'<value>'+id+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
@@ -888,17 +871,17 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-	this.updateAdresseTravEmployeur=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
+	this.updateAdresseTravJobeyer=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
 		soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_employeur</entity>'+
+			'<entity>user_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
-						'<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
-							'<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
-							'<attributeReference>pk_user_employeur</attributeReference>'+
+						'<fr.protogen.connector.model.DataEntry>'+	// ID salarie
+							'<label>&lt;![CDATA[ID salarie]]&gt;</label>'+
+							'<attributeReference>pk_user_salarie</attributeReference>'+
 							'<type>PK</type>'+
 							'<value>'+Number(id)+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
@@ -1278,28 +1261,28 @@ angular.module('wsConnectors', ['ionic'])
 	})
 
   .service('GlobalService', function(){
-	  //this.employeId=0;
-	  var employeId = window.employeId;
+	  //this.jobeyeId=0;
+	  var jobeyeId = window.jobeyeId;
 
 	  return {
-		  getEmployeId: function(){
-			  return employeId;
+		  getjobeyeId: function(){
+			  return jobeyeId;
 		  },
-		  setEmployeId: function(id){
-			  employeId = id;
+		  setjobeyeId: function(id){
+			  jobeyeId = id;
 		  }
         /**,isConnected: function() {
             return !!user;
         }**/
      };
 	  /** SETTERS
-	  this.setEmployeId=function(id){
-		  this.employeId=id;
+	  this.setjobeyeId=function(id){
+		  this.jobeyeId=id;
 	  }
 
 	  // GETTERS
-	  this.getEmployeId=function(){
-		  return this.employeId;
+	  this.getjobeyeId=function(){
+		  return this.jobeyeId;
 	  }**/
   })
 

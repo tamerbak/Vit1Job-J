@@ -181,14 +181,14 @@ starter
 
 	$scope.initConnexion= function(){
 
-		$scope.formData.connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
+		$scope.formData.connexion={'etat': false, 'libelle': 'Se connecter', 'jobeyeId': 0};
 		var cnx=$cookieStore.get('connexion');
 		if(cnx){
 			$scope.formData.connexion=cnx;
-			console.log("Employeur est connecté");
+			console.log("Jobeyer est connecté");
 		}
 
-		console.log("connexion[employeID] : "+$scope.formData.connexion.employeID);
+		console.log("connexion[jobeyeId] : "+$scope.formData.connexion.jobeyeId);
 		console.log("connexion[libelle] : "+$scope.formData.connexion.libelle);
 		console.log("connexion[etat] : "+$scope.formData.connexion.etat);
 	};
@@ -208,7 +208,7 @@ starter
 
 				$cookieStore.remove('connexion');
 				$cookieStore.remove('sessionID');
-				var connexion={'etat': false, 'libelle': 'Se connecter', 'employeID': 0};
+				var connexion={'etat': false, 'libelle': 'Se connecter', 'jobeyeId': 0};
 				$cookieStore.put('connexion', connexion);
 
 				console.log("New Connexion : "+JSON.stringify($cookieStore.get('connexion')));

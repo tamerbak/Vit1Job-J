@@ -394,8 +394,8 @@ starter
 
 			// RECUPERATION CONNEXION
 			var connexion=$cookieStore.get('connexion');
-			// RECUPERATION EMPLOYEUR ID
-			var employeId=connexion.employeID;
+			// RECUPERATION JOBEYER ID
+			var jobeyeId=connexion.jobeyeId;
 			console.log("connexion : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
@@ -455,12 +455,12 @@ starter
 						
 						
 						// PERSISTENCE OFFRE N°i
-						PersistInServer.persistInOffres(employeId, "Titre_4", "Description_4", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId, niveau)
+						PersistInServer.persistInOffres(jobeyeId, "Titre_4", "Description_4", new Date().getTime(), new Date().getTime()+2592000 , sessionId, jobeyeId, niveau)
 							.then(
 								function (response){
 									console.log("response : "+JSON.stringify(response));
 									
-									// RECUPERATION EMPLOYEUR ID*
+									// RECUPERATION JOBEYER ID*
 									var offreId=0;
 									var ofre=formatString.formatServerResult(response.data);
 									console.log("ofre : "+JSON.stringify(ofre));
@@ -536,7 +536,7 @@ starter
 							.success(function (response){
 								console.log("response : "+response);
 
-								// RECUPERATION EMPLOYEUR ID*
+								// RECUPERATION JOBEYER ID*
 								offreId=0;
 								ofre=formatString.formatServerResult(response);
 								if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES

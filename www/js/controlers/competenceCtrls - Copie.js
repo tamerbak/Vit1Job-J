@@ -391,8 +391,8 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 
 			// RECUPERATION CONNEXION
 			connexion=$cookieStore.get('connexion');
-			// RECUPERATION EMPLOYEUR ID
-			employeId=connexion.employeID;
+			// RECUPERATION JOBEYER ID
+			jobeyeId=connexion.jobeyeId;
 			console.log("connexion : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
@@ -445,11 +445,11 @@ angular.module('competenceCtrls', ['ionic', 'wsConnectors','ngCookies', 'globalS
 						console.log("niveau : "+niveau);
 					}
 					// PERSISTENCE OFFRE N°i
-					PersistInServer.persistInOffres(employeId, "Titre_3", "Description_3", new Date().getTime(), new Date().getTime()+2592000 , sessionId, employeId, niveau)
+					PersistInServer.persistInOffres(jobeyeId, "Titre_3", "Description_3", new Date().getTime(), new Date().getTime()+2592000 , sessionId, jobeyeId, niveau)
 						.success(function (response){
 							console.log("response : "+response);
 
-							// RECUPERATION EMPLOYEUR ID*
+							// RECUPERATION JOBEYER ID*
 							offreId=0;
 							ofre=formatString.formatServerResult(response);
 							if(ofre.dataModel.status || ofre.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES

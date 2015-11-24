@@ -10,8 +10,8 @@ starter
 		// FORMULAIRE
 		$scope.formData = {};
 
-		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
-		$scope.updateAdresseTravEmployeur = function(){
+		// RECUPERATION SESSION-ID & JOBEYER-ID
+		$scope.updateAdresseTravJobeyer = function(){
 
 			for(var obj in $scope.formData){
 				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
@@ -35,8 +35,8 @@ starter
 
 			// RECUPERATION CONNEXION
 			var connexion=$cookieStore.get('connexion');
-			// RECUPERATION EMPLOYEUR ID
-			var employeId=connexion.employeID;
+			// RECUPERATION JOBEYER ID
+			var jobeyeId=connexion.jobeyeId;
 			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
@@ -47,26 +47,26 @@ starter
 					adresse1='';
 				if(!adresse2)
 					adresse2='';
-				UpdateInServer.updateAdresseTravEmployeur(employeId, codePost, ville, adresse1, adresse2, sessionId)
+				UpdateInServer.updateAdresseTravJobeyer(jobeyeId, codePost, ville, adresse1, adresse2, sessionId)
 					.success(function (response){
 
 						// DONNEES ONT ETE SAUVEGARDES
 						console.log("les donnes ont été sauvegarde");
 						console.log("response"+response);
 
-						employeur=$cookieStore.get('employeur');
-						if(!employeur)
-							var employeur={};
+						jobeyer=$cookieStore.get('jobeyer');
+						if(!jobeyer)
+							var jobeyer={};
 						var adresseTravail={};
 						 adresseTravail={'codePostal': codePost, 'ville': ville, 'adresse1': adresse1, 'adresse2': adresse2};
-						employeur.adresseTravail=adresseTravail;
+						jobeyer.adresseTravail=adresseTravail;
 
 						// PUT IN SESSION
-						$cookieStore.put('employeur', employeur);
-						console.log("employeur : "+JSON.stringify(employeur));
+						$cookieStore.put('jobeyer', jobeyer);
+						console.log("jobeyer : "+JSON.stringify(jobeyer));
 					}).error(function (err){
 						console.log("error : insertion DATA");
-						console.log("error In updateAdresseTravEmployeur: "+err);
+						console.log("error In updateAdresseTravjobeyer: "+err);
 					});
 			}
 
@@ -324,7 +324,7 @@ starter
 
 			var myPopup = $ionicPopup.show({
 
-			  template: "Adresse du travail est identique à l'adresse du siège social? <br>",
+			  template: "Adresse de départ pour le travail est-elle identique à l'adresse du domicile ? <br>",
 			  title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
 			  buttons: [
 				{
@@ -341,7 +341,7 @@ starter
 							document.getElementById('ex2_value').value=params.code;
 						if(params.vi)
 							document.getElementById('ex3_value').value=params.vi;
-						$scope.updateAdresseTravEmployeur();
+						$scope.updateAdresseTravJobeyer();
 						// REDIRECTION VERS PAGE - COMPETENCES
 						//$state.go('competence');	
 					}
@@ -358,18 +358,18 @@ starter
 				if($ionicHistory.backView() === "adressePersonel"){}
 				console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
 
-				var employeur=$cookieStore.get('employeur');
-				if(employeur){
+				var jobeyer=$cookieStore.get('jobeyer');
+				if(jobeyer){
 					// INITIALISATION FORMULAIRE
-					if(employeur['adresseTravail']){
+					if(jobeyer['adresseTravail']){
 						// INITIALISATION FORMULAIRE
-						/**if(employeur['adresseTravail'].codePostal)
-							document.getElementById('ex2_value').value=employeur['adresseTravail']['codePostal'];
-						if(employeur.adresseTravail.ville)
-							document.getElementById('ex3_value').value=employeur['adresseTravail']['ville'];**/
-						if(employeur['adresseTravail']){
-							$scope.formData['adresse1']=employeur['adresseTravail']['adresse1'];
-							$scope.formData['adresse2']=employeur['adresseTravail']['adresse2'];
+						/**if(jobeyer['adresseTravail'].codePostal)
+							document.getElementById('ex2_value').value=jobeyer['adresseTravail']['codePostal'];
+						if(jobeyer.adresseTravail.ville)
+							document.getElementById('ex3_value').value=jobeyer['adresseTravail']['ville'];**/
+						if(jobeyer['adresseTravail']){
+							$scope.formData['adresse1']=jobeyer['adresseTravail']['adresse1'];
+							$scope.formData['adresse2']=jobeyer['adresseTravail']['adresse2'];
 						}
 					}
 				}
