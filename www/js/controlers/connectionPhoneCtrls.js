@@ -90,7 +90,7 @@ starter
 			  if(isNew === 1){
 				  // PERSIST IN BD - JOBEYER
 					PersistInServer.persistInJobeyer
-						('', '', 0, 0, 0, '', '', '', phone, '', password, '', '', '', '', sessionId)
+						('', '', 0, 0, 0, '', '', '', phone, '', password, '', '', sessionId)
 							.success(function (response){
 								console.log("ID JOBEYER : "+response);
 
