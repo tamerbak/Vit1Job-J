@@ -14,7 +14,7 @@ starter
 		$scope.updateAdresseTravJobeyer = function(){
 
 			for(var obj in $scope.formData){
-				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
+				console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 
 			var codePost="A", ville="A";
@@ -29,7 +29,7 @@ starter
 					ville=Number($scope.formData.ville.originalObject.pk_user_ville);
 			var adresse1=$scope.formData.adresse1;
 			var adresse2=$scope.formData.adresse2;
-
+			var num=$scope.formData.num;
 			console.log("codePostal: "+codePost);
 			console.log("ville : "+ville);
 
@@ -47,7 +47,8 @@ starter
 					adresse1='';
 				if(!adresse2)
 					adresse2='';
-				UpdateInServer.updateAdresseTravJobeyer(jobeyeId, codePost, ville, adresse1, adresse2, sessionId)
+				console.log(jobeyeId+" ; " +codePost+" ; " +ville+" ; "+num+" ; " +adresse1+" ; " +adresse2+" ; " +sessionId);
+				UpdateInServer.updateAdresseTravJobeyer(jobeyeId, codePost, ville, num, adresse1, adresse2, sessionId)
 					.success(function (response){
 
 						// DONNEES ONT ETE SAUVEGARDES

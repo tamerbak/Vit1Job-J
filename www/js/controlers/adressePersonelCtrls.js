@@ -14,7 +14,7 @@ starter
 		$scope.updateAdressePersJobeyer = function(){
 
 			for(var obj in $scope.formData){
-				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
+				console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 			/**if($scope.formData.codePostal !== null && typeof $scope.formData.codePostal !== 'undefined'){
 				console.log("code postale: "+JSON.stringify($scope.formData.codePostal));
@@ -51,9 +51,9 @@ starter
 					adresse1='';
 				if(!adresse2)
 					adresse2='';
-        if(!num)
-          num='';
-
+			if(!num)
+			  num='';
+			console.log(jobeyeId+", "+ codePostal+", "+  ville+", "+  num+", "+  adresse1+", "+  adresse2+", "+  sessionId);
 				UpdateInServer.updateAdressePersJobeyer(jobeyeId, codePostal, ville, num, adresse1, adresse2, sessionId)
 					.success(function (response){
 
