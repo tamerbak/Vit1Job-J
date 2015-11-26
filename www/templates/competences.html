@@ -40,7 +40,7 @@
 		-->
 		<select class="flat" data-ng-model="formData.metier" data-ng-init="formData.metier='Metiers'">
 			<option selected disabled style="display: none;">Metiers</option>				
-			<option data-ng-repeat="x in formData.metiers" value="{{x.libelle}}">{{x.libelle}}</option>
+			<option data-ng-repeat="x in formData.metiers" value="{{x}}">{{x.libelle}}</option>
 		</select>
 		</label>
 	</div>
@@ -64,7 +64,7 @@
 		-->
 		<select class="flat" data-ng-model="formData.job" data-ng-init="formData.job='Job'">
 			<option selected disabled style="display: none;">Job</option>		
-			<option data-ng-repeat="x in formData.jobs" value="{{x.libelle}}">{{x.libelle}}</option>
+			<option data-ng-repeat="x in formData.jobs" value="{{x}}">{{x.libelle}}</option>
 		</select>
 		</label>
 	</div>	

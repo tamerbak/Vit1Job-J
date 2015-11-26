@@ -382,59 +382,63 @@ angular.module('wsConnectors', ['ionic'])
       });
 	}
 
-	this.persistInOffres=function(identifiant, titre, description, disponible_du, disponible_au, sessionID, employeurID, niveauID){
+	this.persistInOffres=function(titre, disponible_du, disponible_au, sessionID, jobeyeId){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_offre</entity>'+
+			'<entity>user_offre_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
+					/*
         				'<fr.protogen.connector.model.DataEntry>'+		// IDENTIFIANT
 							'<label>&lt;![CDATA[Identifiant]]&gt;</label>'+
-							'<attributeReference>identifiant</attributeReference>'+
-							'<type>DOUBLE</type>'+
+							'<attributeReference>pk_user_offre_salarie</attributeReference>'+
+							'<type>pk_user_offre_salarie</type>'+
 							'<value>'+identifiant+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-        				'<fr.protogen.connector.model.DataEntry>'+		// titre
-							'<label>&lt;![CDATA[Titre]]&gt;</label>'+
-							'<attributeReference>titre</attributeReference>'+
+						*/
+        				'<fr.protogen.connector.model.DataEntry>'+		// intitule
+							'<label>&lt;![CDATA[intitule]]&gt;</label>'+
+							'<attributeReference>intitule</attributeReference>'+
 							'<type>TEXT</type>'+
 							'<value>&lt;![CDATA['+titre+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
+						/*
         				'<fr.protogen.connector.model.DataEntry>'+		// description
 							'<label>&lt;![CDATA[Description]]&gt;</label>'+
 							'<attributeReference>description</attributeReference>'+
 							'<type>TEXT</type>'+
 							'<value>&lt;![CDATA['+description+']]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
-						/**'<fr.protogen.connector.model.DataEntry>'+		// disponible_du
+        				'</fr.protogen.connector.model.DataEntry>'+ */
+						'<fr.protogen.connector.model.DataEntry>'+		// disponible_du
           					'<label>&lt;![CDATA[Disponible du]]&gt;</label>'+
          					' <attributeReference>disponible_du</attributeReference>'+
           					'<type>DATE</type>'+
           					'<value>&lt;![CDATA[2015-09-27 02:00:00.0]]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+	**/
+        				'</fr.protogen.connector.model.DataEntry>'+	
         				'<fr.protogen.connector.model.DataEntry>'+		// disponible_au
           					'<label>&lt;![CDATA[Disponible au]]&gt;</label>'+
           					'<attributeReference>disponible_au</attributeReference>'+
           					'<type>DATE</type>'+
           					'<value>&lt;![CDATA[2015-12-12 08:00:00.0]]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+		// ID EMPLOYEUR
+        				'</fr.protogen.connector.model.DataEntry>'+		// ID SALARIE
 						'<fr.protogen.connector.model.DataEntry>'+
-							'<label>&lt;![CDATA[Employeur]]&gt;</label>'+
-							'<attributeReference>fk_user_employeur</attributeReference>'+
-							'<type>fk_user_employeur</type>'+
+							'<label>&lt;![CDATA[SALARIE]]&gt;</label>'+
+							'<attributeReference>fk_user_salarie</attributeReference>'+
+							'<type>fk_user_salarie</type>'+
 							'<list/>'+
-							'<value>'+employeurID+'</value>'+
+							'<value>'+jobeyeId+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
+						/*
 						'<fr.protogen.connector.model.DataEntry>'+
 							'<label>&lt;![CDATA[Niveau de maitrise]]&gt;</label>'+
           					'<attributeReference>fk_user_niveau_de_maitrise</attributeReference>'+
           					'<type>fk_user_niveau_de_maitrise</type>'+
           					'<list/>'+
           					'<value>'+niveauID+'</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+
+        				'</fr.protogen.connector.model.DataEntry>'+ */
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -471,19 +475,19 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-	this.persistInOffres_Competences=function(sessionID, competenceID, offreID){
+	this.persistInOffres_Competences=function(sessionID, competenceID, offreID,salarieID,niveauID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_competence_offre</entity>'+
+			'<entity>user_competence_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
 						'<fr.protogen.connector.model.DataEntry>'+
 							'<label>&lt;![CDATA[Offre]]&gt;</label>'+
-							'<attributeReference>fk_user_offre</attributeReference>'+
-							'<type>fk_user_offre</type>'+
+							'<attributeReference>fk_user_offre_salarie</attributeReference>'+
+							'<type>fk_user_offre_salarie</type>'+
 							'<list/>'+
 							'<value>'+offreID+'</value>'+
 						'</fr.protogen.connector.model.DataEntry>'+
@@ -494,6 +498,20 @@ angular.module('wsConnectors', ['ionic'])
 							'<list/>'+
 							'<value>'+competenceID+'</value>'+
 						'</fr.protogen.connector.model.DataEntry>'+
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[NIVEAU]]&gt;</label>'+
+							'<attributeReference>fk_user_niveau_de_maitrise</attributeReference>'+
+							'<type>fk_user_niveau_de_maitrise</type>'+
+							'<list/>'+
+							'<value>'+niveauID+'</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[SALARIE]]&gt;</label>'+
+							'<attributeReference>fk_user_salarie</attributeReference>'+
+							'<type>fk_user_salarie</type>'+
+							'<list/>'+
+							'<value>'+salarieID+'</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+						
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -530,19 +548,19 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-	this.persistInOffres_Transvers=function(sessionID, transversID, offreID){
+	this.persistInOffres_Transvers=function(sessionID, transversID, offreID, salarieID){
 
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_competence_transverse_offre</entity>'+
+			'<entity>user_competence_transverse_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
         				'<fr.protogen.connector.model.DataEntry>'+
 							'<label>&lt;![CDATA[Offre]]&gt;</label>'+
-							'<attributeReference>fk_user_offre</attributeReference>'+
-							'<type>fk_user_offre</type>'+
+							'<attributeReference>fk_user_offre_salarie</attributeReference>'+
+							'<type>fk_user_offre_salarie</type>'+
 							'<list/>'+
 							'<value>'+offreID+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
@@ -553,6 +571,13 @@ angular.module('wsConnectors', ['ionic'])
 							'<list/>'+
 							'<value>'+transversID+'</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
+						'<fr.protogen.connector.model.DataEntry>'+
+							'<label>&lt;![CDATA[SALARIE]]&gt;</label>'+
+							'<attributeReference>fk_user_salarie</attributeReference>'+
+							'<type>fk_user_salarie</type>'+
+							'<list/>'+
+							'<value>'+salarieID+'</value>'+
+						'</fr.protogen.connector.model.DataEntry>'+												
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+

@@ -434,7 +434,7 @@ starter
 				for(i=0; i< $rootScope.jobyers.length; i++){
 					console.log("iiii : "+i);
 						
-						var offre=$rootScope.jobyers[i];
+						var offre=$rootScope.jobyers[i]; 
 						
 						if(typeof offre.metier === 'undefined' || typeof offre.job === 'undefined' || isNaN(offre.indisp) || isNaN(offre.langue)){
 							console.log("Il manque des informations")
@@ -455,7 +455,7 @@ starter
 						
 						
 						// PERSISTENCE OFFRE N°i
-						PersistInServer.persistInOffres(jobeyeId, "Titre_4", "Description_4", new Date().getTime(), new Date().getTime()+2592000 , sessionId, jobeyeId, niveau)
+						PersistInServer.persistInOffres( "Titre_4", new Date().getTime(), new Date().getTime()+2592000 , sessionId, jobeyeId)
 							.then(
 								function (response){
 									console.log("response : "+JSON.stringify(response));
@@ -473,13 +473,18 @@ starter
 									console.log("offreID a été bien récuperé : "+offreId);
 									if(offreId){
 										if(offre.job){
-											console.log("job : "+offre.job.pk_user_competence);
+											console.log("response : "+JSON.stringify(offre));
+											var job=JSON.parse(offre.job);
+											for(var ij in job ){
+												console.log("ij : "+ij +" = "+job[ij]);
+											}
 											// PERSISTENCE IN COMPETANCE
 											//*
-											PersistInServer.persistInOffres_Competences(sessionId, Number(offre.job.pk_user_competence), Number(offreId))
+											console.log(sessionId+" ; "+Number(job.pk_user_competence)+" ; "+ Number(offreId)+" ; "+Number(jobeyeId)+" ; "+Number(niveau));
+											PersistInServer.persistInOffres_Competences(sessionId, Number(job.pk_user_competence), Number(offreId),Number(jobeyeId),Number(niveau))
 												.then(
 													function (response){
-														console.log("success : persistInOffres_Competences"+response);
+														console.log("success : persistInOffres_Competences"+JSON.stringify(response));
 													},function (err){
 															console.log("error : insertion DATA");
 															console.log("error In persistInOffres_Competences: "+err);
@@ -490,10 +495,10 @@ starter
 														if(!isNaN(offre.indisp)){
 															console.log("indisp : "+offre.indisp);
 															// PERSISTENCE IN TRANSVERS
-															PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId))
+															PersistInServer.persistInOffres_Transvers(sessionId, Number(offre.indisp), Number(offreId),Number(jobeyeId))
 																.then(
 																	function (response){
-																		console.log("success : persistInOffres_Transvers"+response);
+																		console.log("success : persistInOffres_Transvers"+JSON.stringify(response));
 																	},function (err){
 																			console.log("error : insertion DATA");
 																			console.log("error In persistInOffres_Transvers: "+err);
