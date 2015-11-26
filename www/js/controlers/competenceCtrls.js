@@ -513,10 +513,10 @@ starter
 															console.log("offreId : "+offreId);
 															console.log("langue : "+offre.langue);
 															// PERSISTENCE IN LANGUES
-															PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId))
+															PersistInServer.persistInOffres_Langues(sessionId, Number(offre.langue), Number(offreId),Number(jobeyeId))
 																.then(
 																	function (response){
-																		console.log("success : persistInOffres_Langues"+response);
+																		console.log("success : persistInOffres_Langues"+JSON.stringify(response));
 																	},function (err){
 																			console.log("error : insertion DATA");
 																		console.log("error In persistInOffres_Langues: "+err);
