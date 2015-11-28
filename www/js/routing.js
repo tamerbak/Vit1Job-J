@@ -34,7 +34,7 @@ starter.config(function($stateProvider, $urlRouterProvider) {
 
     .state('list', {
       url: '/list',
-      templateUrl: 'templates/listJobyers.html',
+      templateUrl: 'templates/listEmployers.html',
       controller: 'listCtrl'
 
     })
@@ -45,13 +45,14 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       controller: 'MapCtrl'
 
     })
+	/*
     .state('listNext', {
       url: '/listNext',
-      templateUrl: 'templates/listJobyersNext.html',
+      templateUrl: 'templates/listEmployersNext.html',
       controller: 'listNextCtrl'
 
     })
-
+	*/
     .state('cPhone', {
       url: '/cPhone',
       templateUrl: 'templates/connexionPhone.html',

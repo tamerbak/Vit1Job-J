@@ -26,10 +26,10 @@ var starter = angular.module('starter', ['ionic','wsConnectors', 'parsingService
       StatusBar.styleDefault();
     }
 
-    $rootScope.jobyersForMe = [];
-    $rootScope.jobyersNextToMe = [];
-    $rootScope.nbJobyersForMe = 0;
-    $rootScope.nbJobyersNextToMe = 0;
+    $rootScope.employersForMe = [];
+    //$rootScope.employersNextToMe = [];
+    $rootScope.nbEmployersForMe = 0;
+    //$rootScope.nbEmployersNextToMe = 0;
     $rootScope.queryText = '';
 
     //connecting to WS
