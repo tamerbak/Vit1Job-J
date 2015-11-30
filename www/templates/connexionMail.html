@@ -1,5 +1,5 @@
 <ion-view title="connection">
-  <ion-header-bar class="bar-calm">
+  <ion-header-bar class="bar-calm backgroundGray">
     <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="connection"> </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <!--<h1 class="title">Connexion</h1>-->
@@ -14,7 +14,7 @@
 	<!-- Email -->
 	<div class="list">
       <label class="item item-input">
-        <i class="icon ion-email placeholder-icon calm" style="font-size: large"></i>
+        <i class="icon ion-email placeholder-icon" style="font-size: large"></i>
         <input type="email" id="email" placeholder="Email" data-ng-model="formData.email" data-ng-blur="validatEmail('email')">
 		<!--<span class="error" >Required!</span>
 		<span class="error" >Not valid email!</span>-->
@@ -30,8 +30,8 @@
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="connexionByMail()" ng-disabled="!formData.email || !formData.password">Connecter</button>
-      <button class="button button-full button-positive grey" ui-sref="connection">Quitter</button>
+      <button class="button button-full button-positive grey" data-ng-click="connexionByMail()" ng-disabled="!formData.email || !formData.password">Connecter</button>
+      <button class="button button-full button-positive green" ui-sref="connection">Quitter</button>
     </div>
   </ion-content>
 </ion-view>

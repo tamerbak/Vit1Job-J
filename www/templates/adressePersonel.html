@@ -1,5 +1,5 @@
 <ion-view title="connection">
-  <ion-header-bar class="bar-calm">
+  <ion-header-bar class="bar-calm backgroundGray">
     <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="saisieCiviliteJobeyer">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
@@ -23,7 +23,7 @@
            initial-value = "formData.initialCity"
         minlength="1"
         input-class="form-control form-control-small"
-        match-class="highlight" class="autoCompl">
+        match-class="highlight" class="autoCompl borderGray">
       </div>
       <!--select id="ex2" class="arriere flat select" data-ng-model="formData.villeSelected.pk" data-ng-change="updateAutoCompleteVille()">
         <option id="city_value" data-ng-repeat="x in formData.villes" value="{{x.pk_user_ville}}">{{x.libelle}}</option>
@@ -43,7 +43,7 @@
            initial-value = "formData.initialPC"
         minlength="1"
         input-class="form-control form-control-small"
-        match-class="highlight" class="autoCompl">
+        match-class="highlight" class="autoCompl borderGray">
       </div>
         <!--select id="ex1" class="arriere flat select" data-ng-model="formData.zipCodeSelected.pk" data-ng-change="updateAutoCompleteZip()">
           <option  id="cp_value" data-ng-repeat="x in formData.zipCodes" value="{{x.pk_user_code_postal}}">{{x.libelle}}</option>
@@ -83,8 +83,8 @@
     <br>
     <!-- ACTIONS -->
     <div class="buttonConnect">
-        <button class="button button-full button-positive green" data-ng-click="updateAdressePersJobeyer()">Valider</button>
-      <button class="button button-full button-positive grey icon-right ion-chevron-right" ui-sref="adresseTravail">Passer</button>
+        <button class="button button-full button-positive grey" data-ng-click="updateAdressePersJobeyer()">Valider</button>
+      <button class="button button-full button-positive green icon-right ion-chevron-right" ui-sref="adresseTravail">Passer</button>
       </div>
   </ion-content>
 </ion-view>

@@ -35,8 +35,13 @@ starter
 			var prenom=$scope.formData.prenom;
 			var dateNaissance=$scope.formData.dateNaissance;
 			var numSS=$scope.formData.numSS;
-			var nationalite=JSON.parse($scope.formData['nationalite']);
-			var pk_user_nationalite=nationalite.pk_user_nationalite;
+			var nationalite='';
+			var pk_user_nationalite='';
+			console.log($scope.formData['nationalite']);
+			if($scope.formData['nationalite'] != null && $scope.formData['nationalite']!='Nationalité' && $scope.formData['nationalite'] != undefined){
+				nationalite=JSON.parse($scope.formData['nationalite']);
+				pk_user_nationalite=nationalite.pk_user_nationalite;
+			}
 			console.log("nationalite : "+pk_user_nationalite);
 			// RECUPERATION CONNEXION
 			var connexion=$cookieStore.get('connexion');

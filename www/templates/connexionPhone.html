@@ -1,5 +1,5 @@
 <ion-view title="connection">
-  <ion-header-bar class="bar-calm">
+  <ion-header-bar class="bar-calm backgroundGray">
     <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="connection">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
     <!--<h1 class="title">Connexion</h1>-->
@@ -12,17 +12,17 @@
     </div>
 
     <!-- TELEPHONE -->
-  <div class="list xtel" align="left">
+  <div class="list xtel borderGray" align="left">
     <div class="row" >
       <div class="col-25 num">
         <label class="item item-input it1">
-          <i class="icon ion-ios-telephone placeholder-icon calm"></i>
+          <i class="icon ion-ios-telephone placeholder-icon"></i>
           <input class="input-indicatif" type="tel" ng-model="formData.index" placeholder="" data-ng-init="formData.index='0033'" numbers-only="numbers-only"/>
         </label>
       </div>
       <div class="col-10 num">
         <label class="item item-input it3">
-          <i class="icon ion-arrow-down-b placeholder-icon calm"></i>
+          <i class="icon ion-arrow-down-b placeholder-icon"></i>
           <select class="select-indicatif" ng-model="formData.index">
             <option ng-repeat="item in formData.pays" ng-value="item.indicatif_telephonique">
               {{item.libelle}}
@@ -48,8 +48,8 @@
 	<br>
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive green" data-ng-click="connexionByPhone()" ng-disabled="!formData.index || !formData.phone || !formData.password">Se connecter</button>
-      <button class="button button-full button-positive grey" ui-sref="connection">Quitter</button>
+      <button class="button button-full button-positive grey" data-ng-click="connexionByPhone()" ng-disabled="!formData.index || !formData.phone || !formData.password">Se connecter</button>
+      <button class="button button-full button-positive green" ui-sref="connection">Quitter</button>
     </div>
   </ion-content>
 </ion-view>
