@@ -193,7 +193,7 @@ starter
 						var 	connexion=$cookieStore.get('connexion');
 							if(connexion){
 								if(connexion.etat)	// home
-									$state.go("home");
+									$state.go("app");
 							}
 						}
 					});

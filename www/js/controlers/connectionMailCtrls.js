@@ -96,7 +96,7 @@ starter
 									$cookieStore.put('connexion', connexion);
 
 									// USER REEL - REDIRECTION VERS home
-									$state.go("home");
+									$state.go("app");
 								}
 								else	// MOT DE PASSE INCORRECT
 									Global.showAlertPassword("Mot de passe incorrect");
