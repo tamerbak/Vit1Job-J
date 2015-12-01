@@ -95,8 +95,8 @@ starter
 									var connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyerId)};
 									$cookieStore.put('connexion', connexion);
 
-									// USER REEL - REDIRECTION VERS RECHERCHE
-									$state.go("search");
+									// USER REEL - REDIRECTION VERS home
+									$state.go("home");
 								}
 								else	// MOT DE PASSE INCORRECT
 									Global.showAlertPassword("Mot de passe incorrect");

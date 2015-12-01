@@ -458,8 +458,12 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
 	background-color:gray !important;
 }
 
-.colorGray , .item.item-input .ion-search:before{
+.colorGray {
 	color : gray !important;
+}
+.item.item-input .ion-search:before{
+	
+	color : gray ;	
 }
 
 .borderGray{
