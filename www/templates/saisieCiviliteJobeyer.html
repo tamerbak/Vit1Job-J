@@ -56,19 +56,40 @@
 	</div>
 	
 	
-	
+	<!-- 
 	<div align="left">
       <h3 class="titlePhone">{{formData.scanTitle}}</h3>
     </div>
 
-	<!-- Image uploader -->
-	<div class="list">
 		<label class="item item-input">
-			<!--<button class="button button-positive grey" data-ng-click="">Parcourir...</button> -->
-			<input type="file" class="upload" capture="camera" accept="image/*" onchange="" />
+			<button class="button button-positive grey" data-ng-click="">Parcourir...</button>
+			<input id="image"
+                 type="file"
+                 class="upload"
+                 style="display: none"
+                 capture="camera"
+                 accept="image/*"
+                 data-ng-model="formData.image"
+                 onchange="angular.element(this).scope().loadImage(this)">
 		</label>
 	</div>
+	-->
+      <div class="list">
+          <!-- <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3> -->
+          <button class="button button-full button-positive grey" data-ng-click="selectImage()">
+              {{formData.scanTitle}}
+          </button>
+          <input id="image"
+                 type="file"
+                 class="upload"
+                 style="display: none"
+                 capture="camera"
+                 accept="image/*"
+                 data-ng-model="formData.image"
+                 onchange="angular.element(this).scope().loadImage(this)">
 
+          <img id="uploadPreview" style="max-width: 100px; max-height: 100px;" />
+      </div>	
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
       <button class="button button-full button-positive grey"  data-ng-click="updateCivilite()">Valider</button>

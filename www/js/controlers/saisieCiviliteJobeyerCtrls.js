@@ -187,20 +187,28 @@ starter
 			} // Get elem by ID
 
 			if(img.files && img.files[0]){
-
 				var FR= new FileReader();
+				/*
 				FR.onload = function(e){
 					// RECUPERE FILE-NAME
 					$scope.formData.imageName=img.files[0].name;
 					// RECUPERE ENCODAGE-64
 					$scope.formData.imageEncode=e.target.result;
+									console.log("test");
+
 				};
+				*/
 				FR.readAsDataURL(image.files[0]);
 				//$scope.$apply(function(){});
 
-        FR.onload = function (oFREvent) {
-          document.getElementById("uploadPreview").src = oFREvent.target.result;
-        };
+				FR.onload = function (oFREvent) {
+				document.getElementById("uploadPreview").src = oFREvent.target.result;
+				// RECUPERE FILE-NAME
+					$scope.formData.imageName=img.files[0].name;
+					// RECUPERE ENCODAGE-64
+					$scope.formData.imageEncode=oFREvent.target.result;
+									console.log("test");
+				};
 			}
 		};
 
