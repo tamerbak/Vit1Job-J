@@ -4,7 +4,7 @@
 'use strict';
 starter
   .controller('listCtrl', function ($scope, $rootScope,$ionicModal) {
-    $scope.employersForMe = $rootScope.employersForMe;
+    $scope.jobyersForMe = $rootScope.jobyersForMe;
     $scope.matchingOptions = {
       'comp' : 20,
       'job' : 20,
