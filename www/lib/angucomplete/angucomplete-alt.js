@@ -122,6 +122,9 @@
 						if(obj ==='pk_user_metier'){
 						list="metier";
 						}
+						if(obj ==='pk_user_ville'){
+						list="ville";
+						}						
 					}
 				}
 					
@@ -137,6 +140,9 @@
 							if(list==="postal"){
 								fk=data[i]['pk_user_code_postal'];
 							}
+							if(list==="ville"){
+								fk=data[i]['pk_user_ville'];
+							}							
 								/**if(ob !== 'libelle')
 									fk=data[i][ob];**/
 						}

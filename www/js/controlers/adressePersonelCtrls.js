@@ -104,19 +104,18 @@ starter
 			Validator.checkField(id);
 		};
 
-		$scope.$watch('formData.zipCodes', function(){
-			console.log('hey, formData.zipCodes has changed!');
+
+    $scope.$watch('formData.villes', function(){
+			console.log('hey, formData.villes has changed!');
 			//console.log('zipCodes.length : '+$scope.formData.zipCodes.length);
 		});
-
-		$scope.$on('update-list-ville', function(event, args){
-
+    $scope.$on('update-list-ville', function(event, args){
 			var params = args.params;
 			console.log("params : "+JSON.stringify(params));
 
 			var list =params.list;
 			var fk=params.fk;
-			// NEW LIST - VILLES
+			// NEW LIST - villes
 			vls=[];
 
 			if(list === "postal"){
@@ -141,15 +140,44 @@ starter
 				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
 			}
 		});
+    $scope.$on('update-list-code', function(event, args){
+      var params = args.params;
+      console.log("params : "+JSON.stringify(params));
 
-		$scope.initForm=function(){
-			/**var elm = angular.element(document.querySelector('#ex0_value'));
-			elm.val("Ville");**/
-			$scope.formData.zipCodes=DataProvider.getZipCodes();
-			$scope.formData.villes=DataProvider.getVilles();
-		};
+      var list =params.list;
+      var pk_ville=params.fk;
+      var pk_user_code_postal;
+      allZipCodes=DataProvider.getZipCodes();
+      allVilles=DataProvider.getVilles();
+      newZipCodes=[];
+      for(var i=0; i<allVilles.length; i++) {
+        if (allVilles[i]['pk_user_ville'] === pk_ville) {
+          pk_user_code_postal = allVilles[i]['fk_user_code_postal'];
+        }
+      }
+      console.log("fk_user_code_postal : "+pk_user_code_postal);
+      for(var j=0; j<allZipCodes.length; j++){
+            if (allZipCodes[j]['pk_user_code_postal'] === pk_user_code_postal) {
+              newZipCodes.push(allZipCodes[j]);
+            }
+      }
+
+        $scope.formData.zipCodes=newZipCodes;
+        console.log("New $scope.formData.zipCodes : "+JSON.stringify($scope.formData.zipCodes));
+
+        // ENVOI AU AUTOCOMPLETE CONTROLLEUR
+        //$rootScope.$broadcast('load-new-list', {newList: {codes}});
+    });
+
+    $scope.initForm=function(){
+      /**var elm = angular.element(document.querySelector('#ex0_value'));
+       elm.val("Ville");**/
+      $scope.formData.zipCodes=DataProvider.getZipCodes();
+      $scope.formData.villes=DataProvider.getVilles();
+    };
 
 		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
+      console.log("$ionicView.beforeEnter")
 			if(states.stateName == "adressePersonel" ){ //states.fromCache &&
 				$scope.initForm();
 				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
@@ -211,7 +239,7 @@ starter
 			 **/
 			}
 		);
-
+    /*
 		$scope.updateAutoCompleteZip= function(){
 			console.log("zip : "+$scope.formData.zipCodeSelected.pk);
 			var zipCodes=$scope.formData.zipCodes;
@@ -229,7 +257,7 @@ starter
 			console.log("formData.codePostal : "+JSON.stringify($scope.formData.codePostal));
 			document.getElementById('ex0_value').value=$scope.formData.zipCodeSelected['libelle'];
 		};
-
+*/
 		$scope.updateAutoCompleteVille= function(){
 			console.log("ville : "+$scope.formData.villeSelected.pk);
 			var villes=$scope.formData.villes;
