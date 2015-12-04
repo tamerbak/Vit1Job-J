@@ -240,10 +240,11 @@ starter
 		};
 
 		$scope.initForm=function(){
+      console.log("initForm travail");
 			$scope.formData.zipCodes=DataProvider.getZipCodes();
 			$scope.formData.villes=DataProvider.getVilles();
 		};
-
+/*
 		$scope.$on('update-list-ville', function(event, args){
 
 			var params = args.params;
@@ -276,8 +277,39 @@ starter
 				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
 			}
 		});
+*/
+    $scope.$on('update-list-code', function(event, args){
+      document.getElementById('ex2_value').value="";
+      var params = args.params;
+      console.log("params : "+JSON.stringify(params));
 
-		/**$scope.$on('update-list-code', function(event, args){
+      var list =params.list;
+      var pk_ville=params.fk;
+      var pk_user_code_postal;
+      var allZipCodes=DataProvider.getZipCodes();
+      var allVilles=DataProvider.getVilles();
+      var newZipCodes=[];
+      for(var i=0; i<allVilles.length; i++) {
+        if (allVilles[i]['pk_user_ville'] === pk_ville) {
+          pk_user_code_postal = allVilles[i]['fk_user_code_postal'];
+        }
+      }
+      console.log("fk_user_code_postal : "+pk_user_code_postal);
+      for(var j=0; j<allZipCodes.length; j++){
+        if (allZipCodes[j]['pk_user_code_postal'] === pk_user_code_postal) {
+          newZipCodes.push(allZipCodes[j]);
+        }
+      }
+
+      $scope.formData.zipCodes=newZipCodes;
+      console.log("New $scope.formData.zipCodes : "+JSON.stringify($scope.formData.zipCodes));
+
+      // ENVOI AU AUTOCOMPLETE CONTROLLEUR
+      //$rootScope.$broadcast('load-new-list', {newList: {codes}});
+    });
+
+
+    /**$scope.$on('update-list-code', function(event, args){
 
 			var params = args.params;
 			console.log("params : "+JSON.stringify(params));
@@ -344,7 +376,7 @@ starter
 							document.getElementById('ex3_value').value=params.vi;
 						$scope.updateAdresseTravJobeyer();
 						// REDIRECTION VERS PAGE - COMPETENCES
-						//$state.go('competence');	
+						//$state.go('competence');
 					}
 				}
 			 ]
@@ -393,10 +425,11 @@ starter
 			$scope.formData.codePostal.originalObject={'pk_user_code_postal': $scope.formData.zipCodeSelected.pk, 'libelle': $scope.formData.zipCodeSelected.libelle};
 			console.log("formData.codePostal : "+JSON.stringify($scope.formData.codePostal));
 			document.getElementById('ex2_value').value=$scope.formData.zipCodeSelected['libelle'];
+/*
 
 			// VIDER LIST - VILLES
 			$scope.formData.villes=[];
-			villes=DataProvider.getVilles();
+			var villes=DataProvider.getVilles();
 			for(var i=0; i<villes.length; i++){
 				if(villes[i]['fk_user_code_postal'] === $scope.formData.zipCodeSelected.pk)
 					$scope.formData.villes.push(villes[i]);
@@ -405,6 +438,8 @@ starter
 			// RE-INITIALISE INPUT VILLE
 			document.getElementById('ex3_value').value='Villes';
 			$scope.formData.ville={};
+
+      */
 		};
 
 		$scope.updateAutoCompleteVille= function(){
@@ -423,6 +458,9 @@ starter
 			$scope.formData.ville.originalObject={'pk_user_ville': $scope.formData.villeSelected.pk, 'libelle': $scope.formData.villeSelected.libelle};
 			console.log("formData.ville : "+JSON.stringify($scope.formData.ville));
 			document.getElementById('ex3_value').value=$scope.formData.villeSelected['libelle'];
-		}
+
+      $rootScope.$broadcast('update-list-code', {params: {'fk':$scope.formData.villeSelected.pk, 'list':'ville'}});
+
+    }
 	})
 ;
