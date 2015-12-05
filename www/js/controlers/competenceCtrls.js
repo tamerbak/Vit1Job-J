@@ -6,7 +6,7 @@
 starter
 
 	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state,$ionicHistory, x2js, AuthentificatInServer,
-						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile){
+						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile,$ionicPopup){
 		// FORMULAIRE
 		$scope.formData={};
 
@@ -150,7 +150,7 @@ starter
 			var maitriseIcon=$scope.formData.maitriseIcon;
 
 			//if(metier === null || job === null || !$scope.isValid(indisp) || !$scope.isValid(langue)){
-			if(metier === null || job === null || isNaN(indisp) || isNaN(langue)){
+			if(metier === null || (job === null && isNaN(indisp) && isNaN(langue))){
 				Global.showAlertValidation("Veuillez saisir d’abord les informations du premier jobyer.");
 				return;
 			}
@@ -607,6 +607,16 @@ starter
 				// SHOW MODAL
 				//Global.showAlertPassword("Merci! Vos Offres sont été bien publiés.");
 				// REDIRECTION VERS home
+        var myPopup = $ionicPopup.show({
+          template: "Votre compte a été crée avec succés <br>",
+          title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+          buttons: [
+            {
+              text: '<b>OK</b>',
+              type: 'button-calm'
+            }
+          ]
+        });
 				$state.go("app");
 			}
 		};
