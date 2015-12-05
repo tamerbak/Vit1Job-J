@@ -151,7 +151,7 @@ starter
 
 			//if(metier === null || job === null || !$scope.isValid(indisp) || !$scope.isValid(langue)){
 			if(metier === null || job === null || isNaN(indisp) || isNaN(langue)){
-				Global.showAlertValidation("Remplir tous les champs.");
+				Global.showAlertValidation("Veuillez saisir d’abord les informations du premier jobyer.");
 				return;
 			}
 
