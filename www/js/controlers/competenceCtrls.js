@@ -150,8 +150,8 @@ starter
 			var maitriseIcon=$scope.formData.maitriseIcon;
 
 			//if(metier === null || job === null || !$scope.isValid(indisp) || !$scope.isValid(langue)){
-			if(metier === null || (job === null && isNaN(indisp) && isNaN(langue))){
-				Global.showAlertValidation("Veuillez saisir d’abord les informations du premier jobyer.");
+      if(metier === "Metiers" || (job === "Job" && indisp==="Les indispensables" && langue==="langue")){
+        Global.showAlertValidation("Veuillez saisir d’abord les informations du premier jobyer.");
 				return;
 			}
 
@@ -362,8 +362,8 @@ starter
 			var idex=Number($scope.formData.currentFeuille)-1;
 
 			if($rootScope.jobyers.length <= 1)
-				if(typeof $scope.formData.metier === 'undefined' || typeof $scope.formData.job === 'undefined' ||
-					isEmpty($scope.formData.degre) || isNaN($scope.formData.indisp) || isNaN($scope.formData.langue)){
+        if(typeof $scope.formData.metier === 'undefined' || (typeof $scope.formData.job === 'undefined' &&
+          isEmpty($scope.formData.degre) && isNaN($scope.formData.indisp) && isNaN($scope.formData.langue))){
 
 						console.log("jobyers : "+JSON.stringify($rootScope.jobyers));
 						Global.showAlertValidation("Remplir tous les champs.");
@@ -440,8 +440,9 @@ starter
 
 						var offre=$rootScope.jobyers[i];
 
-						if(typeof offre.metier === 'undefined' || typeof offre.job === 'undefined' || isNaN(offre.indisp) || isNaN(offre.langue)){
-							console.log("Il manque des informations")
+          if(offre.metier === 'Metiers' || (offre.job === 'Job' && offre.indisp==='Les indispensables' && offre.langue==='Langue')){
+            console.log("Il manque des informations");
+              Global.showAlertValidation("Remplir tous les champs.");
 							return;
 						}
 
