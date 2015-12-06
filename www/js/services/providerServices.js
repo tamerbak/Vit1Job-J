@@ -30,7 +30,7 @@ angular.module('providerServices', [])
 
 		this.getNationalites=function(){
 			return [{"pk_user_nationalite":"40","libelle":"Français"},{"pk_user_nationalite":"44","libelle":"Américain"},{"pk_user_nationalite":"46","libelle":"Allemand"},{"pk_user_nationalite":"42","libelle":"Italien"}];
-		}
+		};
 
 		this.getNiveauxMaitrise=function(){
 			return [{"pk_user_niveau_de_maitrise":"44","libelle":"Débutant"},{"pk_user_niveau_de_maitrise":"42","libelle":"Habitué"},{"pk_user_niveau_de_maitrise":"40","libelle":"Confirmé"},{"pk_user_niveau_de_maitrise":"46","libelle":"Waouh!"}];
