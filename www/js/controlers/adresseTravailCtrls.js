@@ -10,11 +10,11 @@ starter
 		// FORMULAIRE
 		$scope.formData = {};
 
-		// RECUPERATION SESSION-ID & EMPLOYEUR-ID
-		$scope.updateAdresseTravEmployeur = function(){
+		// RECUPERATION SESSION-ID & JOBEYER-ID
+		$scope.updateAdresseTravJobeyer = function(){
 
 			for(var obj in $scope.formData){
-				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
+				console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 
 			var codePost="A", ville="A";
@@ -29,14 +29,14 @@ starter
 					ville=Number($scope.formData.ville.originalObject.pk_user_ville);
 			var adresse1=$scope.formData.adresse1;
 			var adresse2=$scope.formData.adresse2;
-
+			var num=$scope.formData.num;
 			console.log("codePostal: "+codePost);
 			console.log("ville : "+ville);
 
 			// RECUPERATION CONNEXION
 			var connexion=$cookieStore.get('connexion');
-			// RECUPERATION EMPLOYEUR ID
-			var employeId=connexion.employeID;
+			// RECUPERATION JOBEYER ID
+			var jobeyeId=connexion.jobeyeId;
 			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=$cookieStore.get('sessionID');
@@ -47,26 +47,27 @@ starter
 					adresse1='';
 				if(!adresse2)
 					adresse2='';
-				UpdateInServer.updateAdresseTravEmployeur(employeId, codePost, ville, adresse1, adresse2, sessionId)
+				console.log(jobeyeId+" ; " +codePost+" ; " +ville+" ; "+num+" ; " +adresse1+" ; " +adresse2+" ; " +sessionId);
+				UpdateInServer.updateAdresseTravJobeyer(jobeyeId, codePost, ville, num, adresse1, adresse2, sessionId)
 					.success(function (response){
 
 						// DONNEES ONT ETE SAUVEGARDES
 						console.log("les donnes ont été sauvegarde");
 						console.log("response"+response);
 
-						employeur=$cookieStore.get('employeur');
-						if(!employeur)
-							var employeur={};
+						jobeyer=$cookieStore.get('jobeyer');
+						if(!jobeyer)
+							var jobeyer={};
 						var adresseTravail={};
 						 adresseTravail={'codePostal': codePost, 'ville': ville, 'adresse1': adresse1, 'adresse2': adresse2};
-						employeur.adresseTravail=adresseTravail;
+						jobeyer.adresseTravail=adresseTravail;
 
 						// PUT IN SESSION
-						$cookieStore.put('employeur', employeur);
-						console.log("employeur : "+JSON.stringify(employeur));
+						$cookieStore.put('jobeyer', jobeyer);
+						console.log("jobeyer : "+JSON.stringify(jobeyer));
 					}).error(function (err){
 						console.log("error : insertion DATA");
-						console.log("error In updateAdresseTravEmployeur: "+err);
+						console.log("error In updateAdresseTravjobeyer: "+err);
 					});
 			}
 
@@ -239,10 +240,11 @@ starter
 		};
 
 		$scope.initForm=function(){
+      console.log("initForm travail");
 			$scope.formData.zipCodes=DataProvider.getZipCodes();
 			$scope.formData.villes=DataProvider.getVilles();
 		};
-
+/*
 		$scope.$on('update-list-ville', function(event, args){
 
 			var params = args.params;
@@ -275,8 +277,39 @@ starter
 				//$rootScope.$broadcast('load-new-list', {newList: {codes}});
 			}
 		});
+*/
+    $scope.$on('update-list-code', function(event, args){
+      document.getElementById('ex2_value').value="";
+      var params = args.params;
+      console.log("params : "+JSON.stringify(params));
 
-		/**$scope.$on('update-list-code', function(event, args){
+      var list =params.list;
+      var pk_ville=params.fk;
+      var pk_user_code_postal;
+      var allZipCodes=DataProvider.getZipCodes();
+      var allVilles=DataProvider.getVilles();
+      var newZipCodes=[];
+      for(var i=0; i<allVilles.length; i++) {
+        if (allVilles[i]['pk_user_ville'] === pk_ville) {
+          pk_user_code_postal = allVilles[i]['fk_user_code_postal'];
+        }
+      }
+      console.log("fk_user_code_postal : "+pk_user_code_postal);
+      for(var j=0; j<allZipCodes.length; j++){
+        if (allZipCodes[j]['pk_user_code_postal'] === pk_user_code_postal) {
+          newZipCodes.push(allZipCodes[j]);
+        }
+      }
+
+      $scope.formData.zipCodes=newZipCodes;
+      console.log("New $scope.formData.zipCodes : "+JSON.stringify($scope.formData.zipCodes));
+
+      // ENVOI AU AUTOCOMPLETE CONTROLLEUR
+      //$rootScope.$broadcast('load-new-list', {newList: {codes}});
+    });
+
+
+    /**$scope.$on('update-list-code', function(event, args){
 
 			var params = args.params;
 			console.log("params : "+JSON.stringify(params));
@@ -324,7 +357,7 @@ starter
 
 			var myPopup = $ionicPopup.show({
 
-			  template: "Adresse du travail est identique à l'adresse du siège social? <br>",
+			  template: "Adresse de départ pour le travail est-elle identique à l'adresse du domicile ? <br>",
 			  title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
 			  buttons: [
 				{
@@ -341,9 +374,9 @@ starter
 							document.getElementById('ex2_value').value=params.code;
 						if(params.vi)
 							document.getElementById('ex3_value').value=params.vi;
-						$scope.updateAdresseTravEmployeur();
+						$scope.updateAdresseTravJobeyer();
 						// REDIRECTION VERS PAGE - COMPETENCES
-						//$state.go('competence');	
+						//$state.go('competence');
 					}
 				}
 			 ]
@@ -358,18 +391,18 @@ starter
 				if($ionicHistory.backView() === "adressePersonel"){}
 				console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
 
-				var employeur=$cookieStore.get('employeur');
-				if(employeur){
+				var jobeyer=$cookieStore.get('jobeyer');
+				if(jobeyer){
 					// INITIALISATION FORMULAIRE
-					if(employeur['adresseTravail']){
+					if(jobeyer['adresseTravail']){
 						// INITIALISATION FORMULAIRE
-						/**if(employeur['adresseTravail'].codePostal)
-							document.getElementById('ex2_value').value=employeur['adresseTravail']['codePostal'];
-						if(employeur.adresseTravail.ville)
-							document.getElementById('ex3_value').value=employeur['adresseTravail']['ville'];**/
-						if(employeur['adresseTravail']){
-							$scope.formData['adresse1']=employeur['adresseTravail']['adresse1'];
-							$scope.formData['adresse2']=employeur['adresseTravail']['adresse2'];
+						/**if(jobeyer['adresseTravail'].codePostal)
+							document.getElementById('ex2_value').value=jobeyer['adresseTravail']['codePostal'];
+						if(jobeyer.adresseTravail.ville)
+							document.getElementById('ex3_value').value=jobeyer['adresseTravail']['ville'];**/
+						if(jobeyer['adresseTravail']){
+							$scope.formData['adresse1']=jobeyer['adresseTravail']['adresse1'];
+							$scope.formData['adresse2']=jobeyer['adresseTravail']['adresse2'];
 						}
 					}
 				}
@@ -392,10 +425,11 @@ starter
 			$scope.formData.codePostal.originalObject={'pk_user_code_postal': $scope.formData.zipCodeSelected.pk, 'libelle': $scope.formData.zipCodeSelected.libelle};
 			console.log("formData.codePostal : "+JSON.stringify($scope.formData.codePostal));
 			document.getElementById('ex2_value').value=$scope.formData.zipCodeSelected['libelle'];
+/*
 
 			// VIDER LIST - VILLES
 			$scope.formData.villes=[];
-			villes=DataProvider.getVilles();
+			var villes=DataProvider.getVilles();
 			for(var i=0; i<villes.length; i++){
 				if(villes[i]['fk_user_code_postal'] === $scope.formData.zipCodeSelected.pk)
 					$scope.formData.villes.push(villes[i]);
@@ -404,6 +438,8 @@ starter
 			// RE-INITIALISE INPUT VILLE
 			document.getElementById('ex3_value').value='Villes';
 			$scope.formData.ville={};
+
+      */
 		};
 
 		$scope.updateAutoCompleteVille= function(){
@@ -422,6 +458,9 @@ starter
 			$scope.formData.ville.originalObject={'pk_user_ville': $scope.formData.villeSelected.pk, 'libelle': $scope.formData.villeSelected.libelle};
 			console.log("formData.ville : "+JSON.stringify($scope.formData.ville));
 			document.getElementById('ex3_value').value=$scope.formData.villeSelected['libelle'];
-		}
+
+      $rootScope.$broadcast('update-list-code', {params: {'fk':$scope.formData.villeSelected.pk, 'list':'ville'}});
+
+    }
 	})
 ;

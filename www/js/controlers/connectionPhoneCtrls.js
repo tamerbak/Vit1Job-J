@@ -10,7 +10,7 @@ starter
 
     // FORMULAIRE
 	  $scope.formData = {};
-	  $rootScope.employeur = {};
+	  $rootScope.jobeyer = {};
 
 	  $scope.connexionByPhone = function(){
       var phone=$scope.formData.phone;
@@ -49,7 +49,7 @@ starter
           $cookieStore.put('sessionID', sessionId);
 
           // INTERROGE PHONE_TABLE
-          PullDataFromServer.pullDATA("user_employeur", sessionId, "telephone", phone, phone)
+          PullDataFromServer.pullDATA("user_salarie", sessionId, "telephone", phone, phone)
             .success(function (resp){
               var data=formatString.formatServerResult(resp);
               var result=data.dataModel.rows;
@@ -68,14 +68,14 @@ starter
                       var pass=object.value;
                       console.log("Mot de pass: "+pass);
                       if(pass === password){
-                        // RECUPERATION ID EMPLOYEUR
-                        var employeurId=0;
-                        if(listEntry[0].attributeReference === 'pk_user_employeur')
-                          employeurId=listEntry[0].value;
+                        // RECUPERATION ID JOBEYER
+                        var jobeyerId=0;
+                        if(listEntry[0].attributeReference === 'pk_user_salarie')
+                          jobeyerId=listEntry[0].value;
 
-                        var connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
+                        var connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyerId)};
                         $cookieStore.put('connexion', connexion);
-                        Global.showAlertValidation("Bienvenu dans Vit1job. Vous pouvez lancer les recherches des jobyers que vous souhaitez.");
+                        Global.showAlertValidation("Bienvenu dans Vitonjob. Vous pouvez lancer les recherches des jobyers que vous souhaitez.");
                         // USER REEL - REDIRECTION VERS RECHERCHE
                         $state.go("app");
                       }
@@ -88,23 +88,23 @@ starter
 
 			  console.log("isNew : "+isNew);
 			  if(isNew === 1){
-				  // PERSIST IN BD - EMPLOYEUR
-					PersistInServer.persistInEmployeur
-						('', '', 0, 0, 0, '', '', '', phone, '', password, '', '', '', '', '', sessionId)
+				  // PERSIST IN BD - JOBEYER
+					PersistInServer.persistInJobeyer
+						('', '', 0, 0, 0, '', '', '', phone, '', password, '', '', sessionId)
 							.success(function (response){
-								console.log("ID EMPLOYEUR : "+response);
+								console.log("ID JOBEYER : "+response);
 
-								// RECUPERATION EMPLOYEUR ID
-								var employeur=formatString.formatServerResult(response);
+								// RECUPERATION JOBEYER ID
+								var jobeyer=formatString.formatServerResult(response);
 
-								if(employeur.dataModel.status || employeur.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
+								if(jobeyer.dataModel.status || jobeyer.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
+									connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyer.dataModel.status)};
 									$cookieStore.put('connexion', connexion);
-                  Global.showAlertValidation("Bienvenue dans Vit1job. Veuillez saisir vos informations. Elles seront utilisées uniquement en cas de signature du contrat de travail.");
-									$rootScope.employeur.id=Number(employeur.dataModel.status);
-									$rootScope.employeur.phone=phone;
-									$rootScope.employeur.index=index;
-									$rootScope.employeur.password=password;
+                  Global.showAlertValidation("Bienvenue dans Vitonjob. Veuillez saisir vos informations. Elles seront utilisées uniquement en cas de signature du contrat de travail.");
+									$rootScope.jobeyer.id=Number(jobeyer.dataModel.status);
+									$rootScope.jobeyer.phone=phone;
+									$rootScope.jobeyer.index=index;
+									$rootScope.jobeyer.password=password;
 								}
 
 								/*** LOAD LIST CIVILITES
@@ -145,7 +145,7 @@ starter
 								}***/
 
 								// PASSWORD INCORRECT - INSCRIPTION L2
-								$state.go("saisieCiviliteEmployeur");
+								$state.go("saisieCiviliteJobeyer");
 							}).error(function (err){
 								console.log("error : insertion DATA");
 								console.log("error : "+err);

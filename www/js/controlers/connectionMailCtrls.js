@@ -9,7 +9,7 @@ starter
 
 	 // FORMULAIRE
 	 $scope.formData = {};
-	 $rootScope.employeur = {};
+	 $rootScope.jobeyer = {};
 
      $scope.connexionByMail= function(){
 
@@ -60,13 +60,14 @@ starter
           console.log("email : "+email);
 		  $cookieStore.put('sessionID', sessionId);
 
-          // INTERROGE PHONE_TABLE
-          PullDataFromServer.pullDATA("user_employeur", sessionId, "email", email, email)
+          // INTERROGE EMAIL_TABLE
+          PullDataFromServer.pullDATA("user_salarie", sessionId, "email", email, email)
             .success(function (resp){
               var data=formatString.formatServerResult(resp);
               console.log(resp);
 
               var result=data.dataModel.rows;
+			  console.log("result : "+result);
               if(typeof result === 'undefined' || result.length<0 || result===""){
 				  console.log('Aucune résultat trouvé');
 				  // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
@@ -86,16 +87,16 @@ starter
 								var pass=object.value;
 								console.log("Mot de pass: "+pass);
 								if(pass === password){
-									// RECUPERATION ID EMPLOYEUR
-									var employeurId=0;
-									if(listEntry[0].attributeReference === 'pk_user_employeur')
-										employeurId=listEntry[0].value;
+									// RECUPERATION ID jobeyer
+									var jobeyerId=0;
+									if(listEntry[0].attributeReference === 'pk_user_salarie')
+										jobeyerId=listEntry[0].value;
 
-									var connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeurId)};
+									var connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyerId)};
 									$cookieStore.put('connexion', connexion);
 
-									// USER REEL - REDIRECTION VERS RECHERCHE
-									$state.go("search");
+									// USER REEL - REDIRECTION VERS home
+									$state.go("app");
 								}
 								else	// MOT DE PASSE INCORRECT
 									Global.showAlertPassword("Mot de passe incorrect");
@@ -108,28 +109,28 @@ starter
 			  if(isNew === 1){
 				  // SYSTEME VERIFICATION EMAIL
 					console.log("email : "+email+" password : "+password+" sessionId : "+sessionId);
-				  // PERSIST IN BD - EMPLOYEUR
-					PersistInServer.persistInEmployeur
-						('', '', 0, 0, 0, '', '', '','', email, password, '', '', '', '', '', sessionId)
+				  // PERSIST IN BD - JOBEYER
+					PersistInServer.persistInJobeyer
+						('', '', 0, 0, 0, '', '', '','', email, password, '', '', sessionId)
 							.success(function (response){
-								console.log("ID EMPLOYEUR : "+response);
+								console.log("ID JOBEYER : "+response);
 
-								// RECUPERATION EMPLOYEUR ID
-              var employeur=formatString.formatServerResult(response);
+								// RECUPERATION JOBEYER ID
+								var jobeyer=formatString.formatServerResult(response);
 
-								if(employeur.dataModel.status){// Bind to local storage service
+								if(jobeyer.dataModel.status){// Bind to local storage service
 									$cookieStore.remove('connexion');
-									connexion={'etat': true, 'libelle': 'Se déconnecter', 'employeID': Number(employeur.dataModel.status)};
+									connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyer.dataModel.status)};
 									$cookieStore.put('connexion', connexion);
 
-									$rootScope.employeur.id=Number(employeur.dataModel.status);
-									$rootScope.employeur.email=email;
-									$rootScope.employeur.password=password;
+									$rootScope.jobeyer.id=Number(jobeyer.dataModel.status);
+									$rootScope.jobeyer.email=email;
+									$rootScope.jobeyer.password=password;
 								}
 
 								Global.showAlertValidation("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
 								// PASSWORD INCORRECT - REDIRECTION
-								$state.go("saisieCiviliteEmployeur");
+								$state.go("saisieCiviliteJobeyer");
 							}).error(function (err){
 								console.log("error : insertion DATA");
 								console.log("error : "+err);

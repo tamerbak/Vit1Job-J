@@ -21,6 +21,21 @@ angular.module('validationDataServices', ['ionic', 'cb.x2js', 'providerServices'
 			}
 		};
 
+		this.checkNumSS=function(id){
+			var NumSS_REGEXP = /^[0-9]\s[0-9]{2}\s[0-9]{2}\s[0-9]{2}\s[0-9]{3}\s[0-9]{3}\s[0-9]{2}$/;
+
+			elm=angular.element(document.querySelector('#'+id));
+			var isMatchRegex = NumSS_REGEXP.test(elm.val());
+			console.log("NumSS : "+elm.val());
+
+			if(isMatchRegex){
+				elm.parent().removeClass('has-warning').addClass('has-success');
+			}
+			else if(isMatchRegex == false || elm.val() == ''){
+				elm.parent().removeClass('has-success').addClass('has-warning');
+			}
+		};
+
 		this.checkField=function(id){
 			var elm = angular.element(document.querySelector('#'+id));
 			console.log("element["+id+"] : "+elm);
@@ -81,8 +96,8 @@ angular.module('validationDataServices', ['ionic', 'cb.x2js', 'providerServices'
 			console.log("list : "+list);
 
 			//$rootScope.$broadcast('scanner-started');
-			/**if(list === "ville")
-				$rootScope.$broadcast('update-list-code', {params: {fk, list}});**/
+			if(list === "ville")
+				$rootScope.$broadcast('update-list-code', {params: {'fk':fk, 'list':list}});
 			if(list === "postal")
 				$rootScope.$broadcast('update-list-ville', {params: {'fk':fk, 'list':list}});
 			if(list === "metier")

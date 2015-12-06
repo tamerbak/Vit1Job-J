@@ -6,11 +6,11 @@ angular.module('fileServices', ['ionic', 'cb.x2js'])
 
   .service('UploadFile', function ($http) {
 	  
-	  this.uploadFile=function(table, fileName, contenu, employeurID){
+	  this.uploadFile=function(table, fileName, contenu, jobeyerID){
 		  
 		var soapMessage=
 			'<fr.protogen.connector.model.StreamedFile>'+
-				'<identifiant>'+employeurID+'</identifiant>'+
+				'<identifiant>'+jobeyerID+'</identifiant>'+
 				'<fileName>'+fileName+'</fileName>'+
 				'<table>'+table+'</table>'+
 				'<operation>PUT</operation>'+
@@ -28,11 +28,11 @@ angular.module('fileServices', ['ionic', 'cb.x2js'])
 	  }
 	  
 	  
-	  this.downloadFile=function(table, employeurID){
+	  this.downloadFile=function(table, jobeyerID){
 		  
 		var soapMessage=
 			'<fr.protogen.connector.model.StreamedFile>'+
-				'<identifiant>'+employeurID+'</identifiant>'+
+				'<identifiant>'+jobeyerID+'</identifiant>'+
 				'<fileName></fileName>'+
 				'<table>'+table+'</table>'+
 				'<operation>GET</operation>'+

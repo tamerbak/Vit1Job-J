@@ -192,8 +192,8 @@ starter
 							// RECUPERATION CONNEXION
 						var 	connexion=$cookieStore.get('connexion');
 							if(connexion){
-								if(connexion.etat)	// REDIRECTION
-									$state.go("search");
+								if(connexion.etat)	// home
+									$state.go("app");
 							}
 						}
 					});
