@@ -417,7 +417,7 @@ angular.module('wsConnectors', ['ionic'])
          					' <attributeReference>disponible_du</attributeReference>'+
           					'<type>DATE</type>'+
           					'<value>&lt;![CDATA[2015-09-27 02:00:00.0]]&gt;</value>'+
-        				'</fr.protogen.connector.model.DataEntry>'+	
+        				'</fr.protogen.connector.model.DataEntry>'+
         				'<fr.protogen.connector.model.DataEntry>'+		// disponible_au
           					'<label>&lt;![CDATA[Disponible au]]&gt;</label>'+
           					'<attributeReference>disponible_au</attributeReference>'+
@@ -511,7 +511,7 @@ angular.module('wsConnectors', ['ionic'])
 							'<type>fk_user_salarie</type>'+
 							'<list/>'+
 							'<value>'+salarieID+'</value>'+
-						'</fr.protogen.connector.model.DataEntry>'+						
+						'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -577,7 +577,7 @@ angular.module('wsConnectors', ['ionic'])
 							'<type>fk_user_salarie</type>'+
 							'<list/>'+
 							'<value>'+salarieID+'</value>'+
-						'</fr.protogen.connector.model.DataEntry>'+												
+						'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -643,7 +643,7 @@ angular.module('wsConnectors', ['ionic'])
 							'<type>fk_user_salarie</type>'+
 							'<list/>'+
 							'<value>'+salarieID+'</value>'+
-						'</fr.protogen.connector.model.DataEntry>'+							
+						'</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -681,15 +681,36 @@ angular.module('wsConnectors', ['ionic'])
     };
 
 
-	this.persistInOffres_Niveaux=function(sessionID, niveauID, offreID){
-
+	this.persistInOffres_Niveaux_Langue=function(sessionID, langueID, offreID,salarieID){
+    console.log('langueID : '+langueID+" offreID : "+offreID+" salarieID : "+salarieID);
       soapMessage=
 		'<fr.protogen.connector.model.DataModel>'+
-			'<entity>user_maitrise_langue_offre</entity>'+
+			'<entity>user_maitrise_langue_salarie</entity>'+
 			'<dataMap/>'+
 			'<rows>'+
     			'<fr.protogen.connector.model.DataRow>'+
 					'<dataRow>'+
+          '<fr.protogen.connector.model.DataEntry>'+
+          '<label>&lt;![CDATA[SALARIE]]&gt;</label>'+
+          '<attributeReference>fk_user_salarie</attributeReference>'+
+          '<type>fk_user_salarie</type>'+
+          '<list/>'+
+          '<value>'+salarieID+'</value>'+
+          '</fr.protogen.connector.model.DataEntry>'+
+            '<fr.protogen.connector.model.DataEntry>'+
+              '<label>&lt;![CDATA[LANGUE]]&gt;</label>'+
+              '<attributeReference>fk_user_langue</attributeReference>'+
+              '<type>fk_user_langue</type>'+
+              '<list/>'+
+              '<value>'+langueID+'</value>'+
+            '</fr.protogen.connector.model.DataEntry>'+
+            '<fr.protogen.connector.model.DataEntry>'+
+              '<label>&lt;![CDATA[OFFRE]]&gt;</label>'+
+              '<attributeReference>fk_user_offre_salarie</attributeReference>'+
+              '<type>fk_user_offre_salarie</type>'+
+              '<list/>'+
+              '<value>'+offreID+'</value>'+
+            '</fr.protogen.connector.model.DataEntry>'+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
@@ -780,7 +801,7 @@ angular.module('wsConnectors', ['ionic'])
           					'<type>fk_user_nationalite</type>'+
          					'<value>&lt;![CDATA['+nationalite+']]&gt;</value>'+
         				'</fr.protogen.connector.model.DataEntry>'+
-					
+
 					'</dataRow>'+
     			'</fr.protogen.connector.model.DataRow>'+
   			'</rows>'+
