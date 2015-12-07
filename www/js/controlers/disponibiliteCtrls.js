@@ -9,12 +9,14 @@ starter
 						Global, DataProvider, PullDataFromServer, PersistInServer,$ionicPopup){
 		// FORMULAIRE
 		$scope.formData={};
+    $scope.saveDisponibilite= function(){
 
+    };
 		$scope.initAll = function(){
 
 			// GET LIST
 			$scope.formData={
-				
+
 				};
 
 		};
