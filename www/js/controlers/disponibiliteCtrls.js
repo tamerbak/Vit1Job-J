@@ -29,6 +29,18 @@ starter
 		};
 
     $scope.ajouterHeures= function(){
-      $scope.formData.heures.push({"heureDebut":$scope.formData.heureDebut,"heureFin":$scope.formData.heureFin});
+      var hdebut=$scope.formData.heureDebut;
+      var hfin=$scope.formData.heureFin;
+      var mdebut=$scope.formData.minDebut;
+      var mfin=$scope.formData.minFin;
+
+      if(hdebut!="00" && hfin!="00") {
+        if(hfin > hdebut)
+          $scope.formData.heures.push({"heureDebut": hdebut+"h"+mdebut+"min", "heureFin": hfin+"h"+mfin+"min"});
+        else
+          Global.showAlertValidation("L'heure de fin doit être supérieur.");
+      }else{
+        Global.showAlertValidation("Veuillez saisir une heure de début et une heure de fin.");
+      }
     };
   });

@@ -102,13 +102,19 @@
           </li>
         </ul>
         <div class="list" style="margin-left: 19px;">
-          <label class="item item-input">
+          <label style="text-align: left;" class="item item-input item-stacked-label">
             <span class="input-label">Heure de début</span>
-            <input type="number"  step="1" value="0" min="0" max="24" placeholder="00" data-ng-model="formData.heureDebut" />
+            <div class="row">
+            <input type="number"  step="1" value="0" min="0" max="24" placeholder="00" data-ng-model="formData.heureDebut" />H&nbsp;&nbsp;
+            <input type="number"  step="15" value="0" min="0" max="60" placeholder="00" data-ng-model="formData.minDebut" />min
+            </div>
           </label>
-          <label class="item item-input">
+          <label style="text-align: left;" class="item item-input item-stacked-label">
             <span class="input-label">Heure de fin</span>
-            <input type="number"  step="1" value="0" min="0" max="24" placeholder="00" data-ng-model="formData.heureFin" />
+            <div class="row">
+            <input type="number"  step="1" value="0" min="0" max="24" placeholder="00" data-ng-model="formData.heureFin" />H&nbsp;&nbsp;
+            <input type="number"  step="15" value="0" min="0" max="60" placeholder="00" data-ng-model="formData.minFin" />min
+            </div>
           </label>
           <br/>
           <button class="button" ng-click="ajouterHeures();">Ajouter</button>
