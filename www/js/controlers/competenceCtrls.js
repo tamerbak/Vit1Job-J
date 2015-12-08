@@ -803,9 +803,8 @@ starter
     $scope.initModalAll = function(){
 
       // GET LIST
-      $scope.formData={
-        "heures":[]
-      };
+      $scope.formData.heures=[];
+
       $scope.formData.jours=DataProvider.getDays();
     };
 
