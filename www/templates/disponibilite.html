@@ -9,21 +9,23 @@
     <div>
       <h3 class="titlePhone"><b>Disponibilité</b></h3>
     </div>
-    <div class="list">
+    <div class="list" style="text-align: left;padding: 7px;border-radius: 20px;border: 1px solid lightgray">
       <label class="item item-input" style="border:none;">
         <span class="input-label">Date de début</span>
         <input type="date" placeholder="Date de début" data-ng-model="formData.dateDebut">
       </label>
       <label class="item item-input" style="border:none;">
         <span class="input-label">Date de fin</span>
-        <ion-checkbox style="border:none;" ng-model="formData.jamais" >Jamais</ion-checkbox>
-      </label>
-      <label class="item item-input" style="border:none;">
-        <span class="input-label">Le</span>
         <input type="date" placeholder="Date de fin" data-ng-model="formData.dateFin">
       </label>
+      <label class="item item-input" style="border:none;">
+        <span class="input-label"></span>
+        <ion-checkbox style="border:none;" ng-model="formData.jamais" >Jamais</ion-checkbox>
+      </label>
     </div>
-
+    <div class="item item-divider">
+      Répétitions
+    </div>
       <div class="row" style="border: solid 1px gray;">
         <!--
         <div class="list" style="width: 34%;">
@@ -36,90 +38,33 @@
             <button class="button" style="width: 100%;">Dimanche</button>
         </div>
         -->
-        <ul class="list" style="width: 40%;">
-          <li class="item item-toggle">
-            Lundi
-            <label ng-model="formData.jours.lundi" class="toggle toggle-light" style="right: 3px;">
-              <input type="checkbox">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </li>
-          <li class="item item-toggle">
-            Mardi
-            <label ng-model="formData.jours.mardi" class="toggle toggle-light" style="right: 3px;">
-              <input type="checkbox">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </li>
-          <li class="item item-toggle">
-            Mercredi
-            <label ng-model="formData.jours.mercredi" class="toggle toggle-light" style="right: 3px;">
-              <input type="checkbox">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </li>
-          <li class="item item-toggle">
-            Jeudi
-            <label ng-model="formData.jours.jeudi" class="toggle toggle-light" style="right: 3px;">
-              <input type="checkbox">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </li>
-          <li class="item item-toggle">
-            Vendredi
-            <label ng-model="formData.jours.vendredi" class="toggle toggle-light" style="right: 3px;">
-              <input type="checkbox">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </li>
-          <li class="item item-toggle">
-            Samedi
-            <label ng-model="formData.jours.samedi" class="toggle toggle-light" style="right: 3px;">
-              <input type="checkbox">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </li>
-          <li ng-model="formData.jours.dimanche" class="item item-toggle">
-            Dimanche
-            <label class="toggle toggle-light" style="right: 3px;">
-              <input type="checkbox">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </li>
-        </ul>
+
+        <div class="list" style="width: 42%;">
+          <ion-toggle ng-repeat="jour in formData.jours" toggle-class="toggle-light"
+                      ng-model="jour.checked"
+                      ng-checked="jour.checked">
+            {{ jour.nom }}
+          </ion-toggle>
+
+        </div>
         <div class="list" style="margin-left: 19px;">
           <label style="text-align: left;" class="item item-input item-stacked-label">
-            <span class="input-label">Heure de début</span>
+            <span class="input-label">Heure de début:</span>
             <div class="row">
-            <input type="number"  step="1" value="0" min="0" max="24" placeholder="00" data-ng-model="formData.heureDebut" />H&nbsp;&nbsp;
-            <input type="number"  step="15" value="0" min="0" max="60" placeholder="00" data-ng-model="formData.minDebut" />min
+            <input type="number"  step="1" value="0" min="0" max="24" placeholder="0" data-ng-model="formData.heureDebut" />H&nbsp;&nbsp;
+            <input type="number"  step="15" value="0" min="0" max="45" placeholder="0" data-ng-model="formData.minDebut" />min
             </div>
           </label>
           <label style="text-align: left;" class="item item-input item-stacked-label">
-            <span class="input-label">Heure de fin</span>
+            <span class="input-label">Heure de fin:</span>
             <div class="row">
-            <input type="number"  step="1" value="0" min="0" max="24" placeholder="00" data-ng-model="formData.heureFin" />H&nbsp;&nbsp;
-            <input type="number"  step="15" value="0" min="0" max="60" placeholder="00" data-ng-model="formData.minFin" />min
+            <input type="number"  step="1" value="0" min="0" max="24" placeholder="0" data-ng-model="formData.heureFin" />H&nbsp;&nbsp;
+            <input type="number"  step="15" value="0" min="0" max="45" placeholder="0" data-ng-model="formData.minFin" />min
             </div>
           </label>
           <br/>
-          <button class="button" ng-click="ajouterHeures();">Ajouter</button>
-          <br/>
-          <br/>
+            <button class="button" ng-click="ajouterHeures();">Ajouter</button>
+          <br/><br/>
 
           <div class="row header">
             <div class="col">Heure de début</div>
@@ -130,7 +75,8 @@
             <div class="col">{{data.heureFin}}</div>
           </div>
           <br/>
-          <br/>
+          <button class="button" ng-click="supprimerHeures();">Supprimer</button>
+          <br/><br/>
           <label class="item item-input">
             <input type="text" placeholder="Taux horaire brut" data-ng-model="formData.remuneration">
           </label>
