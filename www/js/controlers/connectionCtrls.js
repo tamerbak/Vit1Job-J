@@ -137,9 +137,11 @@ starter
 									console.log("New sessionId : "+sessionId);
 									$cookieStore.put('sessionID', sessionId);
 
-									/*** LOAD LIST VILLES ***/
+									// LOAD LIST VILLES //
 									var villes=$cookieStore.get('villes');
+                  console.log(villes);
 									//if(!villes){
+                  /*
 										LoadList.loadList("user_offre", sessionId)
 											.success(function(response){
 														console.log("response "+response);
@@ -175,6 +177,7 @@ starter
 														console.log("error : LOAD DATA");
 														console.log("error in loadListVilles : "+ err);
 											});
+                  */
 									//}
 								})
 								.error(function (data){
@@ -184,7 +187,6 @@ starter
 						// REDIRECTION
 						$state.go("cPhone");
 					};
-
 					$scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
 						if(states.fromCache && states.stateName == "connection" ){
 							// VERIFICATION S'IL EST CONNECTE OU PAS

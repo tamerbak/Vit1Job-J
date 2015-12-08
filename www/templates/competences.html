@@ -30,7 +30,7 @@
     <div class ="xcontainer">
 
       <div angucomplete-alt id="metiers"
-           placeholder="Métier"
+           placeholder="Domaine"
            maxlength="50"
            pause="100"
            selected-object="formData.metier"
@@ -48,12 +48,14 @@
       <!--  </label> -->
     </div>
     <!-- <br> -->
-	<!-- JOBS -->
+    <div id="maitriseDiv">
+
+    <!-- JOBS -->
     <!--
 <div class="list">
   <label class="item item-input">
   -->
-    <div class ="xcontainer">
+    <div class ="xcontainer" style="padding:10px;">
 <div angucomplete-alt id="jobs"
         placeholder="Job"
         maxlength="50"
@@ -73,7 +75,6 @@
       <!-- </label> -->
     </div>
     <!-- MAITRISE -->
-	<div id="maitriseDiv">
 		<img ng-src="img/{{formData.maitriseIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px;vertical-align: middle;"/>
 		<label for="maitrise" style="display: inline-block; color:#757575;vertical-align: middle;" > {{formData.maitrise}}</label>
 		<div class="list rangeDiv">
@@ -87,25 +88,37 @@
 	<!-- INDESPENSABLES -->
     <div class="list">
       <label class="item item-input">
-        <select class="flat" data-ng-model="formData.indisp" data-ng-init="formData.indisp='Les indispensables'">
-          <option selected disabled style="display: none;">Les indispensables</option>
+        <select class="flat" data-ng-model="formData.indisp" data-ng-init="formData.indisp='Qualités indispensables'">
+          <option selected disabled style="display: none;">Qualités indispensables</option>
           <option data-ng-repeat="x in formData.transvers" value="{{x.pk_user_competence_transverse}}">{{x.libelle}}</option>
         </select>
       </label>
     </div>
+    <div id="maitriseLangueDiv">
 	<!-- LANGUES -->
-    <div class="list">
-      <label class="item item-input">
+    <div class ="list" style="padding:10px;">
+      <label class="autoCompl borderGray item item-input">
         <select class="flat" data-ng-model="formData.langue" data-ng-init="formData.langue='Langue'">
           <option selected disabled style="display: none;">Langue</option>
           <option data-ng-repeat="x in formData.langues" value="{{x.pk_user_langue}}">{{x.libelle}}</option>
         </select>
       </label>
     </div>
-
+      <!-- MAITRISE Langue-->
+      <img ng-src="img/{{formData.maitriseLangueIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px;vertical-align: middle;"/>
+      <label for="maitriseLangue" style="display: inline-block; color:#757575;vertical-align: middle;" > {{formData.maitriseLangue}}</label>
+      <div class="list rangeDiv">
+        <div class="item range range-calm">
+          <img src="img\tree1_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
+          <input id="maitriseLangue" type="range" name="volume" min="0" max="100" data-ng-model="formData.degreLangue" data-ng-init="formData.degreLangue=10" data-ng-change="rangeLangueChange()">
+          <img src="img\tree4_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
+        </div>
+      </div>
+    </div>
     <br>
     <!-- ACTIONS -->
     <div class="buttonConnect">
+      <button class="button button-full button-positive grey" data-ng-click="addDispo()">Ajouter disponiblité</button>
       <button class="button button-full button-positive grey" data-ng-click="saveJobyers()">Valider</button>
       <button class="button button-full button-positive green icon-right ion-chevron-right" ui-sref="app">Passer</button>
     </div>

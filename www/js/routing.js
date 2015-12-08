@@ -81,7 +81,11 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/adressePersonel.html',
       controller: 'adressePersonelCtrl'
     })
-
+    .state('disponibilite', {
+      url: '/disponibilite',
+      templateUrl: 'templates/disponibilite.html',
+      controller: 'disponibiliteCtrl'
+    })
     .state('competence', {
       url: '/competence',
       templateUrl: 'templates/competences.html',

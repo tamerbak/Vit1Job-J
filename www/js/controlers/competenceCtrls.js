@@ -5,15 +5,18 @@
 'use strict';
 starter
 
-	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state,$ionicHistory, x2js, AuthentificatInServer,
+	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state,$ionicHistory,$ionicModal, x2js, AuthentificatInServer,
 						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile,$ionicPopup){
 		// FORMULAIRE
 		$scope.formData={};
 
 		$scope.formData.maitriseIcon = "img/tree1_small.png";
 		$scope.formData.maitrise = "Débutant";
-		$scope.formData.maitriseStyle = "display: inline;max-width: 33px;max-height: 50px;"
+		$scope.formData.maitriseStyle = "display: inline;max-width: 33px;max-height: 50px;";
 
+    $scope.formData.maitriseLangueIcon = "img/tree1_small.png";
+    $scope.formData.maitriseLangue = "Débutant";
+    $scope.formData.maitriseLangueStyle = "display: inline;max-width: 33px;max-height: 50px;";
 		// ALL JOBYERS
 		$rootScope.jobyers=[];
 		$rootScope.jobyerCurrent={};
@@ -82,6 +85,8 @@ starter
 				'allFeuilles': 1,
 				'maitrise': 'Débutant',
 				'maitriseIcon': 'tree1_small.png',
+        'maitriseLangue': 'Débutant',
+        'maitriseLangueIcon': 'tree1_small.png',
 				'metiers': DataProvider.getMetiers(),
 				'langues': DataProvider.getLangues(),
 				'jobs': DataProvider.getJobs(),
@@ -123,11 +128,48 @@ starter
       		}
 		};
 
-		$scope.afficheList = function(){
+    $scope.rangeLangueChange = function(){
+      var rangeModel=$scope.formData.degreLangue;
+      console.log("rangeLangueModel : "+rangeModel);
+      if (rangeModel <= 25 ){
+        $scope.formData.maitriseLangue = "Débutant";
+        $scope.formData.maitriseLangueIcon = "tree1_small.png";
+        $scope.formData.maitriseLangueWidth = "33px";
+        $scope.formData.maitriseLangueHeight = "50px";
+      }
+
+      else if (rangeModel > 25 && rangeModel <= 50 ) {
+        $scope.formData.maitriseLangue = 'Habitué';
+        $scope.formData.maitriseLangueIcon = "tree2_small.png";
+        //$scope.formData.maitriseLangueStyle = "display: inline;max-width: 33px;max-height: 50px;";
+      }
+
+      else if (rangeModel > 50 && rangeModel <= 75 ){
+        $scope.formData.maitriseLangue = 'Confirmé';
+        $scope.formData.maitriseLangueIcon = "tree3_small.png";
+        //$scope.formData.maitriseLangueStyle = "display: inline;max-width: 59px;max-height: 77px;";
+      }
+      else if (rangeModel > 75 && rangeModel <= 100 ){
+        $scope.formData.maitriseLangue = 'Waouh!';
+        $scope.formData.maitriseLangueIcon = "tree4_small.png";
+        //$scope.formData.maitriseLangueStyle = "display: inline;max-width: 60px;max-height: 80px;";
+      }
+    };
+
+    $scope.afficheList = function(){
 			//console.log("Formulaire : "+JSON.stringify($scope.formData));
 			//AFFICHAGE
 			console.log("All Jobyers : "+JSON.stringify($rootScope.jobyers));
 		};
+
+    $scope.addDispo = function(){
+      $ionicModal.fromTemplateUrl('templates/disponibiliteCompetenceModal.html', {
+        scope: $scope
+      }).then(function(modal) {
+        $scope.modal = modal;
+        $scope.modal.show();
+      });
+    };
 
 		$scope.addJobyer = function(){
 			// VALIDATION DES CHAMPS
@@ -144,13 +186,15 @@ starter
 			/**metier=$scope.formData.metier;
 			job=$scope.formData.job;**/
 			var degre=$scope.formData.degre;
-			var indisp=$scope.formData.indisp;
+      var degreLangue=$scope.formData.degreLangue;
+      var indisp=$scope.formData.indisp;
 			var langue=$scope.formData.langue;
 			var maitrise=$scope.formData.maitrise;
 			var maitriseIcon=$scope.formData.maitriseIcon;
-
+      var maitriseLangue=$scope.formData.maitriseLangue;
+      var maitriseLangueIcon=$scope.formData.maitriseLangueIcon;
 			//if(metier === null || job === null || !$scope.isValid(indisp) || !$scope.isValid(langue)){
-      if(metier === "Metiers" || (job === "Job" && indisp==="Les indispensables" && langue==="langue")){
+      if(metier === "Metiers" || (job === "Job" && indisp==="Qualités indispensables" && langue==="langue")){
         Global.showAlertValidation("Veuillez saisir d’abord les informations du premier jobyer.");
 				return;
 			}
@@ -171,13 +215,15 @@ starter
 				$rootScope.jobyers[Number(jobyerCurrent.indice)-1].metier=metier;
 				$rootScope.jobyers[Number(jobyerCurrent.indice)-1].job=job;
 				$rootScope.jobyers[Number(jobyerCurrent.indice)-1].degre=degre;
+        $rootScope.jobyers[Number(jobyerCurrent.indice)-1].degreLangue=degreLangue;
 				$rootScope.jobyers[Number(jobyerCurrent.indice)-1].indisp=indisp;
 				$rootScope.jobyers[Number(jobyerCurrent.indice)-1].langue=langue;
 				$rootScope.jobyers[Number(jobyerCurrent.indice)-1].maitrise=maitrise;
 				$rootScope.jobyers[Number(jobyerCurrent.indice)-1].maitriseIcon=maitriseIcon;
-
+        $rootScope.jobyers[Number(jobyerCurrent.indice)-1].maitriseLangue=maitriseLangue;
+        $rootScope.jobyers[Number(jobyerCurrent.indice)-1].maitriseLangueIcon=maitriseLangueIcon;
 				// UPDATE IN VIEW
-				$scope.formData.currentFeuille=jobyerCurrent.indice+1;;
+				$scope.formData.currentFeuille=jobyerCurrent.indice+1;
 				$scope.formData.allFeuilles=$rootScope.jobyers.length;
 
 				console.log("Old Jobyer : "+JSON.stringify($rootScope.jobyers[Number(jobyerCurrent.indice)-1]));
@@ -187,12 +233,14 @@ starter
 				$rootScope.jobyerCurrent['metier']=metier;
 				$rootScope.jobyerCurrent['job']=job;
 				$rootScope.jobyerCurrent['degre']=degre;
-				$rootScope.jobyerCurrent['indisp']=indisp;
+        $rootScope.jobyerCurrent['degreLangue']=degreLangue;
+        $rootScope.jobyerCurrent['indisp']=indisp;
 				$rootScope.jobyerCurrent['langue']=langue;
 				$rootScope.jobyerCurrent['maitrise']=maitrise;
 				$rootScope.jobyerCurrent['maitriseIcon']=maitriseIcon;
+        $rootScope.jobyerCurrent['maitriseLangue']=maitriseLangue;
+        $rootScope.jobyerCurrent['maitriseLangueIcon']=maitriseLangueIcon;
 				$rootScope.jobyers.push($rootScope.jobyerCurrent); // AJOUTE ///MAIS C'EST UNDIFINED
-
 				console.log("New Jobyer : "+JSON.stringify($rootScope.jobyers[Number($rootScope.jobyerCurrent.indice)-1]));
 
 				// REFRESH BUTTONS
@@ -257,11 +305,13 @@ starter
 			/**$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
 			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];**/
 			$scope.formData["degre"]= $rootScope.jobyerCurrent["degre"];
-			$scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
+      $scope.formData["degreLangue"]= $rootScope.jobyerCurrent["degreLangue"];
+      $scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
 			$scope.formData["maitrise"]= $rootScope.jobyerCurrent["maitrise"];
 			$scope.formData["maitriseIcon"]= $rootScope.jobyerCurrent["maitriseIcon"];
-
+      $scope.formData["maitriseLangue"]= $rootScope.jobyerCurrent["maitriseLangue"];
+      $scope.formData["maitriseLangueIcon"]= $rootScope.jobyerCurrent["maitriseLangueIcon"];
 			//console.log("formData : "+JSON.stringify($scope.formData));
 			$scope.$apply(function(){});
 		};
@@ -286,10 +336,13 @@ starter
 			/**$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
 			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];**/
 			$scope.formData["degre"]= $rootScope.jobyerCurrent["degre"];
+      $scope.formData["degreLangue"]= $rootScope.jobyerCurrent["degreLangue"];
 			$scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
 			$scope.formData["maitrise"]= $rootScope.jobyerCurrent["maitrise"];
 			$scope.formData["maitriseIcon"]= $rootScope.jobyerCurrent["maitriseIcon"];
+      $scope.formData["maitriseLangue"]= $rootScope.jobyerCurrent["maitriseLangue"];
+      $scope.formData["maitriseLangueIcon"]= $rootScope.jobyerCurrent["maitriseLangueIcon"];
 		};
 
 		// LOAD PREV FEUILLE
@@ -321,10 +374,13 @@ starter
 			/**$scope.formData["metier"]= $rootScope.jobyerCurrent["metier"];
 			$scope.formData["job"]= $rootScope.jobyerCurrent["job"];**/
 			$scope.formData["degre"]= $rootScope.jobyerCurrent["degre"];
-			$scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
+      $scope.formData["degreLangue"]= $rootScope.jobyerCurrent["degreLangue"];
+      $scope.formData["indisp"]= $rootScope.jobyerCurrent["indisp"];
 			$scope.formData["langue"]= $rootScope.jobyerCurrent["langue"];
 			$scope.formData["maitrise"]= $rootScope.jobyerCurrent["maitrise"];
 			$scope.formData["maitriseIcon"]= $rootScope.jobyerCurrent["maitriseIcon"];
+      $scope.formData["maitriseLangue"]= $rootScope.jobyerCurrent["maitriseLangue"];
+      $scope.formData["maitriseLangueIcon"]= $rootScope.jobyerCurrent["maitriseLangueIcon"];
 
 			//console.log("formData : "+JSON.stringify($scope.formData));
 			$scope.$apply(function(){});
@@ -363,7 +419,7 @@ starter
 
 			if($rootScope.jobyers.length <= 1)
         if(typeof $scope.formData.metier === 'undefined' || (typeof $scope.formData.job === 'undefined' &&
-          isEmpty($scope.formData.degre) && isNaN($scope.formData.indisp) && isNaN($scope.formData.langue))){
+          isEmpty($scope.formData.degre) && isEmpty($scope.formData.degreLangue) && isNaN($scope.formData.indisp) && isNaN($scope.formData.langue))){
 
 						console.log("jobyers : "+JSON.stringify($rootScope.jobyers));
 						Global.showAlertValidation("Remplir tous les champs.");
@@ -391,10 +447,13 @@ starter
 			/**$rootScope.jobyers[idex].metier=$scope.formData.metier;
 			$rootScope.jobyers[idex].job=$scope.formData.job;**/
 			$rootScope.jobyers[idex].degre=$scope.formData.degre;
-			$rootScope.jobyers[idex].indisp=$scope.formData.indisp;
+      $rootScope.jobyers[idex].degreLangue=$scope.formData.degreLangue;
+      $rootScope.jobyers[idex].indisp=$scope.formData.indisp;
 			$rootScope.jobyers[idex].langue=$scope.formData.langue;
 			$rootScope.jobyers[idex].maitrise=$scope.formData.maitrise;
 			$rootScope.jobyers[idex].maitriseIcon=$scope.formData.maitriseIcon;
+      $rootScope.jobyers[idex].maitriseLangue=$scope.formData.maitriseLangue;
+      $rootScope.jobyers[idex].maitriseLangueIcon=$scope.formData.maitriseLangueIcon;
 
 			// RECUPERATION CONNEXION
 			var connexion=$cookieStore.get('connexion');
@@ -440,7 +499,7 @@ starter
 
 						var offre=$rootScope.jobyers[i];
 
-          if(offre.metier === 'Metiers' || (offre.job === 'Job' && offre.indisp==='Les indispensables' && offre.langue==='Langue')){
+          if(offre.metier === 'Metiers' || (offre.job === 'Job' && offre.indisp==='Qualités indispensables' && offre.langue==='Langue')){
             console.log("Il manque des informations");
               Global.showAlertValidation("Remplir tous les champs.");
 							return;
@@ -457,7 +516,6 @@ starter
 						if(niveau){
 							console.log("niveau : "+niveau);
 						}
-
 
 						// PERSISTENCE OFFRE N°i
 						PersistInServer.persistInOffres( "Titre_4", new Date().getTime(), new Date().getTime()+2592000 , sessionId, jobeyeId)
@@ -479,7 +537,7 @@ starter
 									if(offreId){
 										if(offre.job){
 											console.log("response : "+JSON.stringify(offre));
-											var job=JSON.parse(offre.job);
+											var job=offre.job;
 											for(var ij in job ){
 												console.log("ij : "+ij +" = "+job[ij]);
 											}
@@ -522,6 +580,16 @@ starter
 																.then(
 																	function (response){
 																		console.log("success : persistInOffres_Langues"+JSON.stringify(response));
+                                    PersistInServer.persistInOffres_Niveaux_Langue(sessionId, Number(offre.langue), Number(offreId),Number(jobeyeId))
+                                      .then(
+                                        function (response){
+                                          console.log("success : persistInOffres_Niveaux_Langue"+JSON.stringify(response));
+
+                                        },function (err){
+                                          console.log("error : insertion DATA");
+                                          console.log("error In persistInOffres_Niveaux_Langue: "+err);
+                                        }
+                                      );
 																	},function (err){
 																			console.log("error : insertion DATA");
 																		console.log("error In persistInOffres_Langues: "+err);
@@ -608,6 +676,7 @@ starter
 				// SHOW MODAL
 				//Global.showAlertPassword("Merci! Vos Offres sont été bien publiés.");
 				// REDIRECTION VERS home
+        //$state.go("disponibilite");
         var myPopup = $ionicPopup.show({
           template: "Votre compte a été crée avec succés <br>",
           title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
@@ -657,6 +726,110 @@ starter
 		$scope.isValid=function(field){
 
 			return !isNaN(Number(field));
-		}
+		};
 
+    $scope.formData.jours=DataProvider.getDays();
+    console.log($scope.formData.jours.length);
+    $scope.saveDisponibilite= function(){
+      var dateDebut= $scope.formData.dateDebut;
+      var dateFin= $scope.formData.dateFin;
+      var jamais = $scope.formData.jamais;
+      var jours= $scope.formData.jours;
+      var remuneration= $scope.formData.remuneration;
+      var heures=$scope.formData.heures;
+      console.log(JSON.stringify($scope.formData));
+      if(dateDebut && (dateFin || jamais) && jours && remuneration && !heures.$isEmpty()) {
+
+        // RECUPERATION CONNEXION
+        var connexion=$cookieStore.get('connexion');
+        // RECUPERATION JOBEYER ID
+        var jobeyeId=connexion.jobeyeId;
+        // RECUPERATION SESSION ID
+        sessionId=$cookieStore.get('sessionID');
+        var hasSessionID=0;
+        if(sessionId)
+          hasSessionID=1;
+        else{	// RECUPERATION SESSION-ID
+          AuthentificatInServer.getSessionId()
+            .success(function (response){
+              var jsonResp = x2js.xml_str2json(response);
+              var jsonText = JSON.stringify (jsonResp);
+              jsonText = jsonText.replace("fr.protogen.connector.model.AmanToken","amanToken");
+              jsonResp = JSON.parse(jsonText);
+
+              // GET SESSION ID
+              sessionId = jsonResp.amanToken.sessionId;
+              console.log("New sessionId : "+sessionId);
+              $cookieStore.put('sessionID', sessionId);
+              hasSessionID=1;
+            })
+            .error(function (err){
+              console.log("error : Récuperation Session ID");
+              console.log("error In saveJobyers: "+err);
+            });
+        }
+        var heure_d=heures[0].heureDebut;
+        var heure_f=heures[0].heureFin;
+        if(hasSessionID){
+          PersistInServer.persistInDisponibilite(jourId, heure_d, heure_f, sessionId, offreId)
+            .then(
+              function (response){
+                console.log("response : "+JSON.stringify(response));
+
+                var myPopup = $ionicPopup.show({
+                  template: "Votre compte a été crée avec succés <br>",
+                  title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+                  buttons: [
+                    {
+                      text: '<b>OK</b>',
+                      type: 'button-calm'
+                    }
+                  ]
+                });
+                $state.go("app");
+              },function (err){
+                console.log("error : insertion DATA");
+                console.log("error In PullDataFromServer.pullDATA: "+err);
+              }
+            );
+        }
+
+      }else{
+        Global.showAlertValidation("Veuillez saisir tous les champs");
+      }
+
+    };
+
+    $scope.initModalAll = function(){
+
+      // GET LIST
+      $scope.formData={
+        "heures":[]
+      };
+      $scope.formData.jours=DataProvider.getDays();
+    };
+
+    $scope.ajouterHeures= function(){
+
+      var hdebut=$scope.formData.heureDebut;
+      var hfin=$scope.formData.heureFin;
+      var mdebut=$scope.formData.minDebut;
+      var mfin=$scope.formData.minFin;
+
+      if(hdebut!=undefined && hfin!=undefined && mdebut!=undefined && mfin!=undefined) {
+        if(hfin > hdebut)
+          $scope.formData.heures.push({"heureDebut": hdebut+"h"+mdebut+"min", "heureFin": hfin+"h"+mfin+"min"});
+        else
+          Global.showAlertValidation("L'heure de fin doit être supérieur.");
+      }else{
+        Global.showAlertValidation("Veuillez saisir une heure de début et une heure de fin.");
+      }
+    };
+
+    $scope.supprimerHeures= function(){
+
+      if( $scope.formData.heures.length!=0){
+        $scope.formData.heures.pop();
+      }
+    };
   });
