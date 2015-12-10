@@ -42,21 +42,21 @@
 	<!-- N° SS -->
 	<div class="list">
 	  <label class="item item-input">
-        <input id="num_ss" name="num_ss" type="text" placeholder="N° SS" class="searchPage2" data-ng-model="formData.numSS" data-ng-blur="validateNumSS('num_ss')">
+        <input id="num_ss" name="num_ss" type="text" placeholder="N° SS" class="searchPage2" data-ng-model="formData.numSS" data-ng-blur="validateNumSS('num_ss')" >
       </label>
     </div>
 	<!-- NATIONALITE -->
     <div class="list">
       <label class="item item-input">
 		<select class="flat" data-ng-model="formData.nationalite" data-ng-init="formData.nationalite='Nationalité'" data-ng-change="displayScanTitle()">
-			<option selected disabled style="display: none;">Nationalité</option>				
+			<option selected disabled style="display: none;">Nationalité</option>
 			<option data-ng-repeat="x in formData.nationalites" value="{{x}}">{{x.libelle}}</option>
 		</select>
 		</label>
 	</div>
-	
-	
-	<!-- 
+
+
+	<!--
 	<div align="left">
       <h3 class="titlePhone">{{formData.scanTitle}}</h3>
     </div>
@@ -89,7 +89,7 @@
                  onchange="angular.element(this).scope().loadImage(this)">
 
           <img id="uploadPreview" style="max-width: 100px; max-height: 100px;" />
-      </div>	
+      </div>
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
       <button class="button button-full button-positive grey"  data-ng-click="updateCivilite()">Valider</button>

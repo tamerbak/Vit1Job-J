@@ -20,8 +20,8 @@ starter
 				if(JSON.parse($scope.formData.nationalite).libelle =="Français")
 					$scope.formData.scanTitle="Charger un scan de votre CNI";
 				else
-					$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";			
-			}			
+					$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";
+			}
 		}
 
 		$scope.updateCivilite = function(){
@@ -88,7 +88,7 @@ starter
 							jobeyer.dateNaissance=dateNaissance;
 							jobeyer.numSS=numSS;
 							jobeyer.nationalite=JSON.parse($scope.formData.nationalite);
-							
+
 							console.log("jobeyer : "+JSON.stringify(jobeyer));
 							// PUT IN SESSION
 							$cookieStore.put('jobeyer', jobeyer);
@@ -219,7 +219,7 @@ starter
 		$scope.initForm=function(){
 			// GET LIST
 			$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
-			$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";			
+			$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
