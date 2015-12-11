@@ -840,4 +840,9 @@ starter
         $scope.formData.heures.pop();
       }
     };
+
+    $scope.initDateFin= function(){
+      if ($scope.formData.jamais)
+        $scope.formData.dateFin=null;
+    };
   });
