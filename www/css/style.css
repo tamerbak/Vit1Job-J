@@ -502,4 +502,10 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   transition: opacity 300ms ease-in-out;
   background-color: lightgray;
 }
-
+.popup-open .popup{
+  width:85%;
+}
+.error{
+  color: red;
+  text-align: left !important;
+}

@@ -95,8 +95,9 @@ starter
 									var connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyerId)};
 									$cookieStore.put('connexion', connexion);
 
-									// USER REEL - REDIRECTION VERS home
-									$state.go("app");
+                  Global.showAlertValidation("Vous venez de rentrer dans votre espace jobyer.<br>Vous pouvez lancer la recherche de jobs selon vos critères.");
+                  // USER REEL - REDIRECTION VERS home
+                  $state.go("app");
 								}
 								else	// MOT DE PASSE INCORRECT
 									Global.showAlertPassword("Mot de passe incorrect");
@@ -128,7 +129,7 @@ starter
 									$rootScope.jobeyer.password=password;
 								}
 
-								Global.showAlertValidation("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
+								//Global.showAlertValidation("Bienvenue! Merci de saisir vos informations avant de lancer votre recherche.");
 								// PASSWORD INCORRECT - REDIRECTION
 								$state.go("saisieCiviliteJobeyer");
 							}).error(function (err){
@@ -148,5 +149,18 @@ starter
 
 	 $scope.validatEmail= function(id){
 		 Validator.checkEmail(id);
-	 }
+   };
+    $scope.passwordIsValid= function(){
+      if($scope.formData.password!=undefined) {
+        if (Number($scope.formData.password.length) >= 6) {
+          console.log('test');
+          return true;
+        }
+        else
+          return false;
+      }else
+        return false;
+
+
+    };
   });

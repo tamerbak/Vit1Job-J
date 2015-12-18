@@ -75,7 +75,7 @@ starter
 
                         var connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyerId)};
                         $cookieStore.put('connexion', connexion);
-                        Global.showAlertValidation("Bienvenu dans Vitonjob. Vous pouvez lancer les recherches des jobyers que vous souhaitez.");
+                        Global.showAlertValidation("Vous venez de rentrer dans votre espace jobyer.<br>Vous pouvez lancer la recherche de jobs selon vos critères.");
                         // USER REEL - REDIRECTION VERS RECHERCHE
                         $state.go("app");
                       }
@@ -100,7 +100,7 @@ starter
 								if(jobeyer.dataModel.status || jobeyer.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
 									connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyer.dataModel.status)};
 									$cookieStore.put('connexion', connexion);
-                  Global.showAlertValidation("Bienvenue dans Vitonjob. Veuillez saisir vos informations. Elles seront utilisées uniquement en cas de signature du contrat de travail.");
+                  //Global.showAlertValidation("Bienvenue dans Vitonjob. Veuillez saisir vos informations. Elles seront utilisées uniquement en cas de signature du contrat de travail.");
 									$rootScope.jobeyer.id=Number(jobeyer.dataModel.status);
 									$rootScope.jobeyer.phone=phone;
 									$rootScope.jobeyer.index=index;
