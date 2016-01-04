@@ -1,6 +1,6 @@
 /**
  * Created by Omar on 27/10/2015.
- */
+ */  
 
 angular.module('validationDataServices', ['ionic', 'cb.x2js', 'providerServices'])
 
