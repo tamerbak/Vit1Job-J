@@ -7,9 +7,9 @@ starter.controller('employersListCtrls',
 		var init = function(){
 
 			$scope.OfferLabel = capitalize(localStorageService.get('lastSearchedJob'));
-			$scope.jobyerListSetting = localStorageService.get('jobyerListSetting');
-			if(!$scope.jobyerListSetting){
-				$scope.jobyerListSetting = {
+			$scope.employerListSetting = localStorageService.get('employerListSetting');
+			if(!$scope.employerListSetting){
+				$scope.employerListSetting = {
 					orderByAvialability : false,
 					orderByCorrespondence : false,
 					job : 50,
@@ -17,13 +17,13 @@ starter.controller('employersListCtrls',
 					language : 25,
 					transportationmode : 'driving'
 				};
-				localStorageService.set('jobyerListSetting', $scope.jobyerListSetting);
+				localStorageService.set('employerListSetting', $scope.employerListSetting);
 			};
 
 			//*/
 
-			$scope.jobyersOffers = [{
-				jobyerName : 'Jérôme',
+			$scope.employersOffers = [{
+        employerName : 'Jérôme',
 				availability : {
 					value : 210,
 					text : '8h 30min'
@@ -36,7 +36,7 @@ starter.controller('employersListCtrls',
 				longitude : 0
 			},
 			{
-				jobyerName : 'Alain',
+        employerName : 'Alain',
 				availability : {
 					value : 20,
 					text : '3h 30min'
@@ -49,7 +49,7 @@ starter.controller('employersListCtrls',
 				longitude : 0
 			},
 			{
-				jobyerName : 'Philippe',
+        employerName : 'Philippe',
 				availability : {
 					value : 1000,
 					text : '17h 30min'
@@ -63,10 +63,10 @@ starter.controller('employersListCtrls',
 			}];
 		//*/
 		/*
-		$scope.jobyersOffers = localStorageService.get('jobyersOffers');
+		$scope.employersOffers = localStorageService.get('employersOffers');
 		//*/
 
-		$scope.transportationmode = $scope.jobyerListSetting.transportationmode;
+		$scope.transportationmode = $scope.employerListSetting.transportationmode;
 
 		$scope.sort();
 	};
@@ -76,32 +76,32 @@ starter.controller('employersListCtrls',
 	});
 
 	$scope.sort = function(){
-		if($scope.jobyerListSetting.orderByCorrespondence) $scope.SortOrder = '+matching';
-		if($scope.jobyerListSetting.orderByAvialability) $scope.SortOrder = '+availability.value';
+		if($scope.employerListSetting.orderByCorrespondence) $scope.SortOrder = '+matching';
+		if($scope.employerListSetting.orderByAvialability) $scope.SortOrder = '+availability.value';
 	};
 
 	var capitalize = function(st) {
 		return st.charAt(0).toUpperCase() + st.slice(1);
 	};
 
-	var setJobyerListSetting = function(property, newValue){
-		var jobyerListSetting = localStorageService.get('jobyerListSetting');
-		jobyerListSetting[property] = newValue;
-		localStorageService.set('jobyerListSetting', jobyerListSetting);
+	var setEmployerListSetting = function(property, newValue){
+		var employerListSetting = localStorageService.get('employerListSetting');
+    employerListSetting[property] = newValue;
+		localStorageService.set('employerListSetting', employerListSetting);
 	};
 
-	$scope.$watch('jobyerListSetting.orderByAvialability', function (newValue, oldValue) {
-		setJobyerListSetting('orderByAvialability', newValue);
+	$scope.$watch('employerListSetting.orderByAvialability', function (newValue, oldValue) {
+		setEmployerListSetting('orderByAvialability', newValue);
 	});
 
-	$scope.$watch('jobyerListSetting.orderByCorrespondence', function (newValue, oldValue) {
-		setJobyerListSetting('orderByCorrespondence', newValue);
+	$scope.$watch('employerListSetting.orderByCorrespondence', function (newValue, oldValue) {
+		setEmployerListSetting('orderByCorrespondence', newValue);
 	});
 
 	$scope.showMenuForContract = function(jobber){
 
-    localStorageService.remove('Selectedjobyer');
-    localStorageService.set('Selectedjobyer',jobber);
+    localStorageService.remove('Selectedemployer');
+    localStorageService.set('Selectedemployer',jobber);
 		var hideSheet = $ionicActionSheet.show({
 			buttons: [
 			{ text: '<i class="ion-android-textsms"> Contacter par SMS</i>' }, //Index = 0
@@ -192,7 +192,7 @@ starter.controller('employersListCtrls',
                 var objRedirect = {"step1": redirectToStep1, "step2": redirectToStep2, "step3": redirectToStep3};
                 if (dataInformed) {
                   //show contract page //TODO
-                  $state.go("contract", {jobyer: jobber});
+                  $state.go("contract", {employer: jobber});
                   console.log(jobber);
                   console.log("redirect to contract pages");
                 }

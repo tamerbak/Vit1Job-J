@@ -2,8 +2,8 @@
 
 starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','Global','GeoService','$http','localStorageService', function($scope, $ionicLoading, $compile,Global,GeoService,$http,localStorageService) {
   var adressTravailMarker, myMarker;
-	$scope.jobyersOffers= [{
-	jobyerName : 'Jérôme',
+	$scope.employersOffers= [{
+    employerName : 'Jérôme',
 	availability : {
 	value : 210,
 	text : '8h 30min'
@@ -15,7 +15,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 	address:"190 Rue de Copenhague, 93290 Tremblay-en-France"
 	},
 	{
-	jobyerName : 'Alain',
+    employerName : 'Alain',
 	availability : {
 	value : 20,
 	text : '3h 30min'
@@ -27,7 +27,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 	address:"18 pl Honoré Combe, 45320 COURTENAY"
 	},
 	{
-	jobyerName : 'Philippe',
+    employerName : 'Philippe',
 	availability : {
 	value : 1000,
 	text : '17h 30min'
@@ -44,7 +44,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
     $scope.loaded = true;
   });
   $scope.markerFilter="distance";
-  
+
   var getAddress = function(empl){
     var address;
     /*
@@ -107,7 +107,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
           (place.address_components[2] && place.address_components[2].short_name || '')
         ].join(' ');
 		var searchedLatLng=new google.maps.LatLng(place.geometry.location.lat(),place.geometry.location.lng());
-		loopThroughJobyers(0 ,searchedLatLng);
+		loopThroughEmployers(0 ,searchedLatLng);
       }
       console.log(a);
 
@@ -128,7 +128,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 
   $scope.InfoMarkers = [];
   $scope.markers= [];
-  
+
   $scope.displayMarkers=function(){
 	  //initialize markers
 	  for(var j=0; j<$scope.markers;j++){
@@ -136,9 +136,9 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 	  }
 	$scope.markers=[];
 	//
-    var jobyers=$scope.jobyersOffers;
-    if($scope.InfoMarkers.length!=jobyers.length){
-		return;		
+    var employers=$scope.employersOffers;
+    if($scope.InfoMarkers.length!=employers.length){
+		return;
 	}
     var sortedMarkers;
     console.log("markerFilter: "+$scope.markerFilter);
@@ -190,35 +190,35 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
     }
   }
 
-  function loopThroughJobyers(i,myLatLng){
+  function loopThroughEmployers(i,myLatLng){
     var marker2;
-    var jobyers=$scope.jobyersOffers;
-	if($scope.InfoMarkers.length == $scope.jobyersOffers.length){
+    var employers=$scope.employersOffers;
+	if($scope.InfoMarkers.length == $scope.employersOffers.length){
 		$scope.InfoMarkers=[];
 	}
-    if (jobyers[i].latitude && jobyers[i].longitude) {
-      var myLatLng2 = new google.maps.LatLng(jobyers[i].latitude, jobyers[i].longitude);
-	  var content = "<h3>"+jobyers[i].jobyerName+"</h3>"+"<p>Disponibilité : "+jobyers[i].availability.text+"</p><p>Correspondance : "+jobyers[i].matching+"%</p>";
-      $scope.InfoMarkers.push({availability:jobyers[i].availability, key:i, position: myLatLng2,info: content,distance:google.maps.geometry.spherical.computeDistanceBetween(myLatLng, myLatLng2)});
+    if (employers[i].latitude && employers[i].longitude) {
+      var myLatLng2 = new google.maps.LatLng(employers[i].latitude, employers[i].longitude);
+	  var content = "<h3>"+employers[i].employerName+"</h3>"+"<p>Disponibilité : "+employers[i].availability.text+"</p><p>Correspondance : "+employers[i].matching+"%</p>";
+      $scope.InfoMarkers.push({availability:employers[i].availability, key:i, position: myLatLng2,info: content,distance:google.maps.geometry.spherical.computeDistanceBetween(myLatLng, myLatLng2)});
       $scope.displayMarkers();
-      if (i != jobyers.length-1) {
+      if (i != employers.length-1) {
         i+=1;
-        loopThroughJobyers(i,myLatLng);
+        loopThroughEmployers(i,myLatLng);
       }
     } else {
-      $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + jobyers[i].address).
+      $http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + employers[i].address).
         success(function (data) {
           var location = (data.results && data.results.length > 0) ? data.results[0].geometry.location : NULL;
           console.log(location.lat);
           console.log(location.lng);
           var myLatLng2 = new google.maps.LatLng(location.lat, location.lng);
-          //var myLatLng2 = {lat: jobyersOffers[i].latitude, lng: jobyersOffers[i].longitude};
-		  var content = "<h3>"+jobyers[i].jobyerName+"</h3>"+"<p>Disponibilité : "+jobyers[i].availability.text+"</p><p>Correspondance : "+jobyers[i].matching+"%</p>";
-          $scope.InfoMarkers.push({availability:jobyers[i].availability,key:i, position: myLatLng2,info: content,distance:google.maps.geometry.spherical.computeDistanceBetween(myLatLng, myLatLng2)});
+          //var myLatLng2 = {lat: employersOffers[i].latitude, lng: employersOffers[i].longitude};
+		  var content = "<h3>"+employers[i].employerName+"</h3>"+"<p>Disponibilité : "+employers[i].availability.text+"</p><p>Correspondance : "+employers[i].matching+"%</p>";
+          $scope.InfoMarkers.push({availability:employers[i].availability,key:i, position: myLatLng2,info: content,distance:google.maps.geometry.spherical.computeDistanceBetween(myLatLng, myLatLng2)});
           $scope.displayMarkers();
-          if (i!=jobyers.length-1) {
+          if (i!=employers.length-1) {
             i+=1;
-            loopThroughJobyers(i,myLatLng);
+            loopThroughEmployers(i,myLatLng);
           }
         })
         .error(function () {
@@ -301,8 +301,8 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
           var myLatLng=new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
 		  myMarker.setVisible(false);
 		  myMarker.setPosition(myLatLng);
-		  myMarker.setVisible(true);		  
-          loopThroughJobyers(0 ,myLatLng);
+		  myMarker.setVisible(true);
+          loopThroughEmployers(0 ,myLatLng);
       success=true;
       $ionicLoading.hide();
     }, function(error) {

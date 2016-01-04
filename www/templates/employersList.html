@@ -15,11 +15,11 @@
 
 <div class="item item-divider" style="padding:3px 10px 3px 10px;">
 	<label style="float:left;padding-top:5px;"><b>{{OfferLabel}}</b></label>
-	<button class="button button-small button-light ion-ios-settings-strong" style="float:right;" ui-sref="jobyersOffersTab.options"></button>
+	<button class="button button-small button-light ion-ios-settings-strong" style="float:right;" ui-sref="employersOffersTab.options"></button>
 	<button class="button button-small button-light ion-edit" style="float:right;" ui-sref="offres"></button>
 </div>
 
-<ion-checkbox ng-model="jobyerListSetting.orderByAvialability" class="checkbox-calm" style="padding:8px;" ng-change="sort()">
+<ion-checkbox ng-model="employerListSetting.orderByAvialability" class="checkbox-calm" style="padding:8px;" ng-change="sort()">
 <label style="padding-left:40px;">Disponible via &nbsp;&nbsp;&nbsp;
 	<i class="icon ion-android-car" ng-if="transportationmode == 'driving'"></i>
 	<i class="icon ion-android-walk" ng-if="transportationmode == 'walking'"></i>
@@ -27,29 +27,29 @@
 	<i class="icon ion-android-bus" ng-if="transportationmode == 'transit'"></i>
 </label>
 </ion-checkbox>
-<ion-checkbox ng-model="jobyerListSetting.orderByCorrespondence" class="checkbox-stable" style="padding:8px;" ng-change="sort()">
-<label class="calm" style="color:gray;padding-left:40px;" >% de correspondance à la demande</label>
+<ion-checkbox ng-model="employerListSetting.orderByCorrespondence" class="checkbox-stable" style="padding:8px;" ng-change="sort()">
+<label class="calm" style="padding-left:40px;" >% de correspondance à la demande</label>
 </ion-checkbox>
 
 <div class="list">
-	<a class="item item-avatar card" style="margin:6px;" ng-repeat="jobyerOffer in jobyersOffers | orderBy : SortOrder">
+	<a class="item item-avatar card" style="margin:6px;" ng-repeat="employerOffer in employersOffers | orderBy : SortOrder">
 		<div class="item-icon-left">
 			<div><i class="icon ion-person"></i></div>
 		</div>
-		<h2>{{jobyerOffer.jobyerName}}</h2>
+		<h2>{{employerOffer.employerName}}</h2>
 		<p>
 			<p>
 				<i class="icon ion-android-car" ng-if="transportationmode == 'driving'"></i>
 				<i class="icon ion-android-walk" ng-if="transportationmode == 'walking'"></i>
 				<i class="icon ion-android-bicycle" ng-if="transportationmode == 'bicycling'"></i>
 				<i class="icon ion-android-bus" ng-if="transportationmode == 'transit'"></i>
-				<label>&nbsp;&nbsp;{{jobyerOffer.availability.text}}</label></p>
-				<p><i class="icon ion-arrow-shrink"></i><label style="color:gray;">&nbsp;&nbsp;{{jobyerOffer.matching}} %</label></p>
+				<label>&nbsp;&nbsp;{{employerOffer.availability.text}}</label></p>
+				<p><i class="icon ion-arrow-shrink"></i><label class="calm">&nbsp;&nbsp;{{employerOffer.matching}} %</label></p>
 			</p>
 			<div class="item-button-right">
-				<button class="button button-clear" style="padding-top:11px;"  ng-click="showMenuForContract(jobyerOffer)">
-					<i class="icon ion-power calm" ng-if="jobyerOffer.contacted"></i>
-					<i class="icon ion-power" style="color:gainsboro;" ng-if="!jobyerOffer.contacted"></i>
+				<button class="button button-clear" style="padding-top:11px;"  ng-click="showMenuForContract(employerOffer)">
+					<i class="icon ion-power" ng-if="employerOffer.contacted"></i>
+					<i class="icon ion-power" style="color:gainsboro;" ng-if="!employerOffer.contacted"></i>
 				</button>
 			</div>
 		</a>

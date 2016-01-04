@@ -517,8 +517,8 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   border: none;
 }
 
-.button.button-green{
-  border-color: #14BAA6;
-  background-color: #14BAA6;
+.button.button-gray{
+  border-color: gray;
+  background-color: gray;
   color: #fff;
 }
