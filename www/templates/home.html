@@ -26,7 +26,7 @@
 
 
     <div class="row">
-      <button class="button button-full button-positive grey" data-ng-click="getEmployers(query)">
+      <button class="button button-full button-positive grey" ng-disabled="!query" data-ng-click="getEmployers(query)">
         Lancer la recherche
       </button>
     </div>
