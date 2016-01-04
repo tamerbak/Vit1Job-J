@@ -821,6 +821,97 @@ angular.module('wsConnectors', ['ionic'])
   })
 
   .service('UpdateInServer', function ($http){
+
+    this.updateCiviliteInJobyer = function(id, civilite, nom, prenom, dateNaissance, numSS, nationalite, sessionID){
+      console.log(id+ ","+ civilite+ ","+ nom+ ","+ prenom+ ","+ dateNaissance+ ","+ numSS+ ","+ nationalite+ ","+ sessionID);
+      soapMessage=
+        '<fr.protogen.connector.model.DataModel>'+
+        '<entity>user_salarie</entity>'+
+        '<dataMap/>'+
+        '<rows>'+
+        '<fr.protogen.connector.model.DataRow>'+
+        '<dataRow>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// ID SALARIE
+        '<label>&lt;![CDATA[ID SALARIE]]&gt;</label>'+
+        '<attributeReference>pk_user_salarie</attributeReference>'+
+        '<type>PK</type>'+
+        '<value>'+id+'</value>'+
+        '</fr.protogen.connector.model.DataEntry>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// Titre CIVILITE
+        '<label>&lt;![CDATA[Titre]]&gt;</label>'+
+        '<attributeReference>fk_user_civilite</attributeReference>'+
+        '<type>fk_user_civilite</type>'+
+        '<list/>'+
+        '<value>'+civilite+'</value>'+
+        '</fr.protogen.connector.model.DataEntry>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// Nom
+        '<label>&lt;![CDATA[Nom]]&gt;</label>'+
+        '<attributeReference>nom</attributeReference>'+
+        '<type>TEXT</type>'+
+        '<value>&lt;![CDATA['+nom+']]&gt;</value>'+
+        '</fr.protogen.connector.model.DataEntry>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// Prénom
+        '<label>&lt;![CDATA[Prénom]]&gt;</label>'+
+        '<attributeReference>prenom</attributeReference>'+
+        '<type>TEXT</type>'+
+        '<value>&lt;![CDATA['+prenom+']]&gt;</value>'+
+        '</fr.protogen.connector.model.DataEntry>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// DATE DE NAISSANCE
+        '<label>&lt;![CDATA[DATE DE NAISSANCE]]&gt;</label>'+
+        '<attributeReference>date_de_naissance</attributeReference>'+
+        '<type>DATE</type>'+
+        '<value>&lt;![CDATA['+dateNaissance+']]&gt;</value>'+
+        '</fr.protogen.connector.model.DataEntry>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// NUMERO SS
+        '<label>&lt;![CDATA[NUMERO SS]]&gt;</label>'+
+        '<attributeReference>numero_ss</attributeReference>'+
+        '<type>TEXT</type>'+
+        '<value>&lt;![CDATA['+numSS+']]&gt;</value>'+
+        '</fr.protogen.connector.model.DataEntry>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// NATIONALITE
+        '<label>&lt;![CDATA[NATIONALITE]]&gt;</label>'+
+        '<attributeReference>fk_user_nationalite</attributeReference>'+
+        '<type>fk_user_nationalite</type>'+
+        '<value>&lt;![CDATA['+nationalite+']]&gt;</value>'+
+        '</fr.protogen.connector.model.DataEntry>'+
+
+        '</dataRow>'+
+        '</fr.protogen.connector.model.DataRow>'+
+        '</rows>'+
+        "<token>" +
+        "<username></username>" +
+        "<password></password>" +
+        "<nom>Jakjoud Abdeslam</nom>" +
+        "<appId>FRZ48GAR4561FGD456T4E</appId>" +
+        "<sessionId>"+sessionID+"</sessionId>" +
+        "<status>SUCCES</status>" +
+        "<id>206</id>" +
+        "<beanId>0</beanId>" +
+        "</token>" +
+        "<expired></expired>" +
+        "<unrecognized></unrecognized>" +
+        "<status></status>" +
+        "<operation>UPDATE</operation>" +
+        "<clauses/>" +
+        "<page>1</page>" +
+        "<pages>5</pages>" +
+        "<nbpages>0</nbpages>" +
+        "<iddriver>0</iddriver>" +
+        "<ignoreList></ignoreList>" +
+        '</fr.protogen.connector.model.DataModel>';
+
+
+      return $http({
+        method: 'POST',
+        url: 'http://ns389914.ovh.net:8080/vit1job/api/das',
+        headers: {
+          "Content-Type": "text/xml"
+          //'Access-Control-Allow-Methods' : 'GET, POST, PUT, UPDATE, OPTIONS'
+        },
+        data: soapMessage
+      });
+    };
+
     this.updateCiviliteInEmployeur = function(id, civilite, nom, prenom, raisonSocial, siret, codeAPE, numUrssaf, sessionID){
 
       soapMessage=

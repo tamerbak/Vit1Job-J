@@ -37,7 +37,7 @@ starter
 
      var jsonObj = {"email": "",
         "telephone": btoa(JSON.stringify(phone)), "password": btoa(JSON.stringify(password)),
-        "role": btoa(JSON.stringify("salarie"))};
+        "role": btoa(JSON.stringify("jobyer"))};
       var user = jsonObj;
       var userObj = AuthentificatInServer.AuthenticateUser(user);
 

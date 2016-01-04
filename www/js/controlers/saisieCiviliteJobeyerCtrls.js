@@ -3,14 +3,14 @@
  */
 'use strict';
 starter
-	.controller('saisieCiviliteJobeyerCtrl', function ($scope, $rootScope, $cookieStore, $state, UpdateInServer, UploadFile, $base64,
-				LoadList, formatString, DataProvider, Validator){
+	.controller('saisieCiviliteJobeyerCtrl', function ($scope, $rootScope, localStorageService, $state,$stateParams, UpdateInServer, UploadFile, $base64,
+				LoadList, formatString, DataProvider, Validator, $ionicPopup, $cordovaCamera){
 
 		// FORMULAIRE
 		$scope.formData = {};
 		$scope.numSSValide =false;
 		// IMAGE
-		//$scope.formData.image={};
+		$scope.formData.image={};
 		$scope.validateNumSS= function(id){
 			Validator.checkNumSS(id);
 			//$scope.numSSValide =false;
@@ -18,12 +18,29 @@ starter
 		$scope.displayScanTitle= function(){
 			if($scope.formData.nationalite!=null){
 				if(JSON.parse($scope.formData.nationalite).libelle =="Français")
-					$scope.formData.scanTitle="Charger un scan de votre CNI";
+					$scope.formData.scanTitle="CNI";
 				else
-					$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";
+					$scope.formData.scanTitle="autorisation de travail";
 			}
 		}
 
+    $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
+    var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+    if(steps!='')
+    {
+      $ionicPopup.show({
+        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+        template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus du contractualisation.',
+        buttons : [
+          {
+            text: '<b>OK</b>',
+            type: 'button-dark',
+            onTap: function(e) {
+            }
+          }
+        ]
+      });
+    }
 		$scope.updateCivilite = function(){
 
 			for(var obj in $scope.formData){
@@ -44,12 +61,12 @@ starter
 			}
 			console.log("nationalite : "+pk_user_nationalite);
 			// RECUPERATION CONNEXION
-			var connexion=$cookieStore.get('connexion');
-			// RECUPERATION JOBEYER ID
-			var jobeyeId=connexion.jobeyeId;
-			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
+			var connexion=localStorageService.get('connexion');
+			// RECUPERATION jobyer ID
+			var jobyerID=connexion.jobyerID;
+			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			if(!isNaN(titre) || nom || prenom || dateNaissance || numSS || pk_user_nationalite){
 				if(!nom)
@@ -69,33 +86,33 @@ starter
 				if(!pk_user_nationalite)
 					pk_user_nationalite="";
 				console.log("dateNaissance : "+dateNaissanceFormatted);
-				// UPDATE JOBEYER
-				UpdateInServer.updateCiviliteInJobeyer(
-					Number(jobeyeId), Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
+				// UPDATE jobyer
+				UpdateInServer.updateCiviliteInJobyer(
+					Number(jobyerID), Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
 						.success(function (response){
 
 							// DONNEES ONT ETE SAUVEGARDES
 							console.log("les donnes ont été sauvegarde");
 							console.log("response"+response);
 
-							var jobeyer=$cookieStore.get('jobeyer');
-							if(!jobeyer)
-								jobeyer={};
+							var jobyer=localStorageService.get('jobyer');
+							if(!jobyer)
+								jobyer={};
 
-							jobeyer.civilite=titre;
-							jobeyer.nom=nom;
-							jobeyer.prenom=prenom;
-							jobeyer.dateNaissance=dateNaissance;
-							jobeyer.numSS=numSS;
-							jobeyer.nationalite=JSON.parse($scope.formData.nationalite);
+							jobyer.civilite=titre;
+							jobyer.nom=nom;
+							jobyer.prenom=prenom;
+							jobyer.dateNaissance=dateNaissance;
+							jobyer.numSS=numSS;
+							jobyer.nationalite=JSON.parse($scope.formData.nationalite);
 
-							console.log("jobeyer : "+JSON.stringify(jobeyer));
+							console.log("jobyer : "+JSON.stringify(jobyer));
 							// PUT IN SESSION
-							$cookieStore.put('jobeyer', jobeyer);
+							localStorageService.set('jobyer', jobyer);
 
 						}).error(function (err){
 							console.log("error : insertion DATA");
-							console.log("error In updateCiviliteInjobeyer: "+err);
+							console.log("error In updateCiviliteInjobyer: "+err);
 						});
 			}
 
@@ -106,8 +123,8 @@ starter
 				//console.log("image en base64 : "+$scope.formData.imageEncode);
 				console.log("image en base64 : "+$scope.formData.imageEncode);
 				// ENVOI AU SERVEUR
-				//UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode.split(',')[1], jobeyeId)
-				UploadFile.uploadFile("user_salarie", $scope.formData.imageName, $scope.formData.imageEncode, jobeyeId)
+				//UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode.split(',')[1], jobyerID)
+				UploadFile.uploadFile("user_salarie", $scope.formData.imageName, $scope.formData.imageEncode, jobyerID)
 					.success(function (response){
 
 						// FILE A ETE BIEN TRANSFERE
@@ -121,7 +138,7 @@ starter
 			}
 
 			/*** LOAD LIST ZIP-CODE
-			codePostals=$cookieStore.get('zipCodes');
+			codePostals=localStorageService.get('zipCodes');
 			if(!codePostals){
 				LoadList.loadZipCodes(sessionId)
 					.success(function (response){
@@ -133,7 +150,7 @@ starter
 							if(typeof zipCodesObjects === 'undefined' || zipCodesObjects.length<=0 || zipCodesObjects===""){
 								console.log('Aucune résultat trouvé');
 								// PUT IN SESSION
-								$cookieStore.put('zipCodes', []);
+								localStorageService.put('zipCodes', []);
 								return;
 							}
 
@@ -157,7 +174,7 @@ starter
 
 							console.log("zipCodes.length : "+zipCodes.length);
 							// PUT IN SESSION
-							//$cookieStore.put('zipCodes', zipCodes);
+							//localStorageService.put('zipCodes', zipCodes);
 							console.log("zipCodes : "+JSON.stringify(zipCodes));
 						}).error(function (err){
 							console.log("error : LOAD DATA");
@@ -169,9 +186,20 @@ starter
 
 			$state.go('adressePersonel');
 		};
+		function onSuccess (imageURI) {
+	        $scope.imgURI = imageURI;
+	        $state.go($state.current, {}, {reload: true});
+	      }
+	    function onFail (message) {
+	      console.log('An error occured: ' + message);
+	  }
 
     $scope.selectImage = function() {
-      document.getElementById('image').click();
+      navigator.camera.getPicture(onSuccess, onFail,{
+        quality : 50,
+        sourceType : navigator.camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: Camera.DestinationType.FILE_URI
+      });
     };
 
 		$scope.loadImage=function(img){
@@ -188,7 +216,7 @@ starter
 
 			if(img.files && img.files[0]){
 				var FR= new FileReader();
-				/*
+
 				FR.onload = function(e){
 					// RECUPERE FILE-NAME
 					$scope.formData.imageName=img.files[0].name;
@@ -197,17 +225,11 @@ starter
 									console.log("test");
 
 				};
-				*/
 				FR.readAsDataURL(image.files[0]);
 				//$scope.$apply(function(){});
 
 				FR.onload = function (oFREvent) {
 				document.getElementById("uploadPreview").src = oFREvent.target.result;
-				// RECUPERE FILE-NAME
-					$scope.formData.imageName=img.files[0].name;
-					// RECUPERE ENCODAGE-64
-					$scope.formData.imageEncode=oFREvent.target.result;
-									console.log("test");
 				};
 			}
 		};
@@ -219,7 +241,7 @@ starter
 		$scope.initForm=function(){
 			// GET LIST
 			$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
-			$scope.formData.scanTitle="Chargez un scan de votre autorisation de travail";
+			$scope.formData.scanTitle="autorisation de travail";
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
@@ -227,22 +249,22 @@ starter
 				$scope.initForm();
 
 				console.log("Je suis ds $ionicView.beforeEnter(saisieCivilite)");
-			  var jobeyer=$cookieStore.get('jobeyer');
-				console.log("jobeyer : "+JSON.stringify(jobeyer));
-				if(jobeyer){
+			  var jobyer=localStorageService.get('jobyer');
+				console.log("jobyer : "+JSON.stringify(jobyer));
+				if(jobyer){
 					// INITIALISATION FORMULAIRE
-					if(jobeyer.civilite)
-						$scope.formData.civ=jobeyer.civilite;
-					if(jobeyer.nom)
-						$scope.formData.nom=jobeyer.nom;
-					if(jobeyer.prenom)
-						$scope.formData.prenom=jobeyer.prenom;
-					if(jobeyer.dateNaissance)
-						$scope.formData.dateNaissance=jobeyer.dateNaissance;
-					if(jobeyer.numSS)
-						$scope.formData.numSS=jobeyer.numSS;
-					if(jobeyer.nationalite)
-						$scope.formData.nationalite=jobeyer.nationalite;
+					if(jobyer.civilite)
+						$scope.formData.civ=jobyer.civilite;
+					if(jobyer.nom)
+						$scope.formData.nom=jobyer.nom;
+					if(jobyer.prenom)
+						$scope.formData.prenom=jobyer.prenom;
+					if(jobyer.dateNaissance)
+						$scope.formData.dateNaissance=jobyer.dateNaissance;
+					if(jobyer.numSS)
+						$scope.formData.numSS=jobyer.numSS;
+					if(jobyer.nationalite)
+						$scope.formData.nationalite=jobyer.nationalite;
 				}
 			}
 		});
@@ -251,10 +273,10 @@ starter
 
 			console.log("Je suis ds takePicture() ");
 			var options = {
-				quality: 50,
+				quality: 75,
 				destinationType: Camera.DestinationType.DATA_URL,
 				sourceType: Camera.PictureSourceType.CAMERA,
-				allowEdit: true,
+				allowEdit: false,
 				encodingType: Camera.EncodingType.JPEG,
 				targetWidth: 100,
 				targetHeight: 100,
@@ -266,8 +288,8 @@ starter
 			$cordovaCamera.getPicture(options).then(function(imageData){
 				$scope.imgURI = "data:image/jpeg;base64," + imageData;
 				console.log("imageData : "+imageData);
-			});
-
-			console.log("imgURI : "+$scope.imgURI);
+			}, function(err) {
+							alert(err);
+						});
 		}
 	});
