@@ -177,7 +177,7 @@ starter
             //isConnected = true;
             //if (jobyersForMe.length>0)
             if ($scope.nbJobyersForMe != 0){
-              $state.go('list');
+              $state.go('employersTab.list');
             }
             //$state.go('app');
           },

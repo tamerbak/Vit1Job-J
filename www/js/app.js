@@ -98,3 +98,29 @@ var services = angular.module('Services', []);
 function isEmpty(str) {
 	return (!str || 0 === str.length || typeof str === 'undefined' || str === null);
 }
+
+starter.directive('groupedRadio', function() {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    scope: {
+      model: '=ngModel',
+      value: '=groupedRadio'
+    },
+    link: function(scope, element, attrs, ngModelCtrl) {
+      element.addClass('button');
+      element.on('click', function(e) {
+        scope.$apply(function() {
+          ngModelCtrl.$setViewValue(scope.value);
+        });
+      });
+
+      scope.$watch('model', function(newVal) {
+        element.removeClass('button-green');
+        if (newVal === scope.value) {
+          element.addClass('button-green');
+        }
+      });
+    }
+  };
+})
