@@ -1,4 +1,4 @@
-<ion-view title="connection">
+<ion-view id="connectionsView" title="connection">
   <ion-header-bar class="bar-calm backgroundGray">
     <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="app">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
@@ -23,9 +23,9 @@
     </div>
 
     <div class="button-bar ">
-      <a class="button button-calm fb backgroundGray borderGray" data-ng-click="fbLogin()"><i class="icon ion-social-facebook"></i>acebook</a>
-      <a class="button button-calm backgroundGray borderGray" data-ng-click="loginGmail()"><i class="icon ion-social-google">mail</i></a>
-      <a class="button button-calm linked backgroundGray borderGray" data-ng-click="linkedinLogin()">Linked<i class="icon ion-social-linkedin"></i></a>
+      <a class="button button-calm fb backgroundGray borderGray" data-ng-click="fbLogin()"><i class="icon ion-social-facebook"></i><span class="hide-text">acebook</span></a>
+      <a class="button button-calm backgroundGray borderGray" data-ng-click="loginGmail()"><i class="icon ion-social-google"><span class="hide-text">mail</span></i></a>
+      <a class="button button-calm linked backgroundGray borderGray" data-ng-click="linkedinLogin()"><span class="hide-text">Linked</span><i class="icon ion-social-linkedin"></i></a>
     </div>
     <div class="row">
       <button class="button button-full button-positive green" onclick="navigator.app.exitApp()" ><i class="icon ion-log-out"></i> Quitter</button>

@@ -45,6 +45,42 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       controller: 'MapCtrl'
 
     })
+
+    .state('employersTab', {
+      url: '/employersTab',
+      abstract: true,
+      templateUrl: 'templates/employersTab.html',
+    })
+
+    .state('employersTab.list', {
+      url: '/listEmployers',
+      views: {
+        'employersTab-list': {
+          templateUrl: 'templates/employersList.html',
+          controller: 'employersListCtrls'
+        }
+      }
+    })
+
+    .state('employersTab.map', {
+      url: '/map',
+      views: {
+        'employersTab-map': {
+          templateUrl: 'templates/employersMap.html',
+          controller: 'employersMapCtrls'
+        }
+      }
+    })
+
+    .state('employersTab.options', {
+      url: '/options',
+      views: {
+        'employersTab-options': {
+          templateUrl: 'templates/employersOptions.html',
+          controller: 'employersOptionsCtrls'
+        }
+      }
+    })
 	/*
     .state('listNext', {
       url: '/listNext',
