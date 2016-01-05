@@ -14,7 +14,7 @@
           http://*.googleapis.com
           http://localhost:35729">
 
-    <title>Vit1Job-j</title>
+    <title></title>
 
     <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -27,6 +27,8 @@
     <link href="css/popupStyles.css" rel="stylesheet">
     <link href="css/competenceStyle.css" rel="stylesheet">
 
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?&sensor=false"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places,geometry&sensor=false"></script>
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
 
@@ -48,16 +50,17 @@
     <script src="js/controlers/connectionPhoneCtrls.js"></script>
     <script src="js/controlers/connectionMailCtrls.js"></script>
     <script src="js/controlers/saisieCiviliteJobeyerCtrls.js"></script>
+    <script src="js/controlers/employersListCtrls.js"></script>
+    <script src="js/controlers/employersMapCtrls.js"></script>
+    <script src="js/controlers/employersOptionsCtrls.js"></script>
     <script src="js/controlers/adresseTravailCtrls.js"></script>
     <script src="js/controlers/competenceCtrls.js"></script>
     <script src="js/controlers/disponibiliteCtrls.js"></script>
     <script src="js/controlers/adressePersonelCtrls.js"></script>
     <script src="js/controlers/geocalisationCrtls.js"></script>
     <script src="js/controlers/profilCtrls.js"></script>
-    <script src="js/controlers/employersListCtrls.js"></script>
-    <script src="js/controlers/employersMapCtrls.js"></script>
-    <script src="js/controlers/employersOptionsCtrls.js"></script>
-
+    <script src="js/controlers/offresCtrls.js"></script>
+    <script src="js/controlers/offreTabsCtrls.js"></script>
     <!-- SERVICES & FACTORIES -->
     <script src="js/services/authenticationServices.js"></script>
     <script src="js/services/parsingServices.js"></script>
@@ -66,6 +69,7 @@
     <script src="js/services/providerServices.js"></script>
     <script src="js/services/validationDataServices.js"></script>
     <script src="js/services/connexionPhoneService.js"></script>
+    <script src="js/services/jobyerService.js"></script>
     <script src="js/services/userService.js"></script>
     <script src="js/services/geoService.js"></script>
 
@@ -90,8 +94,8 @@
     <!-- Local storage -->
     <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
-    <!-- google maps javascript -->
-    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&amp;libraries=places,geometry&sensor=true"></script>
+    <!-- google maps javascript
+    <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&amp;sensor=true"></script> -->
 
   </head>
   <body ng-app="starter">
