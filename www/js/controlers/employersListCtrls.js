@@ -166,8 +166,9 @@ starter.controller('employersListCtrls',
               if (isAuth) {
                 console.log("check and then redirect to contract page");
                 var jobyer = localStorageService.get('jobyer');
+                console.log(jobyer);
                 var redirectToStep1 = (typeof (jobyer) == "undefined");
-                var redirectToStep1 = (jobyer) ? (typeof (jobyer.civilite) == "undefined") || (typeof (jobyer.entreprise) == "undefined") : true;
+                var redirectToStep1 = (jobyer) ? (typeof (jobyer.civilite) == "undefined") : true;
                 var redirectToStep2 = (jobyer) ? (typeof (jobyer.adressePersonel) == "undefined") : true;
                 var redirectToStep3 = (jobyer) ? (typeof (jobyer.adresseTravail) == "undefined") : true;
                 if (jobyer && !redirectToStep1) {

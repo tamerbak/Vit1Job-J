@@ -123,7 +123,7 @@ starter
 					})
 		//	}
 			// REDIRECTION VERS PAGE - ADRESSE TRAVAI
-			$state.go('adresseTravail',{"geolocated":geolocated,addressPers:$scope.formData.address});
+			$state.go('adresseTravail',{"geolocated":geolocated,adressePersonel:$scope.formData.address});
 		};
 
 		// VALIDATION - FIELD
