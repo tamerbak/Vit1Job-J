@@ -34,7 +34,7 @@ starter
       }
     };
 		// RECUPERATION SESSION-ID & JOBEYER-ID
-		$scope.updateAdressePersJobeyer = function(){
+		$scope.updateAdressePersJobyer = function(){
       console.log($scope.formData.address);
 
 			for(var obj in $scope.formData){

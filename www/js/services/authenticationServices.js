@@ -1007,17 +1007,17 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-    this.updateAdressePersEmployeur=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
+    this.updateAdressePersJobeyer=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
       soapMessage=
         '<fr.protogen.connector.model.DataModel>'+
-        '<entity>user_employeur</entity>'+
+        '<entity>user_salarie</entity>'+
         '<dataMap/>'+
         '<rows>'+
         '<fr.protogen.connector.model.DataRow>'+
         '<dataRow>'+
-        '<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
-        '<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
-        '<attributeReference>pk_user_employeur</attributeReference>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// ID SALARIE
+        '<label>&lt;![CDATA[ID SALARIE]]&gt;</label>'+
+        '<attributeReference>pk_user_salarie</attributeReference>'+
         '<type>PK</type>'+
         '<value>'+id+'</value>'+
         '</fr.protogen.connector.model.DataEntry>'+
@@ -1091,14 +1091,14 @@ angular.module('wsConnectors', ['ionic'])
     this.updateAdresseTravJobyer=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
       soapMessage=
         '<fr.protogen.connector.model.DataModel>'+
-        '<entity>user_employeur</entity>'+
+        '<entity>user_salarie</entity>'+
         '<dataMap/>'+
         '<rows>'+
         '<fr.protogen.connector.model.DataRow>'+
         '<dataRow>'+
-        '<fr.protogen.connector.model.DataEntry>'+	// ID EMPLOYEUR
-        '<label>&lt;![CDATA[ID Employeur]]&gt;</label>'+
-        '<attributeReference>pk_user_employeur</attributeReference>'+
+        '<fr.protogen.connector.model.DataEntry>'+	// ID salarie
+        '<label>&lt;![CDATA[ID salarie]]&gt;</label>'+
+        '<attributeReference>pk_user_salarie</attributeReference>'+
         '<type>PK</type>'+
         '<value>'+Number(id)+'</value>'+
         '</fr.protogen.connector.model.DataEntry>'+
@@ -1170,7 +1170,6 @@ angular.module('wsConnectors', ['ionic'])
     };
 
   })
-
   .service('LoadList', function ($http){
     this.loadList = function(table, sessionID){
       soapMessage=
