@@ -86,6 +86,60 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/disponibilite.html',
       controller: 'disponibiliteCtrl'
     })
+    .state('offres', {
+      url: '/offres',
+      templateUrl: 'templates/offres.html',
+      controller: 'offresCtrl'
+    })
+    .state('offreTabs', {
+      url: '/offreTabs/:offre',
+      cache: false,
+      abstract: true,
+      templateUrl: 'templates/offreTabs.html',
+      controller: 'offreTabsCtrl'
+    })
+    .state('contract', {
+      url: '/contract',
+      params: {jobyer: null},
+      templateUrl: 'templates/createContract.html',
+      controller: 'contractCtrl'
+    })
+    .state('offreTabs.job', {
+      url: '/job/:offre',
+      views: {
+        'offreTabs-job': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/job.html'
+        }
+      }
+    })
+    .state('offreTabs.qualites', {
+      url: '/qualites',
+      views: {
+        'offreTabs-qualites': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/qualites.html'
+        }
+      }
+    })
+    .state('offreTabs.langues', {
+      url: '/langues',
+      views: {
+        'offreTabs-langues': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/langues.html'
+        }
+      }
+    })
+    .state('offreTabs.agenda', {
+      url: '/agenda',
+      views: {
+        'offreTabs-agenda': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/agenda.html'
+        }
+      }
+    })
     .state('competence', {
       url: '/competence',
       templateUrl: 'templates/competences.html',
