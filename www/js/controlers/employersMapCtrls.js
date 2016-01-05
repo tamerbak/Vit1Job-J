@@ -119,10 +119,10 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
     var container = document.getElementsByClassName('pac-container');
     if(screen.height <= 480){
       console.log("height called");
-      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');  
+      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
     }
     angular.element(container).attr('data-tap-disabled', 'true');
-    
+
     angular.element(container).on("click", function(){
         document.getElementById('address').blur();
         google.maps.event.trigger(autoComplete, 'place_changed');
@@ -250,10 +250,10 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
     $scope.addresses=[{libelle:"18 pl Honoré Combe, 45320 COURTENAY"},{libelle:"31 rue Croix des Petits-Champs 75001 PARIS"},{libelle:"5 Rue de Copenhague, 93290 Tremblay-en-France"}];
 
     var myLatlng,address;
-    var employeur=localStorageService.get('employeur');
-    console.log(employeur);
-    if(employeur!=null && employeur!=undefined)
-      address = getAddress(employeur);
+    var jobyer=localStorageService.get('jobyer');
+    console.log(jobyer);
+    if(jobyer!=null && jobyer!=undefined)
+      address = getAddress(jobyer);
     if(!address)
       address="5 Rue de Copenhague, 93290 Tremblay-en-France";
 
