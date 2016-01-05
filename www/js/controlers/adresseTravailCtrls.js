@@ -548,6 +548,20 @@ starter
 
        */
     };
+    
+    $scope.displayAdresseTooltip = function () {
+      $scope.adresseToolTip = "Astuce : Commencez par le code postal";
+      $scope.showAdresseTooltip = true;
+      console.log($scope.formData.addressTravail);
+    };
+
+    $scope.fieldIsEmpty = function() {
+      if($scope.formData.addressTravail == "" || $scope.formData.addressTravail == null){
+        return true;
+      } else {
+        return false;
+      }
+    };
 
     $scope.updateAutoCompleteVille= function(){
       console.log("ville : "+$scope.formData.villeSelected.pk);
