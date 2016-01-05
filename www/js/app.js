@@ -116,9 +116,9 @@ starter.directive('groupedRadio', function() {
       });
 
       scope.$watch('model', function(newVal) {
-        element.removeClass('button-gray');
+        element.removeClass('button-green');
         if (newVal === scope.value) {
-          element.addClass('button-gray');
+          element.addClass('button-green');
         }
       });
     }
