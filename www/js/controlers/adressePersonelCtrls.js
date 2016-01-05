@@ -4,17 +4,41 @@
 
 starter
 
-	.controller('adressePersonelCtrl', function ($scope, $rootScope, $cookieStore, $state, UpdateInServer,
-			DataProvider, Validator, UserService, GeoService, $ionicPopup,localStorageService ){
+	.controller('adressePersonelCtrl', function ($scope, $rootScope, $state,$stateParams, UpdateInServer,
+			DataProvider, Validator, UserService, GeoService, $ionicPopup,localStorageService ,$ionicPopup,$timeout){
 
 		// FORMULAIRE
+    var geolocated=false;
 		$scope.formData = {};
-
+    $scope.formData.address="";
+    $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
+    var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+    if(steps!='')
+    {
+      $ionicPopup.show({
+        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+        template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus du contractualisation.',
+        buttons : [
+          {
+            text: '<b>OK</b>',
+            type: 'button-dark',
+            onTap: function(e) {
+            }
+          }
+        ]
+      });
+    }
+    $scope.geocodeOptions = {
+      componentRestrictions: {
+        country : 'FR'
+      }
+    };
 		// RECUPERATION SESSION-ID & JOBEYER-ID
-		$scope.updateAdressePersJobeyer = function(){
+		$scope.updateAdressePersJobyer = function(){
+      console.log($scope.formData.address);
 
 			for(var obj in $scope.formData){
-				console.log("formData["+obj+"] : "+$scope.formData[obj]);
+				//console.log("formData["+obj+"] : "+$scope.formData[obj]);
 			}
 			/**if($scope.formData.codePostal !== null && typeof $scope.formData.codePostal !== 'undefined'){
 				console.log("code postale: "+JSON.stringify($scope.formData.codePostal));
@@ -37,22 +61,23 @@ starter
 			console.log("ville : "+ville);
 
 			// RECUPERATION CONNEXION
-			connexion=$cookieStore.get('connexion');
+			connexion=localStorageService.get('connexion');
 			// RECUPERATION JOBEYER ID
 			var jobeyeId=connexion.jobeyeId;
-			console.log("$cookieStore.get(connexion) : "+JSON.stringify(connexion));
+			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
-			sessionId=$cookieStore.get('sessionID');
+			sessionId=localStorageService.get('sessionID');
 
 			// TEST DE VALIDATION
 			//if(codePostal !== '' && ville !== '' && adresse1 !== '' && adresse2 !== ''){
-			if(!isNaN(codePostal) || !isNaN(ville) || adresse1 || adresse2 || num){
-				if(!adresse1)
-					adresse1='';
-				if(!adresse2)
-					adresse2='';
-			if(!num)
-			  num='';
+			if(!isNaN(codePostal) || !isNaN(ville) || adresse1 || adresse2 || num) {
+        if (!adresse1)
+          adresse1 = '';
+        if (!adresse2)
+          adresse2 = '';
+        if (!num)
+          num = '';
+      }
 			console.log(jobeyeId+", "+ codePostal+", "+  ville+", "+  num+", "+  adresse1+", "+  adresse2+", "+  sessionId);
 				UpdateInServer.updateAdressePersJobeyer(jobeyeId, codePostal, ville, num, adresse1, adresse2, sessionId)
 					.success(function (response){
@@ -61,16 +86,16 @@ starter
 						console.log("les donnes ont été sauvegarde");
 						console.log("response"+response);
 
-						jobeyer=$cookieStore.get('jobeyer');
-						if(!jobeyer)
-							var jobeyer={};
+						Jobyer=localStorageService.get('Jobyer');
+						if(!Jobyer)
+							var Jobyer={};
 						var adressePersonel={};
 						adressePersonel={'codePostal': codePostal, 'ville': ville, 'num':num, 'adresse1': adresse1, 'adresse2': adresse2};
-						jobeyer.adressePersonel=adressePersonel;
+						Jobyer.adressePersonel=adressePersonel;
 
 						// PUT IN SESSION
-						$cookieStore.put('jobeyer', jobeyer);
-						console.log("jobeyer : "+JSON.stringify(jobeyer));
+						localStorageService.set('Jobyer', Jobyer);
+						console.log("Jobyer : "+JSON.stringify(Jobyer));
 
 						var code="", vi="";
 						if(typeof $scope.formData.codePostal !== 'undefined')
@@ -86,17 +111,19 @@ starter
                 'num': num,
 								'adresse1': adresse1,
 								'adresse2': adresse2,
+                'address':$scope.formData.address,
 								'vi': vi,
-								'code': code
+								'code': code,
+                'geolocated':geolocated
 							}
 								});
 					}).error(function (err){
 						console.log("error : insertion DATA");
-						console.log("error In updateAdressePersJOBEYER: "+err);
-					});
-			}
-			// REDIRECTION VERS PAGE - ADRESSE TRAVAIL
-			$state.go('adresseTravail');
+						console.log("error In updateAdressePersJOBEYER: "+error)
+					})
+		//	}
+			// REDIRECTION VERS PAGE - ADRESSE TRAVAI
+			$state.go('adresseTravail',{"geolocated":geolocated,addressPers:$scope.formData.address});
 		};
 
 		// VALIDATION - FIELD
@@ -110,7 +137,7 @@ starter
 			//console.log('zipCodes.length : '+$scope.formData.zipCodes.length);
 		});
     /*
-    $scope.$on('update-list-ville', function(event, args){
+    $scope.$on('update-list-ville', function(event, ar
 			var params = args.params;
 			console.log("params : "+JSON.stringify(params));
 
@@ -162,87 +189,117 @@ starter
       console.log("fk_user_code_postal : "+pk_user_code_postal);
       for(var j=0; j<allZipCodes.length; j++){
             if (allZipCodes[j]['pk_user_code_postal'] === pk_user_code_postal) {
-              newZipCodes.push(allZipCodes[j]);
+              newZipCodes.push(allZipCodes[j])
             }
       }
 
         $scope.formData.zipCodes=newZipCodes;
-        console.log("New $scope.formData.zipCodes : "+JSON.stringify($scope.formData.zipCodes));
+        console.log("New $scope.formData.zipCodes : "+JSON.stringify($scope.formData.zipCodes))
+;
 
         // ENVOI AU AUTOCOMPLETE CONTROLLEUR
         //$rootScope.$broadcast('load-new-list', {newList: {codes}});
     });
 
-    $scope.initForm=function(){
+    //$scope.initForm=function(){
       /**var elm = angular.element(document.querySelector('#ex0_value'));
        elm.val("Ville");**/
-      $scope.formData.zipCodes=DataProvider.getZipCodes();
-      $scope.formData.villes=DataProvider.getVilles();
-    };
+      //$scope.formData.zipCodes=DataProvider.getZipCodes();
+      //$scope.formData.villes=DataProvider.getVilles();
+    //};
 
 		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
       console.log("$ionicView.beforeEnter")
 			if(states.stateName == "adressePersonel" ){ //states.fromCache &&
-				$scope.initForm();
+				//$scope.initForm();
 				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
-				//jobeyer=$cookieStore.get('jobeyer');
+				//Jobyer=localStorageService.get('Jobyer');
 				if(isNaN($scope.formData.codePostal) && isNaN($scope.formData.ville) && !$scope.formData.adresse1 && !$scope.formData.adresse2 && !$scope.formData.num){
 					// INITIALISATION FORMULAIRE
 						GeoService.getUserAddress()
 								.then(function() {
 									var myPopup = $ionicPopup.show({
 										//Votre géolocalisation pour renseigner votre adresse du siège social?
-										template: "Pour remplir rapidement votre adresse du siège social, veuillez vous localiser <br>",
+										template: "Localisation: êtes-vous dans votre domicile? (OUI/ NON)<br>",
 										title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
 										buttons: [
 											{
 												text: '<b>Non</b>',
-												type: 'button-dark'
+												type: 'button-calm',
+						onTap: function(e) {
+                          myPopup.close();
+                        }
 											},{
 												text: '<b>Oui</b>',
-												type: 'button-calm',
-												onTap: function(e){
-													var geoAddress = localStorageService.get('user_address');
-													$scope.formData.adresse1 = geoAddress.street;
-													$scope.formData.adresse2 = geoAddress.complement;
-													$scope.formData.num = geoAddress.num;
-													$scope.formData.initialCity = geoAddress.city;
-													$scope.formData.initialPC = geoAddress.postalCode;
+												type: 'button-dark',
+									onTap: function(e){
+                          myPopup.close();
+                          $timeout( function () {
+                          var myPopup2 = $ionicPopup.show({
+                            //Votre géolocalisation pour renseigner votre adresse du siège social?
+                            template: "Si vous acceptez d'être localisé, vous n'aurez qu'à valider l'adresse de votre domicile. (OUI/ NON ?)<br>",
+                            title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+                            buttons: [
+                              {
+                                text: '<b>Non</b>',
+                                type: 'button-dark',
+                                onTap: function (e) {
+                                myPopup2.close()
+                                }
+                              },{
+                                text: '<b>Oui</b>',
+                                type: 'button-calm',
+                                onTap: function(e){
+                                    myPopup2.close()
+                                  geolocated=true;
+                                  var geoAddress = localStorageService.get('user_address');
+                                  $scope.formData.adresse1 = geoAddress.street;
+                                  $scope.formData.adresse2 = geoAddress.complement;
+                                  $scope.formData.num = geoAddress.num;
+                                  $scope.formData.initialCity = geoAddress.city;
+                                  $scope.formData.initialPC = geoAddress.postalCode;
+                                    $scope.formData.address=geoAddress.fullAddress;
+                                  }
+                                }
+                              ]
+                            });
+                          });
 												}
 											}
 										]
 									});
 								}, function(error) {
+                  Global.showAlertValidation("Echec de geolocalisation 0 : "+error)
 								});
 
-					/**if(jobeyer['adressePersonel'].codePostal)
-					 *  document.getElementById('ex0_value').value=jobeyer['adressePersonel']['codePostal'];
-					 *  if(jobeyer.adresseTravail.ville)
-					 *  document.getElementById('ex1_value').value=jobeyer['adressePersonel']['ville'];
-					 *  if(jobeyer['adressePersonel']){
-					 *  $scope.formData['adresse1']=jobeyer['adressePersonel']['adresse1'];
-					 *  $scope.formData['adresse2']=jobeyer['adressePersonel']['adresse2'];
-					 *  $scope.formData['num']=jobeyer['adressePersonel']['num'];
+					/**if(Jobyer['adressePersonel'].codePostal)
+					 *  document.getElementById('ex0_value').value=Jobyer['adressePersonel']['codePostal'];
+					 *  if(Jobyer.adresseTravail.ville)
+					 *  document.getElementById('ex1_value').value=Jobyer['adressePersonel']['ville'];
+					 *  if(Jobyer['adressePersonel']){
+					 *  $scope.formData['adresse1']=Jobyer['adressePersonel']['adresse1'];
+					 *  $scope.formData['adresse2']=Jobyer['adressePersonel']['adresse2'];
+					 *  $scope.formData['num']=Jobyer['adressePersonel']['num'];
 					 *  **/
 				}
 			}
 
 
 			/**
-			 * jobeyer=$cookieStore.get('jobeyer');
-			 * if(jobeyer && jobeyer['adressePersonel']){
+			 * Jobyer=localStorageService.get('Jobyer');
+			 * if(Jobyer && Jobyer['adressePersonel']){
 			 * // INITIALISATION FORMULAIRE
-			 * if(jobeyer['adressePersonel'].codePostal)
-			 * scope.formData.codePostal=jobeyer.adressePersonel.codePostal;
-			 * if(jobeyer['adressePersonel'].ville)
-			 * $scope.formData.ville=jobeyer.adressePersonel.ville;
-			 * if(jobeyer['adressePersonel']){
-			 * $scope.formData.adresse1=jobeyer['adressePersonel'].adresse1;
-			 * $scope.formData.adresse2=jobeyer['adressePersonel'].adresse2;
-			 * }}
-			 **/
-			}
-		);
+			 * if(Jobyer['adressePersonel'].codePostal)
+			 * scope.formData.codePostal=Jobyer.adressePersonel.codePostal;
+			 * if(Jobyer['adressePersonel'].ville)
+			 * $scope.formData.ville=Jobyer.adressePersonel.ville;
+			 * if(Jobyer['adressePersonel']){
+			 * $scope.formData.adresse1=Jobyer['adressePersonel'].adresse1;
+			 * $scope.formData.adresse2=Jobyer['adressePersonel'].adresse2
+			 * }
+			 **
+
+		)
     $scope.updateAutoCompleteZip= function(){
       console.log("zip : "+$scope.formData.zipCodeSelected.pk);
       var zipCodes=$scope.formData.zipCodes;
@@ -274,7 +331,7 @@ starter
        $scope.formData.ville={};
 
        */
-    };
+    });
     $scope.updateAutoCompleteVille= function(){
       console.log("ville : "+$scope.formData.villeSelected.pk);
       var villes=$scope.formData.villes;

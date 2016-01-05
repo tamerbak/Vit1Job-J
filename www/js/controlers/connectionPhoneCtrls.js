@@ -5,16 +5,16 @@
 'use strict';
 
 starter
-  .controller('cPhoneCtrl', function ($scope, $rootScope, $cookieStore, $state, x2js, AuthentificatInServer, PullDataFromServer,
+  .controller('cPhoneCtrl', function ($scope, $rootScope, localStorageService, $state, x2js, AuthentificatInServer, PullDataFromServer,
 				formatString, PersistInServer, LoadList, Global, DataProvider, Validator){
 
-    // FORMULAIRE
 	  $scope.formData = {};
-	  $rootScope.jobeyer = {};
+	  $rootScope.jobyer = {};
+    localStorageService.remove("steps");
 
-	  $scope.connexionByPhone = function(){
+    $scope.Authenticate = function () {
       var phone=$scope.formData.phone;
-      var index=$scope.formData.index;
+	  var index=$scope.formData.index;
       var password=$scope.formData.password;
       var msg = [];
       var isNew=0;
@@ -35,139 +35,54 @@ starter
 
       phone = index + phone;
 
-      // CONNEXION AU SERVEUR
-      AuthentificatInServer.getSessionId()
-        .success(function (response){
-          var jsonResp = x2js.xml_str2json(response);
-          var jsonText = JSON.stringify (jsonResp);
-          jsonText = jsonText.replace("fr.protogen.connector.model.AmanToken","amanToken");
-          jsonResp = JSON.parse(jsonText);
+     var jsonObj = {"email": "",
+        "telephone": btoa(JSON.stringify(phone)), "password": btoa(JSON.stringify(password)),
+        "role": btoa(JSON.stringify("jobyer"))};
+      var user = jsonObj;
+      var userObj = AuthentificatInServer.AuthenticateUser(user);
 
-          // PUT SESSION ID
-          sessionId = jsonResp.amanToken.sessionId;
-          console.log("sessionId : "+sessionId);
-          $cookieStore.put('sessionID', sessionId);
-
-          // INTERROGE PHONE_TABLE
-          PullDataFromServer.pullDATA("user_salarie", sessionId, "telephone", phone, phone)
-            .success(function (resp){
-              var data=formatString.formatServerResult(resp);
-              var result=data.dataModel.rows;
-              if(typeof result === 'undefined' || result.length<=0 || result===""){
-                console.log('Aucune résultat trouvé');
-				        // REDIRECTION VERS INSCRIPTION-1 : SAISIE CIVILITE
-				        isNew=1;
-              } else{
-                // VERIFICATION DU PASSWORD
-					      var listEntry=[].concat(result.dataRow.dataRow.dataEntry);
-                if(listEntry.length > 0){
-                  for(var i=0; i<listEntry.length; i++){ // AUCUNE RESULTAT
-                    var object=listEntry[i];
-                    console.log("object : "+JSON.stringify(object));
-                    if(object.attributeReference === 'mot_de_passe'){
-                      var pass=object.value;
-                      console.log("Mot de pass: "+pass);
-                      if(pass === password){
-                        // RECUPERATION ID JOBEYER
-                        var jobeyerId=0;
-                        if(listEntry[0].attributeReference === 'pk_user_salarie')
-                          jobeyerId=listEntry[0].value;
-
-                        var connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyerId)};
-                        $cookieStore.put('connexion', connexion);
-                        Global.showAlertValidation("Bienvenu dans Vitonjob. Vous pouvez lancer les recherches des jobyers que vous souhaitez.");
-                        // USER REEL - REDIRECTION VERS RECHERCHE
-                        $state.go("app");
-                      }
-                      else	// MOT DE PASSE INCORRECT
-                        Global.showAlertPassword("Votre mot de passe est invalide.");
-                    }
-                  }
-                }
-              }
-
-			  console.log("isNew : "+isNew);
-			  if(isNew === 1){
-				  // PERSIST IN BD - JOBEYER
-					PersistInServer.persistInJobeyer
-						('', '', 0, 0, 0, '', '', '', phone, '', password, '', '', sessionId)
-							.success(function (response){
-								console.log("ID JOBEYER : "+response);
-
-								// RECUPERATION JOBEYER ID
-								var jobeyer=formatString.formatServerResult(response);
-
-								if(jobeyer.dataModel.status || jobeyer.dataModel.status !== 'FAILURE'){	// BIND IN COOKIES
-									connexion={'etat': true, 'libelle': 'Se déconnecter', 'jobeyeId': Number(jobeyer.dataModel.status)};
-									$cookieStore.put('connexion', connexion);
-                  Global.showAlertValidation("Bienvenue dans Vitonjob. Veuillez saisir vos informations. Elles seront utilisées uniquement en cas de signature du contrat de travail.");
-									$rootScope.jobeyer.id=Number(jobeyer.dataModel.status);
-									$rootScope.jobeyer.phone=phone;
-									$rootScope.jobeyer.index=index;
-									$rootScope.jobeyer.password=password;
-								}
-
-								/*** LOAD LIST CIVILITES
-								civilites=$cookieStore.get('civilites');
-								if(!civilites){
-									LoadList.loadListCivilites(sessionId)
-										.success(function (response){
-											resp=formatString.formatServerResult(response);
-											// DONNEES ONT ETE CHARGES
-											console.log("les civilites ont été bien chargé");
-											civiliteObjects=resp.dataModel.rows.dataRow;
-
-											// GET CIVILITES
-											civilites=[];
-											civilite={}; // civilite.libelle | civilite.id
-
-											civilitesList=[].concat(civiliteObjects);
-											for(var i=0; i<civilitesList.length; i++){
-												object=civilitesList[i].dataRow.dataEntry;
-
-												// PARCOURIR LIST PROPERTIES
-												civilite[object[0].attributeReference]=object[0].value;
-												civilite[object[1].attributeReference]=object[1].value;
-
-												if(civilite)
-													civilites.push(civilite);
-												civilite={}
-											}
-
-											console.log("civilites.length : "+civilites.length);
-											// PUT IN SESSION
-											$cookieStore.put('civilites', civilites);
-											console.log("civilites : "+JSON.stringify(civilites));
-										}).error(function (err){
-											console.log("error : LOAD DATA");
-											console.log("error in loadListCivilites : "+err);
-										});
-								}***/
-
-								// PASSWORD INCORRECT - INSCRIPTION L2
-								$state.go("saisieCiviliteJobeyer");
-							}).error(function (err){
-								console.log("error : insertion DATA");
-								console.log("error : "+err);
-							});
-			  }
-            }).error(function (err){
-              console.log("error : récuperation DATA");
-              console.log("error : "+err);
-            });
-        })
-        .error(function (data){
-          console.log("error : récuperation JSessionId");
-        });
-     };
-
+      if (userObj == null) {
+        Global.showAlertPassword("Nom d'utilisateur ou mot de passe incorrect");
+      }
+      else {
+        localStorageService.remove('connexion');
+        var connexion = {
+          'etat': true,
+          'libelle': 'Se déconnecter',
+          'jobyerID': userObj.jobyerId
+        };
+        localStorageService.set('connexion', connexion);
+        localStorageService.set('currentJobyer', userObj);
+        var isNewUser = userObj.isNew;
+        if (isNewUser) {
+          Global.showAlertValidation("Bienvenue ! vous êtes rentré dans votre espace VitOnJob sécurisé.");
+          $state.go("saisieCiviliteJobeyer");
+        } else {
+          $state.go("app");
+        }
+      }
+    };
+    $scope.displayPwdTooltip = function() {
+      $scope.showPwdTooltip = true;
+    };
+    $scope.passwordIsValid= function(){
+      if($scope.formData.password!=undefined) {
+        if (Number($scope.formData.password.length) >= 6) {
+          console.log('test');
+          return true;
+        }
+        else
+          return false;
+      }else
+        return false;
+    };
 		$scope.validatElement=function(id){
 			Validator.checkField(id);
 		};
 
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={'pays': DataProvider.getPays(),'index':"0033"};
+      $scope.formData={'pays': DataProvider.getPays(),'index':"0033"};
 
 			//$scope.formData={ 'villes': $cookieStore.get('villes')};
 		};
