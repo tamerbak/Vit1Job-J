@@ -435,6 +435,8 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   padding-right: 0 !important;
 }
 
+
+
 #maitriseDiv , #maitriseLangueDiv {
     //margin-top: 23px;
     margin-bottom: 23px;
@@ -510,15 +512,23 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
   padding-left: 10px;
+  margin: auto;
   border: none;
 }
 
 #floating-panel input{
   border: none;
+  width: 95%;
 }
 
 .button.button-gray{
   border-color: gray;
   background-color: gray;
   color: #fff;
+}
+
+@media (max-width: 330px){
+  #connectionsView .hide-text{
+    display: none;
+  }
 }
