@@ -165,25 +165,25 @@ starter.controller('employersListCtrls',
               var isAuth = UserService.isAuthenticated();
               if (isAuth) {
                 console.log("check and then redirect to contract page");
-                var employer = localStorageService.get('employeur');
-                var redirectToStep1 = (typeof (employer) == "undefined");
-                var redirectToStep1 = (employer) ? (typeof (employer.civilite) == "undefined") || (typeof (employer.entreprise) == "undefined") : true;
-                var redirectToStep2 = (employer) ? (typeof (employer.adressePersonel) == "undefined") : true;
-                var redirectToStep3 = (employer) ? (typeof (employer.adresseTravail) == "undefined") : true;
-                if (employer && !redirectToStep1) {
-                  for (var key in employer) {
-                    redirectToStep1 = (employer[key]) == "";
+                var jobyer = localStorageService.get('jobyer');
+                var redirectToStep1 = (typeof (jobyer) == "undefined");
+                var redirectToStep1 = (jobyer) ? (typeof (jobyer.civilite) == "undefined") || (typeof (jobyer.entreprise) == "undefined") : true;
+                var redirectToStep2 = (jobyer) ? (typeof (jobyer.adressePersonel) == "undefined") : true;
+                var redirectToStep3 = (jobyer) ? (typeof (jobyer.adresseTravail) == "undefined") : true;
+                if (jobyer && !redirectToStep1) {
+                  for (var key in jobyer) {
+                    redirectToStep1 = (jobyer[key]) == "";
                     if (redirectToStep1) break;
                   }
                   if (!redirectToStep1) {
-                    for (var key in employer.adressePersonel) {
-                      redirectToStep2 = (employer.adressePersonel[key]) == "";
+                    for (var key in jobyer.adressePersonel) {
+                      redirectToStep2 = (jobyer.adressePersonel[key]) == "";
                       if (redirectToStep2) break;
                     }
                   }
                   if (!redirectToStep2) {
-                    for (var key in employer.adresseTravail) {
-                      redirectToStep3 = (employer.adresseTravail[key]) == "";
+                    for (var key in jobyer.adresseTravail) {
+                      redirectToStep3 = (jobyer.adresseTravail[key]) == "";
                       if (redirectToStep3) break;
                     }
                   }
@@ -192,14 +192,14 @@ starter.controller('employersListCtrls',
                 var objRedirect = {"step1": redirectToStep1, "step2": redirectToStep2, "step3": redirectToStep3};
                 if (dataInformed) {
                   //show contract page //TODO
-                  $state.go("contract", {employer: jobber});
+                  $state.go("contract", {jobyer: jobber});
                   console.log(jobber);
                   console.log("redirect to contract pages");
                 }
                 else {
                   localStorageService.set("steps",JSON.stringify(objRedirect));
-                  console.log(employer);
-                  if (redirectToStep1) $state.go("saisieCiviliteEmployeur");
+                  console.log(jobyer);
+                  if (redirectToStep1) $state.go("saisieCiviliteJobeyer");
                   else if (redirectToStep2) $state.go("adressePersonel");
                   else if (redirectToStep3) $state.go("adresseTravail");
                 }
