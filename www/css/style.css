@@ -503,9 +503,9 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
 #floating-panel{
   position: absolute;
   top: 10px;
-  left: 10%;
+  left: 2.5%;
   z-index: 5;
-  width: 80%;
+  width: 95%;
   background-color: #fff;
   padding: 5px;
   text-align: center;
