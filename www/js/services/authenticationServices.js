@@ -1088,7 +1088,7 @@ angular.module('wsConnectors', ['ionic'])
       });
     };
 
-    this.updateAdresseTravEmployeur=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
+    this.updateAdresseTravJobyer=function(id, codePostal, ville, num, adresse1, adresse2, sessionID){
       soapMessage=
         '<fr.protogen.connector.model.DataModel>'+
         '<entity>user_employeur</entity>'+
