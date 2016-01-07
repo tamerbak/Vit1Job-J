@@ -1,0 +1,59 @@
+<ion-view view-title="{{AppLogo}}">
+
+<!-- <ion-nav-buttons side="primary">
+<button class="button button-clear button-small" ui-sref="app">
+	<i class="icon ion-ios-arrow-back"></i>
+</button>
+</ion-nav-buttons> -->
+
+  <ion-header-bar class="backgroundGray bar bar-header">
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="app"></a>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"/></div>
+  </ion-header-bar>
+
+<ion-content>
+
+<div class="item item-divider" style="padding:3px 10px 3px 10px;">
+	<label style="float:left;padding-top:5px;"><b>{{OfferLabel}}</b></label>
+	<button class="button button-small button-light ion-ios-settings-strong" style="float:right;" ui-sref="employersTab.options"></button>
+	<button class="button button-small button-light ion-edit" style="float:right;" ui-sref="offres"></button>
+</div>
+
+<ion-checkbox ng-model="employerListSetting.orderByAvialability" class="checkbox-calm" style="padding:8px;" ng-change="sort()">
+<label style="padding-left:40px;">Disponible via &nbsp;&nbsp;&nbsp;
+	<i class="icon ion-android-car" ng-if="transportationmode == 'driving'"></i>
+	<i class="icon ion-android-walk" ng-if="transportationmode == 'walking'"></i>
+	<i class="icon ion-android-bicycle" ng-if="transportationmode == 'bicycling'"></i>
+	<i class="icon ion-android-bus" ng-if="transportationmode == 'transit'"></i>
+</label>
+</ion-checkbox>
+<ion-checkbox ng-model="employerListSetting.orderByCorrespondence" class="checkbox-stable" style="padding:8px;" ng-change="sort()">
+<label class="calm" style="padding-left:40px;" >% de correspondance à la demande</label>
+</ion-checkbox>
+
+<div class="list">
+	<a class="item item-avatar card" style="margin:6px;" ng-repeat="employerOffer in employersOffers | orderBy : SortOrder">
+		<div class="item-icon-left">
+			<div><i class="icon ion-person"></i></div>
+		</div>
+		<h2>{{employerOffer.employerName}}</h2>
+		<p>
+			<p>
+				<i class="icon ion-android-car" ng-if="transportationmode == 'driving'"></i>
+				<i class="icon ion-android-walk" ng-if="transportationmode == 'walking'"></i>
+				<i class="icon ion-android-bicycle" ng-if="transportationmode == 'bicycling'"></i>
+				<i class="icon ion-android-bus" ng-if="transportationmode == 'transit'"></i>
+				<label>&nbsp;&nbsp;{{employerOffer.availability.text}}</label></p>
+				<p><i class="icon ion-arrow-shrink"></i><label class="calm">&nbsp;&nbsp;{{employerOffer.matching}} %</label></p>
+			</p>
+			<div class="item-button-right">
+				<button class="button button-clear" style="padding-top:11px;"  ng-click="showMenuForContract(employerOffer)">
+					<i class="icon ion-power" ng-if="employerOffer.contacted"></i>
+					<i class="icon ion-power" style="color:gainsboro;" ng-if="!employerOffer.contacted"></i>
+				</button>
+			</div>
+		</a>
+	</div>
+
+</ion-content>
+</ion-view>

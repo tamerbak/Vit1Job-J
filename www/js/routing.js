@@ -45,6 +45,42 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       controller: 'MapCtrl'
 
     })
+
+    .state('employersTab', {
+      url: '/employersTab',
+      abstract: true,
+      templateUrl: 'templates/employersTab.html',
+    })
+
+    .state('employersTab.list', {
+      url: '/listEmployers',
+      views: {
+        'employersTab-list': {
+          templateUrl: 'templates/employersList.html',
+          controller: 'employersListCtrls'
+        }
+      }
+    })
+
+    .state('employersTab.map', {
+      url: '/map',
+      views: {
+        'employersTab-map': {
+          templateUrl: 'templates/employersMap.html',
+          controller: 'employersMapCtrls'
+        }
+      }
+    })
+
+    .state('employersTab.options', {
+      url: '/options',
+      views: {
+        'employersTab-options': {
+          templateUrl: 'templates/employersOptions.html',
+          controller: 'employersOptionsCtrls'
+        }
+      }
+    })
 	/*
     .state('listNext', {
       url: '/listNext',
@@ -85,6 +121,60 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       url: '/disponibilite',
       templateUrl: 'templates/disponibilite.html',
       controller: 'disponibiliteCtrl'
+    })
+    .state('offres', {
+      url: '/offres',
+      templateUrl: 'templates/offres.html',
+      controller: 'offresCtrl'
+    })
+    .state('offreTabs', {
+      url: '/offreTabs/:offre',
+      cache: false,
+      abstract: true,
+      templateUrl: 'templates/offreTabs.html',
+      controller: 'offreTabsCtrl'
+    })
+    .state('contract', {
+      url: '/contract',
+      params: {jobyer: null},
+      templateUrl: 'templates/createContract.html',
+      controller: 'contractCtrl'
+    })
+    .state('offreTabs.job', {
+      url: '/job/:offre',
+      views: {
+        'offreTabs-job': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/job.html'
+        }
+      }
+    })
+    .state('offreTabs.qualites', {
+      url: '/qualites',
+      views: {
+        'offreTabs-qualites': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/qualites.html'
+        }
+      }
+    })
+    .state('offreTabs.langues', {
+      url: '/langues',
+      views: {
+        'offreTabs-langues': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/langues.html'
+        }
+      }
+    })
+    .state('offreTabs.agenda', {
+      url: '/agenda',
+      views: {
+        'offreTabs-agenda': {
+          controller: 'offreTabsCtrl',
+          templateUrl: 'templates/tabs/agenda.html'
+        }
+      }
     })
     .state('competence', {
       url: '/competence',

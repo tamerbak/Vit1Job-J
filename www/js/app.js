@@ -71,7 +71,35 @@ var starter = angular.module('starter', ['ionic','wsConnectors', 'parsingService
     );*/
 
   });
-});
+})
+  //Add ionic loading
+  .config(function($httpProvider) {
+    $httpProvider.interceptors.push(function($rootScope) {
+      return {
+        request: function(request) {
+          $rootScope.$broadcast('loading:show');
+          return request;
+        },
+        response: function(response) {
+          $rootScope.$broadcast('loading:hide');
+          return response;
+        }
+      }
+    });
+  })
+
+  .run(function($rootScope, $ionicLoading) {
+    $rootScope.$on('loading:show', function() {
+      console.log("$ionicLoading.show");
+      $ionicLoading.show({template: 'Chargement'});
+    });
+
+    $rootScope.$on('loading:hide', function() {
+      console.log("$ionicLoading.hide");
+      $ionicLoading.hide();
+    });
+  });
+//End ionic loadin
 
 /**
  * Create module for services
@@ -98,3 +126,48 @@ var services = angular.module('Services', []);
 function isEmpty(str) {
 	return (!str || 0 === str.length || typeof str === 'undefined' || str === null);
 }
+starter.directive('googleplace', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, model) {
+      var options = {
+        types: [],
+        componentRestrictions: {
+          country : 'FR'
+        }
+      };
+      scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
+
+      google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
+        scope.$apply(function() {
+          model.$setViewValue(element.val());
+        });
+      });
+    }
+  };
+});
+starter.directive('groupedRadio', function() {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    scope: {
+      model: '=ngModel',
+      value: '=groupedRadio'
+    },
+    link: function(scope, element, attrs, ngModelCtrl) {
+      element.addClass('button');
+      element.on('click', function(e) {
+        scope.$apply(function() {
+          ngModelCtrl.$setViewValue(scope.value);
+        });
+      });
+
+      scope.$watch('model', function(newVal) {
+        element.removeClass('button-green');
+        if (newVal === scope.value) {
+          element.addClass('button-green');
+        }
+      });
+    }
+  };
+});
