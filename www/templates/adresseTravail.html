@@ -1,4 +1,4 @@
-<ion-view title="connection">
+<ion-view id="adresseTravailView" title="connection">
   <ion-header-bar class="bar-calm backgroundGray">
     <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="adressePersonel">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
@@ -7,12 +7,13 @@
   <ion-content padding="true" data-ng-init="initForm()">
 	<!-- Title -->
     <div>
-      <h3 class="titlePhone"><b>Adresse De Départ Au Travail</b></h3>
+      <h3 class="titlePhone"><b>{{title}}</b></h3>
     </div>
     <br>
     <div class="list">
       <label class="item item-input">
         <input type="text" placeholder="Veuillez saisir votre adresse de départ au travail..." ng-model="formData.addressTravail" googleplace="" class="ng-pristine ng-valid" autocomplete="off" ng-click="displayAdresseTooltip()"><!-- googleplace -->
+        <span ng-show="!formData.addressTravail  && isContractInfo" class="requiredStar">*</span>
       </label>
     </div>
     <div id="popupAdrTravail" ng-class="{'hidden' : !showAdresseTooltip}" ng-if="fieldIsEmpty()">

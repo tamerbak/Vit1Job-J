@@ -7,7 +7,7 @@
   <ion-content padding="true" data-ng-init="initForm()"
      <!-- Title -->
       <div>
-          <h3 class="titlePhone"><b>Saisie de la Civilité</b></h3>
+          <h3 class="titlePhone"><b>{{title}}</b></h3>
       </div>
       <div class="list">
           <label class="item item-input">
@@ -15,18 +15,23 @@
               <option selected disabled style="display: none;">Titre</option>
               <option data-ng-repeat="x in formData.civilites" value="{{x.pk_user_civilite}}">{{x.libelle}}</option>
             </select>
+            <span ng-show="formData.civ=='Titre' && isContractInfo" class="requiredStar">*</span>            
           </label>
           <label class="item item-input">
             <input type="text" id="nom" placeholder="Nom" data-ng-model="formData.nom">
+            <span ng-show="!formData.nom  && isContractInfo" class="requiredStar">*</span>            
           </label>
           <label class="item item-input">
             <input type="text" id="prenom" placeholder="Prenom" data-ng-model="formData.prenom">
+            <span ng-show="!formData.prenom  && isContractInfo" class="requiredStar">*</span>
           </label>
           <label class="item item-input">
           <input placeholder="Date de Naissance" data-ng-model="formData.dateNaissance" class="textbox-n" type="text" onfocus="this.type='date';" ng-blur="birthDateTypeChange()" id="date">
+          <span ng-show="!formData.dateNaissance  && isContractInfo" class="requiredStar">*</span>
           </label>
         <label class="item item-input">
             <input id="num_ss" name="num_ss" type="text" placeholder="N° SS" data-ng-model="formData.numSS" data-ng-change="validateNumSS('num_ss')" >
+          <span ng-show="!formData.numSS  && isContractInfo" class="requiredStar">*</span>            
           </label>
         <label class="item item-input">
       <select class="flat" data-ng-model="formData.nationalite" data-ng-init="formData.nationalite='Nationalité'" data-ng-change="displayScanTitle()">

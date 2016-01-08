@@ -29,11 +29,15 @@ starter
 					$scope.formData.scanTitle="autorisation de travail";
 			}
 		}
-
+$scope.$on("$ionicView.beforeEnter", function(scopes, states){
+  console.log(states.fromCache+"  state : "+states.stateName);
+  if(states.stateName == "saisieCiviliteJobeyer" ){
     $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
     var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
     if(steps!='')
     {
+      $scope.title="Présaisie des informations contractuelles : civilité";    
+      $scope.isContractInfo=true;  	
       $ionicPopup.show({
         title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
         template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus du contractualisation.',
@@ -46,7 +50,12 @@ starter
           }
         ]
       });
+    }else{
+            $scope.title="Saisie de la civilité";
+            $scope.isContractInfo=false;  
     }
+}
+});
 		$scope.updateCivilite = function(){
 
 			for(var obj in $scope.formData){

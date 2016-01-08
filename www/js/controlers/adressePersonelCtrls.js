@@ -214,6 +214,15 @@ starter
 				//$scope.initForm();
 				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
 				//Jobyer=localStorageService.get('Jobyer');
+        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';        
+         if(steps!='')
+           {
+             $scope.title="Présaisie des informations contractuelles : adresse siège social";    
+             $scope.isContractInfo=true;
+          }else{
+            $scope.title="Siège social";
+            $scope.isContractInfo=false;            
+          }        
 				if(isNaN($scope.formData.codePostal) && isNaN($scope.formData.ville) && !$scope.formData.adresse1 && !$scope.formData.adresse2 && !$scope.formData.num){
 					// INITIALISATION FORMULAIRE
 						GeoService.getUserAddress()

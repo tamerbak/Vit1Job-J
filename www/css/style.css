@@ -661,3 +661,14 @@ ion-tabs ion-nav-view{
 #loadImgContainer #image {
   display: none;
 }
+#civiliteView .requiredStar{
+  color:red;
+  left:90%;
+  position:absolute;
+}
+#adressePersonelView .requiredStar , #adresseTravailView .requiredStar{
+    left: 95%;
+    top: 30%;
+    color:red;
+    position:absolute;
+}

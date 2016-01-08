@@ -385,6 +385,15 @@ starter
       console.log(states.fromCache+"  state : "+states.stateName);
       if(states.stateName == "adresseTravail" ){
         //$scope.initForm();
+        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';        
+         if(steps!='')
+           {
+             $scope.title="Présaisie des informations contractuelles : Adresse De départ au travail";    
+             $scope.isContractInfo=true;
+          }else{
+            $scope.title="Adresse De Départ Au Travail";
+            $scope.isContractInfo=false;            
+          }        
         var popup = $ionicPopup.show({
 
           template: "L'adresse de départ au travail est-elle différente de l'adresse du siège social? <br>",
