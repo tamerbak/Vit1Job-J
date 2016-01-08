@@ -658,3 +658,6 @@ ion-tabs ion-nav-view{
 #offresTabContent .tabs{
   background: grey;
 }
+#loadImgContainer #image {
+  display: none;
+}

@@ -9,14 +9,20 @@ starter
 		// FORMULAIRE
 		$scope.formData = {};
 		$scope.numSSValide =false;
+		$scope.isIOS = ionic.Platform.isIOS();
+  		$scope.isAndroid = ionic.Platform.isAndroid();
 		// IMAGE
 		$scope.formData.image={};
+  		$scope.showFileDialog = function() {
+  			document.getElementById('image').click();
+
+  		};		
 		$scope.validateNumSS= function(id){
 			Validator.checkNumSS(id);
 			//$scope.numSSValide =false;
 		}
 		$scope.displayScanTitle= function(){
-			if($scope.formData.nationalite!=null){
+			if($scope.formData.nationalite!=null && $scope.formData.nationalite!="Nationalité"){
 				if(JSON.parse($scope.formData.nationalite).libelle =="Français")
 					$scope.formData.scanTitle="CNI";
 				else
@@ -55,7 +61,7 @@ starter
 			var nationalite='';
 			var pk_user_nationalite='';
 			console.log($scope.formData['nationalite']);
-			if($scope.formData['nationalite'] != null && $scope.formData['nationalite']!='Nationalité' && $scope.formData['nationalite'] != undefined){
+			if($scope.formData['nationalite'] != null  && $scope.formData['nationalite']!='Nationalité' && $scope.formData['nationalite'] != undefined){
 				nationalite=JSON.parse($scope.formData['nationalite']);
 				pk_user_nationalite=nationalite.pk_user_nationalite;
 			}
@@ -229,7 +235,9 @@ starter
 				//$scope.$apply(function(){});
 
 				FR.onload = function (oFREvent) {
-				document.getElementById("uploadPreview").src = oFREvent.target.result;
+					document.getElementById("uploadPreview").src = oFREvent.target.result;
+		          	$scope.imgURI = oFREvent.target.result;
+		          	$state.go($state.current, {}, {reload: true});
 				};
 			}
 		};
@@ -237,11 +245,12 @@ starter
 		$scope.validatElement=function(id){
 			Validator.checkField(id);
 		};
-
 		$scope.initForm=function(){
 			// GET LIST
 			$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
 			$scope.formData.scanTitle="autorisation de travail";
+			$scope.formData.civ="Titre";
+			$scope.formData.nationalite="Nationalité";						
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
@@ -289,7 +298,11 @@ starter
 				$scope.imgURI = "data:image/jpeg;base64," + imageData;
 				console.log("imageData : "+imageData);
 			}, function(err) {
-							alert(err);
+							console.log("error : "+err);
 						});
-		}
+		};
+
+		$scope.birthDateTypeChange=function(){
+	  		if(!$scope.formData.dateNaissance) document.getElementById('date').type='text';
+		};
 	});

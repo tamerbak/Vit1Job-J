@@ -76,7 +76,7 @@ starter.controller('employersListCtrls',
 	});
 
 	$scope.sort = function(){
-		if($scope.employerListSetting.orderByCorrespondence) $scope.SortOrder = '+matching';
+		if($scope.employerListSetting.orderByCorrespondence) $scope.SortOrder = '-matching';
 		if($scope.employerListSetting.orderByAvialability) $scope.SortOrder = '+availability.value';
 	};
 

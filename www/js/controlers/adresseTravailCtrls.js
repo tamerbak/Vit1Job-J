@@ -387,7 +387,7 @@ starter
         //$scope.initForm();
         var popup = $ionicPopup.show({
 
-          template: "L'adresse de travail est-elle différente de l'adresse du siège social? <br>",
+          template: "L'adresse de départ au travail est-elle différente de l'adresse du siège social? <br>",
           title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
           buttons: [
             {
@@ -404,7 +404,7 @@ starter
                       .then(function () {
                         var popup1 = $ionicPopup.show({
                           //Votre géolocalisation pour renseigner votre adresse du siège social?
-                          template: "Localisation: êtes-vous dans votre lieu de travail?<br>",
+                          template: "Localisation: êtes-vous dans votre lieu de départ au travail?<br>",
                           title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
                           buttons: [
                             {
@@ -425,7 +425,7 @@ starter
                                 $timeout(function () {
                                   var popup2 = $ionicPopup.show({
                                     //Votre géolocalisation pour renseigner votre adresse du siège social?
-                                    template: "Si vous acceptez d'être localisé, vous n'aurez qu'à valider votre adresse de travail.<br>",
+                                    template: "Si vous acceptez d'être localisé, vous n'aurez qu'à valider votre adresse de départ au travail.<br>",
                                     title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
                                     buttons: [
                                       {

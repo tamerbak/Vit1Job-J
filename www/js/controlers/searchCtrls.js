@@ -56,7 +56,7 @@ starter
 
 
       if (sessionId != '') {
-        var soapMessage = 'user_employeur;' + search; //'C# sur paris';
+        var soapMessage = 'user_salarie;' + search; //'C# sur paris';
         $http({
           method: 'POST',
           url: 'http://ns389914.ovh.net:8080/vit1job/api/recherche',

@@ -22,7 +22,7 @@ angular.module('validationDataServices', ['ionic', 'cb.x2js', 'providerServices'
 		};
 
 		this.checkNumSS=function(id){
-			var NumSS_REGEXP = /^[0-9]\s[0-9]{2}\s[0-9]{2}\s[0-9]{2}\s[0-9]{3}\s[0-9]{3}\s[0-9]{2}$/;
+			var NumSS_REGEXP = /^[0-9]\s[0-9]{2}\s[0-9]{2}\s[0-9]{2}\s[0-9]{3}\s[0-9]{3}$/;
 
 			elm=angular.element(document.querySelector('#'+id));
 			var isMatchRegex = NumSS_REGEXP.test(elm.val());
