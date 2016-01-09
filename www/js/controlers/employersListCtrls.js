@@ -4,6 +4,9 @@ starter.controller('employersListCtrls',
 	['$scope', 'localStorageService', '$ionicActionSheet', 'UserService', '$state','Global','$cordovaSms',
 	function($scope, localStorageService, $ionicActionSheet, UserService, $state,Global,$cordovaSms) {
     localStorageService.remove("steps");
+      $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+    		viewData.enableBack = true;
+		});
 		var init = function(){
 
 			$scope.OfferLabel = capitalize(localStorageService.get('lastSearchedJob'));

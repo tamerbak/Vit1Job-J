@@ -6,7 +6,9 @@ starter.controller('employersOptionsCtrls',
 	function($scope, localStorageService) {
 
 		//localStorageService.remove('jobyerListSetting');
-
+  $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+    viewData.enableBack = true;
+});
 		var getOffersByEntrepriseId = function(entrepriseId){
 			var offers = [];
 			var entreprises = localStorageService.get('currentEmployerEntreprises');

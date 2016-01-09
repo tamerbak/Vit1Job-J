@@ -9,6 +9,9 @@ starter
 		// FORMULAIRE
 
     //
+    $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+      viewData.enableBack = true;
+    });
 		$scope.initAll = function(){
 
 			// GET LIST

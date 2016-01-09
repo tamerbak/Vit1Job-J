@@ -72,6 +72,11 @@ var starter = angular.module('starter', ['ionic','wsConnectors', 'parsingService
 
   });
 })
+//Remove text from back button and add icon
+.config(function($ionicConfigProvider) {
+  $ionicConfigProvider.backButton.text('').icon('ion-chevron-left');
+})
+
   //Add ionic loading
   .config(function($httpProvider) {
     $httpProvider.interceptors.push(function($rootScope) {

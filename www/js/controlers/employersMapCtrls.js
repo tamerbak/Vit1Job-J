@@ -44,7 +44,9 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
     $scope.loaded = true;
   });
   $scope.markerFilter="distance";
-
+  $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+    viewData.enableBack = true;
+});
   var getAddress = function(empl){
     var address;
     /*
