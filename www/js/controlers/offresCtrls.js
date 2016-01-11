@@ -112,4 +112,12 @@ starter
 				$scope.formData['allFeuilles']=1;
 			}
 		});
+   $scope.editStateOffre =function(){
+      console.log("aaaaaaa"+$scope.formData.offre.etat);
+      if ($scope.formData.offre.etat=="publie"){
+            $scope.formData.offre.etat = "noPublie";
+          }else{
+            $scope.formData.offre.etat = "publie";          
+          }
+    };    
   });

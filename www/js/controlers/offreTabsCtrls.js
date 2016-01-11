@@ -112,11 +112,13 @@ starter
         if($scope.offre.horaires)
           $scope.formData.horaires = $scope.offre.horaires;
         if($scope.offre.dateDebut)
-          $scope.formData.dateDebut = $scope.offre.dateDebut;
-        if($scope.offre.dateFin)
-          $scope.formData.dateFin = $scope.offre.dateFin;
+          $scope.formData.dateDebut = formatDate($scope.offre.dateDebut);
         else
-          $scope.formData.dateFin = "Jamais";
+          $scope.formData.dateDebut = formatDate(new Date());        
+        if($scope.offre.dateFin)
+          $scope.formData.dateFin = formatDate($scope.offre.dateFin);
+        else
+          $scope.formData.dateFin = formatDate(new Date());  
       }else
         $scope.formData={
         'maitrise': 'Débutant',
@@ -129,7 +131,7 @@ starter
         'langues': DataProvider.getLangues(),
         'jobs': DataProvider.getJobs(),
         'transvers': DataProvider.getTransvers(),
-        'dateFin': "Jamais",
+        //'dateFin': "Jamais",
         'jourSelect': "Lundi",
         'heureDebut': 0,
         'heureFin': 0,
@@ -141,6 +143,8 @@ starter
         languesList:[],
         qi:{},
         degre:10,
+        dateDebut: formatDate(new Date()),
+        dateFin: formatDate(new Date()),        
         selectedLangue:{}
       };
     };
@@ -295,15 +299,33 @@ starter
           }
         }
       }*/
-      $scope.offre.titre=$scope.formData.titre;
+      if($scope.formData.job)
+        $scope.offre.titre=$scope.formData.job.originalObject.libelle+" "+$scope.formData.maitrise;
+      else
+        $scope.offre.titre=$scope.formData.maitrise;
+
       $scope.offre.metier=$scope.formData.metier;
       $scope.offre.job=$scope.formData.job;
       $scope.offre.qiList=$scope.formData.qiList;
       $scope.offre.languesList=$scope.formData.languesList;
       $scope.offre.remuneration=$scope.formData.remuneration;
       $scope.offre.horaires = $scope.formData.horaires;
-      $scope.offre.dateDebut =$scope.formData.dateDebut;
-      $scope.offre.dateFin = $scope.formData.dateFin;
+     //date debut
+      if(!$scope.formData.dateDebut)
+          $scope.formData.dateDebut = new Date();
+      var dateDebutFormatted = formatDate($scope.formData.dateDebut);
+      console.log('dateDebutFormatted' + dateDebutFormatted + typeof dateDebutFormatted);
+      
+      //date fin
+      if(!$scope.formData.dateFin)
+          $scope.formData.dateFin = new Date();
+      
+      var dateFinFormatted = formatDate($scope.formData.dateFin);
+
+      console.log('dateFinFormatted' + dateFinFormatted + typeof dateFinFormatted);
+      
+      $scope.offre.dateDebut = dateDebutFormatted.getFullYear() + "-" + dateDebutFormatted.getMonth() + "-" + dateDebutFormatted.getDate();
+      $scope.offre.dateFin = dateFinFormatted.getFullYear() + "-" + dateFinFormatted.getMonth() + "-" + dateFinFormatted.getDate();
 
       var offre=$scope.offre;
 
@@ -316,12 +338,12 @@ starter
           }
           else
           {
-            offre.pk = $rootScope.offres.length + 1;
             exist=false;
           }
         }
       if(!exist) {
         offre.etat="publie";
+        offre.pk = $rootScope.offres.length + 1;        
         $rootScope.offres.push(offre);
       }
       $state.go('offres');
@@ -351,11 +373,15 @@ starter
 
     $scope.supprimerHoraire = function(){
 
-      if( $scope.formData.horaires.length > 0 && typeof($scope.formData.horaireSelect) !== "undefined"){
-        $scope.formData.horaires.splice($scope.formData.horaireSelect, 1);
-        $scope.formData.editShow = false;
-        delete $scope.formData.horaireSelect;
-      }
+      if($scope.formData.horaires){
+        if($scope.formData.horaires.length > 0 && typeof($scope.formData.horaireSelect) !== "undefined"){
+          $scope.formData.horaires.splice($scope.formData.horaireSelect, 1);
+          $scope.formData.editShow = false;
+          delete $scope.formData.horaireSelect;
+        }
+    }else{
+      Global.showAlertValidation("La liste est vide.");
+    }
     };
 
     $scope.editerHoraire = function(){
@@ -387,29 +413,12 @@ starter
     mode: 'date', // or 'time'
     minDate: new Date() - 10000,
     allowOldDates: true,
-    allowFutureDates: false,
+    allowFutureDates: true,
     doneButtonLabel: 'DONE',
     doneButtonColor: '#F2F3F4',
     cancelButtonLabel: 'CANCEL',
     cancelButtonColor: '#000000'
   };
-
-  $scope.dateDebut = function () {
-
-    $cordovaDatePicker.show(options).then(function(date){
-        $scope.formData.dateDebut = date;
-    });
-
-  };
-
-  $scope.dateFin = function () {
-
-    $cordovaDatePicker.show(options).then(function(date){
-        $scope.formData.dateFin = date;
-    });
-
-  };
-
   $scope.heureChange = function (params) {
     if (params === 'debut'){
       var restofdiv = ($scope.formData.heureDebut % 60 === 0 ? "00" : $scope.formData.heureDebut % 60)
@@ -483,5 +492,18 @@ starter
         ]
       });
     };
-
+    function formatDate (d) {
+      if(typeof d === "string"){
+        var day = d.split("-")[2];
+        var monthIndex = d.split("-")[1];
+        var year = d.split("-")[0];
+        return new Date(year, monthIndex, day );
+      } else {
+        var day = d.getDate();
+        var monthIndex = d.getMonth()+1;
+        var year = d.getFullYear();
+        return new Date(year, monthIndex, day );
+      }
+      
+    }
   });

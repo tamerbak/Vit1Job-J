@@ -47,7 +47,7 @@ services
              deferred.reject(error);
            };
 
-           navigator.geolocation.getCurrentPosition(onSuccess, onError);
+           navigator.geolocation.getCurrentPosition(onSuccess, onError,{timeout: 5000});
 
           return deferred.promise;
         },
@@ -100,12 +100,12 @@ services
         var deferred = $q.defer();
 
         var userAddress = localStorageService.get('user_address');
-
+/*
         if(userAddress) {
           deferred.resolve(userAddress);
           return deferred.promise;
         }
-
+*/
         this.getUserGeo()
           .then(function(userGeo) {
 
