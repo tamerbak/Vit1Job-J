@@ -25,7 +25,7 @@ button.button.button-full.button-positive.grey {
   font-size: 1em;
 }
 .grey-txt {
- 
+
   font-size: 0.9em !important;
 }
 button.button.button-full.button-positive.green, button.button.button-positive.green {
@@ -422,7 +422,7 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   border-top-left-radius: 0;
   border-color: grey;
   border-left: none;
-  margin-right: 1px; 
+  margin-right: 1px;
 }
 
 .card .item.it3.xtel:last-child, .list.xtel-inset .item.it3:last-child, .padding > .list.xtel .item.it3:last-child{
@@ -743,6 +743,22 @@ ion-tabs ion-nav-view{
   margin-bottom: 4px;
 }
 
+.platform-android .android-sheet-vitonjob .action-sheet .button{
+  text-align: center;
+  border-color: #d1d3d6;
+  font-size: 21px;
+  color: gray;
+}
+.platform-android .android-sheet-vitonjob .action-sheet .action-sheet-title{
+  padding: 16px;
+  color: #000;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+}
+.platform-android .android-sheet-vitonjob .action-sheet-cancel{
+  display: block;
+  }
 #dateDebutContainer, #dateFinContainer{
     text-align: left !important;
     margin: 0 0 0 0 !important;
