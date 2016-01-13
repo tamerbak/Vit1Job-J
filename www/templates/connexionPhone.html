@@ -39,7 +39,8 @@
 	<!-- PASSWORD -->
 	<div class="list">
 	  <label class="item item-input">
-        <input type="password" ng-focus="displayPwdTooltip()" ng-click="displayPwdTooltip()" placeholder="Mot de passe" ng-model="formData.password" ng-minlength="6">
+      <i class="icon ion-locked placeholder-icon" style="font-size: large"></i>
+      <input type="password" ng-focus="displayPwdTooltip()" ng-click="displayPwdTooltip()" placeholder="Mot de passe" ng-model="formData.password" ng-minlength="6">
       </label>
     </div>
     <div id="popupCntPwd" ng-class="{'hidden' : ! showPwdTooltip}" ng-if="!passwordIsValid()">
