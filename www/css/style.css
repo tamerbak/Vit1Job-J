@@ -405,20 +405,21 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
 /*##################################" Adresses #######################################*/
 .card .item.it1.xtel:last-child, .list.xtel-inset .item.it1:last-child, .padding > .list.xtel .item.it1:last-child{
   border-bottom-right-radius: 0;
-  border-bottom-left-radius: 27px;
+  border-bottom-left-radius: 0;
   border-top-right-radius: 0;
-  border-top-left-radius: 27px;
+  border-top-left-radius: 0;
   border-color: grey;
   border-right: none;
 }
 
 .card .item.it2.xtel:last-child, .list.xtel-inset .item.it2:last-child, .padding > .list.xtel .item.it2:last-child{
-  border-bottom-right-radius: 27px;
+  border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  border-top-right-radius: 27px;
+  border-top-right-radius: 0;
   border-top-left-radius: 0;
   border-color: grey;
   border-left: none;
+  margin-right: 1px; 
 }
 
 .card .item.it3.xtel:last-child, .list.xtel-inset .item.it3:last-child, .padding > .list.xtel .item.it3:last-child{
@@ -473,6 +474,7 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
 }
 .card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child , .card .item.it1.xtel:last-child, .list.xtel-inset .item.it1:last-child, .padding > .list.xtel .item.it1:last-child{
 	border-color:gray;
+  border-radius: 0px !important;
 }
 
 #disponibiliteContent .header .col {
@@ -591,7 +593,17 @@ ion-tabs ion-nav-view{
   margin-bottom: 10px !important;
 }
 
-#mailPopup, #pwdPopup, #adressePopup {
+#connexionPhoneView .row{
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+
+.item-input{
+  border-color: grey;
+}
+
+
+#mailPopup, #pwdPopup, #adressePopup, #phonePopup {
   transition: .5s;
   overflow: hidden;
   color: white;
@@ -619,15 +631,19 @@ ion-tabs ion-nav-view{
   border-bottom: 10px solid grey;
 }
 
-#popupCntPwd, #popupCntMail, #popupAdrTravail{
+#popupCntPwd, #popupCntMail, #popupAdrTravail,,#popupCntPhone{
   margin-top: -8px;
+}
+
+#popupCntPhone{
+    margin-bottom: 9px;
 }
 
 #popupAdrTravail{
   margin-top: -17px;
 }
 
-#popupCntPwd.hidden, #popupCntMail.hidden, #popupAdrTravail.hidden{
+#popupCntPwd.hidden, #popupCntMail.hidden, #popupAdrTravail.hidden, #popupCntPhone.hidden{
   display: none;
 }
 
