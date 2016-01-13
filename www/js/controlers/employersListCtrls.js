@@ -114,6 +114,7 @@ starter.controller('employersListCtrls',
 			],
 			titleText: 'Mise en relation',
 			cancelText: 'Annuler',
+			cssClass: (ionic.Platform.isAndroid()?'android-sheet-vitonjob':''), 
 			buttonClicked: function(index) {
         jobber.contacted = true;
 
