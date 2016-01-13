@@ -31,7 +31,7 @@
           <span ng-show="!formData.dateNaissance  && isContractInfo" class="requiredStar">*</span>
           </label>
         <label class="item item-input">
-            <input id="num_ss" name="num_ss" type="text" placeholder="N° SS" data-ng-model="formData.numSS" data-ng-change="validateNumSS('num_ss')" >
+            <input id="num_ss" name="num_ss" type="text" model-view-value="true" ui-mask="9 99 99 99 999 999"  ui-mask-placeholder placeholder="N° SS" data-ng-model="formData.numSS" data-ng-change="validateNumSS('num_ss')" >
           <span ng-show="!formData.numSS  && isContractInfo" class="requiredStar">*</span>            
           </label>
         <label class="item item-input">

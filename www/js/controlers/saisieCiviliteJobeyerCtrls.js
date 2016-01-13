@@ -18,7 +18,7 @@ starter
 
   		};		
 		$scope.validateNumSS= function(id){
-			Validator.checkNumSS(id);
+			Validator.checkNumSS(id,$scope.formData.numSS);
 			//$scope.numSSValide =false;
 		}
 		$scope.displayScanTitle= function(){

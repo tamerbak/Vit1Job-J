@@ -21,12 +21,11 @@ angular.module('validationDataServices', ['ionic', 'cb.x2js', 'providerServices'
 			}
 		};
 
-		this.checkNumSS=function(id){
+		this.checkNumSS=function(id,valss){
 			var NumSS_REGEXP = /^[0-9]\s[0-9]{2}\s[0-9]{2}\s[0-9]{2}\s[0-9]{3}\s[0-9]{3}$/;
 
 			elm=angular.element(document.querySelector('#'+id));
-			var isMatchRegex = NumSS_REGEXP.test(elm.val());
-			console.log("NumSS : "+elm.val());
+			var isMatchRegex = NumSS_REGEXP.test(valss);
 
 			if(isMatchRegex){
 				elm.parent().removeClass('has-warning').addClass('has-success');
