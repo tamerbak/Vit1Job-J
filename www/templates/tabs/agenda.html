@@ -1,5 +1,5 @@
 
-<ion-view view-title="{{AppLogo}}">
+<ion-view id="agendaTabView" view-title="{{AppLogo}}">
   <ion-nav-buttons side="secondary">
     <a class="button ion-navicon button-clear" style="font-size:x-large" data-ng-click="gotToOffres();"></a>
   </ion-nav-buttons>
@@ -12,17 +12,29 @@
     </div>
 
 
-    <button class="button button-stable button-block button-small icon ion-calendar" ng-click="dateDebut()"> Date de début : {{ formData.dateDebut | date : 'dd/MM/yyyy'}}</button>
+   <!--  <button class="button button-stable button-block button-small icon ion-calendar" ng-click="dateDebut()"> Date de début : {{ formData.dateDebut | date : 'dd/MM/yyyy'}}</button>
 
-    <button class="button button-stable button-block button-small icon ion-calendar" ng-click="dateFin()">  Date de fin  : {{formData.dateFin | date : 'dd/MM/yyyy'}}</button>
+    <button class="button button-stable button-block button-small icon ion-calendar" ng-click="dateFin()">  Date de fin  : {{formData.dateFin | date : 'dd/MM/yyyy'}}</button> -->
 
-     <ion-item class="item-icon-right itemHoraire">
+
+    <label id="dateDebutContainer" class="button button-block button-small">
+        <i class="ion-calendar icon" style="vertical-align: initial"></i>
+      <span style="display:inline">Date de Début : </span>
+      <input id="dateDebutInput" type="date" style="display:inline" ng-model="formData.dateDebut">
+    </label>
+
+
+        <label id="dateFinContainer" class="button button-block button-small">
+        <i class="ion-calendar icon" style="vertical-align: initial"></i>
+      <span style="display:inline">Date de Fin : </span>
+      <input id="dateFinInput" type="date" style="display:inline" ng-model="formData.dateFin">
+    </label>
+   <!--   <ion-item class="item-icon-right itemHoraire">
               <input type="text" placeholder="Taux horaire brut" data-ng-model="formData.remuneration">
-    </ion-item>
+    </ion-item> -->
     </br>
 
-    <div class="item item-divider">Répétitions</div>
-    <div class="item item-body">
+     <div>
       <label class="item item-select">
           <span class="input-label" >Jour de la semaine</span>
           <select ng-model="formData.jourSelect">
