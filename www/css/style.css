@@ -734,6 +734,7 @@ ion-tabs ion-nav-view{
   border-color: #d1d3d6;
   font-size: 21px;
   color: gray;
+  border-width: 1px; 
 }
 .platform-android .android-sheet-vitonjob .action-sheet .action-sheet-title{
   padding: 16px;
