@@ -10,6 +10,11 @@ var clientSecret = "x14txRHh2arUKVfNS7eZ8I-v";
 starter
 		.controller('connectCtrl', function($scope, $cookieStore, $state, ngFB, Global, $cordovaOauth, $http, formatString, AuthentificatInServer, x2js, LoadList ) {
 
+		  //go Back
+			$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+					viewData.enableBack = true;
+			});
+
 					// FORMULAIRE
 					$scope.formData = {};
 

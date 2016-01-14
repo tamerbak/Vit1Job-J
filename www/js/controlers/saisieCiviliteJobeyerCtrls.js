@@ -6,6 +6,11 @@ starter
 	.controller('saisieCiviliteJobeyerCtrl', function ($scope, $rootScope, localStorageService, $state,$stateParams, UpdateInServer, UploadFile, $base64,
 				LoadList, formatString, DataProvider, Validator, $ionicPopup, $cordovaCamera){
 
+		//go back
+		$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+				viewData.enableBack = true;
+		});
+
 		// FORMULAIRE
 		$scope.formData = {};
 		$scope.numSSValide =false;
@@ -16,7 +21,7 @@ starter
   		$scope.showFileDialog = function() {
   			document.getElementById('image').click();
 
-  		};		
+  		};
 		$scope.validateNumSS= function(id){
 			Validator.checkNumSS(id,$scope.formData.numSS);
 			//$scope.numSSValide =false;
@@ -36,8 +41,8 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
     var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
     if(steps!='')
     {
-      $scope.title="Présaisie des informations contractuelles : civilité";    
-      $scope.isContractInfo=true;  	
+      $scope.title="Présaisie des informations contractuelles : civilité";
+      $scope.isContractInfo=true;
       $ionicPopup.show({
         title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
         template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus du contractualisation.',
@@ -52,7 +57,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
       });
     }else{
             $scope.title="Saisie de la civilité";
-            $scope.isContractInfo=false;  
+            $scope.isContractInfo=false;
     }
 }
 });
@@ -259,7 +264,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
 			$scope.formData.scanTitle="autorisation de travail";
 			$scope.formData.civ="Titre";
-			$scope.formData.nationalite="Nationalité";						
+			$scope.formData.nationalite="Nationalité";
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){

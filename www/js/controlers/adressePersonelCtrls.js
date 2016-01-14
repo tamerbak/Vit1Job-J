@@ -7,6 +7,11 @@ starter
 	.controller('adressePersonelCtrl', function ($scope, $rootScope, $state,$stateParams, UpdateInServer,
 			DataProvider, Validator, UserService, GeoService, $ionicPopup,localStorageService ,$ionicPopup,$timeout,Global){
 
+				//go back
+				$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+						viewData.enableBack = true;
+			  });
+
 		// FORMULAIRE
     var geolocated=false;
 		$scope.formData = {};
@@ -268,10 +273,10 @@ starter
 				//$scope.initForm();
 				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
 				//Jobyer=localStorageService.get('Jobyer');
-        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';        
+        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
          if(steps!='')
            {
-             $scope.title="Présaisie des informations contractuelles : adresse siège social";    
+             $scope.title="Présaisie des informations contractuelles : adresse siège social";
              $scope.isContractInfo=true;
             $ionicPopup.show({
               title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
@@ -286,12 +291,12 @@ starter
                   }
                 }
               ]
-            });             
+            });
           }else{
             $scope.title="Siège social";
-            $scope.isContractInfo=false;                                                          
-            displayPopups();                     
-          }        
+            $scope.isContractInfo=false;
+            displayPopups();
+          }
 
 			}
 
@@ -411,17 +416,17 @@ starter
     });
 //mobile tap on autocomplete workaround!
   $scope.disableTap = function(){
-    
+
     var container = document.getElementsByClassName('pac-container');
     if(screen.height <= 480){
       console.log("height called");
-      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');  
+      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
     }
     angular.element(container).attr('data-tap-disabled', 'true');
-    
+
     angular.element(container).on("click", function(){
         document.getElementById('address').blur();
         //google.maps.event.trigger(autoComplete, 'place_changed');
     })
-  };     
+  };
 	});

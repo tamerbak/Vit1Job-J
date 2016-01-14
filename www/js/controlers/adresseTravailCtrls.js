@@ -6,6 +6,10 @@ starter
 
   .controller('adresseTravailCtrl', function ($scope, $rootScope, localStorageService, $state, $stateParams,formatString,
                                               UpdateInServer, LoadList, DataProvider, Validator, Global, $ionicPopup, $ionicHistory,GeoService,$timeout){
+      //go Back
+      $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+          viewData.enableBack = true;
+      });
 
     // FORMULAIRE
     $scope.formData = {};
@@ -370,10 +374,10 @@ starter
       console.log(states.fromCache+"  state : "+states.stateName);
       if(states.stateName == "adresseTravail" ){
         //$scope.initForm();
-        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';        
+        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
          if(steps!='')
            {
-             $scope.title="Présaisie des informations contractuelles : Adresse De départ au travail";    
+             $scope.title="Présaisie des informations contractuelles : Adresse De départ au travail";
              $scope.isContractInfo=true;
               $ionicPopup.show({
                 title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
@@ -389,12 +393,12 @@ starter
                     }
                   }
                 ]
-              });             
+              });
           }else{
             $scope.title="Adresse De Départ Au Travail";
-            $scope.isContractInfo=false; 
-            displayPopups();                       
-          }        
+            $scope.isContractInfo=false;
+            displayPopups();
+          }
         // AFFICHE POPUP - SI JE VIENS
         if($ionicHistory.backView() === "adressePersonel"){}
         console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
@@ -450,7 +454,7 @@ starter
 
        */
     };
-    
+
     $scope.displayAdresseTooltip = function () {
       $scope.adresseToolTip = "Astuce : Commencez par le code postal";
       $scope.showAdresseTooltip = true;
@@ -530,7 +534,7 @@ function displayPopup1(){
                           popup2.close();
                           console.log('popup2 oui');
               GeoService.getUserAddress()
-                .then(function () {                         
+                .then(function () {
                           var geoAddress = localStorageService.get('user_address');
                           console.log(geoAddress);
                           $scope.formData.adresse1 = geoAddress.street;
@@ -554,7 +558,7 @@ function displayPopup1(){
         });
 
   }
-  }); 
+  });
 }
 function displayPopups(){
   if($stateParams.addressPers){
@@ -600,20 +604,20 @@ function displayPopups(){
   }else{
     displayPopup1();
   }
-}     
+}
 //mobile tap on autocomplete workaround!
   $scope.disableTap = function(){
-    
+
     var container = document.getElementsByClassName('pac-container');
     if(screen.height <= 480){
       console.log("height called");
-      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');  
+      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
     }
     angular.element(container).attr('data-tap-disabled', 'true');
-    
+
     angular.element(container).on("click", function(){
         document.getElementById('addresseTravail').blur();
         //google.maps.event.trigger(autoComplete, 'place_changed');
     })
-  };    
+  };
   });

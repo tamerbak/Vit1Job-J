@@ -7,6 +7,10 @@ starter
 
 	.controller('competenceCtrl', function ($scope, $rootScope, $cookieStore, $state,$http,$ionicHistory,$ionicModal, x2js, AuthentificatInServer,
 						Global, DataProvider, PullDataFromServer, PersistInServer, LoadList, formatString, UploadFile,$ionicPopup){
+		//go back
+		  $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+					viewData.enableBack = true;
+				});
 		// FORMULAIRE
 		$scope.formData={};
 
