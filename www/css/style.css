@@ -767,3 +767,9 @@ ion-tabs ion-nav-view{
   /*line-height: auto;*/
   margin-bottom: 4px;
 }
+
+
+.tab-item-active
+{
+  color:#f1f1f1 !important;
+}
