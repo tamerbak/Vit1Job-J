@@ -1,4 +1,4 @@
-<ion-view view-title="{{AppLogo}}">
+<ion-view  id='jobTabView' view-title="{{AppLogo}}">
   <ion-nav-buttons side="secondary">
     <a class="button ion-navicon button-clear" style="font-size:x-large" data-ng-click="gotToOffres();"></a>
   </ion-nav-buttons>
@@ -23,15 +23,11 @@
     </div>
     <!-- TITRE -->
     <div class="list">
-      <label class="item item-input">
-        <input type="text" id="titreOffre" placeholder="Titre" data-ng-model="formData.titre">
-      </label>
-    </div>
     <!-- METIERS -->
-    <div class ="xcontainer">
+    <div class="input-container">
       <div angucomplete-alt id="metiers"
            placeholder="Domaine"
-           initial-value="formData.metier.title"
+           initial-value="formData.metier.libelle || formData.metier.title"
            maxlength="50"
            pause="100"
            selected-object="formData.metier"
@@ -46,13 +42,12 @@
         <option selected disabled style="display: none;">Metiers</option>
         <option id="metiers_value" data-ng-repeat="x in formData.metiers" value="{{x}}">{{x.libelle}}</option>
       </select>
-    </div>
-    <!--  <div id="maitriseDiv"> -->
+      </div>
     <!-- JOBS -->
-    <div class ="xcontainer">
+    <div class="input-container">
       <div angucomplete-alt id="jobs"
            placeholder="Job"
-           initial-value="formData.job.title"
+           initial-value="formData.job.libelle || formData.job.title"           
            maxlength="50"
            pause="100"
            selected-object="formData.job"
@@ -67,15 +62,19 @@
         <option selected disabled style="display: none;">Job</option>
         <option data-ng-repeat="x in formData.jobs" value="{{x}}">{{x.libelle}}</option>
       </select>
+      </div>
+    <ion-item class="item-icon-right itemHoraire">
+      <input type="text" placeholder="Taux horaire brut" data-ng-model="formData.remuneration">
+    </ion-item>
     </div>
     <!-- MAITRISE -->
     <img ng-src="img/{{formData.maitriseIcon}}" alt="" style="display: inline;max-width: 60px;max-height: 80px;vertical-align: middle;"/>
     <label for="maitrise" style="display: inline-block; color:#757575;vertical-align: middle;" > {{formData.maitrise}}</label>
     <div class="list rangeDiv">
       <div class="item range range-calm">
-        <img src="img\tree1_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
+        <!-- <img src="img\tree1_small.png" style="display: inline;max-width: 60px;max-height: 80px;"> -->
         <input id="maitrise" type="range" name="volume" min="0" max="100" data-ng-model="formData.degre" data-ng-change="rangeChange()">
-        <img src="img\tree4_small.png" style="display: inline;max-width: 60px;max-height: 80px;">
+        <!-- <img src="img\tree4_small.png" style="display: inline;max-width: 60px;max-height: 80px;"> -->
       </div>
     </div>
     <!-- </div> -->
