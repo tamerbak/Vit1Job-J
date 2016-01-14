@@ -206,21 +206,34 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 
 			$state.go('adressePersonel');
 		};
-		function onSuccess (imageURI) {
-	        $scope.imgURI = imageURI;
-	        $state.go($state.current, {}, {reload: true});
-	      }
-	    function onFail (message) {
-	      console.log('An error occured: ' + message);
-	  }
+		
 
-    $scope.selectImage = function() {
-      navigator.camera.getPicture(onSuccess, onFail,{
-        quality : 50,
-        sourceType : navigator.camera.PictureSourceType.PHOTOLIBRARY,
-        destinationType: Camera.DestinationType.FILE_URI
-      });
-    };
+	    $scope.selectImage = function() {
+	      // navigator.camera.getPicture(onSuccess, onFail,{
+	      //   quality : 50,
+	      //   sourceType : navigator.camera.PictureSourceType.PHOTOLIBRARY,
+	      //   destinationType: Camera.DestinationType.FILE_URI
+	      // });
+	 
+	      	var options = {
+	                    quality: 75,
+	                    destinationType: Camera.DestinationType.DATA_URL,
+	                    sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+	                    allowEdit: false,
+	                    encodingType: Camera.EncodingType.JPEG,
+	                    targetWidth: 100,
+	                    targetHeight: 100
+	                };
+
+	      	$cordovaCamera.getPicture(options).then(function(imageData){
+					$scope.imgURI = "data:image/jpeg;base64," + imageData;;
+					console.log("imageURI : "+$scope.imgURI);
+					//$state.go($state.current, {}, {reload: true});
+
+				}, function(err) {
+					console.log('An error occured: ' + message);
+				});
+		};
 
 		$scope.loadImage=function(img){
 
