@@ -765,3 +765,9 @@ ion-tabs ion-nav-view{
     padding: auto !important;
     margin-bottom: 10px !important;
 }
+
+
+.tab-item-active
+{
+  color:#f1f1f1 !important;
+}
