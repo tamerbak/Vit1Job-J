@@ -125,7 +125,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							jobyer.dateNaissance=dateNaissance;
 							jobyer.numSS=numSS;
 							jobyer.nationalite=JSON.parse($scope.formData.nationalite);
-
+console.log( jobyer.nationalite);
 							console.log("jobyer : "+JSON.stringify(jobyer));
 							// PUT IN SESSION
 							localStorageService.set('jobyer', jobyer);
@@ -286,7 +286,6 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 
 				console.log("Je suis ds $ionicView.beforeEnter(saisieCivilite)");
 			  var jobyer=localStorageService.get('jobyer');
-				console.log("jobyer : "+JSON.stringify(jobyer));
 				if(jobyer){
 					// INITIALISATION FORMULAIRE
 					if(jobyer.civilite)
@@ -296,11 +295,15 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					if(jobyer.prenom)
 						$scope.formData.prenom=jobyer.prenom;
 					if(jobyer.dateNaissance)
-						$scope.formData.dateNaissance=jobyer.dateNaissance;
+						$scope.formData.dateNaissance=new Date(jobyer.dateNaissance);
 					if(jobyer.numSS)
 						$scope.formData.numSS=jobyer.numSS;
-					if(jobyer.nationalite)
+					if(jobyer.nationalite){
+
 						$scope.formData.nationalite=jobyer.nationalite;
+						
+						
+						}
 				}
 			}
 		});
@@ -329,7 +332,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 						});
 		};
 
-		$scope.birthDateTypeChange=function(){
-	  		if(!$scope.formData.dateNaissance) document.getElementById('date').type='text';
-		};
+		
+		
+					
 	});
