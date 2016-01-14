@@ -22,9 +22,12 @@
 
 button.button.button-full.button-positive.grey {
   padding: 2px;
-  font-size: 0.9em;
+  font-size: 1em;
 }
-
+.grey-txt {
+ 
+  font-size: 0.9em !important;
+}
 button.button.button-full.button-positive.green, button.button.button-positive.green {
   padding: 2px;
   font-size: 1em;
@@ -529,7 +532,7 @@ ion-tabs ion-nav-view{
   color: #fff;
 }
 #offresTabContent .item-input{
-  border-radius: 27px;
+  /*border-radius: 27px;*/
   border-color: grey;
 }
 
@@ -630,7 +633,43 @@ ion-tabs ion-nav-view{
   border-right: 10px solid transparent;
   border-bottom: 10px solid grey;
 }
+#jobTabView .input-container {
+  position: relative;
+  display: block;
+}
 
+#jobTabView .input-container select {
+  position: absolute;
+  top: 30%;
+  right: 0;
+}
+
+#jobTabView .input-container .autoCompl input {
+  width: 90%;
+}
+
+#jobTabView .input-container #metiers  {
+    border-bottom: none;
+}
+#agendaTabView .button.button-block, #agendaTabView .button.button-full {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+#agendaTabView .item.item-select{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+#agendaTabView ion-item{
+  padding: 0px 10px;
+}
+#agendaTabView .range input{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#jobTabView .item.range.range-calm , #jobTabView #maitrise , #languesTabView .item.range.range-calm , #languesTabView #maitriseLangue{
+  margin: 0px;
+  padding: 0px;
+}
 #popupCntPwd, #popupCntMail, #popupAdrTravail,,#popupCntPhone{
   margin-top: -8px;
 }
@@ -689,6 +728,7 @@ ion-tabs ion-nav-view{
     position:absolute;
 }
 
+<<<<<<< HEAD
 .platform-android .android-sheet-vitonjob .action-sheet .button{
   text-align: center;
   border-color: #d1d3d6;
@@ -704,4 +744,26 @@ ion-tabs ion-nav-view{
 }
 .platform-android .android-sheet-vitonjob .action-sheet-cancel{
   display: block;
+=======
+
+#metiers,#jobs
+{
+  border-radius: 0 !important;
+}
+
+  #dateDebutInput, #dateFinInput {
+  background-color: transparent;
+  font-size: inherit;
+  padding: 0 0 0 0;
+  height: inherit;
+  /*line-height: auto;*/
+  margin-bottom: 4px;
+}
+
+#dateDebutContainer, #dateFinContainer{
+    text-align: left !important;
+    margin: 0 0 0 0 !important;
+    padding: auto !important;
+    margin-bottom: 10px !important;
+>>>>>>> 600f65b... #80082585848461 applay design of employeur version
 }
