@@ -773,3 +773,17 @@ ion-tabs ion-nav-view{
 {
   color:#f1f1f1 !important;
 }
+
+.palceholder-saisiecivilite
+{
+  font-size: 14px;
+  color:rgba(128, 128, 128, 0.79)!important;
+}
+.txt-saisiecivilite
+{
+  color:#000!important;
+}
+.textbox-n
+{
+  margin-left: -5px!important;
+}
