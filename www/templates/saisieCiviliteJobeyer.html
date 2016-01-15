@@ -38,14 +38,20 @@
             <input class="txt-saisiecivilite" id="num_ss" name="num_ss" type="tel" model-view-value="true" ui-mask="9 99 99 99 999 999"  ui-mask-placeholder placeholder="N° SS" data-ng-model="formData.numSS" data-ng-change="validateNumSS('num_ss')" >
           <span ng-show="!formData.numSS  && isContractInfo" class="requiredStar">*</span>            
           </label>
-        <label class="item item-input">
-      <select class="flat textbox-n" data-ng-model="formData.nationalite"  data-ng-change="displayScanTitle()">
-        <option  disabled style="display: none;">Nationalité</option>
-        <option id ="{{x.pk_user_nationalite}}" data-ng-repeat="x in formData.nationalites" value="{{x}}">{{x.libelle}}</option>
-      </select>
-                <span ng-show="!formData.nationalite  && isContractInfo" class="requiredStar">*</span>            
+        <!-- <label class="item item-input">
+          <select class="flat textbox-n" data-ng-model="formData.nationalite"  data-ng-change="displayScanTitle()">
+            <option  disabled style="display: none;">Nationalité</option>
+            <option id ="{{x.pk_user_nationalite}}" data-ng-repeat="x in formData.nationalites" value="{{x}}">{{x.libelle}}</option>
+          </select>
+          <span ng-show="!formData.nationalite  && isContractInfo" class="requiredStar">*</span>            
 
-      </label>
+        </label> -->
+        <label class="item item-input">
+           <select class="flat textbox-n" data-ng-model="formData.nationalite"  data-ng-change="displayScanTitle()" ng-options="x.libelle for x in formData.nationalites track by x.pk_user_nationalite" >
+           <option value="" disabled style="display: none;"> Nationalité </option>
+          </select>            
+
+        </label>
 	  </div>
 <!--
       <div class="list">

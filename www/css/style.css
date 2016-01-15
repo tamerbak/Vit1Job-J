@@ -597,8 +597,7 @@ ion-tabs ion-nav-view{
 }
 
 #connexionPhoneView .row{
-  padding-bottom: 0px;
-  padding-left: 0px;
+      border: solid 1px grey !important;
 }
 
 .item-input{
@@ -786,4 +785,8 @@ ion-tabs ion-nav-view{
 .textbox-n
 {
   margin-left: -5px!important;
+}
+
+#connexionPhoneView .col-67 label, #connexionPhoneView  .col-10 label, #connexionPhoneView  .col-25 label{
+  border: none;
 }
