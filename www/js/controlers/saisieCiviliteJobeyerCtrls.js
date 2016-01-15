@@ -28,7 +28,9 @@ starter
 		}
 		$scope.displayScanTitle= function(){
 			if($scope.formData.nationalite!=null && $scope.formData.nationalite!="Nationalité"){
-				if(JSON.parse($scope.formData.nationalite).libelle =="Français")
+				console.log("azoul");
+				console.log($scope.formData.nationalite);
+				if($scope.formData.nationalite.libelle =="Français")
 					$scope.formData.scanTitle="CNI";
 				else
 					$scope.formData.scanTitle="autorisation de travail";
@@ -76,7 +78,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			var pk_user_nationalite='';
 			console.log($scope.formData['nationalite']);
 			if($scope.formData['nationalite'] != null  && $scope.formData['nationalite']!='Nationalité' && $scope.formData['nationalite'] != undefined){
-				nationalite=JSON.parse($scope.formData['nationalite']);
+				nationalite=$scope.formData['nationalite'];
 				pk_user_nationalite=nationalite.pk_user_nationalite;
 			}
 			console.log("nationalite : "+pk_user_nationalite);
@@ -124,7 +126,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							jobyer.prenom=prenom;
 							jobyer.dateNaissance=dateNaissance;
 							jobyer.numSS=numSS;
-							jobyer.nationalite=JSON.parse($scope.formData.nationalite);
+							jobyer.nationalite=$scope.formData.nationalite;
 console.log( jobyer.nationalite);
 							console.log("jobyer : "+JSON.stringify(jobyer));
 							// PUT IN SESSION
