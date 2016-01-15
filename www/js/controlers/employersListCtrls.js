@@ -6,6 +6,7 @@ starter.controller('employersListCtrls',
     localStorageService.remove("steps");
       $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
     		viewData.enableBack = true;
+            init();
 		});
 		var init = function(){
 
@@ -74,10 +75,6 @@ starter.controller('employersListCtrls',
 		$scope.sort();
 	};
 
-	$scope.$on('$ionicView.beforeEnter', function(){
-		init();
-	});
-
 	$scope.sort = function(){
 		if($scope.employerListSetting.orderByCorrespondence) $scope.SortOrder = '-matching';
 		if($scope.employerListSetting.orderByAvialability) $scope.SortOrder = '+availability.value';
@@ -114,7 +111,7 @@ starter.controller('employersListCtrls',
 			],
 			titleText: 'Mise en relation',
 			cancelText: 'Annuler',
-			cssClass: (ionic.Platform.isAndroid()?'android-sheet-vitonjob':''), 
+			cssClass: (ionic.Platform.isAndroid()?'android-sheet-vitonjob':''),
 			buttonClicked: function(index) {
         jobber.contacted = true;
 
