@@ -12,18 +12,18 @@
       </div>
       <div class="list">
           <label class="item item-input">
-            <select class="flat" data-ng-model="formData.civ" data-ng-init="formData.civ='Titre'">
+            <select class="flat textbox-n" data-ng-model="formData.civ" data-ng-init="formData.civ='Titre'">
               <option selected disabled style="display: none;">Titre</option>
               <option data-ng-repeat="x in formData.civilites" value="{{x.pk_user_civilite}}">{{x.libelle}}</option>
             </select>
             <span ng-show="formData.civ=='Titre' && isContractInfo" class="requiredStar">*</span>            
           </label>
           <label class="item item-input">
-            <input type="text" id="nom" placeholder="Nom" data-ng-model="formData.nom">
+            <input class="txt-saisiecivilite" type="text" id="nom" placeholder="Nom" data-ng-model="formData.nom">
             <span ng-show="!formData.nom  && isContractInfo" class="requiredStar">*</span>            
           </label>
           <label class="item item-input">
-            <input type="text" id="prenom" placeholder="Prénom" data-ng-model="formData.prenom">
+            <input class="txt-saisiecivilite" type="text" id="prenom" placeholder="Prénom" data-ng-model="formData.prenom">
             <span ng-show="!formData.prenom  && isContractInfo" class="requiredStar">*</span>
           </label>
          <!--  <label class="item item-input">
@@ -31,15 +31,15 @@
           <span ng-show="!formData.dateNaissance  && isContractInfo" class="requiredStar">*</span>
           </label> -->
           <label class="item item-input">
-               <span class="input-label" ng-if="!formData.dateNaissance">Date de Naissance</span> 
-                    <input id="date" type="date" data-ng-model="formData.dateNaissance">
+              <span class="input-label palceholder-saisiecivilite" ng-if="!formData.dateNaissance">Date de Naissance</span> 
+              <input id="date" class="textbox-n" type="date" data-ng-model="formData.dateNaissance">
           </label>
         <label class="item item-input">
-            <input id="num_ss" name="num_ss" type="tel" model-view-value="true" ui-mask="9 99 99 99 999 999"  ui-mask-placeholder placeholder="N° SS" data-ng-model="formData.numSS" data-ng-change="validateNumSS('num_ss')" >
+            <input class="txt-saisiecivilite" id="num_ss" name="num_ss" type="tel" model-view-value="true" ui-mask="9 99 99 99 999 999"  ui-mask-placeholder placeholder="N° SS" data-ng-model="formData.numSS" data-ng-change="validateNumSS('num_ss')" >
           <span ng-show="!formData.numSS  && isContractInfo" class="requiredStar">*</span>            
           </label>
         <label class="item item-input">
-      <select class="flat" data-ng-model="formData.nationalite"  data-ng-change="displayScanTitle()">
+      <select class="flat textbox-n" data-ng-model="formData.nationalite"  data-ng-change="displayScanTitle()">
         <option  disabled style="display: none;">Nationalité</option>
         <option id ="{{x.pk_user_nationalite}}" data-ng-repeat="x in formData.nationalites" value="{{x}}">{{x.libelle}}</option>
       </select>

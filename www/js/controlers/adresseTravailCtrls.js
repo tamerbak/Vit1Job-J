@@ -503,6 +503,7 @@ function displayPopup1(){
               onTap: function (e1) {
                 e1.preventDefault();
                 popup1.close();
+                $scope.formData.addressTravail = "";
                 console.log('popup1 non');
               }
             }, {
