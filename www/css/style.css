@@ -773,3 +773,6 @@ ion-tabs ion-nav-view{
 {
   color:#f1f1f1 !important;
 }
+.ios-sheet-vitonjob .action-sheet-title{
+  font-size: 22px;
+}
