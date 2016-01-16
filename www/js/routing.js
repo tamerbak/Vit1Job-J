@@ -101,13 +101,16 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       controller: 'cMailCtrl'
     })
     .state('saisieCiviliteJobeyer', {
-      url: '/saisieCivilite',
+      url: '/saisieCivilite/:steps',
       templateUrl: 'templates/saisieCiviliteJobeyer.html',
       controller: 'saisieCiviliteJobeyerCtrl'
     })
 
     .state('adresseTravail', {
       url: '/adresseTravail',
+      params: {
+        'geolocated': false, 'adressePersonel': null , steps:null
+      },     
       templateUrl: 'templates/adresseTravail.html',
       controller: 'adresseTravailCtrl'
     })
