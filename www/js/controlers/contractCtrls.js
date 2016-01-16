@@ -13,6 +13,7 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
   //var employer= $stateParams.selectedEmployer;
   console.log(employer);
   var jobyer = localStorageService.get('jobyer');
+  $scope.jobyer=jobyer;
   console.log(jobyer);
   var civilites = DataProvider.getCivilites();
   var civilite = "";
@@ -26,8 +27,8 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
   var adrTrv = employer.adresseTravail;
   $scope.lieu = adrTrv.fullAddress;
   //var jobyer = $stateParams.jobyer;
-  $scope.firstNameJ = jobyer.name;
-  $scope.lastNameJ = jobyer.name;
+  $scope.firstNameJ = jobyer.nom;
+  $scope.lastNameJ = jobyer.prenom;
 
   // An alert dialog
   $scope.showAlert = function() {

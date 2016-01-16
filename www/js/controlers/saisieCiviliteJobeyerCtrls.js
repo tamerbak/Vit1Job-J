@@ -28,7 +28,7 @@ starter
 		}
 		$scope.displayScanTitle= function(){
 			if($scope.formData.nationalite!=null && $scope.formData.nationalite!="Nationalité"){
-				if(JSON.parse($scope.formData.nationalite).libelle =="Français")
+				if($scope.formData.nationalite.libelle =="Français")
 					$scope.formData.scanTitle="CNI";
 				else
 					$scope.formData.scanTitle="autorisation de travail";
@@ -89,8 +89,8 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					nom="";
 				if(!prenom)
 					prenom="";
-				if(!dateNaissance)
-					dateNaissance=new Date();
+				//if(!dateNaissance)
+				//	dateNaissance=new Date();
 
 				dateNaissance=new Date(dateNaissance);
 				var day = dateNaissance.getDate();
