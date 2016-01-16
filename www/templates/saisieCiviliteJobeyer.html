@@ -39,11 +39,11 @@
           <span ng-show="!formData.numSS  && isContractInfo" class="requiredStar">*</span>            
           </label>
         <label class="item item-input">
-      <select class="flat" data-ng-model="formData.nationalite"  data-ng-change="displayScanTitle()">
+      <select class="flat" data-ng-model="formData.nationalite" data-ng-init="formData.nationalite='Nationalité'" data-ng-change="displayScanTitle()">
         <option  disabled style="display: none;">Nationalité</option>
         <option id ="{{x.pk_user_nationalite}}" data-ng-repeat="x in formData.nationalites" value="{{x}}">{{x.libelle}}</option>
       </select>
-                <span ng-show="!formData.nationalite  && isContractInfo" class="requiredStar">*</span>            
+                <span ng-show="formData.nationalite!='Nationalité'  && isContractInfo" class="requiredStar">*</span>            
 
       </label>
 	  </div>

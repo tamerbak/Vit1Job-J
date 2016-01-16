@@ -63,10 +63,6 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 });
 		$scope.updateCivilite = function(){
 
-			for(var obj in $scope.formData){
-				console.log("formData["+obj+"] : "+$scope.formData[obj]);
-			}
-
 			var titre=$scope.formData.civ;
 			var nom=$scope.formData.nom;
 			var prenom=$scope.formData.prenom;
@@ -116,7 +112,8 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							console.log("response"+response);
 
 							var jobyer=localStorageService.get('jobyer');
-							if(!jobyer)
+							console.log(jobyer);
+							if(jobyer==null)
 								jobyer={};
 
 							jobyer.civilite=titre;
@@ -124,8 +121,8 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							jobyer.prenom=prenom;
 							jobyer.dateNaissance=dateNaissance;
 							jobyer.numSS=numSS;
-							jobyer.nationalite=JSON.parse($scope.formData.nationalite);
-console.log( jobyer.nationalite);
+							if($scope.formData.nationalite!="Nationalité")
+								jobyer.nationalite=JSON.parse($scope.formData.nationalite);
 							console.log("jobyer : "+JSON.stringify(jobyer));
 							// PUT IN SESSION
 							localStorageService.set('jobyer', jobyer);
@@ -156,53 +153,6 @@ console.log( jobyer.nationalite);
 						console.log("error In UploadFile.uploadFile(): "+err);
 					});
 			}
-
-			/*** LOAD LIST ZIP-CODE
-			codePostals=localStorageService.get('zipCodes');
-			if(!codePostals){
-				LoadList.loadZipCodes(sessionId)
-					.success(function (response){
-							resp=formatString.formatServerResult(response);
-							// DONNEES ONT ETE CHARGES
-							console.log("les ZipCodes ont été bien chargé");
-							zipCodesObjects=resp.dataModel.rows.dataRow;
-
-							if(typeof zipCodesObjects === 'undefined' || zipCodesObjects.length<=0 || zipCodesObjects===""){
-								console.log('Aucune résultat trouvé');
-								// PUT IN SESSION
-								localStorageService.put('zipCodes', []);
-								return;
-							}
-
-							// GET ZIP-CODE
-							zipCodes=[];
-							zipCode={}; // zipCode.libelle | zipCode.id
-
-							zipCodesList=[].concat(zipCodesObjects);
-							console.log("zipCodesList.length : "+zipCodesList.length);
-							for(var i=0; i<zipCodesList.length; i++){
-								object=zipCodesList[i].dataRow.dataEntry;
-
-								// PARCOURIR LIST PROPERTIES
-								zipCode[object[0].attributeReference]=object[0].value;
-								zipCode[object[1].attributeReference]=object[1].value;
-
-								if(zipCode)
-									zipCodes.push(zipCode);
-								zipCode={}
-							}
-
-							console.log("zipCodes.length : "+zipCodes.length);
-							// PUT IN SESSION
-							//localStorageService.put('zipCodes', zipCodes);
-							console.log("zipCodes : "+JSON.stringify(zipCodes));
-						}).error(function (err){
-							console.log("error : LOAD DATA");
-							console.log("error in loadZipCodes : "+err);
-						});
-			}***/
-
-			// REDIRECTION VERS PAGE - ADRESSE PERSONEL
 
 			$state.go('adressePersonel');
 		};
@@ -281,11 +231,12 @@ console.log( jobyer.nationalite);
 		};
 
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
-			if(states.fromCache && states.stateName == "saisieCiviliteJobeyer"){
+			if(states.stateName == "saisieCiviliteJobeyer"){
 				$scope.initForm();
 
 				console.log("Je suis ds $ionicView.beforeEnter(saisieCivilite)");
 			  var jobyer=localStorageService.get('jobyer');
+			  console.log(jobyer);
 				if(jobyer){
 					// INITIALISATION FORMULAIRE
 					if(jobyer.civilite)
