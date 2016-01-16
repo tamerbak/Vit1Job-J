@@ -280,8 +280,5 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							console.log("error : "+err);
 						});
 		};
-
-		
-		
 					
 	});

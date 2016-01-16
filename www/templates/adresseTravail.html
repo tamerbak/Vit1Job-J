@@ -28,7 +28,7 @@
 	<br>
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive grey" data-ng-click="updateAdresseTravJobyer()">Valider</button>
+      <button class="button button-full button-positive grey" data-ng-click="updateAdresseTravJobyer()" ng-disabled="!formData.addressTravail  && isContractInfo">Valider</button>
     </div>
   </ion-content>
 </ion-view>
