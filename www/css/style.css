@@ -794,3 +794,6 @@ ion-tabs ion-nav-view{
 #connexionPhoneView .col-67 label, #connexionPhoneView  .col-10 label, #connexionPhoneView  .col-25 label{
   border: none;
 }
+.ios-sheet-vitonjob .action-sheet-title{
+  font-size: 22px;
+}
