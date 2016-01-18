@@ -552,6 +552,11 @@ ion-tabs ion-nav-view{
     display: none;
   }
 }
+@media screen and (max-height:480px){
+  .vimg{
+    display: none;
+  }
+}
 .error{
   color: red;
   text-align: left !important;
