@@ -180,4 +180,8 @@ starter
         //google.maps.event.trigger(autoComplete, 'place_changed');
     })
   };
-	});
+  $scope.skipDisabled= function(){
+    var jobyer=localStorageService.get('jobyer');
+    return $scope.isContractInfo && (!jobyer || !jobyer.adressePersonel || !jobyer.adressePersonel.fullAddress);
+  };  
+});

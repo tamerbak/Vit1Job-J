@@ -232,8 +232,6 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			if(states.stateName == "saisieCiviliteJobeyer"){
 				$scope.initForm();
-
-				console.log("Je suis ds $ionicView.beforeEnter(saisieCivilite)");
 			  var jobyer=localStorageService.get('jobyer');
 				if(jobyer){
 					// INITIALISATION FORMULAIRE
@@ -280,5 +278,8 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							console.log("error : "+err);
 						});
 		};
-					
+		$scope.skipDisabled= function(){
+		  var jobyer=localStorageService.get('jobyer');
+       	  return $scope.isContractInfo && (!jobyer || !jobyer.numSS || !jobyer.nationalite || !jobyer.nom || !jobyer.prenom || !jobyer.dateNaissance || !jobyer.civilite);
+		};						
 	});

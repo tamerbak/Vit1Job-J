@@ -177,11 +177,6 @@ function displayPopup1(){
                 .then(function () {
                           var geoAddress = localStorageService.get('user_address');
                           console.log(geoAddress);
-                          $scope.formData.adresse1 = geoAddress.street;
-                          $scope.formData.adresse2 = geoAddress.complement;
-                          $scope.formData.num = geoAddress.num;
-                          $scope.formData.initialCity = geoAddress.city;
-                          $scope.formData.initialPC = geoAddress.postalCode;
                           $scope.formData.addressTravail = geoAddress.fullAddress;
                           console.log($scope.formData.addressTravail);
                          }, function (error) {
@@ -225,7 +220,7 @@ function displayPopups(){
         e.preventDefault();
         popup.close();
         $scope.formData.addressTravail = $stateParams.adressePersonel;
-        $scope.updateAdresseTravEmployeur();
+        $scope.updateAdresseTravJobyer();
         // REDIRECTION VERS PAGE - COMPETENCES
         //$state.go('competence');
       }
@@ -251,4 +246,16 @@ function displayPopups(){
         //google.maps.event.trigger(autoComplete, 'place_changed');
     })
   };
-  });
+    
+  $scope.skipDisabled= function(){
+    var jobyer=localStorageService.get('jobyer');
+    return $scope.isContractInfo && (!jobyer || !jobyer.adresseTravail || !jobyer.adresseTravail.fullAddress);
+  };
+  $scope.skipGoto=function(){
+    if($scope.isContractInfo)
+      $state.go('contract');  
+    else  
+      $state.go('offres');        
+  }
+
+});
