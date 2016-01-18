@@ -8,7 +8,7 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
   //go Back
   $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
       viewData.enableBack = true;
-  });  
+  });
   var employer = localStorageService.get('SelectedEmployer');
   //var employer= $stateParams.selectedEmployer;
   console.log(employer);
@@ -41,7 +41,7 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
             alert('Error: ' + status);
         }
       if(ionic.Platform.isIOS()){
-        var contract = document.getElementById('printableContent');        
+        var contract = document.getElementById('printableContent');
         console.log(document.getElementById("htmlView").innerHTML);
         window.html2pdf.create(
             contract,
@@ -55,29 +55,53 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
     else{
       */
       if(ionic.Platform.isAndroid() && ionic.Platform.version()<=4.2) {
-        var alertPopup1 = $ionicPopup.alert({
-        title: 'Info',
-        template: "Pour imprimer votre contrat, ou le sauvegarder comme PDF, veuillez configurer les paramètres d'impression de votre telephone"
+        var alertPopup1 = $ionicPopup.show({
+        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+        template: "Pour imprimer votre contrat, ou le sauvegarder comme PDF, veuillez configurer les paramètres d'impression de votre telephone",
+        buttons : [
+          {
+            text: '<b>OK</b>',
+            type: 'button-dark',
+            onTap: function(e) {
+            }
+          }
+        ]
       });
-      alertPopup1.then(function() {
-        var alertPopup = $ionicPopup.alert({
-        title: 'Succès',
-        template: 'Vous avez bien établi un contrat avec '+employer.employerName + " " + employer.employerLastName
+    alertPopup1.then(function() {
+      var alertPopup = $ionicPopup.show({
+        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+        template: 'Succés: Vous avez bien établi un contrat avec '+jobyer.jobyerName,
+        buttons : [
+          {
+            text: '<b>OK</b>',
+            type: 'button-dark',
+            onTap: function(e) {
+            }
+          }
+        ]
       });
       alertPopup.then(function() {
         $state.go("app");
       });
       });
       } else {
-        
+
         console.log(ionic.Platform.version());
       if($cordovaPrinter.isAvailable()) {
         var contract = document.getElementById('printableContent');
         $cordovaPrinter.print(contract);
-        var alertPopup = $ionicPopup.alert({
-        title: 'Succès',
-        template: 'Vous avez bien établi un contrat avec '+employer.employerName + " " + employer.employerLastName
-      });
+        var alertPopup = $ionicPopup.show({
+          title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+          template: 'Succés: Vous avez bien établi un contrat avec '+jobyer.jobyerName,
+          buttons : [
+            {
+              text: '<b>OK</b>',
+              type: 'button-dark',
+              onTap: function(e) {
+              }
+            }
+          ]
+        });
       alertPopup.then(function() {
         $state.go("app");
       });
@@ -86,21 +110,37 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
         title: 'Succès',
         template: 'Vous avez bien établi un contrat avec '+jobyer.jobyerName
       });*/
-      var alertPopup1 = $ionicPopup.alert({
-        title: 'Info',
-        template: "Pour imprimer votre contrat, ou le sauvegarder comme PDF, veuillez configurer les paramètres d'impression de votre telephone"
-      });
+      var alertPopup1 = $ionicPopup.show({
+      title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+      template: "Pour imprimer votre contrat, ou le sauvegarder comme PDF, veuillez configurer les paramètres d'impression de votre telephone",
+      buttons : [
+        {
+          text: '<b>OK</b>',
+          type: 'button-dark',
+          onTap: function(e) {
+          }
+        }
+      ]
+    });
       alertPopup1.then(function() {
-        var alertPopup = $ionicPopup.alert({
-        title: 'Succès',
-        template: 'Vous avez bien établi un contrat avec '+employer.employerName + " " + employer.employerLastName
-      });
+        var alertPopup = $ionicPopup.show({
+          title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+          template: 'Succés: Vous avez bien établi un contrat avec '+jobyer.jobyerName,
+          buttons : [
+            {
+              text: '<b>OK</b>',
+              type: 'button-dark',
+              onTap: function(e) {
+              }
+            }
+          ]
+        });
       alertPopup.then(function() {
         $state.go("app");
       });
-      }); 
+      });
       }
-    }   
+    }
   //}
   };
 
