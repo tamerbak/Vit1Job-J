@@ -70,7 +70,6 @@ starter
     $scope.passwordIsValid= function(){
       if($scope.formData.password!=undefined) {
         if (Number($scope.formData.password.length) >= 6) {
-          console.log('test');
           return true;
         }
         else
@@ -82,13 +81,10 @@ starter
       $scope.showPhoneTooltip = true;
     };
     $scope.phoneIsValid= function(){
-      console.log($scope.formData.phone);
       if($scope.formData.phone!=undefined) {
         var phone_REGEXP = /^0/;
         var isMatchRegex = phone_REGEXP.test($scope.formData.phone);
-        console.log("isMatchRegex = "+isMatchRegex);
         if (Number($scope.formData.phone.length) >= 9 && !isMatchRegex) {
-          console.log('test phone');
           return true;
         }
         else
@@ -103,10 +99,11 @@ starter
 
 		$scope.initForm=function(){
 			// GET LIST
-      $scope.formData={'index':"33"};
+      if(!$scope.formData)
+        $scope.formData={};
+      $scope.formData.index="33";
       $http.get("http://ns389914.ovh.net:8080/VitOnJob/rest/common/pays/getAll")
         .success(function(data) {
-          console.log(data);
           $scope.formData.pays=data;
 
         }).error(function(error) {
