@@ -14,6 +14,10 @@ starter
 
 		// FORMULAIRE
     var geolocated=false;
+    $scope.placesOptions = {
+      types: [],
+      componentRestrictions: {country:'FR'}
+    };
 		$scope.formData = {};
     $scope.formData.address="";
     $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
@@ -39,7 +43,7 @@ starter
 						if(!Jobyer)
 							var Jobyer={};
 						var adressePersonel={};
-						adressePersonel={'fullAddress':$scope.formData.address};
+						adressePersonel={'fullAddress':$scope.formData.address.formatted_address};
 						Jobyer.adressePersonel=adressePersonel;
 
 						// PUT IN SESSION
@@ -106,7 +110,20 @@ starter
                           $scope.formData.initialCity = geoAddress.city;
                           $scope.formData.initialPC = geoAddress.postalCode;
 
-                          $scope.formData.address=geoAddress.fullAddress;
+                          // $scope.formData.address=geoAddress.fullAddress;
+                          var result = { 
+                            address_components: [], 
+                            adr_address: "", 
+                            formatted_address: geoAddress.fullAddress,
+                            geometry: "",
+                            icon: "",
+                            lat:null,
+                            lng:null
+                          };
+                          var ngModel = angular.element($('.autocomplete-personel')).controller('ngModel');
+                          console.log(ngModel);
+                          ngModel.$setViewValue(result);
+                          ngModel.$render();
                         }, function(error) {
                             Global.showAlertValidation("Impossible de vous localiser, veuillez vérifier vos paramétres de localisation");
                         });
@@ -157,6 +174,7 @@ starter
       $scope.adresseToolTip = "Astuce : Commencez par le code postal";
       $scope.showAdresseTooltip = true;
     };
+    $scope.displayAdresseTooltip();
 
     $scope.fieldIsEmpty = function() {
       if($scope.formData.address == "" || $scope.formData.address == null){
