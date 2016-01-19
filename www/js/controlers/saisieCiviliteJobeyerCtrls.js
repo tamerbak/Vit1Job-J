@@ -91,11 +91,10 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					prenom="";
 				//if(!dateNaissance)
 				//	dateNaissance=new Date();
-
-				dateNaissance=new Date(dateNaissance);
-				var day = dateNaissance.getDate();
-				var monthIndex = dateNaissance.getMonth()+1;
-				var year = dateNaissance.getFullYear();
+				var _dateNaissance=new Date(dateNaissance);
+				var day = _dateNaissance.getDate();
+				var monthIndex = _dateNaissance.getMonth()+1;
+				var year = _dateNaissance.getFullYear();
 				var dateNaissanceFormatted=year+"-"+monthIndex+"-"+day+" 00:00:00.0";
 				if(!numSS)
 					numSS="";
@@ -107,10 +106,6 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					Number(jobyerID), Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
 						.success(function (response){
 
-							// DONNEES ONT ETE SAUVEGARDES
-							console.log("les donnes ont été sauvegarde");
-							console.log("response"+response);
-
 							var jobyer=localStorageService.get('jobyer');
 							console.log(jobyer);
 							if(jobyer==null)
@@ -119,7 +114,14 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							jobyer.civilite=titre;
 							jobyer.nom=nom;
 							jobyer.prenom=prenom;
-							jobyer.dateNaissance=dateNaissance;
+							if(dateNaissance==undefined){
+								jobyer.dateNaissance="";
+								console.log("undefined");								
+							}
+							else{
+								jobyer.dateNaissance=dateNaissance;
+								console.log(" not  undefined "+jobyer.dateNaissance);									
+							}
 							jobyer.numSS=numSS;
 							jobyer.nationalite=$scope.formData.nationalite;
 							console.log("jobyer : "+JSON.stringify(jobyer));
@@ -233,6 +235,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			if(states.stateName == "saisieCiviliteJobeyer"){
 				$scope.initForm();
 			  var jobyer=localStorageService.get('jobyer');
+			  console.log(jobyer);
 				if(jobyer){
 					// INITIALISATION FORMULAIRE
 					if(jobyer.civilite)

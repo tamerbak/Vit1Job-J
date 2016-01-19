@@ -12,7 +12,6 @@ starter
     $scope.isIOS = ionic.Platform.isIOS();
     $scope.isAndroid = ionic.Platform.isAndroid();    
 	  $rootScope.jobyer = {};
-    localStorageService.remove("steps");
 
     $scope.Authenticate = function () {
       var phone=$scope.formData.phone;
@@ -98,6 +97,7 @@ starter
 		};
 
 		$scope.initForm=function(){
+      localStorageService.remove("steps");  
 			// GET LIST
       if(!$scope.formData)
         $scope.formData={};
