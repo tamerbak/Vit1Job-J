@@ -29,10 +29,10 @@ starter.controller('employersListCtrls',
 			$scope.employersOffers = [{
         		employerName : 'Jérôme',
         		employerLastName :'Didier',
-        		entreprise:'Softbrain-IT',   
+        		entreprise:'Softbrain-IT',
         		adresseTravail:{
         				fullAddress:"190 Rue de Copenhague, 93290 Tremblay-en-France"
-        		},  		        		
+        		},
 				availability : {
 					value : 210,
 					text : '8h 30min'
@@ -42,15 +42,16 @@ starter.controller('employersListCtrls',
 				matching : 60,
 				contacted : false,
 				latitude : 0,
-				longitude : 0
+				longitude : 0,
+				date_invit : ''
 			},
 			{
         		employerName : 'Alain',
-        		employerLastName :'Didier',  
+        		employerLastName :'Didier',
         		entreprise:'Softbrain-IT',
          		adresseTravail:{
         				fullAddress:"190 Rue de Copenhague, 93290 Tremblay-en-France"
-        		},      		      		
+        		},
 				availability : {
 					value : 20,
 					text : '3h 30min'
@@ -60,15 +61,16 @@ starter.controller('employersListCtrls',
 				matching : 20,
 				contacted : true,
 				latitude : 0,
-				longitude : 0
+				longitude : 0,
+				date_invit: '19-01-2016  11:20'
 			},
 			{
         		employerName : 'Philippe',
         		employerLastName :'Didier',
-        		entreprise:'Softbrain-IT', 
+        		entreprise:'Softbrain-IT',
         		adresseTravail:{
         				fullAddress:"190 Rue de Copenhague, 93290 Tremblay-en-France"
-        		},  
+        		},
         		availability : {
 					value : 1000,
 					text : '17h 30min'
@@ -78,7 +80,8 @@ starter.controller('employersListCtrls',
 				matching : 10,
 				contacted : false,
 				latitude : 0,
-				longitude : 0
+				longitude : 0,
+				date_invit: '',
 			}];
 		//*/
 		/*
@@ -129,6 +132,7 @@ starter.controller('employersListCtrls',
 			cssClass: (ionic.Platform.isAndroid()?'android-sheet-vitonjob':''),
 			buttonClicked: function(index) {
         selectedemployer.contacted = true;
+				selectedemployer.date_invit = new Date();
 
 		if(index==0){
               console.log('called send sms');
