@@ -607,6 +607,8 @@ ion-tabs ion-nav-view{
 
 #connexionPhoneView .row{
       border: solid 1px grey !important;
+      margin-bottom: 16px;
+      padding-top: 3px;
 }
 
 .item-input{
