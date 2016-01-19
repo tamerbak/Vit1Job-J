@@ -129,10 +129,9 @@ starter.controller('employersListCtrls',
 			],
 			titleText: 'Mise en relation',
 			cancelText: 'Annuler',
-			cssClass: (ionic.Platform.isAndroid()?'android-sheet-vitonjob':''),
+			cssClass: (ionic.Platform.isAndroid()?'android-sheet-vitonjob':'ios-sheet-vitonjob'),
 			buttonClicked: function(index) {
-        selectedemployer.contacted = true;
-				selectedemployer.date_invit = new Date();
+
 
 		if(index==0){
               console.log('called send sms');
@@ -145,6 +144,8 @@ starter.controller('employersListCtrls',
              };
             $cordovaSms.send(selectedemployer.tel, 'Vitojob :Inivitation de mise en relation', options)
                 .then(function() {
+											selectedemployer.contacted = true;
+											selectedemployer.date_invit = new Date();
                       console.log('Message sent successfully');
                 }, function(error) {
                       console.log('Message Failed:' + error);
@@ -160,6 +161,8 @@ starter.controller('employersListCtrls',
 					subject:    "Vitojob :Inivitation de mise en relation", // subject of the email
 					//app: 'gmail'
 					}, function(){
+								selectedemployer.contacted = true;
+								selectedemployer.date_invit = new Date();
 						    console.log('email view dismissed');
 							//Global.showAlertValidation("Votre email a été bien envoyé.");
 					}, this);
@@ -169,6 +172,8 @@ starter.controller('employersListCtrls',
 		if(index==2){
 
 			window.plugins.CallNumber.callNumber(function(){
+				selectedemployer.contacted = true;
+				selectedemployer.date_invit = new Date();
 				console.log("success call");
 			}, function(){
 				console.log("error call");
@@ -184,6 +189,8 @@ starter.controller('employersListCtrls',
 
               var isAuth = UserService.isAuthenticated();
               if (isAuth) {
+								selectedemployer.contacted = true;
+								selectedemployer.date_invit = new Date();
                 console.log("check and then redirect to contract page");
                 var jobyer = localStorageService.get('jobyer');
                 console.log(jobyer);
