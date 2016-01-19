@@ -1,6 +1,6 @@
 <ion-view id="civiliteView" title="{{AppLogo}}">
     <ion-nav-buttons side="secondary">
-    <a class="button icon-right ion-chevron-right button-clear" ui-sref="adressePersonel">  </a>
+    <a class="button icon-right ion-chevron-right button-clear" ui-sref="adressePersonel" ng-disabled="skipDisabled();">  </a>
     </ion-nav-buttons>
     <ion-nav-title>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
@@ -51,24 +51,11 @@
            <select class="flat textbox-n" data-ng-model="formData.nationalite"  data-ng-change="displayScanTitle()" ng-options="x.libelle for x in formData.nationalites track by x.pk_user_nationalite" >
            <option value="" disabled style="display: none;"> Nationalité </option>
           </select>
-
+          <span ng-show="formData.nationalite=='Nationalité'  && isContractInfo" class="requiredStar">*</span>
         </label>
 	  </div>
-<!--
-      <div class="list">
-          <button style="font-size: 12px;" class="button button-full button-positive grey" data-ng-click="selectImage()">
-            Charger un scan de votre {{formData.scanTitle}}
-          </button>
-        <button style="font-size: 12px;" class="button button-full button-positive grey" data-ng-click="takePicture()">
-			Prendre photo de votre {{formData.scanTitle}}
-			</button>
-      <div>
-      <img id="uploadPreview" ng-show="imgURI !== undefined" ng-src="{{imgURI}}" style="max-width: 100px; max-height: 100px;" />
-      </div>
-      </div>
--->
+
       <div align="list">
-      <!-- <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3> -->
       <button class="button button-full button-positive grey grey-txt" data-ng-click="selectImage()" ng-show="{{isAndroid}}">Charger un scan de votre {{formData.scanTitle}}</button>
 
       <div id="loadImgContainer" ng-show="{{isIOS}}">
@@ -84,7 +71,7 @@
 
 	<!-- ACTIONS -->
 	<div class="buttonConnect">
-      <button class="button button-full button-positive grey"  data-ng-click="updateCivilite()">Valider</button>
+      <button class="button button-full button-positive grey"  data-ng-click="updateCivilite()" ng-disabled="isContractInfo && (!formData.nom || !formData.prenom || !formData.dateNaissance || !formData.numSS || formData.civ=='Titre' || formData.nationalite=='Nationalité')">Valider</button>
     </div>
   </ion-content>
 </ion-view>

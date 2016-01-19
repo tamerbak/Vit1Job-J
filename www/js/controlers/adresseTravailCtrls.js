@@ -13,6 +13,10 @@ starter
 
     // FORMULAIRE
     $scope.formData = {};
+    $scope.placesOptions = {
+        types: [],
+        componentRestrictions: {country:'FR'}
+      };
     $scope.formData.addressTravail="";
     $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
     var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
@@ -33,7 +37,7 @@ starter
           if(!jobyer)
             var jobyer={};
           var adresseTravail={};
-          adresseTravail={fullAddress:$scope.formData.addressTravail};
+          adresseTravail={fullAddress:$scope.formData.addressTravail.formatted_address};
           jobyer.adresseTravail=adresseTravail;
 
           // PUT IN SESSION
@@ -63,7 +67,6 @@ starter
     });
 
     $scope.$on("$ionicView.beforeEnter", function(scopes, states){
-      console.log(states.fromCache+"  state : "+states.stateName);
       if(states.stateName == "adresseTravail" ){
         //$scope.initForm();
         var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
@@ -115,43 +118,12 @@ starter
       }
     });
 
-    $scope.updateAutoCompleteZip= function(){
-      console.log("zip : "+$scope.formData.zipCodeSelected.pk);
-      var zipCodes=$scope.formData.zipCodes;
-      // RECHERCHE LIBELLE
-      for(var i=0; i<zipCodes.length; i++){
-        if(zipCodes[i]['pk_user_code_postal'] === $scope.formData.zipCodeSelected.pk){
-          $scope.formData.zipCodeSelected.libelle=zipCodes[i]['libelle'];
-          break;
-        }
-      }
-
-      if(typeof $scope.formData.codePostal === 'undefined')
-        $scope.formData.codePostal={};
-      $scope.formData.codePostal.originalObject={'pk_user_code_postal': $scope.formData.zipCodeSelected.pk, 'libelle': $scope.formData.zipCodeSelected.libelle};
-      console.log("formData.codePostal : "+JSON.stringify($scope.formData.codePostal));
-      document.getElementById('ex2_value').value=$scope.formData.zipCodeSelected['libelle'];
-      /*
-       // VIDER LIST - VILLES
-       $scope.formData.villes=[];
-       var villes=DataProvider.getVilles();
-       for(var i=0; i<villes.length; i++){
-       if(villes[i]['fk_user_code_postal'] === $scope.formData.zipCodeSelected.pk)
-       $scope.formData.villes.push(villes[i]);
-       }
-
-       // RE-INITIALISE INPUT VILLE
-       document.getElementById('ex3_value').value='Villes';
-       $scope.formData.ville={};
-
-       */
-    };
-
     $scope.displayAdresseTooltip = function () {
       $scope.adresseToolTip = "Astuce : Commencez par le code postal";
       $scope.showAdresseTooltip = true;
       console.log($scope.formData.addressTravail);
     };
+    $scope.displayAdresseTooltip();
 
     $scope.fieldIsEmpty = function() {
       if($scope.formData.addressTravail == "" || $scope.formData.addressTravail == null){
@@ -161,27 +133,8 @@ starter
       }
     };
 
-    $scope.updateAutoCompleteVille= function(){
-      console.log("ville : "+$scope.formData.villeSelected.pk);
-      var villes=$scope.formData.villes;
-      // RECHERCHE LIBELLE
-      for(var i=0; i<villes.length; i++){
-        if(villes[i]['pk_user_ville'] === $scope.formData.villeSelected.pk){
-          $scope.formData.villeSelected.libelle=villes[i]['libelle'];
-          break;
-        }
-      }
-
-      if(typeof $scope.formData.ville === 'undefined')
-        $scope.formData.ville={};
-      $scope.formData.ville.originalObject={'pk_user_ville': $scope.formData.villeSelected.pk, 'libelle': $scope.formData.villeSelected.libelle};
-      console.log("formData.ville : "+JSON.stringify($scope.formData.ville));
-      document.getElementById('ex3_value').value=$scope.formData.villeSelected['libelle'];
-      $rootScope.$broadcast('update-list-code', {params: {'fk':$scope.formData.villeSelected.pk, 'list':'ville'}});
-
-    }
 function displayPopup1(){
-  $timeout(function () {
+  //$timeout(function () {
 
   if (!$stateParams.geolocated) {
         var popup1 = $ionicPopup.show({
@@ -224,18 +177,27 @@ function displayPopup1(){
                         onTap: function (e4) {
                           e4.preventDefault();
                           popup2.close();
-                          console.log('popup2 oui');
-              GeoService.getUserAddress()
-                .then(function () {
+                          console.log('popup2-2 oui');
+                          GeoService.getUserAddress()
+                          .then(function () {
                           var geoAddress = localStorageService.get('user_address');
                           console.log(geoAddress);
-                          $scope.formData.adresse1 = geoAddress.street;
-                          $scope.formData.adresse2 = geoAddress.complement;
-                          $scope.formData.num = geoAddress.num;
-                          $scope.formData.initialCity = geoAddress.city;
-                          $scope.formData.initialPC = geoAddress.postalCode;
                           $scope.formData.addressTravail = geoAddress.fullAddress;
                           console.log($scope.formData.addressTravail);
+                           var result = { 
+                              address_components: [], 
+                              adr_address: "", 
+                              formatted_address: geoAddress.fullAddress,
+                              geometry: "",
+                              icon: "",
+                              lat:null,
+                              lng:null
+                            };
+                            var ngModel = angular.element($('.autocomplete-travail')).controller('ngModel');
+                            console.log(ngModel);
+                            ngModel.$setViewValue(result);
+                            ngModel.$render();
+
                          }, function (error) {
                             Global.showAlertValidation("Impossible de vous localiser, veuillez vérifier vos paramétres de localisation");
                 });
@@ -250,10 +212,10 @@ function displayPopup1(){
         });
 
   }
-  });
+  //});
 }
 function displayPopups(){
-  if($stateParams.addressPers){
+  if($stateParams.adressePersonel){
     var popup = $ionicPopup.show({
 
     template: "L'adresse de départ au travail est-elle différente de l'adresse du siège social? <br>",
@@ -266,7 +228,9 @@ function displayPopups(){
         e.preventDefault();
         popup.close();
         console.log('popup oui');
-        displayPopup1();
+        $timeout(function () {     
+          displayPopup1();
+        });
       }
     }, {
       text: '<b>Non</b>',
@@ -274,19 +238,8 @@ function displayPopups(){
       onTap: function (e) {
         e.preventDefault();
         popup.close();
-        console.log('popup non');
-        /*$scope.formData.adresse1 = params.adresse1;
-        $scope.formData.adresse2 = params.adresse2;
-        $scope.formData.num = params.num;
-        if (params.code)
-          document.getElementById('ex2_value').value = params.code;
-        if (params.vi)
-          document.getElementById('ex3_value').value = params.vi;
-        $scope.formData.initialCity = geoAddress.city;
-        $scope.formData.initialPC = geoAddress.postalCode;
-        */
-        $scope.formData.addressTravail = $stateParams.addressPers;
-        $scope.updateAdresseTravEmployeur();
+        $scope.formData.addressTravail = $stateParams.adressePersonel;
+        $scope.updateAdresseTravJobyer();
         // REDIRECTION VERS PAGE - COMPETENCES
         //$state.go('competence');
       }
@@ -312,4 +265,16 @@ function displayPopups(){
         //google.maps.event.trigger(autoComplete, 'place_changed');
     })
   };
-  });
+    
+  $scope.skipDisabled= function(){
+    var jobyer=localStorageService.get('jobyer');
+    return $scope.isContractInfo && (!jobyer || !jobyer.adresseTravail || !jobyer.adresseTravail.fullAddress);
+  };
+  $scope.skipGoto=function(){
+    if($scope.isContractInfo)
+      $state.go('contract');  
+    else  
+      $state.go('offres');        
+  }
+
+});

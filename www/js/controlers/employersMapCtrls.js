@@ -47,6 +47,18 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
   $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
     viewData.enableBack = true;
 });
+  $scope.placesOptions = {
+    types: [],
+    componentRestrictions: {country:'FR'}
+  };
+  $scope.inputMapchange= function(addressMap)
+  {
+
+    var myLatlng = new google.maps.LatLng(addressMap.lat,addressMap.lng);
+    displayMap(myLatlng);
+
+  };
+
   var getAddress = function(empl){
     var address;
     /*
@@ -57,7 +69,6 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
      var city = (empl.adresseTravail.ville && empl.adresseTravail.ville.toUpperCase() != "NULL") ? '+' + empl.adresseTravail.ville : '';
      var country = (empl.adresseTravail.country && empl.adresseTravail.country.toUpperCase() != "NULL") ? '+' + empl.adresseTravail.country : '';
      */
-    console.log(empl);
     var address = empl.adresseTravail.fullAddress;
     if(address){
       address=address.replace(/\+/g, ' ');
@@ -67,7 +78,6 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
        }
        */
     }
-    console.log("address : "+address);
     return address;
   };
 
@@ -76,61 +86,8 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 	myMarker.setVisible(false);
 	myMarker.setPosition(myLatlng);
 	myMarker.setVisible(true);
-    //autoComplete search
-    var searchText = document.getElementById('address');
-    console.log(searchText);
-    var autoCompleteOptions = {
-      componentRestrictions: {country: 'fr'}
-    }
-    var autoComplete = new google.maps.places.Autocomplete(searchText, autoCompleteOptions);
-
-    autoComplete.bindTo('bounds', $scope.map);
-    google.maps.event.addListener(autoComplete, 'place_changed', function() {
-      myMarker.setVisible(false);
-      var place = autoComplete.getPlace();
-      if (!place.geometry) {
-        console.log("Autocomplete's returned place contains no geometry");
-        return;
-      }
-      if (place.geometry.viewport) {
-        $scope.map.fitBounds(place.geometry.viewport);
-      } else {
-        $scope.map.setCenter(place.geometry.location);
-        $scope.map.setZoom(17);
-      }
-      myMarker.setPosition(place.geometry.location);
-      myMarker.setVisible(true);
-
-      var a = '';
-      if (place.address_components) {
-        a = [
-          (place.address_components[0] && place.address_components[0].short_name || ''),
-          (place.address_components[1] && place.address_components[1].short_name || ''),
-          (place.address_components[2] && place.address_components[2].short_name || '')
-        ].join(' ');
-		var searchedLatLng=new google.maps.LatLng(place.geometry.location.lat(),place.geometry.location.lng());
-		loopThroughEmployers(0 ,searchedLatLng);
-      }
-      console.log(a);
-
-    });
-
-//mobile tap on autocomplete workaround!
-  $scope.disableTap = function(){
-    console.log("disableTap called")
-    var container = document.getElementsByClassName('pac-container');
-    if(screen.height <= 480){
-      console.log("height called");
-      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
-    }
-    angular.element(container).attr('data-tap-disabled', 'true');
-
-    angular.element(container).on("click", function(){
-        document.getElementById('address').blur();
-        google.maps.event.trigger(autoComplete, 'place_changed');
-    })
-  };
-    //autoComplete search end
+    
+  loopThroughEmployers(0 ,myLatlng);
 
   }
 
@@ -159,7 +116,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 		return;
 	}
     var sortedMarkers;
-    console.log("markerFilter: "+$scope.markerFilter);
+    
     var prevCode1=0;
     var prevCode2=0;
     var prevCode3=255;
@@ -172,7 +129,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
         return parseFloat(a.availability.value) - parseFloat(b.availability.value);
       });
     }
-    console.log("sortedMarkers.length :"+sortedMarkers.length);
+    
     var prevCode1=0;
     var prevCode2=0;
     var prevCode3=255;
@@ -191,7 +148,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
       var hexaCode1=parseInt(code1).toString(16);
       var hexaCode2=parseInt(code2).toString(16);
       var hexaCode3=parseInt(code3).toString(16);
-      console.log("hexaCode1 :"+hexaCode1);
+      
       var marker2 = new google.maps.Marker({
         position: sortedMarkers[j].position,
         icon: new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+hexaCode1+""+hexaCode2+""+hexaCode3),

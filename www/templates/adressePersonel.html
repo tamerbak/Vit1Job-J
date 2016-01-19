@@ -5,7 +5,7 @@
     <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
   </ion-header-bar>-->
   <ion-nav-buttons side="secondary">
-    <a class="button icon-right ion-chevron-right button-clear" ui-sref="adresseTravail">  </a>
+    <a class="button icon-right ion-chevron-right button-clear" ui-sref="adresseTravail" ng-disabled="skipDisabled();">  </a>
   </ion-nav-buttons>
   <ion-nav-title>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
@@ -18,10 +18,14 @@
 
 	<br>
         <div class="list">
-          <label class="item item-input">
-            <input type="text" placeholder="Veuillez saisir votre adresse..." ng-model="formData.address" googleplace="" class="ng-pristine ng-valid" autocomplete="off" ng-click="displayAdresseTooltip()" ng-focus="disableTap()" id="address"><!-- googleplace -->
+         <!--  <label class="item item-input">
+            <input type="text" placeholder="Veuillez saisir votre adresse..." ng-model="formData.address" googleplace="" class="ng-pristine ng-valid" autocomplete="off" ng-click="displayAdresseTooltip()" ng-focus="disableTap()" id="address">
             <span ng-show="!formData.address  && isContractInfo" class="requiredStar">*</span>
-      </label>
+          </label> -->
+          <label id="google-autocomplete-personel" class="item item-input">
+             <ion-google-autocomplete placeholder="Veuillez saisir votre adresse..." ng-model="formData.address" places-options="placesOptions" />
+             <span ng-show="!formData.address  && isContractInfo" class="requiredStar">*</span>           
+          </label>
     </div>
     <div id="popupAdrTravail" ng-class="{'hidden' : !showAdresseTooltip}" ng-if="fieldIsEmpty()">
       <div class="arrow-up"></div>
@@ -32,7 +36,7 @@
     <br>
     <!-- ACTIONS -->
     <div class="buttonConnect">
-        <button class="button button-full button-positive grey" data-ng-click="updateAdressePersJobyer()">Valider</button>
+        <button class="button button-full button-positive grey" data-ng-click="updateAdressePersJobyer()" ng-disabled="!formData.address  && isContractInfo">Valider</button>
       </div>
   </ion-content>
 </ion-view>

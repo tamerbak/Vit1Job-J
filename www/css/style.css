@@ -802,3 +802,10 @@ ion-tabs ion-nav-view{
 .ios-sheet-vitonjob .action-sheet-title{
   font-size: 22px;
 }
+
+
+.google-autocomplete-cancele
+{
+  position: relative !important;
+  top: 0px !important;
+}

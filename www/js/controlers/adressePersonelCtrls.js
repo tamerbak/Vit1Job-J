@@ -14,6 +14,10 @@ starter
 
 		// FORMULAIRE
     var geolocated=false;
+    $scope.placesOptions = {
+      types: [],
+      componentRestrictions: {country:'FR'}
+    };
 		$scope.formData = {};
     $scope.formData.address="";
     $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
@@ -25,7 +29,6 @@ starter
     };
 		// RECUPERATION SESSION-ID & JOBEYER-ID
 		$scope.updateAdressePersJobyer = function(){
-      console.log($scope.formData.address);
       var codePostal="", ville="",num="",adresse1="",adresse2="";
 			// RECUPERATION CONNEXION
 			connexion=localStorageService.get('connexion');
@@ -40,26 +43,11 @@ starter
 						if(!Jobyer)
 							var Jobyer={};
 						var adressePersonel={};
-						adressePersonel={'fullAddress':$scope.formData.address};
+						adressePersonel={'fullAddress':$scope.formData.address.formatted_address};
 						Jobyer.adressePersonel=adressePersonel;
 
 						// PUT IN SESSION
 						localStorageService.set('jobyer', Jobyer);
-						console.log("Jobyer : "+JSON.stringify(Jobyer));
-
-
-						// AFFICHE POPUP
-						$rootScope.$broadcast('show-pop-up', {params:
-							{
-                'num': num,
-								'adresse1': adresse1,
-								'adresse2': adresse2,
-                'address':$scope.formData.address,
-								'vi': ville,
-								'code': codePostal,
-                'geolocated':geolocated
-							}
-								});
 					}).error(function (err){
 						console.log("error : insertion DATA");
 						console.log("error In updateAdressePersJOBEYER: "+error)
@@ -87,6 +75,7 @@ starter
               type: 'button-dark',
               onTap: function(e) {
                 myPopup.close();
+                geolocated=false;
               }
             },{
               text: '<b>Oui</b>',
@@ -104,6 +93,7 @@ starter
                         type: 'button-dark',
                         onTap: function (e) {
                           myPopup2.close();
+                          geolocated = false;
                         }
                       }, {
                         text: '<b>Oui</b>',
@@ -120,7 +110,20 @@ starter
                           $scope.formData.initialCity = geoAddress.city;
                           $scope.formData.initialPC = geoAddress.postalCode;
 
-                          $scope.formData.address=geoAddress.fullAddress;
+                          // $scope.formData.address=geoAddress.fullAddress;
+                          var result = { 
+                            address_components: [], 
+                            adr_address: "", 
+                            formatted_address: geoAddress.fullAddress,
+                            geometry: "",
+                            icon: "",
+                            lat:null,
+                            lng:null
+                          };
+                          var ngModel = angular.element($('.autocomplete-personel')).controller('ngModel');
+                          console.log(ngModel);
+                          ngModel.$setViewValue(result);
+                          ngModel.$render();
                         }, function(error) {
                             Global.showAlertValidation("Impossible de vous localiser, veuillez vérifier vos paramétres de localisation");
                         });
@@ -135,10 +138,8 @@ starter
         });
     }
 		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
-      console.log("$ionicView.beforeEnter")
 			if(states.stateName == "adressePersonel" ){ //states.fromCache &&
 				//$scope.initForm();
-				console.log("Je suis ds $ionicView.beforeEnter(adressePersonel)");
 				//Jobyer=localStorageService.get('Jobyer');
         var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
          if(steps!='')
@@ -172,8 +173,8 @@ starter
     $scope.displayAdresseTooltip = function () {
       $scope.adresseToolTip = "Astuce : Commencez par le code postal";
       $scope.showAdresseTooltip = true;
-      console.log($scope.formData.address);
     };
+    $scope.displayAdresseTooltip();
 
     $scope.fieldIsEmpty = function() {
       if($scope.formData.address == "" || $scope.formData.address == null){
@@ -183,31 +184,11 @@ starter
       }
     };
 
-    $scope.updateAutoCompleteVille= function(){
-      console.log("ville : "+$scope.formData.villeSelected.pk);
-      var villes=$scope.formData.villes;
-      // RECHERCHE LIBELLE
-      for(var i=0; i<villes.length; i++){
-        if(villes[i]['pk_user_ville'] === $scope.formData.villeSelected.pk){
-          $scope.formData.villeSelected.libelle=villes[i]['libelle'];
-          break;
-        }
-      }
-
-      if(typeof $scope.formData.ville === 'undefined')
-        $scope.formData.ville={};
-      $scope.formData.ville.originalObject={'pk_user_ville': $scope.formData.villeSelected.pk, 'libelle': $scope.formData.villeSelected.libelle};
-      console.log("formData.ville : "+JSON.stringify($scope.formData.ville));
-      document.getElementById('ex1_value').value=$scope.formData.villeSelected['libelle'];
-
-    };
-
 //mobile tap on autocomplete workaround!
   $scope.disableTap = function(){
 
     var container = document.getElementsByClassName('pac-container');
     if(screen.height <= 480){
-      console.log("height called");
       angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
     }
     angular.element(container).attr('data-tap-disabled', 'true');
@@ -217,4 +198,8 @@ starter
         //google.maps.event.trigger(autoComplete, 'place_changed');
     })
   };
-	});
+  $scope.skipDisabled= function(){
+    var jobyer=localStorageService.get('jobyer');
+    return $scope.isContractInfo && (!jobyer || !jobyer.adressePersonel || !jobyer.adressePersonel.fullAddress);
+  };  
+});
