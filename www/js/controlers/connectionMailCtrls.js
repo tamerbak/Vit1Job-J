@@ -10,7 +10,6 @@ starter
     // FORMULAIRE
     $scope.formData = {};
     $rootScope.jobyer = {};
-    localStorageService.remove("steps");
     /*********************New code*********************/
     $scope.Authenticate = function () {
       var email = $scope.formData.email;
@@ -97,4 +96,14 @@ starter
 
 
     }
+
+    $scope.initForm=function(){
+      localStorageService.remove("steps");  
+    };   
+     
+    $scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
+      if(states.stateName == "cMail" ){
+        $scope.initForm();
+      }
+    });    
   });

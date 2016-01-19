@@ -189,7 +189,8 @@ starter.controller('employersListCtrls',
                 var redirectToStep3 = (jobyer) ? (typeof (jobyer.adresseTravail) == "undefined") : true;
                 if (jobyer && !redirectToStep1) {
                   for (var key in jobyer) {
-                    redirectToStep1 = (jobyer[key]) == "";
+                  	console.log(key+" : "+jobyer[key]);
+                    redirectToStep1 = (jobyer[key] == "" || jobyer[key] == null || typeof(jobyer[key]) == undefined);
                     if (redirectToStep1) break;
                   }
                   if (!redirectToStep1) {
