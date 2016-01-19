@@ -21,7 +21,7 @@ starter
 		$scope.formData = {};
     $scope.formData.address="";
     $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
-    var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+    var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
     $scope.geocodeOptions = {
       componentRestrictions: {
         country : 'FR'
@@ -29,6 +29,7 @@ starter
     };
 		// RECUPERATION SESSION-ID & JOBEYER-ID
 		$scope.updateAdressePersJobyer = function(){
+      var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
       var codePostal="", ville="",num="",adresse1="",adresse2="";
 			// RECUPERATION CONNEXION
 			connexion=localStorageService.get('connexion');
@@ -43,7 +44,13 @@ starter
 						if(!Jobyer)
 							var Jobyer={};
 						var adressePersonel={};
-						adressePersonel={'fullAddress':$scope.formData.address.formatted_address};
+            // if ($scope.formData.address.formatted_address) 
+            // {
+              adressePersonel={fullAddress:$scope.formData.address.formatted_address};
+            // }else{
+            //   adressePersonel={fullAddress:""};
+            // }
+						
 						Jobyer.adressePersonel=adressePersonel;
 
 						// PUT IN SESSION
@@ -54,7 +61,24 @@ starter
 					})
 		//	}
 			// REDIRECTION VERS PAGE - ADRESSE TRAVAI
-			$state.go('adresseTravail',{"geolocated":geolocated,adressePersonel:$scope.formData.address});
+      if(steps)
+      {
+        
+        if(steps.step3)
+        {
+          $state.go('adresseTravail');
+        }
+        else
+        {
+          $state.go('contract');
+        }
+
+      }
+      else
+      {
+        $state.go('adresseTravail',{"geolocated":geolocated,adressePersonel:$scope.formData.address});
+      }
+			
 		};
 
 		// VALIDATION - FIELD
@@ -121,7 +145,6 @@ starter
                             lng:null
                           };
                           var ngModel = angular.element($('.autocomplete-personel')).controller('ngModel');
-                          console.log(ngModel);
                           ngModel.$setViewValue(result);
                           ngModel.$render();
                         }, function(error) {
@@ -141,7 +164,7 @@ starter
 			if(states.stateName == "adressePersonel" ){ //states.fromCache &&
 				//$scope.initForm();
 				//Jobyer=localStorageService.get('Jobyer');
-        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+        var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
          if(steps!='')
            {
              $scope.title="Présaisie des informations contractuelles : adresse siège social";

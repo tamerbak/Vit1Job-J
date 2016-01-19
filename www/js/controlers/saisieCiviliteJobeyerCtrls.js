@@ -13,6 +13,7 @@ starter
 
 		// FORMULAIRE
 		$scope.formData = {};
+		var steps=localStorageService.get('steps');
 		$scope.numSSValide =false;
 		$scope.isIOS = ionic.Platform.isIOS();
   		$scope.isAndroid = ionic.Platform.isAndroid();
@@ -35,10 +36,10 @@ starter
 			}
 		}
 $scope.$on("$ionicView.beforeEnter", function(scopes, states){
-  console.log(states.fromCache+"  state : "+states.stateName);
+  // console.log(states.fromCache+"  state : "+states.stateName);
   if(states.stateName == "saisieCiviliteJobeyer" ){
-    $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
-    var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+    // $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
+    steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
     if(steps!='')
     {
       $scope.title="Présaisie des informations contractuelles : civilité";
@@ -62,7 +63,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 }
 });
 		$scope.updateCivilite = function(){
-
+			var steps=localStorageService.get('steps');
 			var titre=$scope.formData.civ;
 			var nom=$scope.formData.nom;
 			var prenom=$scope.formData.prenom;
@@ -70,21 +71,21 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			var numSS=$scope.formData.numSS;
 			var nationalite='';
 			var pk_user_nationalite='';
-			console.log($scope.formData['nationalite']);
+			// console.log($scope.formData['nationalite']);
 			if($scope.formData['nationalite'] != null  && $scope.formData['nationalite']!='Nationalité' && $scope.formData['nationalite'] != undefined){
 				nationalite=$scope.formData['nationalite'];
 				pk_user_nationalite=nationalite.pk_user_nationalite;
 			}
-			console.log("nationalite : "+pk_user_nationalite);
+			// console.log("nationalite : "+pk_user_nationalite);
 			// RECUPERATION CONNEXION
 			var connexion=localStorageService.get('connexion');
 			// RECUPERATION jobyer ID
 			var jobyerID=connexion.jobyerID;
-			console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
+			// console.log("localStorageService.get(connexion) : "+JSON.stringify(connexion));
 			// RECUPERATION SESSION ID
 			sessionId=localStorageService.get('sessionID');
 
-			if(!isNaN(titre) || nom || prenom || dateNaissance || numSS || pk_user_nationalite){
+			// if(!isNaN(titre) || nom || prenom || dateNaissance || numSS || pk_user_nationalite){
 				if(!nom)
 					nom="";
 				if(!prenom)
@@ -100,14 +101,14 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					numSS="";
 				if(!pk_user_nationalite)
 					pk_user_nationalite="";
-				console.log("dateNaissance : "+dateNaissanceFormatted);
+				// console.log("dateNaissance : "+dateNaissanceFormatted);
 				// UPDATE jobyer
 				UpdateInServer.updateCiviliteInJobyer(
 					Number(jobyerID), Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
 						.success(function (response){
 
 							var jobyer=localStorageService.get('jobyer');
-							console.log(jobyer);
+							// console.log(jobyer);
 							if(jobyer==null)
 								jobyer={};
 
@@ -116,15 +117,15 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							jobyer.prenom=prenom;
 							if(dateNaissance==undefined){
 								jobyer.dateNaissance="";
-								console.log("undefined");								
+								// console.log("undefined");								
 							}
 							else{
 								jobyer.dateNaissance=dateNaissance;
-								console.log(" not  undefined "+jobyer.dateNaissance);									
+								// console.log(" not  undefined "+jobyer.dateNaissance);									
 							}
 							jobyer.numSS=numSS;
 							jobyer.nationalite=$scope.formData.nationalite;
-							console.log("jobyer : "+JSON.stringify(jobyer));
+							// console.log("jobyer : "+JSON.stringify(jobyer));
 							// PUT IN SESSION
 							localStorageService.set('jobyer', jobyer);
 
@@ -132,14 +133,14 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 							console.log("error : insertion DATA");
 							console.log("error In updateCiviliteInjobyer: "+err);
 						});
-			}
+			// }
 
 			// UPLOAD IMAGE
 			if($scope.formData.imageEncode){
 
-				console.log("image name : "+$scope.formData.imageName);
+				// console.log("image name : "+$scope.formData.imageName);
 				//console.log("image en base64 : "+$scope.formData.imageEncode);
-				console.log("image en base64 : "+$scope.formData.imageEncode);
+				// console.log("image en base64 : "+$scope.formData.imageEncode);
 				// ENVOI AU SERVEUR
 				//UploadFile.uploadFile($scope.formData.imageName, $scope.formData.imageEncode.split(',')[1], jobyerID)
 				UploadFile.uploadFile("user_salarie", $scope.formData.imageName, $scope.formData.imageEncode, jobyerID)
@@ -154,8 +155,28 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 						console.log("error In UploadFile.uploadFile(): "+err);
 					});
 			}
+			if(steps)
+			{
+				
+				if (steps.step2) 
+				{
+					$state.go('adressePersonel');
+				}
+				else if(steps.step3)
+				{
+					$state.go('adresseTravail');
+				}
+				else
+				{
+					$state.go('contract');
+				}
 
-			$state.go('adressePersonel');
+			}
+			else
+			{
+				$state.go('adressePersonel');
+			}
+			
 		};
 		
 
@@ -178,7 +199,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 
 	      	$cordovaCamera.getPicture(options).then(function(imageData){
 					$scope.imgURI = "data:image/jpeg;base64," + imageData;;
-					console.log("imageURI : "+$scope.imgURI);
+					// console.log("imageURI : "+$scope.imgURI);
 					//$state.go($state.current, {}, {reload: true});
 
 				}, function(err) {
@@ -188,8 +209,8 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 
 		$scope.loadImage=function(img){
 
-			console.log("files.length : "+img.files.length);
-			console.log("files[0] : "+img.files[0]);
+			// console.log("files.length : "+img.files.length);
+			// console.log("files[0] : "+img.files[0]);
 
 			function el(id){
 				var elem = document.getElementById(id);
@@ -206,7 +227,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					$scope.formData.imageName=img.files[0].name;
 					// RECUPERE ENCODAGE-64
 					$scope.formData.imageEncode=e.target.result;
-									console.log("test");
+									// console.log("test");
 
 				};
 				FR.readAsDataURL(image.files[0]);
@@ -235,7 +256,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			if(states.stateName == "saisieCiviliteJobeyer"){
 				$scope.initForm();
 			  var jobyer=localStorageService.get('jobyer');
-			  console.log(jobyer);
+			  // console.log(jobyer);
 				if(jobyer){
 					// INITIALISATION FORMULAIRE
 					if(jobyer.civilite)
@@ -260,7 +281,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 
 		$scope.takePicture = function(){
 
-			console.log("Je suis ds takePicture() ");
+			// console.log("Je suis ds takePicture() ");
 			var options = {
 				quality: 75,
 				destinationType: Camera.DestinationType.DATA_URL,
@@ -276,7 +297,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 
 			$cordovaCamera.getPicture(options).then(function(imageData){
 				$scope.imgURI = "data:image/jpeg;base64," + imageData;
-				console.log("imageData : "+imageData);
+				// console.log("imageData : "+imageData);
 			}, function(err) {
 							console.log("error : "+err);
 						});

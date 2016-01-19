@@ -115,7 +115,9 @@ starter.controller('employersListCtrls',
 	$scope.$watch('employerListSetting.orderByCorrespondence', function (newValue, oldValue) {
 		setEmployerListSetting('orderByCorrespondence', newValue);
 	});
-
+	function has(object, key) {
+      return object ? hasOwnProperty.call(object, key) : false;
+   	}
 	$scope.showMenuForContract = function(selectedemployer){
 
     	localStorageService.remove('SelectedEmployer');
@@ -134,7 +136,7 @@ starter.controller('employersListCtrls',
 
 
 		if(index==0){
-              console.log('called send sms');
+              // console.log('called send sms');
               document.addEventListener("deviceready", function() {
               var options = {
                   replaceLineBreaks: false, // true to replace \n by a new line, false by default
@@ -146,9 +148,8 @@ starter.controller('employersListCtrls',
                 .then(function() {
 											selectedemployer.contacted = true;
 											selectedemployer.date_invit = new Date();
-                      console.log('Message sent successfully');
                 }, function(error) {
-                      console.log('Message Failed:' + error);
+                      // console.log('Message Failed:' + error);
 
                     });
                    });
@@ -163,7 +164,6 @@ starter.controller('employersListCtrls',
 					}, function(){
 								selectedemployer.contacted = true;
 								selectedemployer.date_invit = new Date();
-						    console.log('email view dismissed');
 							//Global.showAlertValidation("Votre email a été bien envoyé.");
 					}, this);
 					}
@@ -174,9 +174,8 @@ starter.controller('employersListCtrls',
 			window.plugins.CallNumber.callNumber(function(){
 				selectedemployer.contacted = true;
 				selectedemployer.date_invit = new Date();
-				console.log("success call");
 			}, function(){
-				console.log("error call");
+				// console.log("error call");
 				Global.showAlertValidation("Une erreur est survenue.Veuillez réssayer plus tard");
 			} ,selectedemployer.tel, false);
 		}
@@ -191,43 +190,46 @@ starter.controller('employersListCtrls',
               if (isAuth) {
 								selectedemployer.contacted = true;
 								selectedemployer.date_invit = new Date();
-                console.log("check and then redirect to contract page");
                 var jobyer = localStorageService.get('jobyer');
-                console.log(jobyer);
                 var redirectToStep1 = (typeof (jobyer) == "undefined");
                 var redirectToStep1 = (jobyer) ? (typeof (jobyer.civilite) == "undefined") : true;
-                var redirectToStep2 = (jobyer) ? (typeof (jobyer.adressePersonel) == "undefined") : true;
-                var redirectToStep3 = (jobyer) ? (typeof (jobyer.adresseTravail) == "undefined") : true;
-                if (jobyer && !redirectToStep1) {
-                  for (var key in jobyer) {
-                  	console.log(key+" : "+jobyer[key]);
-                    redirectToStep1 = (jobyer[key] == "" || jobyer[key] == null || typeof(jobyer[key]) == undefined);
-                    if (redirectToStep1) break;
-                  }
-                  if (!redirectToStep1) {
-                    for (var key in jobyer.adressePersonel) {
-                      redirectToStep2 = (jobyer.adressePersonel[key]) == "";
-                      if (redirectToStep2) break;
-                    }
-                  }
-                  if (!redirectToStep2) {
-                    for (var key in jobyer.adresseTravail) {
-                      redirectToStep3 = (jobyer.adresseTravail[key]) == "";
-                      if (redirectToStep3) break;
-                    }
-                  }
+                var redirectToStep2 = (jobyer) ? (jobyer.adressePersonel==null) : true;
+                var redirectToStep3 = (jobyer) ? (jobyer.adresseTravail==null) : true;
+                
+                if (has(jobyer.adressePersonel,'fullAddress')) { var redirectToStep2 = false }else {var redirectToStep2 = true};
+                if (has(jobyer.adresseTravail,'fullAddress')) { var redirectToStep3 = false }else {var redirectToStep3 = true};
+                if (jobyer) {
+	                for (var key in jobyer) {
+	                  	
+		                redirectToStep1 = (jobyer[key] == "" || jobyer[key] == null || typeof(jobyer[key]) == undefined);
+		                if (redirectToStep1) break;
+			        }
+                  
+	                // for (var key in jobyer.adressePersonel) {
+	                // 	console.log(key+" : "+jobyer.adressePersonel[key]);
+	                //   redirectToStep2 =((jobyer.adressePersonel[key]) == "");
+	                //   if (redirectToStep2) break;
+	                // }
+	             
+	              
+	                // for (var key in jobyer.adresseTravail) {
+	                //   redirectToStep3 = ((jobyer.adresseTravail[key]) == "");
+	                //   if (redirectToStep3) break;
+	                // }
+                  
                 }
+                
                 var dataInformed = ((!redirectToStep1) && (!redirectToStep2) && (!redirectToStep3));
                 var objRedirect = {"step1": redirectToStep1, "step2": redirectToStep2, "step3": redirectToStep3};
                 if (dataInformed) {
                   //show contract page //TODO
                   $state.go("contract", {"selectedEmployer": selectedemployer});
-                  console.log(selectedemployer);
-                  console.log("redirect to contract pages");
+                  // console.log(selectedemployer);
+                  // console.log("redirect to contract pages");
                 }
                 else {
-                  localStorageService.set("steps",JSON.stringify(objRedirect));
-                  console.log(jobyer);
+                  localStorageService.set("steps",objRedirect);
+                  // console.log( localStorageService.get("steps"));
                   if (redirectToStep1) $state.go("saisieCiviliteJobeyer", {"selectedEmployer": selectedemployer});
                   else if (redirectToStep2) $state.go("adressePersonel", {"selectedEmployer": selectedemployer});
                   else if (redirectToStep3) $state.go("adresseTravail", {"selectedEmployer": selectedemployer});

@@ -19,7 +19,7 @@ starter
       };
     $scope.formData.addressTravail="";
     $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
-    var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+    var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
     // RECUPERATION SESSION-ID & JOBYER-ID
     $scope.updateAdresseTravJobyer = function(){
 
@@ -32,7 +32,7 @@ starter
       var sessionId=localStorageService.get('sessionID');
       UpdateInServer.updateAdresseTravJobyer(jobyerId, codePost, ville,num, adresse1, adresse2, sessionId)
         .success(function (response){
-          console.log(response);
+          // console.log(response);
           jobyer=localStorageService.get('jobyer');
           if(!jobyer)
             var jobyer={};
@@ -42,12 +42,12 @@ starter
 
           // PUT IN SESSION
           localStorageService.set('jobyer', jobyer);
-          console.log("jobyer : "+JSON.stringify(jobyer));
+          // console.log("jobyer : "+JSON.stringify(jobyer));
         }).error(function (err){
         console.log("error : insertion DATA");
         console.log("error In updateAdresseTravjobyer: "+err);
       });
-      var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+      var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
       // REDIRECTION VERS PAGE - offres
       if(steps == '') $state.go('offres');
       else $state.go('contract');
@@ -61,7 +61,7 @@ starter
     $rootScope.$on('show-pop-up', function(event, args){
 
       var params = args.params;
-      console.log("params : "+JSON.stringify(params));
+      // console.log("params : "+JSON.stringify(params));
 
 
     });
@@ -69,7 +69,7 @@ starter
     $scope.$on("$ionicView.beforeEnter", function(scopes, states){
       if(states.stateName == "adresseTravail" ){
         //$scope.initForm();
-        var steps =  (localStorageService.get('steps')!=null) ? JSON.parse(localStorageService.get('steps')) : '';
+        var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
          if(steps!='')
            {
              $scope.title="Présaisie des informations contractuelles : Adresse De départ au travail";
@@ -96,7 +96,7 @@ starter
           }
         // AFFICHE POPUP - SI JE VIENS
         if($ionicHistory.backView() === "adressePersonel"){}
-        console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
+        // console.log("Je suis ds $ionicView.beforeEnter(adresseTravail)");
 
         var jobyer=localStorageService.get('jobyer');
         if(jobyer){
@@ -121,7 +121,7 @@ starter
     $scope.displayAdresseTooltip = function () {
       $scope.adresseToolTip = "Astuce : Commencez par le code postal";
       $scope.showAdresseTooltip = true;
-      console.log($scope.formData.addressTravail);
+      // console.log($scope.formData.addressTravail);
     };
     $scope.displayAdresseTooltip();
 
@@ -148,7 +148,7 @@ function displayPopup1(){
               onTap: function (e1) {
                 e1.preventDefault();
                 popup1.close();
-                console.log('popup1 non');
+                // console.log('popup1 non');
               }
             }, {
               text: '<b>Oui</b>',
@@ -156,7 +156,7 @@ function displayPopup1(){
               onTap: function (e2) {
                 e2.preventDefault();
                 popup1.close();
-                console.log('popup1 oui');
+                // console.log('popup1 oui');
                 $timeout(function () {
                   var popup2 = $ionicPopup.show({
                     //Votre géolocalisation pour renseigner votre adresse du siège social?
@@ -169,7 +169,7 @@ function displayPopup1(){
                         onTap: function (e3) {
                           e3.preventDefault();
                           popup2.close();
-                          console.log('popup2 non');
+                          // console.log('popup2 non');
                         }
                       }, {
                         text: '<b>Oui</b>',
@@ -177,13 +177,13 @@ function displayPopup1(){
                         onTap: function (e4) {
                           e4.preventDefault();
                           popup2.close();
-                          console.log('popup2-2 oui');
+                          // console.log('popup2-2 oui');
                           GeoService.getUserAddress()
                           .then(function () {
                           var geoAddress = localStorageService.get('user_address');
-                          console.log(geoAddress);
+                          // console.log(geoAddress);
                           $scope.formData.addressTravail = geoAddress.fullAddress;
-                          console.log($scope.formData.addressTravail);
+                          // console.log($scope.formData.addressTravail);
                            var result = { 
                               address_components: [], 
                               adr_address: "", 
@@ -194,7 +194,7 @@ function displayPopup1(){
                               lng:null
                             };
                             var ngModel = angular.element($('.autocomplete-travail')).controller('ngModel');
-                            console.log(ngModel);
+                            // console.log(ngModel);
                             ngModel.$setViewValue(result);
                             ngModel.$render();
 
@@ -227,7 +227,7 @@ function displayPopups(){
       onTap: function (e) {
         e.preventDefault();
         popup.close();
-        console.log('popup oui');
+        // console.log('popup oui');
         $timeout(function () {     
           displayPopup1();
         });
@@ -255,7 +255,7 @@ function displayPopups(){
 
     var container = document.getElementsByClassName('pac-container');
     if(screen.height <= 480){
-      console.log("height called");
+      // console.log("height called");
       angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
     }
     angular.element(container).attr('data-tap-disabled', 'true');
