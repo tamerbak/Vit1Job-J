@@ -5,19 +5,39 @@
 starter
 
   .controller('adresseTravailCtrl', function ($scope, $rootScope, localStorageService, $state, $stateParams,formatString,
-                                              UpdateInServer, LoadList, DataProvider, Validator, Global, $ionicPopup, $ionicHistory,GeoService,$timeout){
+          UpdateInServer, LoadList, DataProvider, Validator, Global, $ionicPopup, $ionicHistory,GeoService,$timeout){
       //go Back
-      $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+ 
+     $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+ var jobyer=localStorageService.get('jobyer');
+          
+          if (typeof jobyer.adresseTravail == 'object') 
+          {
+            
+            var result = { 
+              address_components: [], 
+              adr_address: "", 
+              formatted_address: jobyer.adresseTravail.fullAddress,
+              geometry: "",
+              icon: "",
+              lat:null,
+              lng:null
+            };
+            console.log(result);
+            var ngModel = angular.element($('#autocomplete_travail')).controller('ngModel');
+            console.log(ngModel);
+            ngModel.$setViewValue(result);
+            ngModel.$render();
+          }
           viewData.enableBack = true;
       });
-
     // FORMULAIRE
     $scope.formData = {};
     $scope.placesOptions = {
         types: [],
         componentRestrictions: {country:'FR'}
       };
-    $scope.formData.addressTravail="";
+    // $scope.formData.addressTravail="";
     $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
     var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
     // RECUPERATION SESSION-ID & JOBYER-ID
@@ -67,12 +87,19 @@ starter
     });
 
     $scope.$on("$ionicView.beforeEnter", function(scopes, states){
+      
       if(states.stateName == "adresseTravail" ){
         //$scope.initForm();
+
         var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
          if(steps!='')
            {
              $scope.title="Présaisie des informations contractuelles : Adresse De départ au travail";
+             if (steps.state) 
+              {
+                steps.step3=false;
+                localStorageService.set("steps",steps);
+              };
              $scope.isContractInfo=true;
               $ionicPopup.show({
                 title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
@@ -110,7 +137,7 @@ starter
             if(jobyer['adresseTravail']){
               //$scope.formData['adresse1']=jobyer['adresseTravail']['adresse1'];
               //$scope.formData['adresse2']=jobyer['adresseTravail']['adresse2'];
-              $scope.formData['addressTravail']=jobyer['adresseTravail']['fullAddress'];
+              // $scope.formData['addressTravail']=jobyer['adresseTravail']['fullAddress'];
 
             }
           }
@@ -193,8 +220,8 @@ function displayPopup1(){
                               lat:null,
                               lng:null
                             };
-                            var ngModel = angular.element($('.autocomplete-travail')).controller('ngModel');
-                            // console.log(ngModel);
+                            var ngModel = angular.element($('#autocomplete_travail')).controller('ngModel');
+                            console.log(ngModel);
                             ngModel.$setViewValue(result);
                             ngModel.$render();
 

@@ -9,6 +9,25 @@ starter
 
 				//go back
 				$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+          var jobyer=localStorageService.get('jobyer');
+          console.log(typeof jobyer);
+          if (typeof jobyer.adressePersonel == 'object') 
+          {
+            
+            var result = { 
+              address_components: [], 
+              adr_address: "", 
+              formatted_address: jobyer.adressePersonel.fullAddress,
+              geometry: "",
+              icon: "",
+              lat:null,
+              lng:null
+            };
+            var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
+            console.log(ngModel);
+            ngModel.$setViewValue(result);
+            ngModel.$render();
+          };
 						viewData.enableBack = true;
 			  });
 
@@ -144,7 +163,7 @@ starter
                             lat:null,
                             lng:null
                           };
-                          var ngModel = angular.element($('.autocomplete-personel')).controller('ngModel');
+                          var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
                           ngModel.$setViewValue(result);
                           ngModel.$render();
                         }, function(error) {
@@ -161,6 +180,7 @@ starter
         });
     }
 		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
+      
 			if(states.stateName == "adressePersonel" ){ //states.fromCache &&
 				//$scope.initForm();
 				//Jobyer=localStorageService.get('Jobyer');
@@ -168,6 +188,11 @@ starter
          if(steps!='')
            {
              $scope.title="Présaisie des informations contractuelles : adresse siège social";
+             if (steps.state) 
+              {
+                steps.step2=false;
+                localStorageService.set("steps",steps);
+              };
              $scope.isContractInfo=true;
             $ionicPopup.show({
               title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",

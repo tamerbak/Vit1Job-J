@@ -221,14 +221,17 @@ starter.controller('employersListCtrls',
                 }
 
                 var dataInformed = ((!redirectToStep1) && (!redirectToStep2) && (!redirectToStep3));
-                var objRedirect = {"step1": redirectToStep1, "step2": redirectToStep2, "step3": redirectToStep3};
+                var objRedirect = {"state":false,"step1": redirectToStep1, "step2": redirectToStep2, "step3": redirectToStep3};
                 if (dataInformed) {
+                	objRedirect.state=false;
+                  localStorageService.set("steps",objRedirect);
                   //show contract page //TODO
                   $state.go("contract", {"selectedEmployer": selectedemployer});
                   // console.log(selectedemployer);
                   // console.log("redirect to contract pages");
                 }
                 else {
+                	objRedirect.state=true;
                   localStorageService.set("steps",objRedirect);
                   // console.log( localStorageService.get("steps"));
                   if (redirectToStep1) $state.go("saisieCiviliteJobeyer", {"selectedEmployer": selectedemployer});

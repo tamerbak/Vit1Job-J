@@ -3,7 +3,7 @@
  */
 'use strict';
 
-starter.controller('contractCtrl',function($scope,localStorageService,$stateParams,DataProvider,$ionicPopup,$state, $cordovaPrinter){
+starter.controller('contractCtrl',function($scope,localStorageService,$stateParams,DataProvider,$ionicActionSheet,$ionicPopup,$state, $cordovaPrinter){
 
   //go Back
   $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
@@ -122,6 +122,8 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
         }
       ]
     });
+    
+    };
       alertPopup1.then(function() {
         var alertPopup = $ionicPopup.show({
           title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
@@ -141,6 +143,37 @@ starter.controller('contractCtrl',function($scope,localStorageService,$statePara
       });
       }
     }
+    $scope.showMenuForEditContract = function(){
+      var steps = localStorageService.get('steps');
+      console.log(steps);
+     
+      var hideSheet = $ionicActionSheet.show({
+        buttons: [
+        { text: 'Civilité'}, //Index = 0
+        { text: 'Siège social'}, //Index = 1
+        { text: 'Adresse De Départ Au Travail' }, //Index = 2
+        ],
+        titleText: 'Editer le contrat',
+        cancelText: 'Annuler',
+        cssClass:(ionic.Platform.isAndroid()?'android-sheet-vitonjob':'ios-sheet-vitonjob'),
+        buttonClicked: function(index) {
+          
+        var jobyer = localStorageService.get('jobyer');
+        if(index==0){
+                  $state.go("saisieCiviliteJobeyer", {jobyer: jobyer});
+                }
+        if(index==1){
+            $state.go("adressePersonel", {jobyer: jobyer});
+        }
+        if(index==2){
+
+          $state.go("adresseTravail", {jobyer: jobyer});
+        }
+      //branchement de la page de contrat ou infos clients
+        
+          return true;
+        }
+      });
   //}
   };
 
