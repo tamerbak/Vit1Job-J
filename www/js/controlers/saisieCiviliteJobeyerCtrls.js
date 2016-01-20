@@ -103,8 +103,9 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					pk_user_nationalite="";
 				// console.log("dateNaissance : "+dateNaissanceFormatted);
 				// UPDATE jobyer
+				var user = {"email":"cmFjaGlkQHRlc3QuY29t","password":"MTIzNDU2","role":"ZW1wbG95ZXVy"};			
 				UpdateInServer.updateCiviliteInJobyer(
-					Number(jobyerID), Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
+					user, Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
 						.success(function (response){
 
 							var jobyer=localStorageService.get('jobyer');
