@@ -244,7 +244,7 @@ starter
     //****************************************** NEW **********************************//
 
     //************** Pour les tests********************//
-    var currentEmployer = {
+    var currentJobyer = {
       "email":"rachid@test.com",
       "employerId":1,
       "entreprises":[
@@ -278,13 +278,13 @@ starter
         }]
     };
 
-    localStorageService.set('currentEmployer', currentEmployer)
+  //  localStorageService.set('currentJobyer', currentJobyer)
 
     //*************************************************//
 
     var checkIsLogged = function(){
-      var currentEmployer = localStorageService.get('currentEmployer');
-      var isLogged = (currentEmployer) ? true : false;
+      var currentJobyer = localStorageService.get('currentJobyer');
+      var isLogged = (currentJobyer) ? true : false;
       return isLogged;
     };
 
@@ -293,7 +293,7 @@ starter
     });
 
     $scope.logOut = function(){
-      localStorageService.remove('currentEmployer');
+      localStorageService.remove('currentJobyer');
       $scope.isLogged = false;
     };
 
@@ -338,9 +338,9 @@ starter
 
     var isEntrepriseOfferByJobExists = function(job){
       if(!job) return;
-      var currentEmployer = localStorageService.get('currentEmployer');
-      if(!currentEmployer) return;
-      var entreprises = currentEmployer.entreprises;
+      var currentJobyer = localStorageService.get('currentJobyer');
+      if(!currentJobyer) return;
+      var entreprises = currentJobyer.entreprises;
       var found = false;
       if(entreprises && entreprises.length > 0){
         var i = 0;
@@ -369,7 +369,7 @@ starter
                       'label' : entreprises[i].name
                     };
                     localStorageService.set('currentEntreprise',currentEntreprise);
-                    loadCurrentEmployerEntreprises();
+                    loadcurrentJobyerEntreprises();
                   }
                   else{
                     k++;
@@ -385,34 +385,34 @@ starter
       return found;
     };
 
-    var loadCurrentEmployerEntreprises = function(){
-      var currentEmployer = localStorageService.get('currentEmployer');
-      if(!currentEmployer) return;
-      var currentEmployerEntreprises = currentEmployer.entreprises;
-      if(currentEmployerEntreprises && currentEmployerEntreprises.length > 0){
+    var loadcurrentJobyerEntreprises = function(){
+      var currentJobyer = localStorageService.get('currentJobyer');
+      if(!currentJobyer) return;
+      var currentJobyerEntreprises = currentJobyer.entreprises;
+      if(currentJobyerEntreprises && currentJobyerEntreprises.length > 0){
         var entreprises = [];
         var entreprise;
         var offers = [];
         var offer;
-        for(var i = 0; i < currentEmployerEntreprises.length; i++){
+        for(var i = 0; i < currentJobyerEntreprises.length; i++){
           offers = [];
-          if(currentEmployerEntreprises[i] && currentEmployerEntreprises[i].offers && currentEmployerEntreprises[i].offers.length > 0){
-            for(var j = 0; j < currentEmployerEntreprises[i].offers.length; j++){
+          if(currentJobyerEntreprises[i] && currentJobyerEntreprises[i].offers && currentJobyerEntreprises[i].offers.length > 0){
+            for(var j = 0; j < currentJobyerEntreprises[i].offers.length; j++){
               offer = {
-                'id' : currentEmployerEntreprises[i].offers[j].offerId.toString(),
-                'label' : currentEmployerEntreprises[i].offers[j].title
+                'id' : currentJobyerEntreprises[i].offers[j].offerId.toString(),
+                'label' : currentJobyerEntreprises[i].offers[j].title
               };
               offers.push(offer);
             }
           }
           entreprise = {
-            'id' : currentEmployerEntreprises[i].entrepriseId.toString(),
-            'label' : currentEmployerEntreprises[i].name,
+            'id' : currentJobyerEntreprises[i].entrepriseId.toString(),
+            'label' : currentJobyerEntreprises[i].name,
             'offers' : offers
           }
           entreprises.push(entreprise);
         }
-        localStorageService.set('currentEmployerEntreprises',entreprises);
+        localStorageService.set('currentJobyerEntreprises',entreprises);
       }
     }
 
@@ -420,7 +420,7 @@ starter
       localStorageService.set('lastSearchedJob',job);
       localStorageService.remove('currentOffer');
       localStorageService.remove('currentEntreprise');
-      localStorageService.remove('currentEmployerEntreprises');
+      localStorageService.remove('currentJobyerEntreprises');
       var isLogged = checkIsLogged();
       if(isLogged){
         if(isEntrepriseOfferByJobExists(job)){

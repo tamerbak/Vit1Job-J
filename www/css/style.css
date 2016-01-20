@@ -643,6 +643,36 @@ ion-tabs ion-nav-view{
   border-right: 10px solid transparent;
   border-bottom: 10px solid grey;
 }
+
+.chiffre{
+  width: 0;
+  height: 0;
+  margin-left: 37%;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid grey;
+  margin-top: -16px;
+}
+
+.mail{
+  width: 0;
+  height: 0;
+  margin-left: 15px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid grey;
+  margin-top: -10px;
+}
+.pwd{
+  width: 0;
+  height: 0;
+  margin-left: 15px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid grey;
+  margin-top: -10px;
+}
+
 #jobTabView .input-container {
   position: relative;
   display: block;
