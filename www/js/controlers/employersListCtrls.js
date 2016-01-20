@@ -157,13 +157,14 @@ starter.controller('employersListCtrls',
 		if(index==1){
 				cordova.plugins.email.isAvailable(
 					function (isAvailable) {
+					selectedemployer.contacted = true;
+					selectedemployer.date_invit = new Date();
 					cordova.plugins.email.open({
 					to:  [selectedemployer.email], // email addresses for TO field
 					subject:    "Vitojob :Inivitation de mise en relation", // subject of the email
 					//app: 'gmail'
 					}, function(){
-								selectedemployer.contacted = true;
-								selectedemployer.date_invit = new Date();
+
 							//Global.showAlertValidation("Votre email a été bien envoyé.");
 					}, this);
 					}
@@ -195,30 +196,30 @@ starter.controller('employersListCtrls',
                 var redirectToStep1 = (jobyer) ? (typeof (jobyer.civilite) == "undefined") : true;
                 var redirectToStep2 = (jobyer) ? (jobyer.adressePersonel==null) : true;
                 var redirectToStep3 = (jobyer) ? (jobyer.adresseTravail==null) : true;
-                
+
                 if (has(jobyer.adressePersonel,'fullAddress')) { var redirectToStep2 = false }else {var redirectToStep2 = true};
                 if (has(jobyer.adresseTravail,'fullAddress')) { var redirectToStep3 = false }else {var redirectToStep3 = true};
                 if (jobyer) {
 	                for (var key in jobyer) {
-	                  	
+
 		                redirectToStep1 = (jobyer[key] == "" || jobyer[key] == null || typeof(jobyer[key]) == undefined);
 		                if (redirectToStep1) break;
 			        }
-                  
+
 	                // for (var key in jobyer.adressePersonel) {
 	                // 	console.log(key+" : "+jobyer.adressePersonel[key]);
 	                //   redirectToStep2 =((jobyer.adressePersonel[key]) == "");
 	                //   if (redirectToStep2) break;
 	                // }
-	             
-	              
+
+
 	                // for (var key in jobyer.adresseTravail) {
 	                //   redirectToStep3 = ((jobyer.adresseTravail[key]) == "");
 	                //   if (redirectToStep3) break;
 	                // }
-                  
+
                 }
-                
+
                 var dataInformed = ((!redirectToStep1) && (!redirectToStep2) && (!redirectToStep3));
                 var objRedirect = {"step1": redirectToStep1, "step2": redirectToStep2, "step3": redirectToStep3};
                 if (dataInformed) {
