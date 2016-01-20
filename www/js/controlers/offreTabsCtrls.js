@@ -116,11 +116,11 @@ starter
         if($scope.offre.dateDebut)
           $scope.formData.dateDebut = formatDate($scope.offre.dateDebut);
         else
-          $scope.formData.dateDebut = formatDate(new Date());        
+          $scope.formData.dateDebut = formatDate(new Date());
         if($scope.offre.dateFin)
           $scope.formData.dateFin = formatDate($scope.offre.dateFin);
         else
-          $scope.formData.dateFin = formatDate(new Date());  
+          $scope.formData.dateFin = formatDate(new Date());
       }else
         $scope.formData={
         'maitrise': 'Débutant',
@@ -146,7 +146,7 @@ starter
         qi:{},
         degre:10,
         dateDebut: formatDate(new Date()),
-        dateFin: formatDate(new Date()),        
+        dateFin: formatDate(new Date()),
         selectedLangue:{}
       };
     };
@@ -287,6 +287,16 @@ starter
       }
     };
 
+
+				//validate date
+		function validateDate() {
+			 if(($scope.formData.dateDebut)>=($scope.formData.dateFin)){
+				 Global.showAlertValidation("La Date de Fin doit être supérieur à l'heure de début. ");
+				 return false;
+			 }
+			 return true;
+		 }
+
     $scope.validerOffre=function(){
 
       if(!$scope.offre)
@@ -304,31 +314,37 @@ starter
       if($scope.formData.job && $scope.formData.job.originalObject)
         $scope.offre.titre=$scope.formData.job.originalObject.libelle+" "+$scope.formData.maitrise;
       else if($scope.formData.job)
-        $scope.offre.titre=$scope.formData.job.libelle+" "+$scope.formData.maitrise;        
+        $scope.offre.titre=$scope.formData.job.libelle+" "+$scope.formData.maitrise;
       else
-        $scope.offre.titre=$scope.formData.maitrise;        
+        $scope.offre.titre=$scope.formData.maitrise;
       $scope.offre.metier=$scope.formData.metier;
       $scope.offre.job=$scope.formData.job;
       $scope.offre.qiList=$scope.formData.qiList;
       $scope.offre.languesList=$scope.formData.languesList;
       $scope.offre.remuneration=$scope.formData.remuneration;
       $scope.offre.horaires = $scope.formData.horaires;
+
+			//validate date
+		 var accept = validateDate();
+		 if (accept){
      //date debut
       if(!$scope.formData.dateDebut)
           $scope.formData.dateDebut = new Date();
       var dateDebutFormatted = formatDate($scope.formData.dateDebut);
       console.log('dateDebutFormatted' + dateDebutFormatted + typeof dateDebutFormatted);
-      
+
       //date fin
       if(!$scope.formData.dateFin)
           $scope.formData.dateFin = new Date();
-      
+
       var dateFinFormatted = formatDate($scope.formData.dateFin);
 
       console.log('dateFinFormatted' + dateFinFormatted + typeof dateFinFormatted);
-      
+
       $scope.offre.dateDebut = dateDebutFormatted.getFullYear() + "-" + dateDebutFormatted.getMonth() + "-" + dateDebutFormatted.getDate();
       $scope.offre.dateFin = dateFinFormatted.getFullYear() + "-" + dateFinFormatted.getMonth() + "-" + dateFinFormatted.getDate();
+
+			}
 
       var offre=$scope.offre;
 
@@ -346,7 +362,7 @@ starter
         }
       if(!exist) {
         offre.etat="publie";
-        offre.pk = $rootScope.offres.length + 1;        
+        offre.pk = $rootScope.offres.length + 1;
         $rootScope.offres.push(offre);
       }
       $state.go('offres');
@@ -507,6 +523,6 @@ starter
         var year = d.getFullYear();
         return new Date(year, monthIndex, day );
       }
-      
+
     }
   });
