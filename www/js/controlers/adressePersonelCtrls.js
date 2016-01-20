@@ -168,6 +168,11 @@ starter
          if(steps!='')
            {
              $scope.title="Présaisie des informations contractuelles : adresse siège social";
+             if (steps.state) 
+              {
+                steps.step2=false;
+                localStorageService.set("steps",steps);
+              };
              $scope.isContractInfo=true;
             $ionicPopup.show({
               title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",

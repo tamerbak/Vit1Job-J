@@ -43,6 +43,13 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
     if(steps!='')
     {
       $scope.title="Présaisie des informations contractuelles : civilité";
+
+      if (steps.state) 
+      {
+      	steps.step1=false;
+      	localStorageService.set("steps",steps);
+      };
+      
       $scope.isContractInfo=true;
       $ionicPopup.show({
         title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",

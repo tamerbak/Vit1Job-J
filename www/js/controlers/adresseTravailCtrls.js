@@ -73,6 +73,11 @@ starter
          if(steps!='')
            {
              $scope.title="Présaisie des informations contractuelles : Adresse De départ au travail";
+             if (steps.state) 
+              {
+                steps.step3=false;
+                localStorageService.set("steps",steps);
+              };
              $scope.isContractInfo=true;
               $ionicPopup.show({
                 title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
