@@ -86,7 +86,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 	myMarker.setVisible(false);
 	myMarker.setPosition(myLatlng);
 	myMarker.setVisible(true);
-    
+
   loopThroughEmployers(0 ,myLatlng);
 
   }
@@ -116,7 +116,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 		return;
 	}
     var sortedMarkers;
-    
+
     var prevCode1=0;
     var prevCode2=0;
     var prevCode3=255;
@@ -129,7 +129,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
         return parseFloat(a.availability.value) - parseFloat(b.availability.value);
       });
     }
-    
+
     var prevCode1=0;
     var prevCode2=0;
     var prevCode3=255;
@@ -148,7 +148,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
       var hexaCode1=parseInt(code1).toString(16);
       var hexaCode2=parseInt(code2).toString(16);
       var hexaCode3=parseInt(code3).toString(16);
-      
+
       var marker2 = new google.maps.Marker({
         position: sortedMarkers[j].position,
         icon: new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|"+hexaCode1+""+hexaCode2+""+hexaCode3),
@@ -248,7 +248,7 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
         Global.showAlertValidation("IUne erreur est survenue. Veuillez réssayer plus tard.");
       });
     //Marker + infowindow + angularjs compiled ng-click
-    var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
+    var contentString = "<div><a ng-click='clickTest()'>Vous êtes ici</a></div>";
     var compiled = $compile(contentString)($scope);
 
     var infowindow = new google.maps.InfoWindow({
@@ -317,4 +317,3 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
 
   };
 }]);
-
