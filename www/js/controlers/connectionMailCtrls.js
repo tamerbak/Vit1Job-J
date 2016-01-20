@@ -11,54 +11,42 @@ starter
     $scope.formData = {};
     $rootScope.jobyer = {};
     /*********************New code*********************/
+    var OnAuthenticateSuccesss = function(data){
+      if(!data){
+        OnAuthenticateError(data);
+        return;
+      }
+      console.log(data);
+      localStorageService.remove('connexion');
+      var connexion = {
+        'etat': true,
+        'libelle': 'Se déconnecter',
+        'employeID': data.employerId
+      };
+
+      localStorageService.set('connexion', connexion);
+      localStorageService.set('currentJobyer', data);
+      var isNewUser = data.new;
+      if (isNewUser) {
+        Global.showAlertValidation("Bienvenue ! vous êtes rentré dans votre espace VitOnJob sécurisé.");
+        $state.go("saisieCiviliteJobeyer");
+      } else {
+        $state.go("app");
+      }
+    };
+
+    var OnAuthenticateError = function(data){
+      console.log(data);
+      Global.showAlertPassword("Nom d'utilisateur ou mot de passe incorrect");
+    };
+
     $scope.Authenticate = function () {
       var email = $scope.formData.email;
       var password = $scope.formData.password;
-      var msg = [];
-      if (isEmpty(email)) {
-        msg.push("Email");
-      }
-      if (isEmpty(password)) {
-        msg.push("Mot de passe");
-      }
-      //email validation
-      var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-      if (!re.test(email)) {
-        Global.showAlertValidation("Veuillez saisir un email valide.");
-        return;
-      }
-      if (msg.length > 0) {
-        Global.missedFieldsAlert(msg);
-        return;
-      }
-      var jsonObj = {"email": btoa(JSON.stringify(email)),
-        "telephone": "", "password": btoa(JSON.stringify(password)),
-        "role": btoa(JSON.stringify("jobyer"))};
-      var user = jsonObj;
-      var userObj = AuthentificatInServer.AuthenticateUser(user);
-
-      if (userObj == null) {
-        Global.showAlertPassword("Nom d'utilisateur ou mot de passe incorrect");
-      }
-      else {
-        localStorageService.remove('connexion');
-        var connexion = {
-          'etat': true,
-          'libelle': 'Se déconnecter',
-          'jobyerID': userObj.jobyerId
-        };
-
-        localStorageService.set('connexion', connexion);
-        localStorageService.set('currentJobyer', userObj);
-        var isNewUser = userObj.isNew;
-        if (isNewUser) {
-          Global.showAlertValidation("Bienvenue ! vous êtes rentré dans votre espace VitOnJob sécurisé.");
-          $state.go("saisieCiviliteJobeyer");
-        } else {
-          $state.go("app");
-        }
-      }
-    };
+      AuthentificatInServer.Authenticate(email, '', password, 'employeur')
+      .success(OnAuthenticateSuccesss)
+      .error(OnAuthenticateError);
+    }; 
 
     $scope.displayEmailTooltip = function() {
       $scope.emailToolTip = 'Veuillez saisir un email valide.';
