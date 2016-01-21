@@ -14,12 +14,12 @@ services
         getUserGeo : function() {
            var deferred = $q.defer();
 
-           var userGeo = localStorageService.get('user_geo');
+           // var userGeo = localStorageService.get('user_geo');
 
-           if (userGeo) {
-             deferred.resolve(userGeo);
-             return deferred.promise;
-           }
+           // if (userGeo) {
+           //   deferred.resolve(userGeo);
+           //   return deferred.promise;
+           // }
 
            // onSuccess Callback
            // This method accepts a Position object, which contains the
@@ -27,7 +27,7 @@ services
            //
            var onSuccess = function (position) {
 
-             userGeo = {
+             var userGeo = {
                'latitude': position.coords.latitude,
                'longitude': position.coords.longitude,
                'altitude': position.coords.altitude
@@ -46,8 +46,11 @@ services
 
              deferred.reject(error);
            };
-
-           navigator.geolocation.getCurrentPosition(onSuccess, onError,{timeout: 5000});
+           var options = {
+            enableHighAccuracy: true,
+            timeout: 5000
+          };
+           navigator.geolocation.getCurrentPosition(onSuccess, onError,options);
 
           return deferred.promise;
         },

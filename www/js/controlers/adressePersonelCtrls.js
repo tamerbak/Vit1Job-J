@@ -11,23 +11,27 @@ starter
 				$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
           var jobyer=localStorageService.get('jobyer');
           console.log(typeof jobyer);
-          if (typeof jobyer.adressePersonel == 'object') 
+          if (jobyer) 
           {
-            
-            var result = { 
-              address_components: [], 
-              adr_address: "", 
-              formatted_address: jobyer.adressePersonel.fullAddress,
-              geometry: "",
-              icon: "",
-              lat:null,
-              lng:null
-            };
-            var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
-            console.log(ngModel);
-            ngModel.$setViewValue(result);
-            ngModel.$render();
-          };
+            if (typeof jobyer.adressePersonel == 'object' && jobyer.adressePersonel !== null) 
+            {
+              
+              var result = { 
+                address_components: [], 
+                adr_address: "", 
+                formatted_address: jobyer.adressePersonel.fullAddress,
+                geometry: "",
+                icon: "",
+                lat:null,
+                lng:null
+              };
+              var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
+              console.log(ngModel);
+              ngModel.$setViewValue(result);
+              ngModel.$render();
+            }
+          }
+          
 						viewData.enableBack = true;
 			  });
 
@@ -59,21 +63,21 @@ starter
 			UpdateInServer.updateAdressePersJobeyer(jobeyeId, codePostal, ville, num, adresse1, adresse2, sessionId)
 					.success(function (response){
 
-						Jobyer=localStorageService.get('jobyer');
-						if(!Jobyer)
-							var Jobyer={};
-						var adressePersonel={};
-            // if ($scope.formData.address.formatted_address) 
-            // {
-              adressePersonel={fullAddress:$scope.formData.address.formatted_address};
-            // }else{
-            //   adressePersonel={fullAddress:""};
-            // }
-						
-						Jobyer.adressePersonel=adressePersonel;
+						 var Jobyer=localStorageService.get('jobyer');
+             var adressePersonel={};
+            if(!Jobyer)
+              {
+                Jobyer={};
+              }
 
-						// PUT IN SESSION
-						localStorageService.set('jobyer', Jobyer);
+              if(has($scope.formData.address,"formatted_address"))
+              {
+                adressePersonel={fullAddress:$scope.formData.address.formatted_address};
+              }
+						
+						  Jobyer.adressePersonel=adressePersonel;
+						  // PUT IN SESSION
+						  localStorageService.set('jobyer', Jobyer);
 					}).error(function (err){
 						console.log("error : insertion DATA");
 						console.log("error In updateAdressePersJOBEYER: "+error)

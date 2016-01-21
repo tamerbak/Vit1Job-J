@@ -9,11 +9,11 @@ starter
       //go Back
  
      $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
- var jobyer=localStorageService.get('jobyer');
+          var jobyer=localStorageService.get('jobyer');
           
-          if (typeof jobyer.adresseTravail == 'object') 
+          if (typeof jobyer.adresseTravail == 'object' && jobyer.adresseTravail !== null) 
           {
-            
+            console.log("azoul");
             var result = { 
               address_components: [], 
               adr_address: "", 
@@ -53,15 +53,23 @@ starter
       UpdateInServer.updateAdresseTravJobyer(jobyerId, codePost, ville,num, adresse1, adresse2, sessionId)
         .success(function (response){
           // console.log(response);
-          jobyer=localStorageService.get('jobyer');
-          if(!jobyer)
-            var jobyer={};
+          var jobyer=localStorageService.get('jobyer');
           var adresseTravail={};
-          adresseTravail={fullAddress:$scope.formData.addressTravail.formatted_address};
-          jobyer.adresseTravail=adresseTravail;
+          if(!jobyer)
+            {
+               jobyer={};
+            }
+            if(has($scope.formData.addressTravail,"formatted_address"))
+            {
+              adresseTravail={fullAddress:$scope.formData.addressTravail.formatted_address};
 
-          // PUT IN SESSION
-          localStorageService.set('jobyer', jobyer);
+            }
+  
+            
+            jobyer.adresseTravail=adresseTravail;
+            // PUT IN SESSION
+            localStorageService.set('jobyer', jobyer);
+  
           // console.log("jobyer : "+JSON.stringify(jobyer));
         }).error(function (err){
         console.log("error : insertion DATA");
