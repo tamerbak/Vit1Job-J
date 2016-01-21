@@ -55,7 +55,9 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
   {
 
     var myLatlng = new google.maps.LatLng(addressMap.lat,addressMap.lng);
+
     displayMap(myLatlng);
+    loopThroughEmployers(0 ,myLatlng);
 
   };
 
@@ -82,12 +84,12 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
   };
 
   function displayMap(myLatlng){
-	$scope.map.setCenter(myLatlng);
-	myMarker.setVisible(false);
-	myMarker.setPosition(myLatlng);
-	myMarker.setVisible(true);
+  	$scope.map.setCenter(myLatlng);
+  	myMarker.setVisible(false);
+  	myMarker.setPosition(myLatlng);
+  	myMarker.setVisible(true);
 
-  loopThroughEmployers(0 ,myLatlng);
+  // loopThroughEmployers(0 ,myLatlng);
 
   }
 
@@ -297,23 +299,23 @@ starter.controller('employersMapCtrls', ['$scope','$ionicLoading', '$compile','G
     alert('Example of infowindow with ng-click')
   };
 
-  $scope.addressSelected=function(selected){
-    console.log(selected.originalObject.libelle);
-    $http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+selected.originalObject.libelle).
-      success(function(data) {
-        console.log(data);
-        var location = (data.results && data.results.length > 0) ? data.results[0].geometry.location : null;
-        if(location) {
-          var myLatlng = new google.maps.LatLng(location.lat, location.lng);
-          console.log(myLatlng);
-          displayMap(myLatlng);
-        }else{
-          Global.showAlertValidation("Cette adresse n'existe pas.");
-        }
-      })
-      .error(function(){
-        Global.showAlertValidation("Une erreur est survenue. Veuillez réssayer plus tard.");
-      });
+  // $scope.addressSelected=function(selected){
+  //   console.log(selected.originalObject.libelle);
+  //   $http.get('https://maps.googleapis.com/maps/api/geocode/json?address='+selected.originalObject.libelle).
+  //     success(function(data) {
+  //       console.log(data);
+  //       var location = (data.results && data.results.length > 0) ? data.results[0].geometry.location : null;
+  //       if(location) {
+  //         var myLatlng = new google.maps.LatLng(location.lat, location.lng);
+  //         console.log(myLatlng);
+  //         displayMap(myLatlng);
+  //       }else{
+  //         Global.showAlertValidation("Cette adresse n'existe pas.");
+  //       }
+  //     })
+  //     .error(function(){
+  //       Global.showAlertValidation("Une erreur est survenue. Veuillez réssayer plus tard.");
+  //     });
 
-  };
+  // };
 }]);
