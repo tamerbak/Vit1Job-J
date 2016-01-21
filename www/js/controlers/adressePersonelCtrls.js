@@ -10,7 +10,7 @@ starter
 				//go back
 				$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
           var jobyer=localStorageService.get('jobyer');
-          console.log(typeof jobyer);
+          
           if (jobyer) 
           {
             if (typeof jobyer.adressePersonel == 'object' && jobyer.adressePersonel !== null) 
@@ -26,7 +26,7 @@ starter
                 lng:null
               };
               var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
-              console.log(ngModel);
+              
               ngModel.$setViewValue(result);
               ngModel.$render();
             }
@@ -64,13 +64,14 @@ starter
 					.success(function (response){
 
 						 var Jobyer=localStorageService.get('jobyer');
-             var adressePersonel={};
+             var adressObject = $scope.formData.address;
+             var adresseTravail={};
             if(!Jobyer)
               {
                 Jobyer={};
               }
 
-              if(has($scope.formData.address,"formatted_address"))
+              if(has(adressObject,"formatted_address"))
               {
                 adressePersonel={fullAddress:$scope.formData.address.formatted_address};
               }

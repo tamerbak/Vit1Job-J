@@ -54,12 +54,13 @@ starter
         .success(function (response){
           // console.log(response);
           var jobyer=localStorageService.get('jobyer');
+          var adressObject = $scope.formData.addressTravail;
           var adresseTravail={};
           if(!jobyer)
             {
                jobyer={};
             }
-            if(has($scope.formData.addressTravail,"formatted_address"))
+            if(has(adressObject,"formatted_address"))
             {
               adresseTravail={fullAddress:$scope.formData.addressTravail.formatted_address};
 
