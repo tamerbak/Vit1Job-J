@@ -344,7 +344,9 @@ starter
       $scope.offre.dateDebut = dateDebutFormatted.getFullYear() + "-" + dateDebutFormatted.getMonth() + "-" + dateDebutFormatted.getDate();
       $scope.offre.dateFin = dateFinFormatted.getFullYear() + "-" + dateFinFormatted.getMonth() + "-" + dateFinFormatted.getDate();
 
-			}
+		}else {
+			return false;
+		}
 
       var offre=$scope.offre;
 
