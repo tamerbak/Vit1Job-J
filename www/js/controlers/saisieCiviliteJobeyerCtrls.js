@@ -6,10 +6,10 @@ starter
 	.controller('saisieCiviliteJobeyerCtrl', function ($scope, $rootScope, localStorageService, $state,$stateParams, UpdateInServer, UploadFile, $base64,
 				LoadList, formatString, DataProvider, Validator, $ionicPopup, $cordovaCamera){
 
-		//go back
-		$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-				viewData.enableBack = true;
-		});
+		// //go back
+		// $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+		// 		viewData.enableBack = true;
+		// });
 
 		// FORMULAIRE
 		$scope.formData = {};
@@ -35,40 +35,44 @@ starter
 					$scope.formData.scanTitle="autorisation de travail";
 			}
 		}
-$scope.$on("$ionicView.beforeEnter", function(scopes, states){
-  // console.log(states.fromCache+"  state : "+states.stateName);
-  if(states.stateName == "saisieCiviliteJobeyer" ){
-    // $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
-    steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
-    if(steps!='')
-    {
-      $scope.title="Présaisie des informations contractuelles : civilité";
+		$scope.$on('$ionicView.beforeEnter', function (viewData,states) {
+			viewData.enableBack = true;
+			$scope.initForm();
+		  // console.log(states.fromCache+"  state : "+states.stateName);
+		  	
+			    // $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
+			    steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
+			    if(steps)
+			    {
+			      $scope.title="Présaisie des informations contractuelles : civilité";
 
-      if (steps.state) 
-      {
-      	steps.step1=false;
-      	localStorageService.set("steps",steps);
-      };
-      
-      $scope.isContractInfo=true;
-      $ionicPopup.show({
-        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
-        template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus du contractualisation.',
-        buttons : [
-          {
-            text: '<b>OK</b>',
-            type: 'button-dark',
-            onTap: function(e) {
-            }
-          }
-        ]
-      });
-    }else{
-            $scope.title="Saisie de la civilité";
-            $scope.isContractInfo=false;
-    }
-}
-});
+			      if (steps.state) 
+			      {
+			      	steps.step1=false;
+			      	localStorageService.set("steps",steps);
+			      };
+			      
+			      $scope.isContractInfo=true;
+			      $ionicPopup.show({
+			        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+			        template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus du contractualisation.',
+			        buttons : [
+			          {
+			            text: '<b>OK</b>',
+			            type: 'button-dark',
+			            onTap: function(e) {
+			            }
+			          }
+			        ]
+			      });
+			    }
+			    else
+			    {
+			            $scope.title="Saisie de la civilité";
+			            $scope.isContractInfo=false;
+			    }
+			
+		});
 		$scope.updateCivilite = function(){
 			var steps=localStorageService.get('steps');
 			var titre=$scope.formData.civ;
@@ -253,19 +257,19 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			Validator.checkField(id);
 		};
 		$scope.initForm=function(){
-			// GET LIST
-			$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
-			$scope.formData.scanTitle="autorisation de travail";
-			$scope.formData.civ="Titre";
-			$scope.formData.nationalite="Nationalité";
-		};
 
-		$scope.$on("$ionicView.beforeEnter", function(scopes, states){
-			if(states.stateName == "saisieCiviliteJobeyer"){
-				$scope.initForm();
-			  var jobyer=localStorageService.get('jobyer');
-			  // console.log(jobyer);
-				if(jobyer){
+				var jobyer=localStorageService.get('jobyer');
+			  	
+				$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
+				$scope.formData.scanTitle="autorisation de travail";
+				$scope.formData.civ="Titre";
+				$scope.formData.nationalite="Nationalité";
+			  	// console.log(jobyer);
+			
+				if(jobyer)
+				{
+					
+
 					// INITIALISATION FORMULAIRE
 					if(jobyer.civilite)
 						$scope.formData.civ=jobyer.civilite;
@@ -280,12 +284,23 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					if(jobyer.nationalite){
 
 						$scope.formData.nationalite=jobyer.nationalite;
+						if (jobyer.nationalite.libelle=='Français') 
+							$scope.displayScanTitle();
+
 						
 						
-						}
 				}
-			}
-		});
+				}
+				
+			
+		};
+
+		// $scope.$on("$ionicView.beforeEnter", function(scopes, states){
+		// 	if(states.stateName == "saisieCiviliteJobeyer"){
+				
+			  
+		// 	}
+		// });
 
 		$scope.takePicture = function(){
 
@@ -311,7 +326,18 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 						});
 		};
 		$scope.skipDisabled= function(){
-		  var jobyer=localStorageService.get('jobyer');
-       	  return $scope.isContractInfo && (!jobyer || !jobyer.numSS || !jobyer.nationalite || !jobyer.nom || !jobyer.prenom || !jobyer.dateNaissance || !jobyer.civilite);
+		  	var jobyer=localStorageService.get('jobyer');
+		  	var steps = localStorageService.get('steps');
+		  	
+			if (steps) 
+	      	{
+	       		return steps.state || ($scope.isContractInfo && (!jobyer || !jobyer.numSS || !jobyer.nationalite || !jobyer.nom || !jobyer.prenom || !jobyer.dateNaissance || !jobyer.civilite));
+	       	}
+	       	else
+	       	{
+	       		return $scope.isContractInfo && (!jobyer || !jobyer.numSS || !jobyer.nationalite || !jobyer.nom || !jobyer.prenom || !jobyer.dateNaissance || !jobyer.civilite);
+	       	}
+
+			
 		};						
 	});
