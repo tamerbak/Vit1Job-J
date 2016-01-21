@@ -295,7 +295,15 @@ function displayPopups(){
     
   $scope.skipDisabled= function(){
     var jobyer=localStorageService.get('jobyer');
-    return $scope.isContractInfo && (!jobyer || !jobyer.adresseTravail || !jobyer.adresseTravail.fullAddress);
+    var steps = localStorageService.get('steps');
+    if (steps) 
+    {
+      return steps.state || ($scope.isContractInfo && (!jobyer || !jobyer.adresseTravail || !jobyer.adresseTravail.fullAddress));
+    }
+    else
+    {
+      return $scope.isContractInfo && (!jobyer || !jobyer.adresseTravail || !jobyer.adresseTravail.fullAddress);
+    }
   };
   $scope.skipGoto=function(){
     if($scope.isContractInfo)

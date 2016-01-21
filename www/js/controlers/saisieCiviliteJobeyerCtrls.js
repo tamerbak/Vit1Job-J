@@ -40,7 +40,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
   if(states.stateName == "saisieCiviliteJobeyer" ){
     // $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
     steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
-    if(steps!='')
+    if(steps)
     {
       $scope.title="Présaisie des informations contractuelles : civilité";
 
@@ -311,7 +311,18 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 						});
 		};
 		$scope.skipDisabled= function(){
-		  var jobyer=localStorageService.get('jobyer');
-       	  return $scope.isContractInfo && (!jobyer || !jobyer.numSS || !jobyer.nationalite || !jobyer.nom || !jobyer.prenom || !jobyer.dateNaissance || !jobyer.civilite);
+		  	var jobyer=localStorageService.get('jobyer');
+		  	var steps = localStorageService.get('steps');
+		  	console.log(steps);
+			if (steps) 
+	      	{
+	       		return steps.state || ($scope.isContractInfo && (!jobyer || !jobyer.numSS || !jobyer.nationalite || !jobyer.nom || !jobyer.prenom || !jobyer.dateNaissance || !jobyer.civilite));
+	       	}
+	       	else
+	       	{
+	       		return $scope.isContractInfo && (!jobyer || !jobyer.numSS || !jobyer.nationalite || !jobyer.nom || !jobyer.prenom || !jobyer.dateNaissance || !jobyer.civilite);
+	       	}
+
+			
 		};						
 	});

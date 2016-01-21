@@ -248,6 +248,16 @@ starter
   };
   $scope.skipDisabled= function(){
     var jobyer=localStorageService.get('jobyer');
-    return $scope.isContractInfo && (!jobyer || !jobyer.adressePersonel || !jobyer.adressePersonel.fullAddress);
-  };  
+    var steps = localStorageService.get('steps');
+    if (steps) 
+      {
+        return steps.state || ($scope.isContractInfo && (!jobyer || !jobyer.adressePersonel || !jobyer.adressePersonel.fullAddress));
+      }
+      else
+      {
+        return $scope.isContractInfo && (!jobyer || !jobyer.adressePersonel || !jobyer.adressePersonel.fullAddress);
+    
+      }
+
+    };  
 });
