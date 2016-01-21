@@ -295,7 +295,11 @@ starter
     $scope.logOut = function(){
       localStorageService.remove('currentJobyer');
       $scope.isLogged = false;
+      //
+      var flesh = angular.element(document.querySelector('.bar .button.back-button'));
+      flesh.css('display','none');
     };
+
 
     var showAddOfferConfirmPopup = function(job) {
       var confirmPopup = $ionicPopup.confirm({
