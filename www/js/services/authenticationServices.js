@@ -40,7 +40,7 @@ angular.module('wsConnectors', ['ionic'])
         'email' : email,
         'telephone' : phone,
         'password' : password,
-        'role' : role
+        'role' : 'jobyer'
       };
 
       login = JSON.stringify(login);
@@ -865,18 +865,21 @@ angular.module('wsConnectors', ['ionic'])
 
   .service('UpdateInServer', function ($http){
 
-    this.updateCiviliteInJobyer = function(user, civilite, nom, prenom, dateNaissance, numSS, nationalite, sessionID){
-      console.log(user+ ","+ civilite+ ","+ nom+ ","+ prenom+ ","+ dateNaissance+ ","+ numSS+ ","+ nationalite+ ","+ sessionID);
- 
+    this.updateCiviliteInJobyer = function(user, civilite, nom, prenom, dateNaissance, numSS, nationalite, sessionID, jobyerID){
+      console.log(user+ ","+ civilite+ ","+ nom+ ","+ prenom+ ","+ dateNaissance+ ","+ numSS+ ","+ nationalite+ ","+ jobyerID);
+      var sql = 'update user_jobyer set ';
+      if(nationalite && nationalite != '')
+        sql=sql+"fk_user_pays="+nationalite+", ";
+      sql = sql + "titre='"+civilite+"', nom='"+nom+"', prenom='"+prenom+"', numero_securite_sociale='"+numSS+"' ";
+      sql = sql + "where pk_user_jobyer="+jobyerID;
+
       return $http({
         method: 'POST',
-        url: 'http://ns389914.ovh.net:8080/VitOnJob/rest/public/validation/civilite',
+        url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
         headers: {
-          "Content-Type": "application/json",
-          "login": JSON.stringify(user)          
-          //'Access-Control-Allow-Methods' : 'GET, POST, PUT, UPDATE, OPTIONS'
+          "Content-Type": "text/plain"
         },
-        data: {"titre":civilite, "nom":nom, "prenom":prenom, "cnn":numSS, "nss":numSS, "idNationalite":nationalite}
+        data: sql
       });
     };
 

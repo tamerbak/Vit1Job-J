@@ -4,7 +4,7 @@
 'use strict';
 starter
 	.controller('saisieCiviliteJobeyerCtrl', function ($scope, $rootScope, localStorageService, $state,$stateParams, UpdateInServer, UploadFile, $base64,
-				LoadList, formatString, DataProvider, Validator, $ionicPopup, $cordovaCamera){
+				LoadList, formatString, DataProvider, Validator, $ionicPopup, $cordovaCamera, $http){
 
 		//go back
 		$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
@@ -81,7 +81,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 			// console.log($scope.formData['nationalite']);
 			if($scope.formData['nationalite'] != null  && $scope.formData['nationalite']!='Nationalité' && $scope.formData['nationalite'] != undefined){
 				nationalite=$scope.formData['nationalite'];
-				pk_user_nationalite=nationalite.pk_user_nationalite;
+				pk_user_nationalite=nationalite.pk_user_pays;
 			}
 			// console.log("nationalite : "+pk_user_nationalite);
 			// RECUPERATION CONNEXION
@@ -99,6 +99,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 					prenom="";
 				//if(!dateNaissance)
 				//	dateNaissance=new Date();
+
 				var _dateNaissance=new Date(dateNaissance);
 				var day = _dateNaissance.getDate();
 				var monthIndex = _dateNaissance.getMonth()+1;
@@ -112,7 +113,7 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 				// UPDATE jobyer
 				var user = {"email":"cmFjaGlkQHRlc3QuY29t","password":"MTIzNDU2","role":"ZW1wbG95ZXVy"};			
 				UpdateInServer.updateCiviliteInJobyer(
-					user, Number(titre), nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId)
+					user, titre, nom, prenom, dateNaissanceFormatted, numSS, pk_user_nationalite, sessionId, jobyerID)
 						.success(function (response){
 
 							var jobyer=localStorageService.get('jobyer');
@@ -254,7 +255,30 @@ $scope.$on("$ionicView.beforeEnter", function(scopes, states){
 		};
 		$scope.initForm=function(){
 			// GET LIST
-			$scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': DataProvider.getNationalites()};
+			var sql = 'select pk_user_pays, nom from user_pays';
+			var results = [];
+
+
+			$http({
+		        method: 'POST',
+		        url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+		        headers: {
+		          "Content-Type": "text/plain"
+				  //'Access-Control-Allow-Methods' : 'GET, POST, PUT, UPDATE, OPTIONS'
+		        },
+		        data: sql
+		      }).then(function successCallback(response) {
+		      	console.log(response);
+			    results = response.data.data;
+			    $scope.formData={'civilites': DataProvider.getCivilites() , 'nationalites': results};
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+			
+			
+		    
+			
 			$scope.formData.scanTitle="autorisation de travail";
 			$scope.formData.civ="Titre";
 			$scope.formData.nationalite="Nationalité";

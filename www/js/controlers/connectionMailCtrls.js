@@ -29,7 +29,8 @@ starter
       var connexion = {
         'etat': true,
         'libelle': 'Se déconnecter',
-        'employeID': data.jobyerId
+        'employeID': data.jobyerId,
+        'jobyerID': data.jobyerId
       };
 
       localStorageService.set('connexion', connexion);
