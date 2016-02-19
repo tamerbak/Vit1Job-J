@@ -18,12 +18,24 @@ starter
         OnAuthenticateError(data);
         return;
       }
+      data = data[0]['value'];
       console.log(data);
+      if(data.length ==0){
+        OnAuthenticateError(data);
+        return; 
+      }
+      data = JSON.parse(data);
+      if(data.id ==0){
+        OnAuthenticateError(data);
+        return; 
+      }
+
       localStorageService.remove('connexion');
       var connexion = {
         'etat': true,
         'libelle': 'Se déconnecter',
-        'employeID': data.employerId
+        'employeID': data.jobyerId,
+        'jobyerID': data.jobyerId
       };
 
       localStorageService.set('connexion', connexion);
