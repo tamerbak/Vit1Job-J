@@ -42,14 +42,14 @@ starter
     $scope.onSearchChange = function (search) {
 
       /*$scope.mfbMenuState = 'closed';*/
-      var employersForMe = [];
-      //var employersNextToMe = [];
+      var jobyersForMe = [];
+      var jobyersNextToMe = [];
 
       if ( search == ''){
-        $rootScope.employersForMe = [];
-        $rootScope.nbEmployersForMe = 0;
-        //$rootScope.nbEmployersNextToMe = 0;
-        //$rootScope.employersNextToMe = [];
+        $rootScope.jobyersForMe = [];
+        $rootScope.nbJobyersForMe = 0;
+        $rootScope.nbJobyersNextToMe = 0;
+        $rootScope.jobyersNextToMe = [];
         $scope.mfbMenuState = 'open';
         return;
       }
@@ -104,7 +104,7 @@ starter
                   jobyerLong = coordLambert.split (',')[1];
                 }
 
-                employersForMe.push({
+                jobyersForMe.push({
                     'firstName': prenom,
                     'lastName': nom,
                     'lat': 48.717132, //jobyerLat,
@@ -130,17 +130,17 @@ starter
                   jobyerLong = coordLambert.split (',')[1];
                 }
 
-                employersForMe[0] = {
+                jobyersForMe[0] = {
                   'firstName': prenom,
                   'lastName': nom,
                   'lat': jobyerLat,
                   'long': jobyerLong
                 };
               } else {
-                $rootScope.employersForMe = [];
-                $rootScope.nbEmployersForMe = 0;
-                //$rootScope.nbEmployersNextToMe = 0;
-                //$rootScope.employersNextToMe = [];
+                $rootScope.jobyersForMe = [];
+                $rootScope.nbJobyersForMe = 0;
+                $rootScope.nbJobyersNextToMe = 0;
+                $rootScope.jobyersNextToMe = [];
                 $scope.mfbMenuState = 'open';
                 return;
               }
@@ -149,38 +149,31 @@ starter
             //sessionId = jsonResp.amanToken.sessionId;*/
             //console.log($scope.firstName + " " + $scope.secondName);
 
-            $rootScope.employersForMe = employersForMe;
-            $rootScope.nbEmployersForMe = employersForMe.length;
+            $rootScope.jobyersForMe = jobyersForMe;
+            $rootScope.nbJobyersForMe = jobyersForMe.length;
 
             // Send Http search to get jobbers with same competencies and same city as mine
-            for (i=0; i < employersForMe.length ; i++){
-              var proximity = 0;
-              GeoService.getDistance(employersForMe[i].lat, employersForMe[i].long).then(function(result){
-                proximity = result;
-              }, function(error) {
-                console.log(error);
-              });
+            for (i=0; i < jobyersForMe.length ; i++){
+              var proximity = GeoService.getDistance(jobyersForMe[i].lat, jobyersForMe[i].long);
               proximity = proximity.toFixedDown(2);
               console.log(proximity);
               if (proximity <= 10) { // à proximité de 10Km
-                /*
-				employersNextToMe.push({
-                  'firstName': employersForMe[i].firstName,
-                  'lastName': employersForMe[i].lastName,
+                jobyersNextToMe.push({
+                  'firstName': jobyersForMe[i].firstName,
+                  'lastName': jobyersForMe[i].lastName,
                   'proximity': proximity
                 });
-				*/
               }
             }
-            //$rootScope.employersNextToMe = employersNextToMe;
-            //$rootScope.nbEmployersNextToMe= employersNextToMe.length;
+            $rootScope.jobyersNextToMe = jobyersNextToMe;
+            $rootScope.nbJobyersNextToMe= jobyersNextToMe.length;
             $scope.mfbMenuState = 'open';
           },
           function(response){
-            $rootScope.employersForMe = [];
-            $rootScope.nbEmployersForMe = 0;
-            //$rootScope.nbEmployersNextToMe = 0;
-            //$rootScope.employersNextToMe = [];
+            $rootScope.jobyersForMe = [];
+            $rootScope.nbJobyersForMe = 0;
+            $rootScope.nbJobyersNextToMe = 0;
+            $rootScope.jobyersNextToMe = [];
             $scope.mfbMenuState = 'open';
             alert("Error : "+response.data);
           }
@@ -189,17 +182,17 @@ starter
     };
 
     $scope.isNoJobyerForMe = function() {
-      if ($scope.nbEmployersForMe != 0){
+      if ($scope.nbJobyersForMe != 0){
         $state.go('list');
       }
     };
-/*
+
     $scope.isNoJobyerNextToMe = function() {
-      if ($scope.nbEmployersNextToMe != 0){
+      if ($scope.nbJobyersNextToMe != 0){
         $state.go('listNext');
       }
     };
-*/
+
     Number.prototype.toFixedDown = function(digits) {
       var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
         m = this.toString().match(re);

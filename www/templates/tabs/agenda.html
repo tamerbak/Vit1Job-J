@@ -1,4 +1,3 @@
-
 <ion-view id="agendaTabView" view-title="{{AppLogo}}">
   <ion-nav-buttons side="secondary">
     <a class="button ion-navicon button-clear" style="font-size:x-large" data-ng-click="gotToOffres();"></a>
@@ -6,51 +5,55 @@
 <ion-nav-title>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
   </ion-nav-title>
-  <ion-content class="has-header" id="disponibiliteContent" overflow-scroll="true" padding="true" data-ng-init="initModalAll()">
+  <!-- <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="offreTabs.langues">  </a>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+    <a class="button icon-right ion-chevron-right button-clear button-light" ui-sref="offres">  </a>
+  </ion-header-bar> -->
+  <ion-content class="has-header" id="disponibiliteContent" overflow-scroll="true" padding="true">
     <div>
-      <h3 class="titlePhone"><b>Horaires de travail</b></h3>
+      <h3 class="titlePhone"><b>Disponibilité</b></h3>
     </div>
 
 
-   <!--  <button class="button button-stable button-block button-small icon ion-calendar" ng-click="dateDebut()"> Date de début : {{ formData.dateDebut | date : 'dd/MM/yyyy'}}</button>
+    <!-- <button class="button button-stable button-block button-small icon ion-calendar" ng-click="showDatePickerDebut()"> Date de début : {{ formData.dateDebut | date : 'dd/MM/yyyy'}}</button> -->
 
-    <button class="button button-stable button-block button-small icon ion-calendar" ng-click="dateFin()">  Date de fin  : {{formData.dateFin | date : 'dd/MM/yyyy'}}</button> -->
-
-
-    <label id="dateDebutContainer" class="button button-block button-small">
-        <i class="ion-calendar icon" style="vertical-align: initial"></i>
-      <span style="display:inline">Date de Début : </span>
-      <input id="dateDebutInput" type="date" style="display:inline" ng-model="formData.dateDebut">
-    </label>
+<label id="dateDebutContainer" class="button button-block button-small">
+    <i class="ion-calendar icon" style="vertical-align: initial"></i>
+  <span style="display:inline">Date de Début : </span>
+  <input id="dateDebutInput" type="date" style="display:inline" ng-model="formData.dateDebut">
+</label>
 
 
-        <label id="dateFinContainer" class="button button-block button-small">
-        <i class="ion-calendar icon" style="vertical-align: initial"></i>
-      <span style="display:inline">Date de Fin : </span>
-      <input id="dateFinInput" type="date" style="display:inline" ng-model="formData.dateFin">
-    </label>
-   <!--   <ion-item class="item-icon-right itemHoraire">
-              <input type="text" placeholder="Taux horaire brut" data-ng-model="formData.remuneration">
-    </ion-item> -->
-    </br>
+    <label id="dateFinContainer" class="button button-block button-small">
+    <i class="ion-calendar icon" style="vertical-align: initial"></i>
+  <span style="display:inline">Date de Fin : </span>
+  <input id="dateFinInput" type="date" style="display:inline" ng-model="formData.dateFin">
+</label>
 
-     <div>
+    
+
+   <!--  <button class="button button-stable button-block button-small icon ion-calendar" ng-click="showDatePickerFin()">  Date de fin  : {{formData.dateFin | date : 'dd/MM/yyyy'}}</button>
+   <input id="dateFinInput" type="date" style="display:none" ng-model="formData.dateFin"> -->
+
+   <!-- <div class="item item-divider">Répétitions</div> -->
+    <div>
       <label class="item item-select">
           <span class="input-label" >Jour de la semaine</span>
           <select ng-model="formData.jourSelect">
               <option ng-repeat="jour in formData.jours">{{ jour.nom }}</option>
           </select>
       </label>
-      <ion-item class="range range-positive">
+      <ion-item class="range green">
           <span style="width: 65px;text-align: left;"> de {{ formData.heureDebutFormat }} </span>
           <input type="range" step="15" min="0" max="1425" data-ng-model="formData.heureDebut" data-ng-change="heureChange('debut')">
       </ion-item>
-      <ion-item class="range range-positive">
+      <ion-item class="range green">
       <span style="width: 65px;text-align: left;">à {{ formData.heureFinFormat }} </span>
           <input type="range" step="15" min="0" max="1425" data-ng-model="formData.heureFin" data-ng-change="heureChange('fin')">
       </ion-item>
     </div>
-
+    <br/>
     <ion-list style="text-align: left;">
         <ion-radio ng-change ="changeEditState()" ng-repeat="horaire in formData.horaires" ng-model = "formData.horaireSelect" ng-value = "{{ $index }}" value = "{{ $index }}">{{ horaire.jour }} de {{horaire.heureDebut}} à {{horaire.heureFin}} </ion-radio>
     </ion-list>
@@ -62,7 +65,7 @@
     </div>
 
     <div class="buttonConnect">
-      <button class="button button-full button-positive grey" data-ng-click="validerOffre();">Valider</button>
+      <button class="button button-full button-positive green" data-ng-click="validerOffre();">Valider</button>
     </div>
   </ion-content>
 </ion-view>

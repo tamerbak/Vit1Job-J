@@ -1,7 +1,9 @@
 /* Empty. Add your own CSS if you like */
 
 /*##############################   style of Home.html ################################"*/
-
+#loadImgContainer #image {
+  display: none;
+}
 .vimg {
   width: 100%;
 }
@@ -28,10 +30,7 @@ button.button.button-full.button-positive.grey {
   padding: 2px;
   font-size: 1em;
 }
-.grey-txt {
 
-  font-size: 0.9em !important;
-}
 button.button.button-full.button-positive.green, button.button.button-positive.green {
   padding: 2px;
   font-size: 1em;
@@ -73,7 +72,7 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 }
 
 .buttonConnect {
-  padding: 5px;
+  padding: 0px;
 }
 
 /*##############################   styles of Search.html ################################"*/
@@ -129,7 +128,7 @@ ion-footer-bar.hide-on-keyboard-open.bar.bar-footer {
 }
 
 .mfb-component__list li:nth-child(4) a:nth-child(1)::after {
-  color: grey;
+  color: #14BAA6;
   left: 143%;
   top: 219%;
   font-size: 1.5em;
@@ -196,12 +195,12 @@ button.button.button-positive.rel {
 }
 
 .checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before {
-  background: grey;
-  border-color: grey;
+  background: #14BAA6;
+  border-color: #14BAA6;
 }
 
 .modal {
-  display: block;
+   /*display: block;
   position: absolute;
   top: 24%;
   bottom: 20%;
@@ -210,8 +209,8 @@ button.button.button-positive.rel {
   z-index: 10;
   overflow: hidden;
   min-height: 50%;
-  /*width: 79%;*/
-  background-color: grey;
+ width: 79%;
+  background-color: #14BAA6;
   border-color: black;
   /*color: white;*/
 }
@@ -226,7 +225,7 @@ ion-content.modalContent.scroll-content.ionic-scroll.has-header {
 a.button.button-calm.linked{
   border-top-right-radius: 27px;
   border-bottom-right-radius: 27px;
-  border-color: grey;
+  border-color: #14BAA6;
 }
 
 i.icon.ion-social-linkedin {
@@ -244,11 +243,11 @@ i.icon.ion-social-facebook {
 a.button.button-calm.fb{
   border-top-left-radius: 27px;
   border-bottom-left-radius: 27px;
-  border-color: grey;
+  border-color: #14BAA6;
 }
 a.button.button-calm {
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
+  border-top: 1px solid #14BAA6;
+  border-bottom: 1px solid #14BAA6;
   border-left: 1px solid #FFFFFF;
   border-right: 1px solid #FFFFFF;
 }
@@ -320,22 +319,22 @@ input[type="file"]{
 }
 **/
 .inline{
-	display: inline !important;
-	text-align:left;
-	width: auto !important;
-	vertical-align: middle;
-	padding: 1px !important;
+  display: inline !important;
+  text-align:left;
+  width: auto !important;
+  vertical-align: middle;
+  padding: 1px !important;
 }
 
 .decale{
-	padding-right: 4px;
-	color: #757575 !important;
-	opacity:.7;
+  padding-right: 4px;
+  color: #757575 !important;
+  opacity:.7;
 }
 
 
 input[type="text"], input[type="email"], input[type="password"]{
-	color: grey;
+  color: #757575;
 }
 
 .button.icon-right:before {
@@ -357,46 +356,46 @@ input[type="text"], input[type="email"], input[type="password"]{
 }
 **/
 .has-warning{
-	background:url(../img/icons/error.png)right no-repeat; border-color:red !important;z-index: 3 !important;
+  background:url(../img/icons/error.png)right no-repeat; border-color:red !important;z-index: 3;
 }
 .has-success{
-	background:url(../img/icons/ok.png)right no-repeat; border:solid 1px grey !important;
+  background:url(../img/icons/ok.png)right no-repeat; border:solid 1px #14BAA6 !important;z-index: 3;
 }
 
 ion-content.scroll-content.ionic-scroll.has-header .scroll.padding img {
-    max-width: 200px;
-    max-height: 121px;
+  max-width: 200px;
+  max-height: 121px;
 }
 
 .arriere{
-	/**display: none;**/
-	position: relative;
-	top: -38px;
-	left: 0px;
-	color: transparent;
-	/*z-index: 3 !important;*/
+  /**display: none;**/
+  position: relative;
+  top: -38px;
+  left: 0px;
+  color: transparent;
+  /*z-index: 3 !important;*/
 
 
 
-	/* background-color: blue; */
+  /* background-color: blue; */
 }
 
 .select { text-indent: 5px; }
 .inSameLine{
-	display: inline;
+  display: inline;
 }
 
 input#ex0_value, input#ex1_value,input#cp_value, input#city_value,input#jobs_value, input#metiers_value{
-	width: 100%;
+  width: 100%;
 
-	/*z-index: 5 !important;*/
-	position: relative;
+  /*z-index: 5 !important;*/
+  position: relative;
 }
 
 
 
 div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div#ex2_dropdown,div#ex3_dropdown {
-	z-index: 100 !important;
+  z-index: 100 !important;
 }
 
 /*##############################   MAP  ################################"*/
@@ -412,19 +411,19 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
 /*##################################" Adresses #######################################*/
 .card .item.it1.xtel:last-child, .list.xtel-inset .item.it1:last-child, .padding > .list.xtel .item.it1:last-child{
   border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+  border-bottom-left-radius: 27px;
   border-top-right-radius: 0;
-  border-top-left-radius: 0;
-  border-color: grey;
+  border-top-left-radius: 27px;
+  border-color: #14BAA6;
   border-right: none;
 }
 
 .card .item.it2.xtel:last-child, .list.xtel-inset .item.it2:last-child, .padding > .list.xtel .item.it2:last-child{
-  border-bottom-right-radius: 0;
+  border-bottom-right-radius: 27px;
   border-bottom-left-radius: 0;
-  border-top-right-radius: 0;
+  border-top-right-radius: 27px;
   border-top-left-radius: 0;
-  border-color: grey;
+  border-color: #14BAA6;
   border-left: none;
   margin-right: 1px;
 }
@@ -434,7 +433,7 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   border-bottom-left-radius: 0;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
-  border-color: grey;
+  border-color: #14BAA6;
   border-left: none;
   border-right: none;
 }
@@ -443,59 +442,35 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
   padding-right: 0 !important;
 }
 
-
-
-#maitriseDiv , #maitriseLangueDiv {
-    //margin-top: 23px;
-    margin-bottom: 23px;
-	border-radius: 27px;
-	border: solid gray thin !important;
-	padding-top: 10px !important;
+#maitriseDiv ,#maitriseLangueDiv{
+  margin-top: 23px;
+  margin-bottom: 23px;
+  border-radius: 27px;
+  border: solid #12BAA6 thin !important;
+  padding-top: 10px !important;
 }
 
 .rangeDiv {
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px !important;
+  //margin-left: 10px;
+  //margin-right: 10px;
+  margin-bottom: 10px !important;
 }
 #competenceContent .list label{
-	padding-bottom : 4%!important;
-	padding-top : 4% !important;
+  padding-bottom : 4%!important;
+  padding-top : 4% !important;
 }
-
-
-.backgroundGray, #employersTab .tab-nav.tabs{
-	background-color:gray !important;
-}
-
-.colorGray {
-	color : gray !important;
-}
-.item.item-input .ion-search:before{
-
-	color : gray ;
-}
-
-.borderGray{
-	border-color:gray !important;
-}
-.card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child , .card .item.it1.xtel:last-child, .list.xtel-inset .item.it1:last-child, .padding > .list.xtel .item.it1:last-child{
-	border-color:gray;
-  border-radius: 0px !important;
-}
-
-#disponibiliteContent .header .col {
+#disponibiliteContent .header .col , #offresTabContent .header .col{
   background-color:lightgrey !important;
 }
 
-#disponibiliteContent .col {
+#disponibiliteContent .col ,  #offresTabContent .col{
   border: solid 1px grey !important;
-  border-bottom-style: none !important;
-  border-right-style: none !important;
+//border-bottom-style: none !important;
+//border-right-style: none !important;
 }
 
-#disponibiliteContent .col:last-child {
-  border-right: solid 1px grey !important;
+#disponibiliteContent .col:last-child , #offresTabContent .col:last-child {
+  border: solid 1px grey !important;
 }
 
 #disponibiliteContent .row:last-child .col {
@@ -518,26 +493,15 @@ div#metiers_dropdown, div#jobs_dropdown, div#ex0_dropdown, div#ex1_dropdown, div
 
 }
 #offresContent .padding > .list .item{
-  border-color: grey;
+  border-color: #14BAA6;
   text-align: left;
 }
 ion-tabs ion-nav-view{
   left:0px;
 }
-
-#floating-panel input{
-  border: none;
-  width: 95%;
-}
-
-.button.button-gray {
-  border-color: gray;
-  background-color: gray;
-  color: #fff;
-}
 #offresTabContent .item-input{
-  /*border-radius: 27px;*/
-  border-color: grey;
+  //border-radius: 27px;
+  border-color: #14BAA6;
 }
 
 #offresTabContent .selectClass{
@@ -545,17 +509,6 @@ ion-tabs ion-nav-view{
 }
 .popup-open .popup{
   width:85%;
-}
-
-@media (max-width: 330px){
-  #connectionsView .hide-text{
-    display: none;
-  }
-}
-@media screen and (max-height:320px){
-  .vimg{
-    display: none;
-  }
 }
 .error{
   color: red;
@@ -590,38 +543,32 @@ ion-tabs ion-nav-view{
 }
 #civiliteView .card .item:last-child, #civiliteView .list-inset .item:last-child, #civiliteView .padding > .list .item:last-child{
   border-radius: 0px;
-  border-color: grey;
+  border-color: lightgray;
 }
 #civiliteView label.item.item-input {
   height: 34px;
-  border: solid 1px grey;
+  border: solid 1px lightgray;
 }
 @media screen and (max-width: 360px) {
   .hidden-text {
     display:none !important;
   }
 }
+@media screen and (max-height:320px){
+  .vimg{
+    display: none;
+  }
+}
 #conxionMailView .list , #connexionPhoneView .list{
-  margin-bottom: 10px !important;
+  margin-bottom: 0px !important;
 }
 
-#connexionPhoneView .row{
-      border: solid 1px grey !important;
-      margin-bottom: 16px;
-      padding-top: 3px;
-}
-
-.item-input{
-  border-color: grey;
-}
-
-
-#mailPopup, #pwdPopup, #adressePopup, #phonePopup {
+#mailPopup, #pwdPopup, #adressePopup , #phonePopup{
   transition: .5s;
   overflow: hidden;
   color: white;
   font-size: 14px;
-  background-color: grey;
+  background-color: #14baa6;
   height: auto;
   width: 100%;
   padding-left: 10px;
@@ -629,19 +576,20 @@ ion-tabs ion-nav-view{
   padding-bottom: 10px;
   text-align: left;
   display: block;
+  margin-bottom: 5px;
+
 }
 
 #mailPopup{
   margin-bottom: 10px;
 }
-
 .arrow-up {
   width: 0;
   height: 0;
   margin-left: 15px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid grey;
+  border-bottom: 10px solid #14baa6;
 }
 
 .chiffre{
@@ -650,8 +598,8 @@ ion-tabs ion-nav-view{
   margin-left: 37%;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid grey;
-  margin-top: -16px;
+  border-bottom: 10px solid #14baa6;
+  margin-top: -15px;
 }
 
 .mail{
@@ -660,60 +608,13 @@ ion-tabs ion-nav-view{
   margin-left: 15px;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 10px solid grey;
-  margin-top: -10px;
-}
-.pwd{
-  width: 0;
-  height: 0;
-  margin-left: 15px;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid grey;
-  margin-top: -10px;
+  border-bottom: 10px solid #14baa6;
+  margin-top: -15px;
 }
 
-#jobTabView .input-container {
-  position: relative;
-  display: block;
-}
-
-#jobTabView .input-container select {
-  position: absolute;
-  top: 30%;
-  right: 0;
-}
-
-#jobTabView .input-container .autoCompl input {
-  width: 90%;
-}
-
-#jobTabView .input-container #metiers  {
-    border-bottom: none;
-}
-#agendaTabView .button.button-block, #agendaTabView .button.button-full {
-    margin-top: 6px;
-    margin-bottom: 6px;
-}
-#agendaTabView .item.item-select{
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-#agendaTabView ion-item{
-  padding: 0px 10px;
-}
-#agendaTabView .range input{
+#popupCntPwd, #popupCntMail,#popupCntPhone{
   margin-top: 0px;
-  margin-bottom: 0px;
 }
-#jobTabView .item.range.range-calm , #jobTabView #maitrise , #languesTabView .item.range.range-calm , #languesTabView #maitriseLangue{
-  margin: 0px;
-  padding: 0px;
-}
-#popupCntPwd, #popupCntMail, #popupAdrTravail,,#popupCntPhone{
-  margin-top: -8px;
-}
-
 #popupCntPhone{
     margin-bottom: 9px;
 }
@@ -738,8 +639,12 @@ ion-tabs ion-nav-view{
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
   padding-left: 10px;
-  margin: auto;
   border: none;
+}
+
+#floating-panel input{
+  border: none;
+  width: 95%;
 }
 
 .button.button-green{
@@ -747,14 +652,55 @@ ion-tabs ion-nav-view{
   background-color: #14BAA6;
   color: #fff;
 }
-.autoCompl{
-  border: solid 1px grey;
+.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
+    border-radius: 0px;
+    border-color: #14BAA6;
 }
-#offresTabContent .tabs{
-  background: grey;
+.card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child , .autoCompl, .padding > .list.xtel .item.it2:last-child{
+    border-radius: 0px !important;
 }
-#loadImgContainer #image {
-  display: none;
+.list .item{
+      border-color: #14BAA6;
+}
+#jobTabView .input-container {
+  position: relative;
+  display: block;
+}
+
+#jobTabView .input-container select {
+  position: absolute;
+  top: 30%;
+  right: 0;
+}
+
+#jobTabView .input-container .autoCompl input {
+  width: 90%;
+}
+
+#jobTabView .input-container #metiers  {
+    border-bottom: none;
+}
+#agendaTabView .button.button-block, #agendaTabView .button.button-full {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border-color: #14BAA6;
+}
+#agendaTabView .item.item-select{
+  padding-top: 0px;
+  padding-bottom: 0px;
+  border-color: #14BAA6;
+}
+#agendaTabView ion-item{
+  padding: 0px 10px;
+  border-color: #14BAA6;
+}
+#agendaTabView .range input{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+#jobTabView .item.range.range-calm , #jobTabView #maitrise , #languesTabView .item.range.range-calm , #languesTabView #maitriseLangue{
+  margin: 0px;
+  padding: 0px;
 }
 #civiliteView .requiredStar{
   color:red;
@@ -766,12 +712,21 @@ ion-tabs ion-nav-view{
     top: 30%;
     color:red;
     position:absolute;
+  }
+  #dateDebutInput, #dateFinInput {
+  background-color: transparent;
+  font-size: inherit;
+  padding: 0 0 0 0;
+  height: inherit;
+  /*line-height: auto;*/
+  margin-bottom: 4px;
 }
 
-
-#metiers,#jobs
-{
-  border-radius: 0 !important;
+#dateDebutContainer, #dateFinContainer{
+    text-align: left !important;
+    margin: 0 0 0 0 !important;
+    padding: auto !important;
+    margin-bottom: 10px !important;
 }
 /* platform-ios*/
 .platform-ios .ios-sheet-vitonjob .action-sheet .button{
@@ -788,7 +743,8 @@ ion-tabs ion-nav-view{
   font-size: 16px;
   font-weight: 500;
 }
-/*platform-android*/
+
+/* Platfrom-android*/
 .platform-android .android-sheet-vitonjob .action-sheet .button{
   text-align: center;
   border-color: #d1d3d6;
@@ -805,54 +761,42 @@ ion-tabs ion-nav-view{
 }
 .platform-android .android-sheet-vitonjob .action-sheet-cancel{
   display: block;
-  }
-
-#dateDebutContainer, #dateFinContainer{
-    text-align: left !important;
-    margin: 0 0 0 0 !important;
-    padding: auto !important;
-    margin-bottom: 10px !important;
-  }
-
-#dateDebutInput, #dateFinInput {
-  background-color: transparent;
-  font-size: inherit;
-  padding: 0 0 0 0;
-  height: inherit;
-  /*line-height: auto;*/
-  margin-bottom: 4px;
 }
-
-
-.tab-item-active
-{
-  color:#f1f1f1 !important;
-}
-
-.palceholder-saisiecivilite
-{
-  font-size: 14px;
-  color:rgba(128, 128, 128, 0.79)!important;
-}
-.txt-saisiecivilite
-{
-  color:#000!important;
-}
-.textbox-n
-{
-  margin-left: -5px!important;
-}
-
-#connexionPhoneView .col-67 label, #connexionPhoneView  .col-10 label, #connexionPhoneView  .col-25 label{
-  border: none;
+#civiliteView .list , #civiliteView .button.button-block, #civiliteView .button.button-full{
+  margin-bottom: 0px;
 }
 .ios-sheet-vitonjob .action-sheet-title{
   font-size: 22px;
 }
+#connexionPhoneView .col-67 {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 65%;
+    -moz-box-flex: 0;
+    -moz-flex: 0 0 65%;
+    -ms-flex: 0 0 65%;
+    flex: 0 0 65%;
+    max-width: 65%;
+    margin-left: 6px;
+}
 
+
+#connexionPhoneView .row{
+  padding-bottom: 0px;
+  padding-left: 0px;
+  margin-bottom: 16px;
+}
 
 .google-autocomplete-cancele
 {
   position: relative !important;
   top: 0px !important;
 }
+
+
+label.item.item-input.it3 {
+  position: absolute;
+  width: 70%;
+  height: 47px !important;
+  border-left: 0;
+}
+

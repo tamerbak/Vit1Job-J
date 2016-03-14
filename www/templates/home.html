@@ -1,25 +1,28 @@
-<ion-view title="home">
-  <!--<ion-header-bar class="backgroundGray">
-    <!--a class="button icon-left ion-chevron-left button-clear button-light">  </a>
+<ion-view>
+  <!-- <ion-header-bar class="bar-calm">
+    a class="button icon-left ion-chevron-left button-clear button-light">  </a
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
-    <!--<h1 class="title">Connexion employeur</h1>-->
-    <!-- <a class="button icon-left ion-log-out button-clear button-light" ng-click="exitVit()">  </a>
-  </ion-header-bar>-->
+    <h1 class="title">Connexion employeur</h1>
+    <a class="button icon-left ion-log-out button-clear button-light" ng-click="exitVit()">  </a>
+  </ion-header-bar> -->
   <ion-nav-title>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
   </ion-nav-title>
+<!--    <ion-nav-buttons side="primary">
+ <button class="button icon-right ion-chevron-left button-clear " ng-click="myGoBack()"></button>
+  </ion-nav-buttons>
+ -->
   <ion-content padding="true">
     <div class = "row">
-      <div class="vimg"><img src="img/logo_jpbyers.png"></div>
+      <div class="vimg"><img src="img/logo_employeur2.png"></div>
     </div>
-
 
     <div class = "row sear" > <!-- data-ng-init="initConnexion()"> -->
       <div class="list list-inset">
-        <label class="item item-input borderGray">
+        <label class="item item-input">
           <input type="search" placeholder="Votre recherche ici..." ng-model="job" ng-enter = "launchSearchForJobyersOffers(job)">
           <i class="icon ion-search placeholder-icon"></i>
-		  </label>
+        </label>
       </div>
     </div>
 
@@ -29,28 +32,25 @@
 
 
     <div class="row">
-      <button class="button button-full button-positive grey" ng-disabled="!job" data-ng-click="launchSearchForJobyersOffers(job)">
+      <button class="button button-full button-positive green" ng-disabled="!job" ng-click="launchSearchForJobyersOffers(job)" > <!-- data-ng-click="getJobbers(query)"> -->
         Lancer la recherche
       </button>
     </div>
 
     <div class="row">
-      <button class="button button-full button-positive green" ng-if="!isLogged" ui-sref="connection">
-        Se connecter
+      <button class="button button-full button-positive grey" ng-if="!isLogged" ui-sref="connection">
+        Se connecter / Créer un compte
       </button>
-      <button class="button button-full button-positive green" ng-if="isLogged" data-ng-click="logOut()">
+      <button class="button button-full button-positive grey" ng-if="isLogged" data-ng-click="logOut()">
         Se déconnecter
-
       </button>
     </div>
+
     <div class="row">
       <h6 style="width: 100%">
-        Version: VIT 0.0.19
+        Version: VIT 0.0.24
       </h6>
     </div>
-
-
-
 
 </ion-content>
 <!--<ion-footer-bar class="hide-on-keyboard-open">

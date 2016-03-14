@@ -1,41 +1,63 @@
-<ion-view id="connectionsView" title="connection">
-<!--
-  <ion-header-bar class="bar-calm backgroundGray">
-    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="app">  </a>
-    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
-    <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
-  </ion-header-bar>
-  -->
+<ion-view title="{{AppLogo}}">
+ <!--  <ion-header-bar class="bar-calm">
+   <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="app">  </a>
+   <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+   <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
+ </ion-header-bar> -->
  <ion-nav-title>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
-  </ion-nav-title>  
+  </ion-nav-title>
   <ion-content padding="true">
     <div class="row">
       <h3 class="h3Connect1">Vous voulez vous connectez avec :</h3>
     </div>
 
     <div class="row">
-      <button class="button button-full icon ion-iphone button-positive grey" data-ng-click="loadAllVilles()"> Votre téléphone</button>
+      <button class="button button-full icon ion-iphone button-positive green" ui-sref="cPhone"> Votre n° de téléphone</button>
     </div>
     <div class="row">
-      <button class="button button-full icon ion-email button-positive grey" ui-sref="cMail"> Votre adresse mail</button>
+      <button class="button button-full icon ion-email button-positive green" ui-sref="cMail"> Votre adresse mail</button>
     </div>
 
-    <div class="row">
+    <!--div class="row">
       <div class="col col-45"><hr></div>
       <div class="col col-10"><h3 class="h3Connect1">Ou</h3></div>
       <div class="col col-45"><hr></div>
     </div>
 
     <div class="button-bar ">
-      <a class="button button-calm fb backgroundGray borderGray" data-ng-click="fbLogin()"><i class="icon ion-social-facebook"></i><span class="hide-text">acebook</span></a>
-      <a class="button button-calm backgroundGray borderGray" data-ng-click="loginGmail()"><i class="icon ion-social-google"><span class="hide-text">mail</span></i></a>
-      <a class="button button-calm linked backgroundGray borderGray" data-ng-click="linkedinLogin()"><span class="hide-text">Linked</span><i class="icon ion-social-linkedin"></i></a>
-    </div>
+      <a class="button button-calm fb green" data-ng-click="fbLogin()"><i class="icon ion-social-facebook"></i>acebook</a>
+      <a class="button button-calm green" data-ng-click="loginGmail()"><i class="icon ion-social-google">mail</i></a>
+      <a class="button button-calm linked green" data-ng-click="linkedinLogin()">Linked<i class="icon ion-social-linkedin"></i></a>
+    </--div>
     <div class="row">
-      <button class="button button-full button-positive green" onclick="navigator.app.exitApp()" ><i class="icon ion-log-out"></i> Quitter</button>
-    </div>
+      <button class="button button-full button-positive grey" onclick="navigator.app.exitApp()" ><i class="icon ion-log-out"></i> Quitter</button>
+    </div-->
 
+
+    <!--div class="list card">
+
+      <div class="item item-avatar">
+        <img src="img/logo_ON.png" style="height: 50%; width: 10%">
+        <h2>Manaona</h2>
+        <p>Vous a embauché!</p>
+      </div>
+
+      <div class="item item-body">
+        <img class="full-image" src="delorean.jpg">
+        <h2>Félicitations</h2>
+        <p>
+          This is a "Facebook" styled Card. The header is created from a Thumbnail List item,
+          the content is from a card-body consisting of an image and paragraph text. The footer
+          consists of tabs, icons aligned left, within the card-footer.
+        </p>
+        <p>
+          <a href="#" class="subdued">1 Like</a>
+          <a href="#" class="subdued">5 Comments</a>
+        </p>
+      </div>
+
+    </div-->
 
   </ion-content>
 </ion-view>

@@ -4,250 +4,278 @@
 
 starter
 
-	.controller('adressePersonelCtrl', function ($scope, $rootScope, $state,$stateParams, UpdateInServer,
-			DataProvider, Validator, UserService, GeoService, $ionicPopup,localStorageService ,$ionicPopup,$timeout,Global){
+    .controller('adressePersonelCtrl', function ($scope, $rootScope, $state, $stateParams, UpdateInServer,
+                                                 DataProvider, Validator, UserService, GeoService, $ionicPopup, localStorageService, $ionicPopup, $timeout, Global) {
 
-				//go back
-				$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-          var jobyer=localStorageService.get('jobyer');
-          console.log(typeof jobyer);
-          if (typeof jobyer.adressePersonel == 'object') 
-          {
-            
-            var result = { 
-              address_components: [], 
-              adr_address: "", 
-              formatted_address: jobyer.adressePersonel.fullAddress,
-              geometry: "",
-              icon: "",
-              lat:null,
-              lng:null
-            };
-            var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
-            console.log(ngModel);
-            ngModel.$setViewValue(result);
-            ngModel.$render();
-          };
-						viewData.enableBack = true;
-			  });
+        // FORMULAIRE
+        var geolocated = false;
+        $scope.formData = {};
+        $scope.placesOptions = {
+            types: [],
+            componentRestrictions: {country: 'FR'}
+        };
+        // $scope.formData.address="";
+        $scope.disableTagButton = (localStorageService.get('steps') != null) ? {'visibility': 'hidden'} : {'visibility': 'visible'};
+        var steps = (localStorageService.get('steps') != null) ? localStorageService.get('steps') : '';
+        $scope.geocodeOptions = {
+            componentRestrictions: {
+                country: 'FR'
+            }
+        };
+        // RECUPERATION SESSION-ID & EMPLOYEUR-ID
+        $scope.updateAdressePersEmployeur = function () {
 
-		// FORMULAIRE
-    var geolocated=false;
-    $scope.placesOptions = {
-      types: [],
-      componentRestrictions: {country:'FR'}
-    };
-		$scope.formData = {};
-    $scope.formData.address="";
-    $scope.disableTagButton = (localStorageService.get('steps')!=null)?{'visibility': 'hidden'}:{'visibility': 'visible'};
-    var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
-    $scope.geocodeOptions = {
-      componentRestrictions: {
-        country : 'FR'
-      }
-    };
-		// RECUPERATION SESSION-ID & JOBEYER-ID
-		$scope.updateAdressePersJobyer = function(){
-      var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
-      var codePostal="", ville="",num="",adresse1="",adresse2="";
-			// RECUPERATION CONNEXION
-			connexion=localStorageService.get('connexion');
-			// RECUPERATION JOBEYER ID
-			var jobeyeId=connexion.jobeyeId;
-			// RECUPERATION SESSION ID
-			sessionId=localStorageService.get('sessionID');
-			UpdateInServer.updateAdressePersJobeyer(jobeyeId, codePostal, ville, num, adresse1, adresse2, sessionId)
-					.success(function (response){
+            if (!$scope.formData.address)
+                return;
+            var adresse = $scope.formData.address.adr_address;
+            localStorageService.set('adr_address', $scope.formData.address);
+            var steps = (localStorageService.get('steps') != null) ? localStorageService.get('steps') : '';
+            var codePostal = "", ville = "", num = "", adresse1 = "", adresse2 = "";
 
-						Jobyer=localStorageService.get('jobyer');
-						if(!Jobyer)
-							var Jobyer={};
-						var adressePersonel={};
-            // if ($scope.formData.address.formatted_address) 
-            // {
-              adressePersonel={fullAddress:$scope.formData.address.formatted_address};
-            // }else{
-            //   adressePersonel={fullAddress:""};
+
+            var currentEmployer = localStorageService.get('currentEmployer');
+            var employeId = currentEmployer.jobyerId;
+            //var entreprises = currentEmployer.entreprises;  //  I am sure that there is a company associated with the user
+            //var eid = currentEmployer.entreprises[0].entrepriseId;
+
+
+            UpdateInServer.updateAdressePersEmployeur(employeId, adresse)
+                .success(function (response) {
+
+                    //TEL 25022016 : to remove !
+                    /*employeur = localStorageService.get('employeur');
+                     if (!employeur)
+                     var employeur = {"civilite": "", "nom": "", "prenom": "", entreprise: "", siret: "", ape: "", numUssaf: ""};
+                     var adressePersonel = {};
+                     if ($scope.formData.address.formatted_address)
+                     adressePersonel = {'fullAddress': $scope.formData.address.formatted_address};
+                     else
+                     adressePersonel = {'fullAddress': ""};
+                     employeur.adressePersonel = adressePersonel;
+                     employeur.formdataAddress = $scope.formData.address;
+
+                     // PUT IN SESSION
+                     localStorageService.set('employeur', employeur);*/
+
+                    //TEL 25022016 : to establish :
+                    /*var addresses = entreprises.adresses;
+                     if (!addresses)
+                     addresses = [];
+
+                     addresses.push(
+                     {
+                     "addressId" : JSON.parse(response[0].value).id,
+                     "siegeSocial" : "false",
+                     "adresseTravail" : "true",
+                     "fullAdress" : $scope.formData.address.formatted_address
+                     }
+                     );*/
+
+                    currentEmployer.adressePersonelle = {
+                        "addressId": JSON.parse(response[0].value).id,
+                        "fullAddress" : $scope.formData.address.formatted_address
+                    };
+
+
+                    //entreprises.adresses = addresses;
+                    //currentEmployer.entreprises = entreprises;
+                    localStorageService.set('currentEmployer', currentEmployer);
+
+                }).error(function (err) {
+                    console.log("error : insertion DATA");
+                    console.log("error In updateAdressePersEmployeur: " + err);
+                });
             // }
-						
-						Jobyer.adressePersonel=adressePersonel;
+            // REDIRECTION VERS PAGE - ADRESSE TRAVAIL
+            if (steps) {
 
-						// PUT IN SESSION
-						localStorageService.set('jobyer', Jobyer);
-					}).error(function (err){
-						console.log("error : insertion DATA");
-						console.log("error In updateAdressePersJOBEYER: "+error)
-					})
-		//	}
-			// REDIRECTION VERS PAGE - ADRESSE TRAVAI
-      if(steps)
-      {
-        
-        if(steps.step3)
-        {
-          $state.go('adresseTravail');
-        }
-        else
-        {
-          $state.go('contract');
-        }
+                if (steps.step3) {
+                    $state.go('adresseTravail');
+                }
+                else {
+                    $state.go('contract');
+                }
 
-      }
-      else
-      {
-        $state.go('adresseTravail',{"geolocated":geolocated,adressePersonel:$scope.formData.address});
-      }
-			
-		};
+            }
+            else {
 
-		// VALIDATION - FIELD
-		$scope.validatElement=function(id){
-			Validator.checkField(id);
-		};
+                $state.go('adresseTravail', {"geolocated": geolocated, "addressPers": $scope.formData.address});
+            }
 
+        };
 
-   function displayPopups(){
-        // INITIALISATION FORMULAIRE
-        var myPopup = $ionicPopup.show({
-          //Votre géolocalisation pour renseigner votre adresse du siège social?
-          template: "Localisation: êtes-vous dans votre siège social?<br>",
-          title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
-          buttons: [
-            {
-              text: '<b>Non</b>',
-              type: 'button-dark',
-              onTap: function(e) {
-                myPopup.close();
-                geolocated=false;
-              }
-            },{
-              text: '<b>Oui</b>',
-              type: 'button-calm',
-              onTap: function(e){
-                myPopup.close();
-                $timeout( function () {
-                  var myPopup2 = $ionicPopup.show({
+        // VALIDATION - FIELD
+        $scope.validatElement = function (id) {
+            Validator.checkField(id);
+        };
+
+        $scope.$watch('formData.zipCodes', function () {
+            // console.log('hey, formData.zipCodes has changed!');
+            //console.log('zipCodes.length : '+$scope.formData.zipCodes.length);
+        });
+
+        function displayPopups() {
+            if (isNaN($scope.formData.codePostal) && isNaN($scope.formData.ville) && !$scope.formData.adresse1 && !$scope.formData.adresse2 && !$scope.formData.num) {
+                // INITIALISATION FORMULAIRE
+                var myPopup = $ionicPopup.show({
                     //Votre géolocalisation pour renseigner votre adresse du siège social?
-                    template: "Si vous acceptez d'être localisé, vous n'aurez qu'à valider l'adresse de votre siège social.<br>",
+                    template: "Localisation: êtes-vous dans votre domicile?<br>",
                     title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
                     buttons: [
-                      {
-                        text: '<b>Non</b>',
-                        type: 'button-dark',
-                        onTap: function (e) {
-                          myPopup2.close();
-                          geolocated = false;
-                        }
-                      }, {
-                        text: '<b>Oui</b>',
-                        type: 'button-calm',
-                        onTap: function (e) {
-                          myPopup2.close();
-                          GeoService.getUserAddress().then(function() {
-                          geolocated = true;
-                          var geoAddress = localStorageService.get('user_address');
+                        {
+                            text: '<b>Non</b>',
+                            type: 'button-dark',
+                            onTap: function (e) {
+                                myPopup.close();
+                            }
+                        }, {
+                            text: '<b>Oui</b>',
+                            type: 'button-calm',
+                            onTap: function (e) {
+                                myPopup.close();
+                                $timeout(function () {
+                                    var myPopup2 = $ionicPopup.show({
+                                        //Votre géolocalisation pour renseigner votre adresse du siège social?
+                                        template: "Si vous acceptez d'être localisé, vous n'aurez qu'à valider votre adresse personnelle.<br>",
+                                        title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+                                        buttons: [
+                                            {
+                                                text: '<b>Non</b>',
+                                                type: 'button-dark',
+                                                onTap: function (e) {
+                                                    myPopup2.close();
+                                                }
+                                            }, {
+                                                text: '<b>Oui</b>',
+                                                type: 'button-calm',
+                                                onTap: function (e) {
+                                                    myPopup2.close();
+                                                    GeoService.getUserAddress().then(function () {
+                                                        geolocated = true;
+                                                        var geoAddress = localStorageService.get('user_address');
+                                                        // $scope.formData.address=geoAddress.fullAddress;
 
-                          $scope.formData.adresse1 = geoAddress.street;
-                          $scope.formData.adresse2 = geoAddress.complement;
-                          $scope.formData.num = geoAddress.num;
-                          $scope.formData.initialCity = geoAddress.city;
-                          $scope.formData.initialPC = geoAddress.postalCode;
-
-                          // $scope.formData.address=geoAddress.fullAddress;
-                          var result = { 
-                            address_components: [], 
-                            adr_address: "", 
-                            formatted_address: geoAddress.fullAddress,
-                            geometry: "",
-                            icon: "",
-                            lat:null,
-                            lng:null
-                          };
-                          var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
-                          ngModel.$setViewValue(result);
-                          ngModel.$render();
-                        }, function(error) {
-                            Global.showAlertValidation("Impossible de vous localiser, veuillez vérifier vos paramétres de localisation");
-                        });
+                                                        var result = {
+                                                            address_components: [],
+                                                            adr_address: geoAddress.adr_address,
+                                                            formatted_address: geoAddress.fullAddress,
+                                                            geometry: "",
+                                                            icon: ""
+                                                        };
+                                                        var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
+                                                        ngModel.$setViewValue(result);
+                                                        ngModel.$render();
+                                                    }, function (error) {
+                                                        Global.showAlertValidation("Impossible de vous localiser, veuillez vérifier vos paramètres de localisation");
+                                                    });
+                                                }
+                                            }
+                                        ]
+                                    });
+                                });
+                            }
                         }
-                      }
                     ]
-                  });
                 });
-              }
             }
-          ]
+        }
+
+        //$scope.$on("$ionicView.beforeEnter", function () {
+        //$scope.formData.zipCodes = DataProvider.getZipCodes();
+        //$scope.formData.villes = DataProvider.getVilles();
+        //});
+
+        $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+            viewData.enableBack = true;
         });
-    }
-		$scope.$on("$ionicView.beforeEnter", function( scopes, states ){
-      
-			if(states.stateName == "adressePersonel" ){ //states.fromCache &&
-				//$scope.initForm();
-				//Jobyer=localStorageService.get('Jobyer');
-        var steps =  (localStorageService.get('steps')!=null) ? localStorageService.get('steps') : '';
-         if(steps!='')
-           {
-             $scope.title="Présaisie des informations contractuelles : adresse siège social";
-             if (steps.state) 
-              {
-                steps.step2=false;
-                localStorageService.set("steps",steps);
-              };
-             $scope.isContractInfo=true;
-            $ionicPopup.show({
-              title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
-              template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus du contractualisation.',
-              buttons : [
-              {
-                  text: '<b>OK</b>',
-                  type: 'button-dark',
-                  onTap: function(e) {
-                  //$ionicPopup.hide();
-								  $timeout( function () {
-                  displayPopups();
-								});
-                  }
+        $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+                var employeur = localStorageService.get('currentEmployer');
+                if (employeur) {
+                    var result = {
+                        address_components: [],
+                        adr_address: "",
+                        formatted_address: (employeur.adressePersonelle) ? employeur.adressePersonelle.fullAddress : "",
+                        geometry: "",
+                        icon: ""
+                    };
+                    var ngModel = angular.element($('#autocomplete_personel')).controller('ngModel');
+                    ngModel.$setViewValue(result);
+                    ngModel.$render();
                 }
-              ]
-            });
-          }else{
-            $scope.title="Siège social";
-            $scope.isContractInfo=false;
-            displayPopups();
-          }
 
-			}
-    });
-    $scope.displayAdresseTooltip = function () {
-      $scope.adresseToolTip = "Astuce : Commencez par le code postal";
-      $scope.showAdresseTooltip = true;
-    };
-    $scope.displayAdresseTooltip();
 
-    $scope.fieldIsEmpty = function() {
-      if($scope.formData.address == "" || $scope.formData.address == null){
-        return true;
-      } else {
-        return false;
-      }
-    };
+                if (states.stateName == "adressePersonel") { //states.fromCache &&
+                    //$scope.initForm();
+                    //employeur=localStorageService.get('employeur');
+                    var steps = (localStorageService.get('steps') != null) ? localStorageService.get('steps') : '';
+                    if (steps) {
+                        $scope.title = "Pré-saisie des informations contractuelles : adresse personnelle";
+                        $scope.isContractInfo = true;
+
+                        if (steps.state) {
+                            steps.step2 = false;
+                            localStorageService.set("steps", steps);
+                        }
+
+                        $ionicPopup.show({
+                            title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+                            template: 'Veuillez remplir les données suivantes, elle seront utilisées dans le processus de la contractualisation.',
+                            buttons: [
+                                {
+                                    text: '<b>OK</b>',
+                                    type: 'button-dark',
+                                    onTap: function (e) {
+                                        //$ionicPopup.hide();
+                                        $timeout(function () {
+                                            displayPopups();
+                                        });
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                    else {
+                        $scope.title = "Adresse personnelle";
+                        $scope.isContractInfo = false;
+                        displayPopups();
+                    }
+                }
+
+
+            }
+        );
+
+        $scope.displayAdresseTooltip = function () {
+            $scope.adresseToolTip = "Astuce : Commencez par le code postal";
+            $scope.showAdresseTooltip = true;
+        };
+        $scope.displayAdresseTooltip();
+
+        $scope.fieldIsEmpty = function () {
+            if ($scope.formData.address == "" || $scope.formData.address == null) {
+                return true;
+            } else {
+                return false;
+            }
+        };
 
 //mobile tap on autocomplete workaround!
-  $scope.disableTap = function(){
+        $scope.disableTap = function () {
 
-    var container = document.getElementsByClassName('pac-container');
-    if(screen.height <= 480){
-      angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
-    }
-    angular.element(container).attr('data-tap-disabled', 'true');
+            var container = document.getElementsByClassName('pac-container');
+            if (screen.height <= 480) {
+                angular.element(container).attr('style', 'height: 60px;overflow-y: scroll');
+            }
+            angular.element(container).attr('data-tap-disabled', 'true');
 
-    angular.element(container).on("click", function(){
-        document.getElementById('address').blur();
-        //google.maps.event.trigger(autoComplete, 'place_changed');
-    })
-  };
-  $scope.skipDisabled= function(){
-    var jobyer=localStorageService.get('jobyer');
-    return $scope.isContractInfo && (!jobyer || !jobyer.adressePersonel || !jobyer.adressePersonel.fullAddress);
-  };  
-});
+            angular.element(container).on("click", function () {
+                document.getElementById('address').blur();
+                //google.maps.event.trigger(autoComplete, 'place_changed');
+            })
+        };
+
+        /*$scope.skipDisabled = function () {
+         var employeur = localStorageService.get('employeur');
+         return $scope.isContractInfo && (!employeur || !employeur.adressePersonel || !employeur.adressePersonel.fullAddress);
+         };*/
+    });

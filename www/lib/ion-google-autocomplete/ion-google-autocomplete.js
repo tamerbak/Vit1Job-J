@@ -28,17 +28,27 @@ angular.module('ion-google-autocomplete', [])
                     var searchEventTimeout = undefined;
                     $rootScope.location = $location;
                     var googleAutocompleteOk='<button ng-click="selectLocationString(searchQuery)" class="button button-clear">Ok';
-                    console.log($rootScope.location.$$path);
-                    if ($rootScope.location.$$path == '/employersTab/map') 
+                    
+                    if ($rootScope.location.$$path == '/jobyersOffersTab/map') 
                     {
                         googleAutocompleteOk = '';
                     }
-                    // else if($rootScope.location.$$path == '/adressePersonel')
+                    //  else if($rootScope.location.$$path === '/adressePersonel/')
                     // {
+                    //     if ($('#google-autocomplete-personel input:first').hasClass('autocomplete-travail')) 
+                    //     {
+                    //         $('#google-autocomplete-personel input:first').removeClass('autocomplete-travail');
+                    //     };
+                        
                     //     $('#google-autocomplete-personel input:first').addClass('autocomplete-personel');
                     // }
-                    // else if($rootScope.location.$$path == '/adresseTravail')
+                    // else if($rootScope.location.$$path === '/adresseTravail/')
                     // {
+                    //     if ($('#google-autocomplete-personel input:first').hasClass('autocomplete-personel')) 
+                    //     {
+                    //         $('#google-autocomplete-personel input:first').removeClass('autocomplete-personel');
+                    //     };
+                        
                     //     $('#google-autocomplete-travail input:first').addClass('autocomplete-travail');
                     // }
                     var POPUP_TPL = [
@@ -112,8 +122,6 @@ angular.module('ion-google-autocomplete', [])
                                 formatted_address: searchQuery,
                                 geometry: "",
                                 icon: "",
-                                lat:null,
-                                lng:null
                             };
                             ngModel.$setViewValue(result);
                             ngModel.$render();
@@ -140,7 +148,7 @@ angular.module('ion-google-autocomplete', [])
                                         // @TODO: Figure out what to do when the autocomplete fails
                                     }
                                 });
-                            }, 150); // we're throttling the input by 350ms to be nice to google's API
+                            }, 350); // we're throttling the input by 350ms to be nice to google's API
                         });
 
 

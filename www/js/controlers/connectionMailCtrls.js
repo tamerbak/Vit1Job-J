@@ -4,12 +4,15 @@
 
 'use strict';
 starter
-  .controller('cMailCtrl', function ($scope, $rootScope, localStorageService, $state, x2js, AuthentificatInServer, PullDataFromServer,
-                                     formatString, PersistInServer, Global, Validator) {
+  .controller('cMailCtrl', function ($scope, $rootScope, localStorageService, $state, AuthentificatInServer,
+                                     Global, Validator, LoadList) {
 
     // FORMULAIRE
     $scope.formData = {};
-    $rootScope.jobyer = {};
+    $rootScope.employeur = {};
+    $scope.isIOS = ionic.Platform.isIOS();
+    $scope.isAndroid = ionic.Platform.isAndroid();
+    localStorageService.remove("steps");
     /*********************New code*********************/
     var OnAuthenticateSuccesss = function(data){
       if(!data){
@@ -20,28 +23,32 @@ starter
       console.log(data);
       if(data.length ==0){
         OnAuthenticateError(data);
-        return; 
-      }
-      data = JSON.parse(data);
-      if(data.id ==0){
-        OnAuthenticateError(data);
-        return; 
+        return;
       }
 
+      data = JSON.parse(data);
+
+      if(data.id ==0){
+        OnAuthenticateError(data);
+        return;
+      }
+
+
       localStorageService.remove('connexion');
+      localStorageService.remove('currentEmployer');
       var connexion = {
         'etat': true,
         'libelle': 'Se déconnecter',
-        'employeID': data.jobyerId,
-        'jobyerID': data.jobyerId
+        'employeID': data.id
       };
 
+
       localStorageService.set('connexion', connexion);
-      localStorageService.set('currentJobyer', data);
+      localStorageService.set('currentEmployer', data);
       var isNewUser = data.new;
-      if (isNewUser) {
-        Global.showAlertValidation("Bienvenue ! vous êtes rentré dans votre espace VitOnJob sécurisé.");
-        $state.go("saisieCiviliteJobeyer");
+      if (isNewUser == 'true') {
+        Global.showAlertValidation("Bienvenue dans votre espace VitOnJob!");
+        $state.go("saisieCiviliteEmployeur");
       } else {
         $state.go("app");
       }
@@ -53,12 +60,17 @@ starter
     };
 
     $scope.Authenticate = function () {
+      var phone = $scope.formData.phone;
+      var index=$scope.formData.index;
       var email = $scope.formData.email;
       var password = $scope.formData.password;
-      AuthentificatInServer.Authenticate(email, '', password, 'employeur')
+
+      phone = index + phone;
+
+      AuthentificatInServer.Authenticate(email, phone, password, 'jobyer')
       .success(OnAuthenticateSuccesss)
       .error(OnAuthenticateError);
-    }; 
+    };
 
     $scope.displayEmailTooltip = function() {
       $scope.emailToolTip = 'Veuillez saisir un email valide.';
@@ -80,30 +92,63 @@ starter
         return true;
       }
     };
-    $scope.validatEmail= function(id){
-      Validator.checkEmail(id);
+
+    //TEL 23/022016 : Phone control part
+
+    $scope.displayPwdTooltip = function() {
+      $scope.showPwdTooltip = true;
     };
-    $scope.passwordIsValid= function(){
-      if($scope.formData.password!=undefined) {
-        if (Number($scope.formData.password.length) >= 6) {
-          console.log('test');
+    $scope.displayPhoneTooltip = function() {
+      $scope.showPhoneTooltip = true;
+    };
+    $scope.phoneIsValid= function(){
+      console.log($scope.formData.phone);
+      if($scope.formData.phone!=undefined) {
+        var phone_REGEXP = /^0/;
+        var isMatchRegex = phone_REGEXP.test($scope.formData.phone);
+        console.log("isMatchRegex = "+isMatchRegex);
+        if (Number($scope.formData.phone.length) >= 9 && !isMatchRegex) {
+          console.log('test phone');
           return true;
         }
         else
           return false;
       }else
         return false;
-
-
-    }
+    };
 
     $scope.initForm=function(){
-      localStorageService.remove("steps");  
-    };   
-     
-    $scope.$on( "$ionicView.beforeEnter", function( scopes, states ){
-      if(states.stateName == "cMail" ){
-        $scope.initForm();
-      }
-    });    
+      // GET LIST
+      if(!$scope.formData)
+        $scope.formData={};
+      $scope.formData.index="33";
+      //$scope.formData={ 'villes': $cookieStore.get('villes')};
+      var listIndicatif  = LoadList.loadCountries();
+      listIndicatif.success(function(response) {
+          console.log(response);
+          $scope.formData.pays=response.data;
+
+        }).error(function(error) {
+          console.log(error);
+        });
+    };
+
+    $scope.passwordIsValid= function(){
+      if($scope.formData.password!=undefined) {
+        if (Number($scope.formData.password.length) >= 6) {
+          console.log('test');
+          return true;
+        }
+      else
+        return false;
+      }else
+        return false;
+    };
+  $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+    $scope.initForm();
+    viewData.enableBack = true;
+    $scope.formData.phone = "";
+    $scope.formData.email = "";
+    $scope.formData.password = "";
+  });
   });

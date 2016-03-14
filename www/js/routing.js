@@ -11,14 +11,6 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/home.html',
       controller: 'homeCtrl'
     })
-
-    .state('search', {
-      url: '/search',
-      templateUrl: 'templates/search.html',
-      controller: 'searchCtrl'
-
-    })
-
     .state('connection', {
       url: '/connection',
       templateUrl: 'templates/connections.html',
@@ -28,13 +20,16 @@ starter.config(function($stateProvider, $urlRouterProvider) {
 
     .state('profile', {
       url: "/profile",
+      params: {
+        'link': ""
+      },
       templateUrl: "templates/profile.html",
       controller: "ProfileCtrl"
     })
 
     .state('list', {
       url: '/list',
-      templateUrl: 'templates/listEmployers.html',
+      templateUrl: 'templates/listJobyers.html',
       controller: 'listCtrl'
 
     })
@@ -46,49 +41,49 @@ starter.config(function($stateProvider, $urlRouterProvider) {
 
     })
 
-    .state('employersTab', {
-      url: '/employersTab',
+    .state('jobyersOffersTab', {
+      url: '/jobyersOffersTab',
       abstract: true,
-      templateUrl: 'templates/employersTab.html',
+      templateUrl: 'templates/jobyersOffersTab.html',
     })
 
-    .state('employersTab.list', {
-      url: '/listEmployers',
+    .state('jobyersOffersTab.list', {
+      url: '/list',
       views: {
-        'employersTab-list': {
-          templateUrl: 'templates/employersList.html',
-          controller: 'employersListCtrls'
+        'jobyersOffersTab-list': {
+          templateUrl: 'templates/jobyersOffersList.html',
+          controller: 'jobyersOffersListCtrl'
         }
       }
     })
 
-    .state('employersTab.map', {
+    .state('jobyersOffersTab.map', {
       url: '/map',
       views: {
-        'employersTab-map': {
-          templateUrl: 'templates/employersMap.html',
-          controller: 'employersMapCtrls'
+        'jobyersOffersTab-map': {
+          templateUrl: 'templates/jobyersMap.html',
+          controller: 'jobyersMapCtrl'
         }
       }
     })
 
-    .state('employersTab.options', {
+    .state('jobyersOffersTab.options', {
       url: '/options',
       views: {
-        'employersTab-options': {
-          templateUrl: 'templates/employersOptions.html',
-          controller: 'employersOptionsCtrls'
+        'jobyersOffersTab-options': {
+          templateUrl: 'templates/jobyersOffersOptions.html',
+          controller: 'jobyersOffersOptionsCtrl'
         }
       }
     })
-	/*
+
     .state('listNext', {
       url: '/listNext',
-      templateUrl: 'templates/listEmployersNext.html',
+      templateUrl: 'templates/listJobyersNext.html',
       controller: 'listNextCtrl'
 
     })
-	*/
+
     .state('cPhone', {
       url: '/cPhone',
       templateUrl: 'templates/connexionPhone.html',
@@ -100,31 +95,27 @@ starter.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'templates/connexionMail.html',
       controller: 'cMailCtrl'
     })
-    .state('saisieCiviliteJobeyer', {
+    .state('saisieCiviliteEmployeur', {
       url: '/saisieCivilite/:steps',
-      templateUrl: 'templates/saisieCiviliteJobeyer.html',
-      controller: 'saisieCiviliteJobeyerCtrl'
+      templateUrl: 'templates/saisieCiviliteEmployeur.html',
+      controller: 'saisieCiviliteEmployeurCtrl'
     })
 
     .state('adresseTravail', {
-      url: '/adresseTravail',
+      url: '/adresseTravail/',
       params: {
-        'geolocated': false, 'adressePersonel': null , steps:null
-      },     
+        'geolocated': false, 'addressPers': null , steps:null
+      },
       templateUrl: 'templates/adresseTravail.html',
       controller: 'adresseTravailCtrl'
     })
 
     .state('adressePersonel', {
-      url: '/adressePersonel',
+      url: '/adressePersonel/:steps',
       templateUrl: 'templates/adressePersonel.html',
       controller: 'adressePersonelCtrl'
     })
-    .state('disponibilite', {
-      url: '/disponibilite',
-      templateUrl: 'templates/disponibilite.html',
-      controller: 'disponibiliteCtrl'
-    })
+
     .state('offres', {
       url: '/offres',
       templateUrl: 'templates/offres.html',
@@ -139,7 +130,7 @@ starter.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('contract', {
       url: '/contract',
-      params: {selectedEmployer: null},
+      params: {jobyer: null},
       templateUrl: 'templates/createContract.html',
       controller: 'contractCtrl'
     })
@@ -178,12 +169,6 @@ starter.config(function($stateProvider, $urlRouterProvider) {
           templateUrl: 'templates/tabs/agenda.html'
         }
       }
-    })
-    .state('competence', {
-      url: '/competence',
-      templateUrl: 'templates/competences.html',
-      controller: 'competenceCtrl'
     });
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app');
+ $urlRouterProvider.otherwise('/app');
 });

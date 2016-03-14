@@ -1,8 +1,16 @@
 <ion-view title="{{AppLogo}}">
-  <ion-nav-title>
+<!-- <ion-nav-buttons ng-show="" side="primary">
+    <a class="button icon-right ion-chevron-left button-clear" ng-click="goBackToPrevious()"></a>
+  </ion-nav-buttons>  -->
+<ion-nav-title>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
   </ion-nav-title>
-
+  <!-- <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="adresseTravail">  </a>
+    <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+    <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
+  </ion-header-bar>
+   -->
 <!-- <ion-nav-buttons side="primary">
 <button class="button button-clear button-small" ui-sref="adresseTravail">
   <i class="icon ion-ios-arrow-back"></i>
@@ -18,7 +26,7 @@
   <ion-content id="offresContent" class="has-header" overflow-scroll="true" padding="true" data-ng-init="initAll()">
     <!-- Title -->
     <div>
-      <h3 class="titlePhone"><b>Compétences</b></h3>
+      <h3 class="titlePhone"><b>Offres de service</b></h3>
     </div>
 
     <!--
@@ -35,12 +43,12 @@
       <ion-radio  ng-repeat="y in offres" data-ng-model="formData.offre"  ng-value="y" ng-change="offreChange(y)">
         <i ng-if="y.etat=='publie'" class="ion-eye"></i>
         <i ng-if="y.etat=='noPublie'" class="ion-eye-disabled"></i>
-        <label>{{y.titre}}</label>
+        <label>{{y.title}}</label>
       </ion-radio>
     </ion-list>
     <div class="card" ng-show="!offres.length">
       <div class="item item-text-wrap">
-        Ici, votre espace pour créer vos besoins.
+        Ici, votre espace pour créer vos compétences.
       </div>
     </div>
     <!--
@@ -61,10 +69,11 @@
       <a class="button button-light button-block icon ion-ios-copy" ng-click="dupliquerOffre();"></a>
       <a class="button button-light button-block icon ion-trash-b" ng-click="supprimerOffre();"></a>
       <a class="button button-light button-block icon ion-eye" ng-if="formData.offre.etat=='noPublie'" ng-click="editStateOffre();"></a>
-      <a class="button button-light button-block icon ion-eye-disabled" ng-if="formData.offre.etat=='publie'" ng-click="editStateOffre();"></a>      
+      <a class="button button-light button-block icon ion-eye-disabled" ng-if="formData.offre.etat=='publie'" ng-click="editStateOffre();"></a>
+
   </div>
   </br>
-  <button ng-style="disableTagButton" class="button button-full button-positive green icon-right ion-chevron-right" ng-click="compteCree();">Passer</button>
+  <button ng-style="disableTagButton" class="button button-full button-positive grey icon-right ion-chevron-right" ng-click="compteCree();">Passer</button>
   </ion-content>
 </ion-view>
 

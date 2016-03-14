@@ -1,24 +1,32 @@
-<ion-view id="adresseTravailView" title="connection">
-  <ion-nav-buttons side="secondary">
-  <a class="button icon-right ion-chevron-right button-clear" ng-click="skipGoto();" ng-disabled="skipDisabled();">  </a>
-  </ion-nav-buttons>
-  <ion-nav-title>
+<ion-view id="adresseTravailView" title="{{AppLogo}}">
+  <!-- <ion-header-bar class="bar-calm">
+    <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="adressePersonel">  </a>
     <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
-  </ion-nav-title>
-  <ion-content padding="true" data-ng-init="initForm()">
-	<!-- Title -->
+    <a class="button icon-right ion-home button-clear button-light" ui-sref="app">  </a>
+  </ion-header-bar> -->
+
+    <ion-nav-buttons side="secondary">
+    <a class="button icon-right ion-chevron-right button-clear" ng-click="skipGoto();" ng-disabled="skipDisabled();">  </a>
+    </ion-nav-buttons>
+  <ion-content padding="true">
+    <!-- Title -->
     <div>
       <h3 class="titlePhone"><b>{{title}}</b></h3>
     </div>
+    <!--
+        <div class="list">
+         <label class="item item-input">
+           <ion-google-place placeholder="Veuillez saisir votre adresse de travail..." ng-model="formData.address" geocode-options="geocodeOptions" />
+         </label>
+       </div> -->
     <br>
-    <div class="list">
-      <!-- <label class="item item-input">
-        <input type="text" placeholder="Veuillez saisir votre adresse de départ au travail..." ng-model="formData.addressTravail" googleplace="" class="ng-pristine ng-valid" autocomplete="off" ng-click="displayAdresseTooltip()" ng-focus="disableTap()" id="addresseTravail">
-        <span ng-show="!formData.addressTravail  && isContractInfo" class="requiredStar">*</span>
+   <div class="list">
+     <!-- <label class="item item-input">
+       <input type="text" placeholder="Veuillez saisir votre adresse de travail..." ng-model="formData.addressTravail" googleplace="" class="ng-pristine ng-valid" autocomplete="off" ng-click="displayAdresseTooltip()" ng-focus="disableTap()" id="addresseTravail">
+        <span ng-show="!formData.addressTravail  && isContractInfo" class="requiredStar">*</span>            
       </label> -->
       <label id="google-autocomplete-travail" class="item item-input">
-         
-         <ion-google-autocomplete placeholder="Veuillez saisir votre adresse..." id="autocomplete_travail" ng-model="formData.addressTravail" places-options="placesOptions" />
+         <ion-google-autocomplete placeholder="Veuillez saisir votre adresse de départ au travail..." id="autocomplete_travail" ng-model="formData.addressTravail" places-options="placesOptions" />
          <span ng-show="!formData.addressTravail  && isContractInfo" class="requiredStar">*</span>           
       </label>
     </div>
@@ -28,12 +36,9 @@
         {{adresseToolTip}}
       </div>
     </div>
-    <br>
-
-	<br>
-	<!-- ACTIONS -->
-	<div class="buttonConnect">
-      <button class="button button-full button-positive grey" data-ng-click="updateAdresseTravJobyer()" ng-disabled="!formData.addressTravail  && isContractInfo">Valider</button>
+    <!-- ACTIONS -->
+    <div class="buttonConnect">
+      <button class="button button-full button-positive green" data-ng-click="updateAdresseTravEmployeur()" ng-disabled="!formData.addressTravail  && isContractInfo">Valider</button>
     </div>
   </ion-content>
 </ion-view>
