@@ -1,0 +1,84 @@
+<ion-view id="civiliteView" title="{{AppLogo}}">
+    <!-- <ion-nav-buttons side="primary">
+        <a class="button icon-left ion-chevron-left button-clear button-light" ui-sref="app">  </a>
+        </ion-nav-buttons> -->
+    <ion-nav-buttons side="secondary">
+        <a class="button icon-right ion-chevron-right button-clear" ui-sref="adressePersonel"
+           ng-disabled="skipDisabled();"> </a>
+    </ion-nav-buttons>
+    <ion-nav-title>
+        <div class="vimgBar"><img src="img/vit1job-mini.png"></div>
+    </ion-nav-title>
+
+    <ion-content padding="true" data-ng-init="initForm()">
+
+        <!-- Title -->
+        <div>
+            <h3 class="titlePhone"><b>{{title}}</b></h3>
+        </div>
+
+        <!-- TITRE -->
+        <div class="list">
+            <label class="item item-input" style="padding-left: 8px;">
+                <select class="flat" data-ng-model="formData.civ" data-ng-init="formData.civ='Titre'">
+                    <option selected disabled style="display: none;">Titre</option>
+                    <option data-ng-repeat="x in formData.civilites" value="{{x.libelle}}">{{x.libelle}}</option>
+                </select>
+                <span ng-show="formData.civ=='Titre' && isContractInfo" class="requiredStar">*</span>
+            </label>
+            <label class="item item-input">
+                <input type="text" id="nom" placeholder="Nom" data-ng-model="formData.nom"><span
+                    ng-show="!formData.nom  && isContractInfo" class="requiredStar">*</span>
+            </label>
+            <label class="item item-input">
+                <input type="text" id="prenom" placeholder="Prénom" data-ng-model="formData.prenom"><span
+                    ng-show="!formData.prenom  && isContractInfo" class="requiredStar">*</span>
+            </label>
+            <label class="item item-input">
+                <input type="tel" id="cni" ui-mask="999999999999"  ui-mask-placeholder placeholder="CNI" data-ng-model="formData.cni"  validateCni><span
+                    ng-show="!formData.cni  && isContractInfo" class="requiredStar">*</span>
+            </label>
+            <label class="item item-input">
+                <input class="tel" id="num_ss" name="num_ss" type="tel" model-view-value="true" ui-mask="9 99 99 99 999 999 99"  ui-mask-placeholder placeholder="N° SS" data-ng-model="formData.numSS" data-ng-change="validateNumSS('num_ss')" >
+                <span ng-show="!formData.numSS && isContractInfo" class="requiredStar">*</span>
+            </label>
+            <label class="item item-input" style="padding-left: 8px;">
+                <select class="flat" data-ng-model="formData.nationalite" data-ng-init="formData.nationalite.libelle='Nationalité'"
+                        data-ng-change="displayScanTitle()" ng-options="item as item.libelle for item in formData.nationalites">
+                    <option selected disabled style="display: none;" value ="">Nationalité</option>
+                    <!--option data-ng-repeat="x in formData.nationalites" value="{{x.libelle}}">{{x.libelle}}</option-->
+                </select>
+                <span ng-show="formData.nationalite=='Nationalité' && isContractInfo" class="requiredStar">*</span>
+            </label>
+
+        </div>
+
+        <div class="list">
+            <!-- <h3 class="titlePhone">Charger un scan de votre extrait k-bis</h3> -->
+            <button class="button button-full button-positive green" data-ng-click="selectImage()"
+                    ng-show="{{isAndroid}}">Charger un scan {{formData.scanTitle}}
+            </button>
+
+            <div id="loadImgContainer" ng-show="{{isIOS}}">
+                <input id="image" name="file" type="file" accept="image/*"
+                       onchange="angular.element(this).scope().loadImage(this)">
+                <button data-ng-click="showFileDialog()" class="button button-full button-positive green">Charger un
+                    scan {{formData.scanTitle}}
+                </button>
+            </div>
+            <button class="button button-full button-positive green" data-ng-click="takePicture()">
+                Prendre une photo {{formData.scanTitle}}
+            </button>
+            <img id="uploadPreview" ng-src={{imgURI}} style="max-width: 100px; max-height: 100px;padding-top:5px;"/>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="buttonConnect">
+            <button class="button button-full button-positive green" data-ng-click="updateCiviliteEmployeur()"
+                    ng-disabled="isContractInfo && (!formData.numUssaf || !formData.ape || !apnIsValid() || !formData.siret || !formData.nom || !formData.prenom || !formData.entreprise )">
+                Valider
+            </button>
+        </div>
+
+    </ion-content>
+</ion-view>
