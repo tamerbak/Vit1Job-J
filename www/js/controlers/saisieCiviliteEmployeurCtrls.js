@@ -30,7 +30,7 @@ starter
     });
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
       // console.log(states.fromCache+"  state : "+states.stateName);
-      if (states.stateName == "saisieCiviliteEmployeur") {
+      if (states.stateName == "menu.infoTabs.saisieCiviliteEmployeur") {
         $scope.disableTagButton = (localStorageService.get('steps') != null) ? {'visibility': 'hidden'} : {'visibility': 'visible'};
         steps = (localStorageService.get('steps') != null) ? localStorageService.get('steps') : '';
 
@@ -59,6 +59,22 @@ starter
         } else {
           $scope.isContractInfo = false;
           $scope.title = "Saisie de la civilité";
+          var employeur = localStorageService.get('currentEmployer');
+          if (employeur) {
+            // INITIALISATION FORMULAIRE
+            if (employeur.titre)
+              $scope.formData.civ = employeur.titre;
+            if (employeur.nom)
+              $scope.formData.nom = employeur.nom;
+            if (employeur.prenom)
+              $scope.formData.prenom = employeur.prenom;
+            if (employeur.numSS)
+              $scope.formData.numSS = employeur.numSS;
+            if (employeur.cni)
+              $scope.formData.cni = employeur.cni;
+            if (employeur.nationalite)
+              $scope.formData.nationalite = employeur.nationalite;
+          }
         }
       }
     });
@@ -164,19 +180,19 @@ starter
       if (steps) {
         console.log(steps);
         if (steps.step2) {
-          $state.go('adressePersonel');
+          $state.go('menu.infoTabs.adressePersonel');
         }
         else if (steps.step3) {
-          $state.go('adresseTravail');
+          $state.go('menu.infoTabs.adresseTravail');
         }
         else {
-          $state.go('contract');
+          $state.go('menu.contract');
         }
 
       }
       else {
         console.log("else" + steps);
-        $state.go('adressePersonel');
+        $state.go('menu.infoTabs.adressePersonel');
       }
     };
 
@@ -279,8 +295,8 @@ starter
       $scope.formData.nationalite = {"libelle":"Nationalité"};
     };
 
-    $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-      if (states.stateName == "saisieCiviliteEmployeur") {
+    /*$scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+      if (states.stateName == "menu.infoTabs.saisieCiviliteEmployeur") {
         $scope.initForm();
         var employeur = localStorageService.get('currentEmployer');
         if (employeur) {
@@ -299,7 +315,7 @@ starter
             $scope.formData.nationalite = employeur.nationalite;
         }
       }
-    });
+    });*/
 
     $scope.takePicture = function () {
 

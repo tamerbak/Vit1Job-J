@@ -42,7 +42,7 @@ starter
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-      if (states.fromCache && states.stateName == "app") {
+      if (states.fromCache && states.stateName == "menu.app") {
         $scope.initConnexion();
       }
     });
@@ -60,17 +60,17 @@ starter
           localStorageService.set('connexion', connexion);
 
           console.log("New Connexion : " + JSON.stringify(localStorageService.get('connexion')));
-          $state.go("connection");
+          $state.go("menu.connection");
 
 
         }
         else {
           console.log("IL S'AGIT D'UNE CONNEXION");
-          $state.go("connection");
+          $state.go("menu.connection");
         }
       }
       else
-        $state.go("connection");
+        $state.go("menu.connection");
     };
 
     var checkIsLogged = function () {
@@ -96,6 +96,7 @@ starter
 
       localStorageService.set('connexion', connexion);
 
+      location.reload(false);
 
     };
 
@@ -109,7 +110,7 @@ starter
             type: 'button-dark',
             onTap: function (e) {
               confirmPopup.close();
-              $state.go("connection");
+              $state.go("menu.connection");
             }
           }, {
             text: '<b>Retour</b>',
@@ -142,7 +143,7 @@ starter
             type: 'button-calm',
             onTap: function (e) {
               confirmPopup.close();
-              $state.go("offres");
+              $state.go("menu.offres");
             }
           }
 
@@ -156,7 +157,7 @@ starter
       var sdata = data[0]['value'];
       var jobyersOffers = JSON.parse(sdata);
       localStorageService.set('jobyersOffers', jobyersOffers);
-      $state.go("jobyersOffersTab.list");
+      $state.go("menu.jobyersOffersTab.list");
     };
 
     var onError = function (data) {

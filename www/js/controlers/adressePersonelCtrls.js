@@ -90,16 +90,16 @@ starter
             if (steps) {
 
                 if (steps.step3) {
-                    $state.go('adresseTravail');
+                    $state.go('menu.infoTabs.adresseTravail');
                 }
                 else {
-                    $state.go('contract');
+                    $state.go('menu.contract');
                 }
 
             }
             else {
 
-                $state.go('adresseTravail', {"geolocated": geolocated, "addressPers": $scope.formData.address});
+                $state.go('menu.infoTabs.adresseTravail', {"geolocated": geolocated, "addressPers": $scope.formData.address});
             }
 
         };
@@ -204,7 +204,7 @@ starter
                 }
 
 
-                if (states.stateName == "adressePersonel") { //states.fromCache &&
+                if (states.stateName == "menu.infoTabs.adressePersonel") { //states.fromCache &&
                     //$scope.initForm();
                     //employeur=localStorageService.get('employeur');
                     var steps = (localStorageService.get('steps') != null) ? localStorageService.get('steps') : '';

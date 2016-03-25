@@ -38,11 +38,11 @@ starter
                     var steps = (localStorageService.get('steps') != null) ? localStorageService.get('steps') : '';
                     if (!steps) {
 
-                        $state.go('offres');
+                        $state.go('menu.offres');
                     }
                     else {
 
-                        $state.go('contract');
+                        $state.go('menu.contract');
                     }
 
                 }).error(function (err) {
@@ -77,7 +77,7 @@ starter
             }
 
             // console.log(states.fromCache+"  state : "+states.stateName);
-            if (states.stateName == "adresseTravail") {
+            if (states.stateName == "menu.infoTabs.adresseTravail") {
                 var steps = (localStorageService.get('steps') != null) ? localStorageService.get('steps') : '';
                 //$scope.initForm();
                 // console.log("steps ="+steps);
@@ -263,9 +263,9 @@ starter
         //};
         $scope.skipGoto = function () {
             if ($scope.isContractInfo)
-                $state.go('contract');
+                $state.go('menu.contract');
             else
-                $state.go('offres');
+                $state.go('menu.offres');
         }
     });
 

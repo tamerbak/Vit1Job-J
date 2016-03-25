@@ -14,13 +14,14 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
   'LocalStorageModule', 'connexionPhoneServices', 'Services', 'ngCookies', 'angucomplete-alt', 'ion-google-autocomplete', 'ui.mask',
   'ionic.service.core'])
 
-  .run(function ($ionicPlatform, $rootScope, $cordovaSplashscreen) {
+  .run(function ($ionicPlatform, $rootScope, $cordovaSplashscreen, LoadList,localStorageService) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
-      setTimeout(function() {
-        $cordovaSplashscreen.hide()
-      }, 10000);
+      setTimeout(function () {
+       $cordovaSplashscreen.hide()
+       }, 10000);
+
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
@@ -31,6 +32,21 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
 
       $rootScope.AppLogo = '<div class="vimgBar"><img src="img/vit1job-mini.png"></div>';
       $rootScope.previousView = '';
+
+      /*console.log("Load data...");
+      var listIndicatif = LoadList.loadCountries();
+      listIndicatif.then(function (response) {
+        console.log(response.data[0]);
+        console.log(localStorageService.get('Countries'));
+        if (response) {
+          if (!localStorageService.get('Countries')){
+            console.log(response.data);
+            localStorageService.set('Countries', response.data);
+          }
+        }
+        console.log("Data loaded!");
+        $cordovaSplashscreen.hide();
+      })*/
 
     });
   })
@@ -55,7 +71,7 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
     });
   })
 
-  .config(['$ionicAppProvider', function($ionicAppProvider) {
+  .config(['$ionicAppProvider', function ($ionicAppProvider) {
 
     // Identify app
     $ionicAppProvider.identify({
@@ -63,7 +79,7 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
       app_id: 'b718e5fc',
       // The API key all services will use for this app
       api_key: 'e25f25053bc85add208fac4c8c42bf3eaf529467847f735b',
-      dev_push : false
+      dev_push: false
     });
 
   }])

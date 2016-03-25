@@ -63,7 +63,7 @@ starter.controller('contractCtrl', function ($scope, localStorageService, $state
           ]
         });
         alertPopup.then(function () {
-          $state.go("app");
+          $state.go("menu.app");
         });
       });
     } else {
@@ -142,8 +142,8 @@ starter.controller('contractCtrl', function ($scope, localStorageService, $state
     var hideSheet = $ionicActionSheet.show({
       buttons: [
         {text: 'Civilité'}, //Index = 0
-        {text: 'Siège social'}, //Index = 1
-        {text: 'Adresse de travail'} //Index = 2
+        {text: 'Adresse personnelle'}, //Index = 1
+        {text: 'Adresse de départ au travail'} //Index = 2
       ],
       titleText: 'Editer le contrat',
       cancelText: 'Annuler',
