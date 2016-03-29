@@ -22,7 +22,6 @@ starter
     //$scope.formData.connexion= {};
 
 
-
     $scope.exitVit = function () {
       navigator.app.exitApp();
     };
@@ -152,11 +151,11 @@ starter
     };
 
     var onGetJobyersOffersByJobSuccess = function (data) {
-      if (data == null || data.length == 0)
-        return;
-      var sdata = data[0]['value'];
-      var jobyersOffers = JSON.parse(sdata);
-      localStorageService.set('jobyersOffers', jobyersOffers);
+      if (!(data == null) && !(data.length == 0)){
+        var sdata = data[0]['value'];
+        var jobyersOffers = JSON.parse(sdata);
+        localStorageService.set('jobyersOffers', jobyersOffers);
+      }
       $state.go("menu.jobyersOffersTab.list");
     };
 
@@ -172,50 +171,50 @@ starter
       if (!job) return;
       var currentEmployer = localStorageService.get('currentEmployer');
       if (!currentEmployer) return;
-      var entreprises = currentEmployer.entreprises;
+      //var entreprises = currentEmployer.entreprises;
       var found = false;
-      if (entreprises && entreprises.length > 0) {
-        var i = 0;
-        var offers = [];
-        var pricticesJob = [];
-        var j;
-        var k;
-        while (!found && i < entreprises.length) {
-          offers = entreprises[i].offers;
-          if (offers && offers.length > 0) {
-            j = 0;
-            while (!found && j < offers.length) {
-              pricticesJob = offers[j].pricticesJob;
-              if (pricticesJob && pricticesJob.length > 0) {
-                k = 0;
-                while (!found && k < pricticesJob.length) {
-                  //TEL does search sentence contains job label ? ICIM
-                  found = (pricticesJob[k].job && job.toLowerCase().indexOf(pricticesJob[k].job.toLowerCase()) > -1);
-                  //found = (pricticesJob[k].job && pricticesJob[k].job.toLowerCase() == job.toLowerCase());
-                  if (found) {
-                    var currentOffer = {
-                      'id': offers[j].offerId.toString(),
-                      'label': offers[j].title
-                    };
-                    localStorageService.set('currentOffer', currentOffer);
-                    var currentEntreprise = {
-                      'id': entreprises[i].entrepriseId.toString(),
-                      'label': entreprises[i].name
-                    };
-                    localStorageService.set('currentEntreprise', currentEntreprise);
-                    loadCurrentEmployerEntreprises();
-                  }
-                  else {
-                    k++;
-                  }
-                }
+      //if (entreprises && entreprises.length > 0) {
+      var i = 0;
+      var offers = [];
+      var pricticesJob = [];
+      var j;
+      var k;
+      //while (!found && i < entreprises.length) {
+      offers = currentEmployer.competences;
+      if (offers && offers.length > 0) {
+        j = 0;
+        while (!found && j < offers.length) {
+          pricticesJob = offers[j].pricticesJob;
+          if (pricticesJob && pricticesJob.length > 0) {
+            k = 0;
+            while (!found && k < pricticesJob.length) {
+              //TEL does search sentence contains job label ? ICIM
+              found = (pricticesJob[k].job && job.toLowerCase().indexOf(pricticesJob[k].job.toLowerCase()) > -1);
+              //found = (pricticesJob[k].job && pricticesJob[k].job.toLowerCase() == job.toLowerCase());
+              if (found) {
+                var currentOffer = {
+                  'id': offers[j].offerId.toString(),
+                  'label': offers[j].title
+                };
+                localStorageService.set('currentOffer', currentOffer);
+                /*var currentEntreprise = {
+                  'id': entreprises[i].entrepriseId.toString(),
+                  'label': entreprises[i].name
+                };
+                localStorageService.set('currentEntreprise', currentEntreprise);
+                loadCurrentEmployerEntreprises();*/
               }
-              if (!found) j++;
+              else {
+                k++;
+              }
             }
           }
-          if (!found) i++;
+          if (!found) j++;
         }
       }
+      if (!found) i++;
+      //}
+      //}
 
       /*if(!found && $rootScope.offres != undefined) {
        var offers = $rootScope.offres;
