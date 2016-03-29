@@ -63,7 +63,9 @@ starter
           if (employeur) {
             // INITIALISATION FORMULAIRE
             if (employeur.titre)
-              $scope.formData.civ = employeur.titre;
+              //$scope.formData.civ = employeur.titre;
+              var civiliteArray = $.grep($scope.formData.civilites, function(e){ return e.libelle == employeur.titre; });
+              $scope.formData.civilite = civiliteArray.length == 1 ?  civiliteArray[0]:"";
             if (employeur.nom)
               $scope.formData.nom = employeur.nom;
             if (employeur.prenom)
@@ -73,6 +75,7 @@ starter
             if (employeur.cni)
               $scope.formData.cni = employeur.cni;
             if (employeur.nationalite)
+              $scope.formData.nationalites.push(employeur.nationalite);
               $scope.formData.nationalite = employeur.nationalite;
           }
         }
@@ -83,7 +86,7 @@ starter
       var currentEmployer = localStorageService.get('currentEmployer');
       var employerId = currentEmployer.jobyerId;
 
-      var titre = $scope.formData.civ;
+      var titre = $scope.formData.civilite.libelle;
       var nom = $scope.formData.nom;
       var prenom = $scope.formData.prenom;
       var numSS = $scope.formData.numSS;
