@@ -127,10 +127,10 @@ starter
     var showAddOfferConfirmPopup = function (job) {
       var confirmPopup = $ionicPopup.confirm({
         title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
-        template: 'Pour que la recherche soit plus précise, voulez vous créer une offre pour ' + job + '?',
+        template: 'Afin d’être Vite On Job précisez vos critères de  recherche de ' + job + '?',
         buttons: [
           {
-            text: '<b>Continuer</b>',
+            text: '<b>Non</b>',
             type: 'button-dark',
             onTap: function (e) {
               confirmPopup.close();

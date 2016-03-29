@@ -311,7 +311,7 @@
       var periodicAvailabilitiesByWeekDay = [];
       if(periodicAvailabilities && periodicAvailabilities.length > 0){
         for(var i = 0; i <periodicAvailabilities.length; i++){
-          if((getWeekDayNumber(periodicAvailabilities[i].day) = weekDayNumer)){
+          if((getWeekDayNumber(periodicAvailabilities[i].day) == weekDayNumer)){
             periodicAvailabilitiesByWeekDay.push(periodicAvailabilities[i]);
           }
         }

@@ -24,13 +24,13 @@
 
   <ion-content class="padding" padding="true">
     <div>
-      <h3 class="titlePhone"><b>Qualités indispensables</b></h3>
+      <h3 class="titlePhone"><b>Mes atouts</b></h3>
     </div>
     <!-- INDESPENSABLES -->
     <div class="list">
       <label class="item item-input">
-        <select class="flat selectClass" data-ng-model="formData.indisp" data-ng-init="formData.indisp='Qualités indispensables'">
-          <option selected disabled style="display: none;">Qualités indispensables</option>
+        <select class="flat selectClass" data-ng-model="formData.indisp" data-ng-init="formData.indisp='Mes atouts'">
+          <option selected disabled style="display: none;">Mes atouts</option>
           <option data-ng-repeat="x in formData.transvers" value="{{x}}">{{x.libelle}}</option>
         </select>
       </label>
@@ -43,5 +43,6 @@
         {{data.libelle}}
       </ion-radio>
     </div>
-    <button class="button button-full button-positive green" ui-sref="menu.offreTabs.langues">Suivant</button>
+    <button class="button button-full button-positive green" data-ng-click="Etape3();" >Suivant</button>
+    <!--ui-sref="menu.offreTabs.langues"-->
 </ion-view>

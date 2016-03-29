@@ -31,7 +31,7 @@
     <!-- METIERS -->
     <div class="input-container">
       <div angucomplete-alt id="metiers"
-           placeholder="Domaine"
+           placeholder="Secteur"
            initial-value="formData.metier.libelle || formData.metier.title"
            maxlength="50"
            pause="100"
@@ -69,7 +69,7 @@
       </select>
       </div>
     <ion-item class="item-icon-right itemHoraire">
-      <input type="text" placeholder="Taux horaire brut" data-ng-model="formData.tarif">
+      <input type="text" placeholder="Taux horaire minimum" data-ng-model="formData.tarif">
     </ion-item>
     </div>
     <!-- MAITRISE -->
@@ -82,6 +82,7 @@
         <!--<img src="img\tree4_small.png" style="display: inline;max-width: 60px;max-height: 80px;"> -->
       </div>
     </div>
-    <button class="button button-full button-positive green" ui-sref="menu.offreTabs.qualites">Suivant</button>
+    <button class="button button-full button-positive green" data-ng-click="Etape2();">Suivant</button>
+    <!--ui-sref="menu.offreTabs.qualites"-->
     <!-- </div> -->
 </ion-view>

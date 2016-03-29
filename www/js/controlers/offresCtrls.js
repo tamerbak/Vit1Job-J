@@ -17,7 +17,7 @@ starter
             var offers = jobyer.competences;
 
             $rootScope.offres = offers;
-            if ($rootScope.offres.length>0){
+            if ($rootScope.offres != undefined && $rootScope.offres.length>0){
                 for (var i = 0; i<$rootScope.offres.length; i++){
                     $rootScope.offres[i].pricticesJob = jobyer.competences[i].pricticesJob;
                     $rootScope.offres[i].pricticesLanguage = jobyer.competences[i].pricticesLanguage;
@@ -36,7 +36,7 @@ starter
             var offers = jobyer.competences;
 
             $rootScope.offres = offers;
-            if ($rootScope.offres.length>0){
+            if ($rootScope.offres != undefined && $rootScope.offres.length>0){
                 for (var i = 0; i<$rootScope.offres.length; i++){
                     $rootScope.offres[i].pricticesJob = jobyer.competences[i].pricticesJob;
                     $rootScope.offres[i].pricticesLanguage = jobyer.competences[i].pricticesLanguage;
@@ -96,9 +96,9 @@ starter
 
             console.log($scope.formData.offre);
             if (offre.offerId) {
-                $state.go('offreTabs.job', {"offre": JSON.stringify(offre)});
+                $state.go('menu.offreTabs.job', {"offre": JSON.stringify(offre)});
             } else {
-                Global.showAlertValidation("Veuillez séléctionner une offre.");
+                Global.showAlertValidation("Veuillez sélectionner une offre.");
             }
         };
         $scope.editStateOffre = function () {
@@ -147,14 +147,14 @@ starter
                 localStorageService.set('currentEmployer', jobyer);
 
             } else {
-                Global.showAlertValidation("Veuillez séléctionner une offre.");
+                Global.showAlertValidation("Veuillez sélectionner une offre.");
             }
         };
         $scope.compteCree = function () {
             var currentJobyer = localStorageService.get('currentEmployer');
             if (currentJobyer.new == true)
                 Global.showAlertValidation("Bienvenue dans VitOnJob.<br>Vous venez de créer votre compte.<br>Vous pouvez lancer la recherche des offres d'emploi selon vos critères.");
-            $state.go('app');
+            $state.go('menu.app');
         };
         $scope.supprimerOffre = function () {
             var offre = $scope.formData.offre;
@@ -175,7 +175,7 @@ starter
                     $scope.formData.offresNonPublies.splice($scope.formData.offresNonPublies.indexOf(offre), 1);
                 $scope.formData.offre = {selected: false};
             } else {
-                Global.showAlertValidation("Veuillez séléctionner une offre.");
+                Global.showAlertValidation("Veuillez sélectionner une offre.");
             }
         };
         $scope.$on("$ionicView.beforeEnter", function (scopes, states) {

@@ -151,17 +151,27 @@ starter
                     $scope.formData.horaires = [];
                 console.log('init called');
 
-                if ($scope.offre.disponibilite[0] && $scope.offre.disponibilite[0].dateDebut)
-                    $scope.formData.dateDebut = formatDate(new Date(parseInt($scope.offre.disponibilite[0].dateDebut)));
+                if ($scope.offre.disponibilite[0] && $scope.offre.disponibilite[0].dateDebut){
+                    $scope.formData.dateDebut = new Date($scope.offre.disponibilite[0].dateDebut);
+                    
+                }
                 else
-                    $scope.formData.dateDebut = formatDate(new Date());
+                {
+                    $scope.formData.dateDebut = new Date();
+                }
 
-                if ($scope.offre.disponibilite[0] && $scope.offre.disponibilite[0].dateFin)
-                    $scope.formData.dateFin = formatDate(new Date(parseInt($scope.offre.disponibilite[0].dateFin)));
+                if ($scope.offre.disponibilite[0] && $scope.offre.disponibilite[0].dateFin){
+                    $scope.formData.dateFin = new Date($scope.offre.disponibilite[0].dateFin);
+                }
                 else
-                    $scope.formData.dateFin = formatDate(new Date());
-
-            } else
+                {
+                    $scope.formData.dateFin = new Date();
+                }
+            } else {
+                var jours = DataProvider.getDays();
+                var jour = new Date();
+                var numJour = jour.getDay();
+                numJour = numJour == 0 ? 6 : numJour-1;
                 $scope.formData = {
                     'maitrise': 'Débutant',
                     'maitriseIcon': 'tree1_small.png',
@@ -175,23 +185,25 @@ starter
                     'absoluteJobs': DataProvider.getJobs(),
                     'transvers': DataProvider.getTransvers(),
                     //'dateFin': "Jamais",
-                    'jourSelect': "Lundi",
+                    'jourSelect': jours[numJour].nom,//"Lundi",
                     'heureDebut': 0,
                     'heureFin': 0,
                     'heureDebutFormat': '00h00',
                     'heureFinFormat': '00h00',
                     horaires: [],
-                    jours: DataProvider.getDays(),
+                    jours: jours,
                     qiList: [],
                     languesList: [],
                     qi: {},
                     degre: 10,
                     selectedLangue: {},
-                    dateDebut: formatDate(new Date()),
-                    dateFin: formatDate(new Date())
+                    dateDebut:jour,// formatDate(new Date()),
+                    dateFin: jour,//formatDate(new Date())
                 };
+            }
             console.log($scope.formData.dateDebut);
             console.log($scope.formData.dateFin);
+            
         };
 
         $scope.rangeChange = function () {
@@ -249,7 +261,31 @@ starter
                 //$scope.formData.maitriseLangueStyle = "display: inline;max-width: 60px;max-height: 80px;";
             }
         };
-
+        
+        $scope.Etape2 = function (){
+            if(!$scope.formData.metier || !$scope.formData.job ){
+                Global.showAlertValidation("Veuillez Choisir un job et un secteur avant de continuer");
+                return false;
+            }
+            $state.go('menu.offreTabs.qualites');
+        }
+        
+        $scope.Etape3 = function (){
+            if($scope.formData.qiList.length == 0){
+                Global.showAlertValidation("Vous n'avez pas valider votre choix, Veuillez cliquer sur + pour le valider");
+                return false;
+            }
+            $state.go('menu.offreTabs.langues');
+        }
+        
+        $scope.Etape4 = function (){
+            if($scope.formData.languesList.length == 0){
+                Global.showAlertValidation("Vous n'avez pas valider votre choix, Veuillez cliquer sur + pour le valider");
+                return false;
+            }
+            $state.go('menu.offreTabs.agenda');
+        } 
+        
         $scope.ajouterQi = function () {
             var qi;
 
@@ -266,7 +302,7 @@ starter
                 $scope.formData.qiList.push(qi);
 
             } else {
-                Global.showAlertValidation("Veuillez séléctionner une qualité.");
+                Global.showAlertValidation("Veuillez sélectionner une qualité.");
             }
         };
 
@@ -279,7 +315,7 @@ starter
                     $scope.formData.qiList.splice(index, 1);
                     $scope.formData.qi = {selected: false};
                 } else
-                    Global.showAlertValidation("Veuillez séléctionner une qualité.");
+                    Global.showAlertValidation("Veuillez sélectionner une qualité.");
             } else {
                 Global.showAlertValidation("La liste est vide.");
             }
@@ -310,7 +346,7 @@ starter
                 $scope.formData.languesList.push(langue);
 
             } else {
-                Global.showAlertValidation("Veuillez séléctionner une langue.");
+                Global.showAlertValidation("Veuillez sélectionner une langue.");
             }
         };
 
@@ -324,7 +360,7 @@ starter
                     $scope.formData.languesList.splice(index, 1);
                     $scope.formData.selectedLangue = {selected: false};
                 } else
-                    Global.showAlertValidation("Veuillez séléctionner une langue.");
+                    Global.showAlertValidation("Veuillez sélectionner une langue.");
             } else {
                 Global.showAlertValidation("La liste est vide.");
             }
@@ -370,6 +406,11 @@ starter
             var disponibilites;
             var plagesHoraires = [];
             var remuneration;
+            
+            if($scope.formData.horaires.length == 0){
+                Global.showAlertValidation("Vous n'avez pas valider votre choix,Veuillez cliquer sur + pour le valider");
+                return false;
+            }
 
 
             if (!$scope.offre)
@@ -697,7 +738,7 @@ starter
                 return false;
             }
             else if ($scope.horaireExist(params)) {
-                Global.showAlertValidation("L horaire choisie existe déja.");
+                Global.showAlertValidation("Plage déjà sélectionnée.");
                 return false
             }
 
