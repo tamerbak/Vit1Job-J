@@ -62,10 +62,11 @@ starter
           var employeur = localStorageService.get('currentEmployer');
           if (employeur) {
             // INITIALISATION FORMULAIRE
-            if (employeur.titre)
+            if (employeur.titre){
               //$scope.formData.civ = employeur.titre;
               var civiliteArray = $.grep($scope.formData.civilites, function(e){ return e.libelle == employeur.titre; });
-              $scope.formData.civilite = civiliteArray.length == 1 ?  civiliteArray[0]:"";
+              $scope.formData.civilite = civiliteArray.length == 1 ?  civiliteArray[0]:"Titre";
+            }
             if (employeur.nom)
               $scope.formData.nom = employeur.nom;
             if (employeur.prenom)
@@ -74,9 +75,10 @@ starter
               $scope.formData.numSS = employeur.numSS;
             if (employeur.cni)
               $scope.formData.cni = employeur.cni;
-            if (employeur.nationalite)
+            if (employeur.nationalite){
               $scope.formData.nationalites.push(employeur.nationalite);
               $scope.formData.nationalite = employeur.nationalite;
+            }
           }
         }
       }
@@ -220,7 +222,7 @@ starter
 
       $cordovaCamera.getPicture(options).then(function (imageData) {
         $scope.imgURI = "data:image/jpeg;base64," + imageData;
-        ;
+
         // console.log("imageURI : "+$scope.imgURI);
         //$state.go($state.current, {}, {reload: true});
 

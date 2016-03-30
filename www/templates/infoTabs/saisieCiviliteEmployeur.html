@@ -20,7 +20,7 @@
         <!-- TITRE -->
         <div class="list">
             <label class="item item-input" style="padding-left: 8px;">
-                <select class="flat" ng-model="formData.civilite" data-ng-init="formData.civ='Titre'" ng-options="x.libelle for x in formData.civilites"> 
+                <select class="flat" ng-model="formData.civilite" data-ng-init="formData.civ='Titre'" ng-options="x.libelle for x in formData.civilites">
                     <option selected disabled style="display: none;">Titre</option>
                     <!--<option data-ng-repeat="x in formData.civilites" value="{{x.libelle}}">{{x.libelle}}</option>-->
                 </select>
@@ -44,7 +44,7 @@
             </label>
             <label class="item item-input" style="padding-left: 8px;">
                 <!--"-->
-                <select class="flat" data-ng-model="formData.nationalite" data-ng-init="formData.nationalite.libelle='Nationalité'
+                <select class="flat" data-ng-model="formData.nationalite" data-ng-init="formData.nationalite.libelle='Nationalité'"
                         data-ng-change="displayScanTitle()" ng-options="item.libelle for item in formData.nationalites">
                     <option selected disabled style="display: none;" value ="">Nationalité</option>
                     <!--option data-ng-repeat="x in formData.nationalites" value="{{x.libelle}}">{{x.libelle}}</option-->

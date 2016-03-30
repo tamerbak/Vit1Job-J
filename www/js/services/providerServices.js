@@ -24,7 +24,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -42,7 +42,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -71,7 +71,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -105,7 +105,7 @@ angular.module('providerServices', [])
                     console.log("error : " + error);
                 });*/
 
-            $http({ method: 'POST', url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql', headers: {   "Content-Type": "text/plain" }, data: sql}).success(function (data) {
+            $http({ method: 'POST', url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql', headers: {   "Content-Type": "text/plain" }, data: sql}).success(function (data) {
              for(var i = 0 ; i < data.data.length ; i++)
              results.push({"natId":data.data[i]["pk_user_nationalite"],"libelle":data.data[i]["libelle"]});
              });
@@ -121,7 +121,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -141,7 +141,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -163,7 +163,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -185,7 +185,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -206,7 +206,7 @@ angular.module('providerServices', [])
 
             return $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             })
@@ -225,7 +225,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
@@ -248,7 +248,7 @@ angular.module('providerServices', [])
 
             $http({
                 method: 'POST',
-                url: 'http://ns389914.ovh.net:8080/vitonjobv1/api/sql',
+                url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
                 headers: {"Content-Type": "text/plain"},
                 data: sql
             }).success(function (data) {
