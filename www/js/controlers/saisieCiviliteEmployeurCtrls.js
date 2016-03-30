@@ -65,16 +65,20 @@ starter
             if (employeur.titre){
               //$scope.formData.civ = employeur.titre;
               var civiliteArray = $.grep($scope.formData.civilites, function(e){ return e.libelle == employeur.titre; });
-              $scope.formData.civilite = civiliteArray.length == 1 ?  civiliteArray[0]:"Titre";
+              $scope.formData.civilite = civiliteArray.length == 1 ?  civiliteArray[0]:"";
             }
-            if (employeur.nom)
+            if (employeur.nom){
               $scope.formData.nom = employeur.nom;
-            if (employeur.prenom)
+            }
+            if (employeur.prenom){
               $scope.formData.prenom = employeur.prenom;
-            if (employeur.numSS)
+            }
+            if (employeur.numSS){
               $scope.formData.numSS = employeur.numSS;
-            if (employeur.cni)
+            }
+            if (employeur.cni){
               $scope.formData.cni = employeur.cni;
+            }
             if (employeur.nationalite){
               $scope.formData.nationalites.push(employeur.nationalite);
               $scope.formData.nationalite = employeur.nationalite;
@@ -293,11 +297,11 @@ starter
     $scope.initForm = function () {
       // GET LIST
       $scope.formData = {'civilites': DataProvider.getCivilites()};
-      $scope.formData.civ = "Titre";
+      //$scope.formData.civ = "Titre";
       $scope.formData.nationalites = DataProvider.getNationalite();
 
       // console.log('$scope.formData.civ = '+$scope.formData.civ);
-      $scope.formData.nationalite = {"libelle":"Nationalité"};
+      //$scope.formData.nationalite = {"libelle":"Nationalité"};
     };
 
     /*$scope.$on("$ionicView.beforeEnter", function (scopes, states) {
