@@ -6,7 +6,7 @@
 
 starter
   .controller('cPhoneCtrl', function ($scope, $rootScope, localStorageService, $state, $http,
-                                      AuthentificatInServer, LoadList, Global, Validator) {
+                                      AuthentificatInServer, LoadList, Global, Validator, DataProvider) {
 
     $scope.formData = {};
     $scope.isIOS = ionic.Platform.isIOS();
@@ -70,6 +70,10 @@ starter
     $scope.displayPwdTooltip = function () {
       $scope.showPwdTooltip = true;
     };
+    $scope.displayPwd2Tooltip = function () {
+      $scope.showPwd2Tooltip = true;
+    };
+
     $scope.passwordIsValid = function () {
       if ($scope.formData.password != undefined) {
         if (Number($scope.formData.password.length) >= 6) {
@@ -79,9 +83,12 @@ starter
           return false;
       } else
         return false;
-
-
     };
+
+    $scope.password2IsValid = function () {
+      return ($scope.formData.password == $scope.formData.password2)
+    };
+
     $scope.displayPhoneTooltip = function () {
       $scope.showPhoneTooltip = true;
     };
@@ -128,6 +135,12 @@ starter
 
     $scope.initForm = function () {
       // GET LIST
+      //$scope.email = "";
+      $scope.libelleButton = "Se connecter";
+      $scope.formData.email = "";
+      $scope.formData.phone = "";
+      $scope.formData.password = "";
+      $scope.showEmailField = false;
       if (!$scope.formData)
         $scope.formData = {};
       $scope.formData.index = "33";
@@ -158,10 +171,10 @@ starter
     };
 
     /*$scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-      if (states.stateName == "cPhone") {
-        $scope.initForm();
-      }
-    });*/
+     if (states.stateName == "cPhone") {
+     $scope.initForm();
+     }
+     });*/
 
     $scope.$watch('formData.phone', function () {
       if ($scope.formData.phone) {
@@ -177,8 +190,13 @@ starter
         } else if ($scope.formData.phone.length > 10) {
           $scope.formData.phone = $scope.formData.phone.substring(0, 9);
         }
+        /*$scope.showEmailField = true;
+         $scope.formData.email = "";
+         $scope.libelleButton = "Se connecter";*/
+        if ($scope.formData.phone.length == 9) {
+          $scope.isRegistration();
+        }
       }
-
 
     });
 
@@ -191,4 +209,48 @@ starter
     $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
       viewData.enableBack = true;
     });
+
+
+    $scope.isRegistration = function () {
+
+      if ($scope.phoneIsValid()) {
+        //On teste si le tél existe dans la base
+        var tel = "+" + $scope.formData.index + $scope.formData.phone;
+
+        DataProvider.getUserbyPhone(tel).success(function (data) {
+          if (!data || data.data.length == 0) {
+            $scope.showEmailField = true;
+            //$scope.email = "";
+            $scope.formData.email = "";
+            $scope.libelleButton = "S'inscrire";
+          } else {
+            //$scope.email = data.data[0]["email"];
+            $scope.formData.email = data.data[0]["email"];
+            $scope.libelleButton = "Se connecter";
+            $scope.showEmailField = false;
+          }
+        })
+
+      } else {
+        //ça sera toujours une connexion
+        $scope.showEmailField = true;
+        //$scope.email = "";
+        $scope.libelleButton = "S'inscrire";
+        $scope.formData.email = "";
+      }
+    };
+
+    $scope.goForAction = function () {
+
+      if ($scope.showEmailField == true) {
+        //inscription
+        return (!$scope.formData.index || !$scope.formData.phone || !$scope.formData.password
+          || !$scope.formData.password2 || !$scope.formData.email) && !$scope.password2IsValid()
+      } else {
+        //connection
+        return (!$scope.formData.index || !$scope.formData.phone || !$scope.formData.password)
+      }
+
+    }
+
   });

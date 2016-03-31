@@ -119,6 +119,9 @@ starter
 
     $scope.initForm=function(){
       // GET LIST
+      $scope.formData.email = "";
+      $scope.formData.phone = "";
+      $scope.formData.password = "";
       if(!$scope.formData)
         $scope.formData={};
       $scope.formData.index="33";
