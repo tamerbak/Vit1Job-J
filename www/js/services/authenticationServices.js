@@ -57,7 +57,7 @@ angular.module('wsConnectors', ['ionic'])
 
       var data = {
         'class': 'fr.protogen.masterdata.model.CCallout',
-        'id': 74,//71,//70,//67,//49,
+        'id': 96,//95,//74,//71,//70,//67,//49,
         'args': [{
           'class': 'fr.protogen.masterdata.model.CCalloutArguments',
           label: 'requete authentification',
@@ -151,7 +151,7 @@ angular.module('wsConnectors', ['ionic'])
 
       var data = {
         'class': 'fr.protogen.masterdata.model.CCallout',
-        'id': 65,//59,//58,//57, //56,//55,//54, //53,//52,// 51, //47,
+        'id': 87, //65,//59,//58,//57, //56,//55,//54, //53,//52,// 51, //47,
         'args': [{
           'class': 'fr.protogen.masterdata.model.CCalloutArguments',
           label: 'Signature electronique',
@@ -184,15 +184,21 @@ angular.module('wsConnectors', ['ionic'])
   })
 
   .service('UpdateInServer', function ($http) {
-    this.updateCiviliteInEmployeur = function (civilite, nom, prenom, numSS, cni, nationaliteId,  jobyerId) {
+    this.updateCiviliteInEmployeur = function (civilite, nom, prenom, numSS, cni, nationaliteId,  jobyerId, dateNaissance, lieuNaissance) {
+
+      var fromStringDate = dateNaissance.split("/");
+      var toRealDate = new Date(fromStringDate[2], fromStringDate[1] - 1, fromStringDate[0]);
+
       var sql = "update user_jobyer set  " +
           "titre='" + civilite + "', " +
           "nom='" + nom + "', " +
           "prenom='" + prenom + "', " +
           "numero_securite_sociale='" + numSS + "', " +
           "cni='" + cni + "', " +
-          "fk_user_nationalite='" + nationaliteId + "' " +
-          "where pk_user_jobyer='" + jobyerId + "';";
+          "date_de_naissance ='" + toRealDate + "', " +
+          "lieu_de_naissance ='" + lieuNaissance + "', " +
+          "fk_user_nationalite ='" + nationaliteId + "' " +
+          "where pk_user_jobyer ='" + jobyerId + "';";
 
 
       return $http({

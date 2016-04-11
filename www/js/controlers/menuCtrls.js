@@ -5,6 +5,9 @@
 starter.controller('MenuCtrl', function ($scope, localStorageService, $state, $ionicSideMenuDelegate) {
 
   //Control variables
+  var jobyer = localStorageService.get('currentEmployer');
+  if (jobyer)
+    $scope.prenom = jobyer.prenom;
 
   //Before enter to menu ..
   $scope.$on('$ionicView.beforeEnter', function () {
@@ -16,9 +19,9 @@ starter.controller('MenuCtrl', function ($scope, localStorageService, $state, $i
     }
   });
 
-  $scope.$watch($ionicSideMenuDelegate.getOpenRatio(), function() {
+  $scope.$watch($ionicSideMenuDelegate.getOpenRatio(), function () {
     //do something
-    console.log($ionicSideMenuDelegate.getOpenRatio()+"");
+    console.log($ionicSideMenuDelegate.getOpenRatio() + "");
 
     var cnx = localStorageService.get('connexion');
     if (cnx) {

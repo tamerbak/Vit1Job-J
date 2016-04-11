@@ -12,7 +12,7 @@
 var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServices', 'fileServices', 'globalServices', 'ng-mfb',
   'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova', 'validationDataServices', 'providerServices',
   'LocalStorageModule', 'connexionPhoneServices', 'Services', 'ngCookies', 'angucomplete-alt', 'ion-google-autocomplete', 'ui.mask',
-  'ionic.service.core'])
+  'ionic.service.core', 'ionic-multi-date-picker', 'ionic-timepicker'])//, 'ionic-datepicker'
 
   .run(function ($ionicPlatform, $rootScope, $cordovaSplashscreen, LoadList,localStorageService) {
     $ionicPlatform.ready(function () {
@@ -47,6 +47,29 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
         console.log("Data loaded!");
         $cordovaSplashscreen.hide();
       })*/
+
+      //Instabug integration :
+      cordova.plugins.instabug.activate(
+        {
+          android: '8638bb86054b6354141c9a07d8317d26',
+          ios: 'a79265adfebcc922588a989ab0a07557'
+        },
+        'shake',//button
+        {
+          commentRequired: true,
+          colorTheme: 'dark',
+          shakingThresholdAndroid: '0.01',
+          shakingThresholdIPhone: '0.5',
+          shakingThresholdIPad: '0.6',
+          enableIntroDialog: false
+        },
+        function () {
+          console.log('Instabug initialized.');
+        },
+        function (error) {
+          console.log('Instabug could not be initialized - ' + error);
+        }
+      );
 
     });
   })
@@ -83,6 +106,37 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
     });
 
   }])
+
+  .config(function (ionicTimePickerProvider) {
+    var timePickerObj = {
+      inputTime: (((new Date()).getHours() * 60 * 60) + ((new Date()).getMinutes() * 60)),
+      format: 24,
+      step: 1,
+      setLabel: 'Ok',
+      closeLabel: 'Fermer'
+    };
+    ionicTimePickerProvider.configTimePicker(timePickerObj);
+  })
+
+  /*.config(function (ionicDatePickerProvider) {
+    var datePickerObj = {
+      inputDate: new Date(),
+      setLabel: 'Ok',
+      todayLabel: "Aujourd'hui",
+      closeLabel: 'Fermer',
+      mondayFirst: true,
+      weeksList: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+      monthsList: ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"],
+      templateType: 'popup',
+      from: new Date(1950, 1, 1),
+      to: new Date(2018, 8, 1),
+      showTodayButton: false,
+      dateFormat: 'dd/MM/yyyy',
+      closeOnSelect: false,
+      disableWeekdays: [6]
+    };
+    ionicDatePickerProvider.configDatePicker(datePickerObj);
+  })*/
 
   .run(function ($rootScope, $ionicLoading) {
     $rootScope.$on('loading:show', function () {

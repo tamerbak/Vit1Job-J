@@ -76,10 +76,14 @@ starter
             if (employeur.numSS){
               $scope.formData.numSS = employeur.numSS;
             }
+            if (employeur.dateNaissance)
+              $scope.formData.dateNaissance = employeur.dateNaissance;
+            if (employeur.lieuNaissance)
+              $scope.formData.lieuNaissance = employeur.lieuNaissance;
             if (employeur.cni){
               $scope.formData.cni = employeur.cni;
             }
-            if (employeur.nationalite){
+            if (employeur.nationalite != null && employeur.nationalite.libelle != ""){
               $scope.formData.nationalites.push(employeur.nationalite);
               $scope.formData.nationalite = employeur.nationalite;
             }
@@ -99,6 +103,9 @@ starter
       var cni = $scope.formData.cni;
       var nationalite = '';
       var nationaliteId ='';
+      var dateNaissance = $scope.formData.dateNaissance;
+      var lieuNaissance = $scope.formData.lieuNaissance;
+
        console.log($scope.formData['nationalite']);
       if($scope.formData['nationalite'] != null  && $scope.formData['nationalite'].libelle!='Nationalité' && $scope.formData['nationalite'].libelle != undefined){
         nationalite = $scope.formData['nationalite'];
@@ -106,7 +113,7 @@ starter
       }
 
 
-      if (titre || nom || prenom || cni || numSS || nationalite ) {
+      if (titre || nom || prenom || cni || numSS || nationalite || dateNaissance || lieuNaissance) {
         if (!titre || titre=="Titre")
           titre = "";
         if (!nom)
@@ -117,27 +124,15 @@ starter
           cni = "";
         if (!numSS)
           numSS = "";
-        /*else {
-          if (!$scope.siretValide) {
-            var myPopup = $ionicPopup.show({
-              template: "Le format du SIRET est incorrect <br>",
-              title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
-              buttons: [
-                {
-                  text: '<b>Non</b>',
-                  type: 'button-dark'
-                }
-              ]
-            });
-            return;
-          }
-
-        }*/
         if(!nationaliteId)
           nationaliteId="";
+        if(!dateNaissance)
+          dateNaissance = "";
+        if(!lieuNaissance)
+          dateNaissance = "";
 
         // UPDATE EMPLOYEUR
-        UpdateInServer.updateCiviliteInEmployeur(titre, nom, prenom, numSS, cni, nationaliteId, employerId)
+        UpdateInServer.updateCiviliteInEmployeur(titre, nom, prenom, numSS, cni, nationaliteId, employerId, dateNaissance, lieuNaissance)
           .success(function (response) {
 
             // DONNEES ONT ETE SAUVEGARDES
@@ -153,6 +148,8 @@ starter
             employeur.cni = cni;
             employeur.numSS = numSS;
             employeur.nationalite = nationalite;
+            employeur.dateNaissance = dateNaissance;
+            employeur.lieuNaissance = lieuNaissance;
 
 
             // PUT IN SESSION
@@ -165,7 +162,7 @@ starter
       }
 
       // UPLOAD IMAGE
-      if ($scope.formData.imageEncode) {
+      /*if ($scope.formData.imageEncode) {
 
         // console.log("image name : "+$scope.formData.imageName);
         //console.log("image en base64 : "+$scope.formData.imageEncode);
@@ -183,7 +180,7 @@ starter
             console.log("error : upload File");
             console.log("error In UploadFile.uploadFile(): " + err);
           });
-      }
+      }*/
 
       // REDIRECTION VERS PAGE - ADRESSE PERSONEL
       if (steps) {
