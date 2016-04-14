@@ -129,8 +129,8 @@ starter
                     offre1.qiList = offre.pricticesIndisponsables;
                 if (offre.pricticesLanguage)
                     offre1.languesList = offre.pricticesLanguage;
-                if (offre.tarif)
-                    offre1.tarif = offre.tarif;
+                if (offre.remuneration)
+                    offre1.remuneration = offre.remuneration;
                 if (offre.heures)
                     offre1.heures = offre.heures;
                 if (offre.disponibilite[0].dateDebut)

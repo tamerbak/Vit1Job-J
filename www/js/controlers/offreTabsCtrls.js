@@ -136,15 +136,14 @@ starter
           $scope.formData.qiList = $scope.offre.pricticesIndisponsables;
         if ($scope.offre.pricticesLanguage)
           $scope.formData.languesList = $scope.offre.pricticesLanguage;
-        if ($scope.offre.tarif)
-          $scope.formData.tarif = $scope.offre.tarif;
-        if ($scope.offre.disponibilite[0] && $scope.offre.disponibilite[0].repetitions) {
-          for (var i = 0; i < $scope.offre.disponibilite[0].repetitions.length; i++)
-            for (var j = 0; j < $scope.offre.disponibilite[0].repetitions.length; j++)
+        if ($scope.offre.remuneration)
+          $scope.formData.remuneration = $scope.offre.remuneration;
+        if ($scope.offre.disponibilite && $scope.offre.disponibilite.length>0) {
+          for (var i = 0; i < $scope.offre.disponibilite.length; i++)
               $scope.formData.horaires += {
-                "jour": $scope.offre.disponibilite[0].repetitions[i].jour,
-                "heureDebut": $scope.offre.disponibilite[0].repetitions[i].plagesHoraires[j].heureDebut,
-                "heureFin": $scope.offre.disponibilite[0].repetitions[i].plagesHoraires[j].heureFin
+                "jour": $scope.offre.disponibilite[i].jour,
+                "heureDebut": $scope.offre.disponibilite[i].heureDebut,
+                "heureFin": $scope.offre.disponibilite[i].heureFin
               }
           $scope.formData.horaires = $scope.offre.horaires;
         }
@@ -425,9 +424,9 @@ starter
         $scope.offre.titre = $scope.formData.maitrise;
       titre = $scope.offre.titre;
       $scope.offre.metier = $scope.formData.metier.originalObject;
-      metier = $scope.offre.metier.pk_user_metier;
+      metier = $scope.offre.metier.libelle;
       $scope.offre.job = $scope.formData.job.originalObject;
-      job = $scope.offre.job.pk_user_competence;
+      job = $scope.offre.job.libelle;
       $scope.offre.qiList = $scope.formData.qiList;
       for (var i = 0; i < $scope.offre.qiList.length; i++)
         indispensables.push({
@@ -444,23 +443,24 @@ starter
         langues.push(l);
       }
 
-      $scope.offre.tarif = $scope.formData.tarif;
-      remuneration = $scope.offre.tarif;
+      $scope.offre.remuneration = $scope.formData.remuneration;
+      remuneration = $scope.offre.remuneration;
+
 
       //TEL 31/03/2016 New agenda :
-      var weekday = new Array(7);
-      weekday[0] = "Dimanche";
-      weekday[1] = "Lundi";
-      weekday[2] = "Mardi";
-      weekday[3] = "Mercredi";
-      weekday[4] = "Jeudi";
-      weekday[5] = "Vendredi";
-      weekday[6] = "Samedi";
+      /*var weekday = new Array(7);
+       weekday[0] = "Dimanche";
+       weekday[1] = "Lundi";
+       weekday[2] = "Mardi";
+       weekday[3] = "Mercredi";
+       weekday[4] = "Jeudi";
+       weekday[5] = "Vendredi";
+       weekday[6] = "Samedi";*/
       if ($scope.selectedDates.length > 0) {
         $scope.formData.horaires = [];
         for (var i = 0; i < $scope.selectedDates.length; i++) {
           $scope.formData.horaires.push({
-              "jour": weekday[$scope.selectedDates[i].date.getDay()],
+              "jour": $scope.selectedDates[i].date.getFullYear().toString()+"-"+($scope.selectedDates[i].date.getMonth()+1).toString()+"-"+$scope.selectedDates[i].date.getDate().toString(), //weekday[$scope.selectedDates[i].date.getDay()]
               "heureDebut": $scope.selectedDates[i].startHour,
               "heureFin": $scope.selectedDates[i].endHour
             }
@@ -472,45 +472,41 @@ starter
       for (var i = 0; i < $scope.offre.horaires.length; i++) {
         var ho = $scope.offre.horaires[i];
         var h = {
-          "class": "com.vitonjob.PlageHoraire",
+          "class": "com.vitonjob.Disponibilite", //"com.vitonjob.PlageHoraire"
           "jour": ho.jour,
-          "heureDebut": ho.heureDebut,
-          "heureFin": ho.heureFin
+          "heureDebut" : parseInt(ho.heureDebut.split(':')[0]) * 60 + parseInt(ho.heureDebut.split(':')[1]),
+          "heureFin" : parseInt(ho.heureFin.split(':')[0]) * 60 + parseInt(ho.heureFin.split(':')[1])
         };
         plagesHoraires.push(h);
       }
 
       //validate date
-      var accept = true; //validateDate();
-      if (accept) {
-        //date debut
+      /*var accept = true; //validateDate();
+       if (accept) {
+       //date debut
+       if (!$scope.formData.dateDebut)
+       $scope.formData.dateDebut = new Date();
+       var dateDebutFormatted = formatDate($scope.formData.dateDebut);
+       console.log('dateDebutFormatted' + dateDebutFormatted + typeof dateDebutFormatted);
 
-        $scope.formData.dateDebut = $scope.selectedDates[0].date;
-        $scope.formData.dateDebut = $scope.selectedDates[$scope.selectedDates.length - 1].date;
+       //date fin
+       if (!$scope.formData.dateFin)
+       $scope.formData.dateFin = new Date();
 
-        if (!$scope.formData.dateDebut)
-          $scope.formData.dateDebut = new Date();
-        var dateDebutFormatted = formatDate($scope.formData.dateDebut);
-        console.log('dateDebutFormatted' + dateDebutFormatted + typeof dateDebutFormatted);
+       var dateFinFormatted = formatDate($scope.formData.dateFin);
 
-        //date fin
-        if (!$scope.formData.dateFin)
-          $scope.formData.dateFin = new Date();
+       console.log('dateFinFormatted' + dateFinFormatted + typeof dateFinFormatted);
 
-        var dateFinFormatted = formatDate($scope.formData.dateFin);
+       $scope.offre.dateDebut = dateDebutFormatted.getFullYear() + "-" + dateDebutFormatted.getMonth() + "-" + dateDebutFormatted.getDate();
+       $scope.offre.dateFin = dateFinFormatted.getFullYear() + "-" + dateFinFormatted.getMonth() + "-" + dateFinFormatted.getDate();
 
-        console.log('dateFinFormatted' + dateFinFormatted + typeof dateFinFormatted);
-
-        $scope.offre.dateDebut = dateDebutFormatted.getFullYear() + "-" + dateDebutFormatted.getMonth() + "-" + dateDebutFormatted.getDate();
-        $scope.offre.dateFin = dateFinFormatted.getFullYear() + "-" + dateFinFormatted.getMonth() + "-" + dateFinFormatted.getDate();
-
-      }
-      disponibilites = {
-        "class": "com.vitonjob.Disponibilite",
-        "dateDebut": $scope.offre.dateDebut,
-        "dateFin": $scope.offre.dateFin,
-        "plagesHoraires": plagesHoraires
-      };
+       }
+       disponibilites = {
+       "class": "com.vitonjob.Disponibilite",
+       "dateDebut": $scope.offre.dateDebut,
+       "dateFin": $scope.offre.dateFin,
+       "plagesHoraires": plagesHoraires
+       };*/
       var offre = $scope.offre;
       console.log(offre);
       console.log($scope.formData);
@@ -526,7 +522,7 @@ starter
         job,
         langues,
         indispensables,
-        disponibilites,
+        plagesHoraires,
         remuneration)
         .success(function (response) {
           console.log(response);
@@ -581,7 +577,7 @@ starter
         {
           "offerId": offers.length + 1,
           "title": titre,
-          "tarif": remuneration,
+          "remuneration": remuneration,
           "publiee": "false",
           "pricticesJob": [{
             "pricticeJobId": "",

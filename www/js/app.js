@@ -14,13 +14,15 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
   'LocalStorageModule', 'connexionPhoneServices', 'Services', 'ngCookies', 'angucomplete-alt', 'ion-google-autocomplete', 'ui.mask',
   'ionic.service.core', 'ionic-multi-date-picker', 'ionic-timepicker'])//, 'ionic-datepicker'
 
-  .run(function ($ionicPlatform, $rootScope, $cordovaSplashscreen, LoadList,localStorageService) {
+  .run(function ($ionicPlatform, $rootScope, $cordovaSplashscreen, LoadList,localStorageService,$ionicPopup, $state ) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
-      setTimeout(function () {
-       $cordovaSplashscreen.hide()
-       }, 10000);
+      if (window.cordova){
+        setTimeout(function () {
+          $cordovaSplashscreen.hide()
+        }, 10000);
+      }
 
       if (window.cordova && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -49,27 +51,83 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
       })*/
 
       //Instabug integration :
-      cordova.plugins.instabug.activate(
-        {
-          android: '8638bb86054b6354141c9a07d8317d26',
-          ios: 'a79265adfebcc922588a989ab0a07557'
+      if (window.cordova){
+        cordova.plugins.instabug.activate(
+          {
+            android: '8638bb86054b6354141c9a07d8317d26',
+            ios: 'a79265adfebcc922588a989ab0a07557'
+          },
+          'shake',//button
+          {
+            commentRequired: true,
+            colorTheme: 'dark',
+            shakingThresholdAndroid: '0.1',
+            shakingThresholdIPhone: '0.5',
+            shakingThresholdIPad: '0.6',
+            enableIntroDialog: false
+          },
+          function () {
+            console.log('Instabug initialized.');
+          },
+          function (error) {
+            console.log('Instabug could not be initialized - ' + error);
+          }
+        );
+      }
+
+
+      //ionic push notifications
+      var push = new Ionic.Push({
+        "debug": true,
+        "onNotification": function(notification) {
+          var payload = notification.payload;
+          localStorageService.set('payload',payload);
+          console.log(notification, payload);
+          console.log(JSON.stringify(notification));
+
+          var confirmPopup = $ionicPopup.confirm({
+            title: "<div class='vimgBar'><img src='img/vit1job-mini2.png'></div>",
+            template: 'Veuillez signer votre contrat',
+            buttons: [
+              {
+                text: '<b>Signer</b>',
+                type: 'button-dark',
+                onTap: function (e) {
+                  confirmPopup.close();
+                  $state.go("menu.contract");
+                }
+              }, {
+                text: '<b>Annuler</b>',
+                type: 'button-calm',
+                onTap: function (e) {
+                  confirmPopup.close();
+                }
+              }
+
+            ]
+          });
+
+
         },
-        'shake',//button
-        {
-          commentRequired: true,
-          colorTheme: 'dark',
-          shakingThresholdAndroid: '0.01',
-          shakingThresholdIPhone: '0.5',
-          shakingThresholdIPad: '0.6',
-          enableIntroDialog: false
+        "onRegister": function(data) {
+          console.log(data.token);
         },
-        function () {
-          console.log('Instabug initialized.');
-        },
-        function (error) {
-          console.log('Instabug could not be initialized - ' + error);
+        "pluginConfig": {
+          "ios": {
+            "badge": true,
+            "sound": true
+          },
+          "android": {
+            "iconColor": "#343434"
+          }
         }
-      );
+      });
+
+      push.register(function(token) {
+        localStorageService.set('deviceToken', token.token);
+        console.log("Device token:",token.token);
+        push.saveToken(token);  // persist the token in the Ionic Platform
+      });
 
     });
   })

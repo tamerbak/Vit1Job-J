@@ -14,26 +14,26 @@ starter
     $scope.isAndroid = ionic.Platform.isAndroid();
     localStorageService.remove("steps");
     /*********************New code*********************/
-    var OnAuthenticateSuccesss = function(data){
-      if(!data){
+    var OnAuthenticateSuccesss = function (data) {
+      if (!data) {
         OnAuthenticateError(data);
         return;
       }
       data = data[0]['value'];
       console.log(data);
-      if(data.length ==0){
+      if (data.length == 0) {
         OnAuthenticateError(data);
         return;
       }
 
       data = JSON.parse(data);
 
-      if(data.id ==0 && data.status == "failure"){
+      if (data.id == 0 && data.status == "failure") {
         OnAuthenticateError(data);
         return;
       }
 
-      if(data.id ==0 && data.status == "passwordError"){
+      if (data.id == 0 && data.status == "passwordError") {
         Global.showAlertPassword("Votre mot de passe est incorrect");
         return;
       }
@@ -47,6 +47,23 @@ starter
         'employeID': data.id
       };
 
+      //Load device token to current account :
+      var token = localStorageService.get('deviceToken');
+      var accountId = data.id;
+      if (token) {
+        console.log("insertion du token : "+ token);
+        var sql = "Update user_account set device_token = '" + token + "' where pk_user_account = '" + accountId + "';";
+        $http({
+          method: 'POST',
+          url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
+          headers: {"Content-Type": "text/plain"},
+          data: sql
+        }).success(function (data) {
+          console.log("device token bien inséré pour l'utilisateur " + accountId);
+        }).error(function(erreur){
+          console.log("device token est non inséré. Erreur : " + erreur);
+        });
+      }
 
       localStorageService.set('connexion', connexion);
       localStorageService.set('currentEmployer', data);
@@ -57,39 +74,41 @@ starter
       } else {
         $state.go("menu.app");
       }
+
+
     };
 
-    var OnAuthenticateError = function(data){
+    var OnAuthenticateError = function (data) {
       console.log(data);
       Global.showAlertPassword("Serveur non disponible ou problème de connexion.");
     };
 
     $scope.Authenticate = function () {
       var phone = $scope.formData.phone;
-      var index=$scope.formData.index;
+      var index = $scope.formData.index;
       var email = $scope.formData.email;
       var password = $scope.formData.password;
 
       phone = index + phone;
 
       AuthentificatInServer.Authenticate(email, phone, password, 'jobyer')
-      .success(OnAuthenticateSuccesss)
-      .error(OnAuthenticateError);
+        .success(OnAuthenticateSuccesss)
+        .error(OnAuthenticateError);
     };
 
-    $scope.displayEmailTooltip = function() {
+    $scope.displayEmailTooltip = function () {
       $scope.emailToolTip = 'Veuillez saisir un email valide.';
       $scope.showEmailTooltip = true;
     };
 
-    $scope.displayPwdTooltip = function() {
+    $scope.displayPwdTooltip = function () {
       $scope.showPwdTooltip = true;
     };
 
     $scope.validatEmail = function (id) {
       Validator.checkEmail(id);
     };
-    $scope.emailIsValid = function() {
+    $scope.emailIsValid = function () {
       var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
       if (!re.test($scope.formData.email)) {
         return false;
@@ -100,63 +119,63 @@ starter
 
     //TEL 23/022016 : Phone control part
 
-    $scope.displayPwdTooltip = function() {
+    $scope.displayPwdTooltip = function () {
       $scope.showPwdTooltip = true;
     };
-    $scope.displayPhoneTooltip = function() {
+    $scope.displayPhoneTooltip = function () {
       $scope.showPhoneTooltip = true;
     };
-    $scope.phoneIsValid= function(){
+    $scope.phoneIsValid = function () {
       console.log($scope.formData.phone);
-      if($scope.formData.phone!=undefined) {
+      if ($scope.formData.phone != undefined) {
         var phone_REGEXP = /^0/;
         var isMatchRegex = phone_REGEXP.test($scope.formData.phone);
-        console.log("isMatchRegex = "+isMatchRegex);
+        console.log("isMatchRegex = " + isMatchRegex);
         if (Number($scope.formData.phone.length) >= 9 && !isMatchRegex) {
           console.log('test phone');
           return true;
         }
         else
           return false;
-      }else
+      } else
         return false;
     };
 
-    $scope.initForm=function(){
+    $scope.initForm = function () {
       // GET LIST
       $scope.formData.email = "";
       $scope.formData.phone = "";
       $scope.formData.password = "";
-      if(!$scope.formData)
-        $scope.formData={};
-      $scope.formData.index="33";
+      if (!$scope.formData)
+        $scope.formData = {};
+      $scope.formData.index = "33";
       //$scope.formData={ 'villes': $cookieStore.get('villes')};
-      var listIndicatif  = LoadList.loadCountries();
-      listIndicatif.success(function(response) {
-          console.log(response);
-          $scope.formData.pays=response.data;
+      var listIndicatif = LoadList.loadCountries();
+      listIndicatif.success(function (response) {
+        console.log(response);
+        $scope.formData.pays = response.data;
 
-        }).error(function(error) {
-          console.log(error);
-        });
+      }).error(function (error) {
+        console.log(error);
+      });
     };
 
-    $scope.passwordIsValid= function(){
-      if($scope.formData.password!=undefined) {
+    $scope.passwordIsValid = function () {
+      if ($scope.formData.password != undefined) {
         if (Number($scope.formData.password.length) >= 6) {
           console.log('test');
           return true;
         }
-      else
-        return false;
-      }else
+        else
+          return false;
+      } else
         return false;
     };
-  $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
-    $scope.initForm();
-    viewData.enableBack = true;
-    $scope.formData.phone = "";
-    $scope.formData.email = "";
-    $scope.formData.password = "";
-  });
+    $scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+      $scope.initForm();
+      viewData.enableBack = true;
+      $scope.formData.phone = "";
+      $scope.formData.email = "";
+      $scope.formData.password = "";
+    });
   });

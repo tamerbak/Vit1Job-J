@@ -278,7 +278,7 @@ starter.controller('jobyersOffersListCtrl',
                 var currentEmployer = localStorageService.get('currentEmployer');
 
                 //var redirectToStep1 = (typeof (employer) == "undefined");
-                var redirectToStep1 = (currentEmployer && currentEmployer.entreprises[0]) ?
+                var redirectToStep1 = (currentEmployer) ?
                 (currentEmployer.titre == "") ||
                 (currentEmployer.prenom == "") ||
                 (currentEmployer.nom == "") ||

@@ -91,7 +91,7 @@ angular.module('wsConnectors', ['ionic'])
         "adresseEntreprise": "Paris",
         "jobyerPrenom": jobyer.prenom,
         "jobyerNom": jobyer.nom,
-        "nss": "1 99 99 99 999 999 99",
+        "nss": jobyer.numSS,
         "dateNaissance": "09/08/1975",
         "lieuNaissance": "Villepinte",
         "nationalite": "Français",

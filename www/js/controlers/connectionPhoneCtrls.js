@@ -28,12 +28,12 @@ starter
 
       data = JSON.parse(data);
 
-      if(data.id ==0 && data.status == "failure"){
+      if (data.id == 0 && data.status == "failure") {
         OnAuthenticateError(data);
         return;
       }
 
-      if(data.id ==0 && data.status == "passwordError"){
+      if (data.id == 0 && data.status == "passwordError") {
         Global.showAlertPassword("Votre mot de passe est incorrect");
         return;
       }
@@ -46,6 +46,23 @@ starter
         'employeID': data.jobyerId
       };
 
+      //Load device token to current account :
+      var token = localStorageService.get('deviceToken');
+      var accountId = data.id;
+      if (token) {
+        console.log("insertion du token : "+ token);
+        var sql = "Update user_account set device_token = '" + token + "' where pk_user_account = '" + accountId + "';";
+        $http({
+          method: 'POST',
+          url: 'http://vps259989.ovh.net:8080/vitonjobv1/api/sql',
+          headers: {"Content-Type": "text/plain"},
+          data: sql
+        }).success(function (data) {
+          console.log("device token bien inséré pour l'utilisateur " + accountId);
+        }).error(function(erreur){
+          console.log("device token est non inséré. Erreur : " + erreur);
+        });
+      }
 
       localStorageService.set('connexion', connexion);
       localStorageService.set('currentEmployer', data);

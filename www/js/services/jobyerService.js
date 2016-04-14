@@ -19,7 +19,7 @@ services.factory('jobyerService', ['$http', function($http) {
 
 		data = {
 		'class' : 'fr.protogen.masterdata.model.CCallout',
-        'id' : 73,//72,//42,//32,
+        'id' : 103,//99,//73,//72,//42,//32,
         'args' : [{
             'class' : 'fr.protogen.masterdata.model.CCalloutArguments',
             label : 'creation offre',
@@ -28,7 +28,7 @@ services.factory('jobyerService', ['$http', function($http) {
 			{
 				'class' : 'fr.protogen.masterdata.model.CCalloutArguments',
 				label : 'type utilisateur',
-				value : "jobyer"
+				value : btoa("jobyer")
 			}]
 		};
 
@@ -73,7 +73,7 @@ services.factory('jobyerService', ['$http', function($http) {
 
 		var data = {
 			'class' : 'fr.protogen.masterdata.model.CCallout',
-			id : 88,//68,//66,//50, //6,44,45,46,
+			id : 102,//98,//88,68,//66,//50, //6,44,45,46,
 			args : [
 				{
 					class : 'fr.protogen.masterdata.model.CCalloutArguments',
