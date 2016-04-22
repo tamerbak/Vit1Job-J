@@ -25,58 +25,6 @@ starter.controller('jobyersOffersListCtrl',
           localStorageService.set('jobyerListSetting', $scope.jobyerListSetting);
         }
 
-
-        /*
-         $scope.jobyersOffers = localStorageService.get(''):
-
-
-         [{
-         jobyerName : 'Jérôme',
-         availability : {
-         value : 210,
-         text : '8h 30min'
-         },
-         tel: "+212676109994",
-         email:"ettebaa.marouane@gmail.com",
-         matching : 60,
-         contacted : false,
-         latitude : 0,
-         longitude : 0,
-         date_invit: ''
-
-         //Date_Invit : $scope.ge
-
-         },
-         {
-         jobyerName : 'Alain',
-         availability : {
-         value : 20,
-         text : '3h 30min'
-         },
-         tel: "+212623628174",
-         email:"hanane.aitamhira@gmail.com",
-         matching : 20,
-         contacted : true,
-         latitude : 0,
-         longitude : 0,
-         date_invit:'19-01-2016  11:20'
-         },
-         {
-         jobyerName : 'Philippe',
-         availability : {
-         value : 1000,
-         text : '17h 30min'
-         },
-         tel: "+212623628174",
-         email:"hanane.aitamhira@gmail.com",
-         matching : 10,
-         contacted : false,
-         latitude : 0,
-         longitude : 0,
-         date_invit: ''
-         }];
-         */
-        //*
         $scope.jobyersOffers = localStorageService.get('jobyersOffers');
         $scope.jobyersOffersPart = [];
 
@@ -86,8 +34,11 @@ starter.controller('jobyersOffersListCtrl',
         for (var i = 0; i < nbrJobyerOffers; i++) {
           //TEL: for Track by use..
           //$scope.jobyersOffers[i].push({"id":"i"});
-          if ($scope.jobyersOffers[i].matching.split(".")[0])
-            $scope.jobyersOffers[i].matching = $scope.jobyersOffers[i].matching.split(".")[0];
+          if ($scope.jobyersOffers[i].matching.toString().indexOf(".") > 0){
+            if ($scope.jobyersOffers[i].matching.toString().split(".")[0])
+              $scope.jobyersOffers[i].matching = $scope.jobyersOffers[i].matching.toString().split(".")[0];
+          } else
+            $scope.jobyersOffers[i].matching = $scope.jobyersOffers[i].matching.toString();
           if ($scope.jobyersOffers[i].availability.text == '0 minutes')
             $scope.jobyersOffers[i].availability.text = 'Maintenant!';
           if ($scope.jobyersOffers[i].prenom && $scope.jobyersOffers[i].titre)
@@ -109,6 +60,7 @@ starter.controller('jobyersOffersListCtrl',
             "latitude": $scope.jobyersOffers[i].latitude,
             "logitude": $scope.jobyersOffers[i].logitude,
             "matching": $scope.jobyersOffers[i].matching,
+            "entreprise": $scope.jobyersOffers[i].entreprise,
             "tel": $scope.jobyersOffers[i].tel
 
           });

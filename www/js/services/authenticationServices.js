@@ -187,18 +187,33 @@ angular.module('wsConnectors', ['ionic'])
     this.updateCiviliteInEmployeur = function (civilite, nom, prenom, numSS, cni, nationaliteId,  jobyerId, dateNaissance, lieuNaissance) {
 
       var fromStringDate = dateNaissance.split("/");
-      var toRealDate = new Date(fromStringDate[2], fromStringDate[1] - 1, fromStringDate[0]);
+      //var toRealDate = new Date(fromStringDate[2].toString() + "-" + (fromStringDate[1] - 1).toString() + "-" + fromStringDate[0].toString() + ' 00:00:00+00');
+      var toStringDate = fromStringDate[2].toString() + "-" + (fromStringDate[1]).toString() + "-" + fromStringDate[0].toString();
 
-      var sql = "update user_jobyer set  " +
+      var sql = "";
+      if (nationaliteId){
+        sql = "update user_jobyer set  " +
           "titre='" + civilite + "', " +
           "nom='" + nom + "', " +
           "prenom='" + prenom + "', " +
           "numero_securite_sociale='" + numSS + "', " +
           "cni='" + cni + "', " +
-          "date_de_naissance ='" + toRealDate + "', " +
+          "date_de_naissance ='"+ toStringDate +"'," +
           "lieu_de_naissance ='" + lieuNaissance + "', " +
           "fk_user_nationalite ='" + nationaliteId + "' " +
           "where pk_user_jobyer ='" + jobyerId + "';";
+      } else {
+        sql = "update user_jobyer set  " +
+          "titre='" + civilite + "', " +
+          "nom='" + nom + "', " +
+          "prenom='" + prenom + "', " +
+          "numero_securite_sociale='" + numSS + "', " +
+          "cni='" + cni + "', " +
+          "date_de_naissance ='"+ toStringDate +"'," +
+          "lieu_de_naissance ='" + lieuNaissance + "' " +
+          "where pk_user_jobyer ='" + jobyerId + "';";
+      }
+
 
 
       return $http({

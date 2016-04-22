@@ -19,7 +19,7 @@
 
     <ion-content>
 
-        <div class="item item-divider" style="padding:3px 10px 3px 10px;">
+        <!--div class="item item-divider" style="padding:3px 10px 3px 10px;">
             <label style="float:left;padding-top:5px;"><b>{{OfferLabel}}</b></label>
             <button class="button button-small button-light ion-ios-settings-strong" style="float:right;"
                     ui-sref="menu.jobyersOffersTab.options"></button>
@@ -37,7 +37,7 @@
         <ion-checkbox ng-model="jobyerListSetting.orderByCorrespondence" class="checkbox-stable" style="padding:8px;"
                       ng-change="sort()">
             <label style="color:gray;padding-left:40px;">% de correspondance à votre compétence</label>
-        </ion-checkbox>
+        </ion-checkbox-->
 
         <div class="card" ng-show="!jobyersOffersPart.length">
             <div class="item item-text-wrap">
@@ -51,9 +51,9 @@
                 <div class="item-icon-left">
                     <div><i class="icon ion-person"></i></div>
                 </div>
-                <h2>{{jobyerOffer.jobyerName}}</h2>
+              <h2>{{jobyerOffer.entreprise}}</h2>
 
-                <p>
+              <p>{{jobyerOffer.jobyerName}} {{jobyerOffer.nom}} </p>
 
                 <p>
                     <i class="icon ion-android-car calm" ng-if="transportationmode == 'driving'"></i>

@@ -38,6 +38,7 @@ starter
       console.log("connexion[employeID] : " + $scope.formData.connexion.employeID);
       console.log("connexion[libelle] : " + $scope.formData.connexion.libelle);
       console.log("connexion[etat] : " + $scope.formData.connexion.etat);
+      $scope.formData.mDate = new Date();
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
@@ -313,6 +314,204 @@ starter
       else {
         jobyerService.recherche(job, "").success(onGetJobyersOffersByJobSuccess).error(onError);
       }
+    };
+
+    $scope.personCriteria = function () {
+
+      if ($scope.pStyle) {
+        if ($scope.pStyle.activated) {
+          $scope.bPerson = false;
+          $scope.formData.mPerson = "";
+          $scope.pStyle = {
+            "activated": false,
+            "background-color": "white"
+          }
+        } else {
+          $scope.bPerson = true;
+          $scope.pStyle = {
+            "activated": true,
+            "background-color": "#14BAA6"
+          }
+        }
+      } else {
+        //$scope.mPerson = "";
+        $scope.bPerson = true;
+        $scope.pStyle = {
+          "activated": true,
+          "background-color": "#14BAA6"
+        }
+      }
+    };
+
+    $scope.sectorCriteria = function () {
+
+      if ($scope.sStyle) {
+        if ($scope.sStyle.activated) {
+          $scope.bSector = false;
+          $scope.formData.mSector = "";
+          $scope.sStyle = {
+            "activated": false,
+            "background-color": "white"
+          }
+        } else {
+          $scope.bSector = true;
+          $scope.sStyle = {
+            "activated": true,
+            "background-color": "#14BAA6"
+          }
+        }
+      } else {
+        $scope.bSector = true;
+        $scope.sStyle = {
+          "activated": true,
+          "background-color": "#14BAA6"
+        }
+      }
+    };
+
+    $scope.jobCriteria = function () {
+
+      if ($scope.jStyle) {
+        if ($scope.jStyle.activated) {
+          $scope.bJob = false;
+          $scope.formData.mJob = "";
+          $scope.jStyle = {
+            "activated": false,
+            "background-color": "white"
+          }
+        } else {
+          $scope.bJob = true;
+          $scope.jStyle = {
+            "activated": true,
+            "background-color": "#14BAA6"
+          }
+        }
+      } else {
+        $scope.bJob = true;
+        $scope.jStyle = {
+          "activated": true,
+          "background-color": "#14BAA6"
+        }
+      }
+    };
+
+    $scope.entreCriteria = function () {
+
+      if ($scope.enStyle) {
+        if ($scope.enStyle.activated) {
+          $scope.bEntreprise = false;
+          $scope.formData.mEntreprise = "";
+          $scope.enStyle = {
+            "activated": false,
+            "background-color": "white"
+          }
+        } else {
+          $scope.bEntreprise = true;
+          $scope.enStyle = {
+            "activated": true,
+            "background-color": "#14BAA6"
+          }
+        }
+      } else {
+        $scope.bEntreprise = true;
+        $scope.enStyle = {
+          "activated": true,
+          "background-color": "#14BAA6"
+        }
+      }
+    };
+
+    $scope.calCriteria = function () {
+
+      if ($scope.cStyle) {
+        if ($scope.cStyle.activated) {
+          $scope.bcal = false;
+          $scope.formData.mDate = "";
+          $scope.cStyle = {
+            "activated": false,
+            "background-color": "white"
+          }
+        } else {
+          $scope.bcal = true;
+          $scope.cStyle = {
+            "activated": true,
+            "background-color": "#14BAA6"
+          }
+        }
+      } else {
+        $scope.bcal = true;
+        $scope.cStyle = {
+          "activated": true,
+          "background-color": "#14BAA6"
+        }
+      }
+    };
+
+    $scope.locationCriteria = function () {
+
+      if ($scope.loStyle) {
+        if ($scope.loStyle.activated) {
+          $scope.blocation = false;
+          $scope.formData.mLocation = "";
+          $scope.loStyle = {
+            "activated": false,
+            "background-color": "white"
+          }
+        } else {
+          $scope.blocation = true;
+          $scope.loStyle = {
+            "activated": true,
+            "background-color": "#14BAA6"
+          }
+        }
+      } else {
+        $scope.blocation = true;
+        $scope.loStyle = {
+          "activated": true,
+          "background-color": "#14BAA6"
+        }
+      }
+    };
+
+    $scope.criteriaSearch = function () {
+
+      var person = "",
+        sector = "",
+        job = "",
+        enterprise = "",
+        date = "",
+        location = "";
+
+      if ($scope.formData.mPerson) person = $scope.formData.mPerson;
+      if ($scope.formData.mSector) sector = $scope.formData.mSector;
+      if ($scope.formData.mJob) job = $scope.formData.mJob;
+      if ($scope.formData.mEntreprise) enterprise = $scope.formData.mEntreprise;
+      if ($scope.formData.mDate) date = $scope.formData.mDate.getDate().toString() +"/" +
+        ($scope.formData.mDate.getMonth() + 1) + "/" +
+        $scope.formData.mDate.getFullYear().toString();
+      if ($scope.formData.mLocation) location = $scope.formData.mLocation;
+
+      var data = {
+        "job": job,
+        "metier": sector,
+        "entreprise" : enterprise,
+        "lieu": location,
+        "nom": person,
+        "date": date //"DD/MM/YYYY"
+      };
+
+      // Call web service :
+      jobyerService.criteriaSearchService(data).
+        success(function (response) {
+          console.log('recherche par critères bien executée');
+          onGetJobyersOffersByJobSuccess(response);
+        }).
+        error(function (error) {
+          onError();
+          console.log('erreur dans le ws de la recherche par critères : ' + error)
+        });
+
+
     };
 
   });

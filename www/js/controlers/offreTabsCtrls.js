@@ -69,6 +69,7 @@ starter
 
       document.getElementById('jobs_value').value = $scope.formData.job['libelle'];
     };
+
     function formatDate(d) {
       if (typeof d === "string") {
         var day = d.split("-")[2];
@@ -406,7 +407,7 @@ starter
       var remuneration;
 
       if (!$scope.selectedDates || $scope.selectedDates.length == 0) {
-        Global.showAlertValidation("Vous n'avez pas ajouter des dates valides, Veuillez cliquer sur l'agenda pour les ajouter.");
+        Global.showAlertValidation("Vous n'avez pas ajouté des dates valides, Veuillez cliquer sur le bouton Agenda pour les ajouter.");
         return false;
       }
 
@@ -416,6 +417,7 @@ starter
       $scope.offre.degre = $scope.formData.degre;
 
       console.log($scope.formData.job);
+
       if ($scope.formData.job && $scope.formData.job.originalObject)
         $scope.offre.titre = $scope.formData.job.originalObject.libelle + " " + $scope.formData.maitrise;
       else if ($scope.formData.job)

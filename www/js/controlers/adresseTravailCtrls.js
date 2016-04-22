@@ -65,7 +65,7 @@ starter
         var ngModel = angular.element($('#autocomplete_travail')).controller('ngModel');
         ngModel.$setViewValue(result);
         ngModel.$render();
-        if (employeur.adresseDepTravail.fullAddress)
+        if (employeur.adresseDepTravail && employeur.adresseDepTravail.fullAddress)
           adrExist = true;
       }
 

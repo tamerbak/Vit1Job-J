@@ -12,13 +12,13 @@
 var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServices', 'fileServices', 'globalServices', 'ng-mfb',
   'cb.x2js', 'ngOpenFB', 'base64', 'ngCordova', 'validationDataServices', 'providerServices',
   'LocalStorageModule', 'connexionPhoneServices', 'Services', 'ngCookies', 'angucomplete-alt', 'ion-google-autocomplete', 'ui.mask',
-  'ionic.service.core', 'ionic-multi-date-picker', 'ionic-timepicker'])//, 'ionic-datepicker'
+  'ionic.service.core', 'ionic-multi-date-picker', 'ionic-timepicker', 'ionic-sidetabs'])//, 'ionic-datepicker'
 
-  .run(function ($ionicPlatform, $rootScope, $cordovaSplashscreen, LoadList,localStorageService,$ionicPopup, $state ) {
+  .run(function ($ionicPlatform, $rootScope, $cordovaSplashscreen, LoadList, localStorageService, $ionicPopup, $state) {
     $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
-      if (window.cordova){
+      if (window.cordova) {
         setTimeout(function () {
           $cordovaSplashscreen.hide()
         }, 10000);
@@ -36,22 +36,22 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
       $rootScope.previousView = '';
 
       /*console.log("Load data...");
-      var listIndicatif = LoadList.loadCountries();
-      listIndicatif.then(function (response) {
-        console.log(response.data[0]);
-        console.log(localStorageService.get('Countries'));
-        if (response) {
-          if (!localStorageService.get('Countries')){
-            console.log(response.data);
-            localStorageService.set('Countries', response.data);
-          }
-        }
-        console.log("Data loaded!");
-        $cordovaSplashscreen.hide();
-      })*/
+       var listIndicatif = LoadList.loadCountries();
+       listIndicatif.then(function (response) {
+       console.log(response.data[0]);
+       console.log(localStorageService.get('Countries'));
+       if (response) {
+       if (!localStorageService.get('Countries')){
+       console.log(response.data);
+       localStorageService.set('Countries', response.data);
+       }
+       }
+       console.log("Data loaded!");
+       $cordovaSplashscreen.hide();
+       })*/
 
       //Instabug integration :
-      if (window.cordova){
+      if (window.cordova) {
         cordova.plugins.instabug.activate(
           {
             android: '8638bb86054b6354141c9a07d8317d26',
@@ -64,7 +64,8 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
             shakingThresholdAndroid: '0.1',
             shakingThresholdIPhone: '0.5',
             shakingThresholdIPad: '0.6',
-            enableIntroDialog: false
+            enableIntroDialog: true,
+            setLocale: 'french'
           },
           function () {
             console.log('Instabug initialized.');
@@ -79,9 +80,9 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
       //ionic push notifications
       var push = new Ionic.Push({
         "debug": true,
-        "onNotification": function(notification) {
+        "onNotification": function (notification) {
           var payload = notification.payload;
-          localStorageService.set('payload',payload);
+          localStorageService.set('payload', payload);
           console.log(notification, payload);
           console.log(JSON.stringify(notification));
 
@@ -109,7 +110,7 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
 
 
         },
-        "onRegister": function(data) {
+        "onRegister": function (data) {
           console.log(data.token);
         },
         "pluginConfig": {
@@ -123,9 +124,9 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
         }
       });
 
-      push.register(function(token) {
+      push.register(function (token) {
         localStorageService.set('deviceToken', token.token);
-        console.log("Device token:",token.token);
+        console.log("Device token:", token.token);
         push.saveToken(token);  // persist the token in the Ionic Platform
       });
 
@@ -177,24 +178,24 @@ var starter = angular.module('starter', ['ionic', 'wsConnectors', 'parsingServic
   })
 
   /*.config(function (ionicDatePickerProvider) {
-    var datePickerObj = {
-      inputDate: new Date(),
-      setLabel: 'Ok',
-      todayLabel: "Aujourd'hui",
-      closeLabel: 'Fermer',
-      mondayFirst: true,
-      weeksList: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
-      monthsList: ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"],
-      templateType: 'popup',
-      from: new Date(1950, 1, 1),
-      to: new Date(2018, 8, 1),
-      showTodayButton: false,
-      dateFormat: 'dd/MM/yyyy',
-      closeOnSelect: false,
-      disableWeekdays: [6]
-    };
-    ionicDatePickerProvider.configDatePicker(datePickerObj);
-  })*/
+   var datePickerObj = {
+   inputDate: new Date(),
+   setLabel: 'Ok',
+   todayLabel: "Aujourd'hui",
+   closeLabel: 'Fermer',
+   mondayFirst: true,
+   weeksList: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+   monthsList: ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Août", "Sept", "Oct", "Nov", "Déc"],
+   templateType: 'popup',
+   from: new Date(1950, 1, 1),
+   to: new Date(2018, 8, 1),
+   showTodayButton: false,
+   dateFormat: 'dd/MM/yyyy',
+   closeOnSelect: false,
+   disableWeekdays: [6]
+   };
+   ionicDatePickerProvider.configDatePicker(datePickerObj);
+   })*/
 
   .run(function ($rootScope, $ionicLoading) {
     $rootScope.$on('loading:show', function () {

@@ -183,7 +183,7 @@ angular.module('providerServices', [])
     };
 
     this.getUserbyPhone = function (tel) {
-      var sql = "select pk_user_account, email from user_account where telephone = '"+tel+"'";
+      var sql = "select pk_user_account, email from user_account where telephone = '"+tel+"' and role = 'jobyer'";
 
       return $http({
         method: 'POST',

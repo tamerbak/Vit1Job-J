@@ -129,14 +129,14 @@ starter
         if(!dateNaissance)
           dateNaissance = "";
         if(!lieuNaissance)
-          dateNaissance = "";
+          lieuNaissance = "";
 
         // UPDATE EMPLOYEUR
         UpdateInServer.updateCiviliteInEmployeur(titre, nom, prenom, numSS, cni, nationaliteId, employerId, dateNaissance, lieuNaissance)
           .success(function (response) {
 
             // DONNEES ONT ETE SAUVEGARDES
-            console.log("response" + response);
+            console.log("response update civilité : " + response.status);
 
             var employeur = localStorageService.get('currentEmployer');
             if (!employeur)

@@ -95,7 +95,7 @@ starter
             var offre = $scope.formData.offre;
 
             console.log($scope.formData.offre);
-            if (offre.offerId) {
+            if (offre.competenceId) {
                 $state.go('menu.offreTabs.job', {"offre": JSON.stringify(offre)});
             } else {
                 Global.showAlertValidation("Veuillez sélectionner une offre.");
