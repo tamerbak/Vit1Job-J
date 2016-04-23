@@ -139,13 +139,13 @@ starter
           $scope.formData.languesList = $scope.offre.pricticesLanguage;
         if ($scope.offre.remuneration)
           $scope.formData.remuneration = $scope.offre.remuneration;
-        if ($scope.offre.disponibilite && $scope.offre.disponibilite.length>0) {
+        if ($scope.offre.disponibilite && $scope.offre.disponibilite.length > 0) {
           for (var i = 0; i < $scope.offre.disponibilite.length; i++)
-              $scope.formData.horaires += {
-                "jour": $scope.offre.disponibilite[i].jour,
-                "heureDebut": $scope.offre.disponibilite[i].heureDebut,
-                "heureFin": $scope.offre.disponibilite[i].heureFin
-              }
+            $scope.formData.horaires += {
+              "jour": $scope.offre.disponibilite[i].jour,
+              "heureDebut": $scope.offre.disponibilite[i].heureDebut,
+              "heureFin": $scope.offre.disponibilite[i].heureFin
+            }
           $scope.formData.horaires = $scope.offre.horaires;
         }
         else
@@ -270,18 +270,18 @@ starter
     }
 
     $scope.Etape3 = function () {
-      if ($scope.formData.qiList.length == 0) {
-        Global.showAlertValidation("Vous n'avez pas valider votre choix, Veuillez cliquer sur + pour le valider");
-        return false;
-      }
+      /*if ($scope.formData.qiList.length == 0) {
+       Global.showAlertValidation("Vous n'avez pas valider votre choix, Veuillez cliquer sur + pour le valider");
+       return false;
+       }*/
       $state.go('menu.offreTabs.langues');
     }
 
     $scope.Etape4 = function () {
-      if ($scope.formData.languesList.length == 0) {
-        Global.showAlertValidation("Vous n'avez pas valider votre choix, Veuillez cliquer sur + pour le valider");
-        return false;
-      }
+      /*if ($scope.formData.languesList.length == 0) {
+       Global.showAlertValidation("Vous n'avez pas valider votre choix, Veuillez cliquer sur + pour le valider");
+       return false;
+       }*/
       $state.go('menu.offreTabs.agenda');
     }
 
@@ -411,9 +411,9 @@ starter
         return false;
       }
 
-
       if (!$scope.offre)
         $scope.offre = {};
+
       $scope.offre.degre = $scope.formData.degre;
 
       console.log($scope.formData.job);
@@ -458,11 +458,23 @@ starter
        weekday[4] = "Jeudi";
        weekday[5] = "Vendredi";
        weekday[6] = "Samedi";*/
+
       if ($scope.selectedDates.length > 0) {
         $scope.formData.horaires = [];
         for (var i = 0; i < $scope.selectedDates.length; i++) {
+
+          if ($scope.selectedDates[i].startHour === '--:--') {
+            Global.showAlertValidation("Veuillez choisir une date début.");
+            return;
+          }
+
+          if ($scope.selectedDates[i].endHour === '--:--') {
+            Global.showAlertValidation("Veuillez choisir une date fin.");
+            return;
+          }
+
           $scope.formData.horaires.push({
-              "jour": $scope.selectedDates[i].date.getFullYear().toString()+"-"+($scope.selectedDates[i].date.getMonth()+1).toString()+"-"+$scope.selectedDates[i].date.getDate().toString(), //weekday[$scope.selectedDates[i].date.getDay()]
+              "jour": $scope.selectedDates[i].date.getFullYear().toString() + "-" + ($scope.selectedDates[i].date.getMonth() + 1).toString() + "-" + $scope.selectedDates[i].date.getDate().toString(), //weekday[$scope.selectedDates[i].date.getDay()]
               "heureDebut": $scope.selectedDates[i].startHour,
               "heureFin": $scope.selectedDates[i].endHour
             }
@@ -476,8 +488,8 @@ starter
         var h = {
           "class": "com.vitonjob.Disponibilite", //"com.vitonjob.PlageHoraire"
           "jour": ho.jour,
-          "heureDebut" : parseInt(ho.heureDebut.split(':')[0]) * 60 + parseInt(ho.heureDebut.split(':')[1]),
-          "heureFin" : parseInt(ho.heureFin.split(':')[0]) * 60 + parseInt(ho.heureFin.split(':')[1])
+          "heureDebut": parseInt(ho.heureDebut.split(':')[0]) * 60 + parseInt(ho.heureDebut.split(':')[1]),
+          "heureFin": parseInt(ho.heureFin.split(':')[0]) * 60 + parseInt(ho.heureFin.split(':')[1])
         };
         plagesHoraires.push(h);
       }
@@ -848,10 +860,10 @@ starter
     //$scope.selectedDates = [s1, s2, s3, s4, s0, s5, s6, s7];
 
     //if (!$scope.selectedDatesOriginal)
-      $scope.selectedDatesOriginal = [];
+    $scope.selectedDatesOriginal = [];
     if (!$scope.selectedDates)
       $scope.selectedDates = [];
-    for(var i=0; i<$scope.selectedDates.length;i++){
+    for (var i = 0; i < $scope.selectedDates.length; i++) {
       $scope.selectedDatesOriginal.push($scope.selectedDates[i].dates)
     }
     $scope.datepickerObject = {
