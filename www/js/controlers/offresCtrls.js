@@ -5,7 +5,7 @@
 'use strict';
 starter
 
-    .controller('offresCtrl', function ($scope, $rootScope, Global, $state, $filter, localStorageService) {
+    .controller('offresCtrl', function ($scope, $rootScope, Global, $state, $filter, localStorageService, jobyerService) {
         // FORMULAIRE
 
         //
@@ -145,6 +145,22 @@ starter
                 var jobyer = localStorageService.get('currentEmployer');
                 jobyer.competences = $rootScope.offres;
                 localStorageService.set('currentEmployer', jobyer);
+
+              var jid = jobyer.jobyerId;
+
+              jobyerService.enregistrerOffre(
+                jid,
+                offre1.titre,
+                offre1.job,
+                offre1.langues,
+                offre1.indispensables,
+                offre1.heures,
+                offre1.remuneration)
+                .success(function (response) {
+                  console.log('> JobyerService.enregistrerOffre success : ', response);
+                }).error(function(error){
+                console.log('> JobyerService.enregistrerOffre error : ', error);
+              });
 
             } else {
                 Global.showAlertValidation("Veuillez sélectionner une offre.");
