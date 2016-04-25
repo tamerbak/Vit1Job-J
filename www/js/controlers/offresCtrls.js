@@ -158,7 +158,7 @@ starter
         };
         $scope.supprimerOffre = function () {
             var offre = $scope.formData.offre;
-            if (offre.offerId) {
+            if (offre.competenceId) {
 
               //Afficher un popup de confirmation
               var confirmPopup = Global.showAlert("Confirmation");
@@ -183,7 +183,7 @@ starter
                         console.log("Load offers in localStorage");
 
                         var employeur = localStorageService.get('currentEmployer');
-                        employeur.entreprises[0].offers = $rootScope.offres;
+                        employeur.competences = $rootScope.offres;
                         localStorageService.set('currentEmployer', employeur);
 
                         if (offre.etat == "publie")
