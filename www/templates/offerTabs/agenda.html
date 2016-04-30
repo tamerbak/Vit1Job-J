@@ -26,10 +26,12 @@
 
     <div class="row" ng-show="isChecked">
       <div class="col" style="border: none !important;">
-        <a class="button icon-left ion-ios-time-outline button-clear" style="color: inherit;" ng-click="timePicker()" ng-show="selectedDates.length>0"> {{fixedStartHour}}</a>
+        <!--<a class="button icon-left ion-ios-time-outline button-clear" style="color: inherit;" ng-click="timePicker()" ng-show="selectedDates.length>0"> {{fixedStartHour}}</a>-->
+        <input ng-model="fixedStartHour" type="time" value="08:00">
       </div>
       <div class="col" style="border: none !important;">
-        <a class="button icon-left ion-ios-time button-clear" style="color: inherit;" ng-click="timePicker2()" ng-show="selectedDates.length>0">  {{fixedEndHour}}</a>
+        <!--<a class="button icon-left ion-ios-time button-clear" style="color: inherit;" ng-click="timePicker2()" ng-show="selectedDates.length>0">  {{fixedEndHour}}</a>-->
+        <input ng-model="fixedEndHour" type="time" value="08:00">
       </div>
     </div>
 
@@ -37,6 +39,8 @@
       <div class="item item-button-right" ng-repeat="d in selectedDates">
         <i class="icon ion-android-calendar"></i>
         {{ d.date.getDate() }}/{{ d.date.getMonth() + 1 }}/{{ d.date.getFullYear() }}
+
+        <!--
         <button class="button button-clear" style="color: inherit; left: 40%;" ng-click="timePickerStart(d)" ng-disabled = "isChecked">
           <i class="icon ion-ios-time-outline"></i>
           &nbsp;{{d.startHour}}
@@ -45,6 +49,10 @@
           <i class="icon ion-ios-time"></i>
           &nbsp;{{d.endHour}}
         </button>
+        -->
+
+        <input ng-model="d.startHour" type="time" value="08:00">
+        <input ng-model="d.endHour" type="time" value="08:00">
 
       </div>
 

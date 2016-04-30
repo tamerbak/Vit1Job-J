@@ -473,6 +473,8 @@ starter
       $scope.offre.horaires = $scope.formData.horaires;
       for (var i = 0; i < $scope.offre.horaires.length; i++) {
         var ho = $scope.offre.horaires[i];
+
+        console.log(">>>>", ho);
         var h = {
           "class": "com.vitonjob.Disponibilite", //"com.vitonjob.PlageHoraire"
           "jour": ho.jour,
@@ -951,16 +953,16 @@ starter
       for (var i = 0; i < dates.length; i++) {
         var newValSelDate = {
           "date": angular.copy(dates[i]),
-          "startHour": "--:--",
-          "endHour": "--:--"
+          "startHour": "08:00",
+          "endHour": "08:00"
         };
         $scope.selectedDatesOriginal.push(angular.copy(dates[i]));
         $scope.selectedDates.push(newValSelDate);
       }
     };
 
-    $scope.fixedStartHour = "--:--";
-    $scope.fixedEndHour = "--:--";
+    $scope.fixedStartHour = "08:00";
+    $scope.fixedEndHour = "08:00";
 
     $scope.timePicker = function () {
       var ipObj1 = {
